@@ -3,13 +3,12 @@ a {
     cursor: pointer;
 }
 
-.left-side {
+.left-pannel {
     box-shadow: 10px 0px 13px -7px #aaaaaa, 0px 0px 5px 0px #aaaaaa;
-    gap: 3rem;
 }
 
 .welcome-back {
-    padding-bottom: 5vh;
+    padding-bottom: 2vh;
 }
 
 .login-button {
