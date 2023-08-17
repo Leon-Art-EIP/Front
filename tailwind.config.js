@@ -19,6 +19,9 @@ module.exports = {
         "primaryBlackHover": "#2d142c",
         "primaryBlackPressed": "#2d142c",
         "primaryBlackDisabled": "#2d142c75",
+      },
+      fontFamily: {
+        sans: ['Manrope', 'ui-sans-serif', 'system-ui'],
       }
     },
   },
