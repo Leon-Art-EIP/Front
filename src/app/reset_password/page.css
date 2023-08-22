@@ -1,0 +1,50 @@
+a {
+    color: #E11C0A;
+    cursor: pointer;
+}
+
+.left-pannel {
+    box-shadow: 10px 0px 13px -7px #aaaaaa, 0px 0px 5px 0px #aaaaaa;
+}
+
+.welcome-back {
+    padding-bottom: 2vh;
+}
+
+.login-button {
+    background-color: #E11C0A;
+    color: #ffffff;
+    padding-inline: 100px;
+    padding-block: 10px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 5px 0px #aaaaaa;
+}
+
+.login-button:hover {
+    background-color: #c51708;
+    color: #ffffff;
+    transition: transform 0.1s ease-out;
+    transform: scale(1.030);
+}
+
+.login-button[disabled] {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.login-text-field {
+    border-radius: 30px;
+    background-color: #F5F5F5;
+    padding-inline: 35px;
+    padding-block: 15px;
+    color: #000000;
+    font-weight: 600;
+}
+
+.login-text-field::placeholder {
+    color: #676666;
+}
+
+.right-side {
+    margin-left: 33.33%;
+}
