@@ -18,12 +18,12 @@ export default function SingleArtPageArtwork(props: ISingleArtPageArtworkProps):
       <div className="flex">
         <div className="flex flex-1 font-bold text-3xl">{props.title}</div>
         <div className="flex gap-4">
-          <IconButton icon={BookmarkBorder} backgroundColor="grey" onClick={props.heartOnClick} />
+          <IconButton icon={BookmarkBorder} backgroundColor="grey" onClick={props.bookmarkOnClick} />
           <IconButton
             icon={Favorite}
             text={props.nbrLikes.toString()}
             backgroundColor="black"
-            onClick={props.bookmarkOnClick}
+            onClick={props.heartOnClick}
           />
         </div>
       </div>
