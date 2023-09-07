@@ -1,11 +1,13 @@
 import Image from "next/image";
 import IconButton from "./IconButton";
-import { BookmarkBorder, Favorite } from "@mui/icons-material";
+import { BookmarkBorder, Favorite, FavoriteBorder } from "@mui/icons-material";
+import { useState } from "react";
 
 interface ISingleArtPageArtworkProps {
   art: string;
   profile: string;
   title: string;
+  liked: boolean;
   nbrLikes: number;
   bookmarkOnClick(): void;
   heartOnClick(): void;
@@ -18,12 +20,13 @@ export default function SingleArtPageArtwork(props: ISingleArtPageArtworkProps):
       <div className="flex">
         <div className="flex flex-1 font-bold text-3xl">{props.title}</div>
         <div className="flex gap-4">
-          <IconButton icon={BookmarkBorder} backgroundColor="grey" onClick={props.bookmarkOnClick} />
+          <IconButton icon={BookmarkBorder} backgroundColor="grey" onClick={props.bookmarkOnClick} color="black" />
           <IconButton
-            icon={Favorite}
+            icon={props.liked ? Favorite : FavoriteBorder}
             text={props.nbrLikes.toString()}
             backgroundColor="black"
             onClick={props.heartOnClick}
+            color={props.liked ? "red" : "white"}
           />
         </div>
       </div>

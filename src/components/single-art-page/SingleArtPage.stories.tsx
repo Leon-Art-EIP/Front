@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import SingleArtPage, { ISingleArtPageProps } from "./SingleArtPage";
 import Art from "../../assets/art1.jpeg";
 import Profile from "../../assets/profile1.jpeg";
+import Picture1 from "../../assets/picture1.jpeg";
+import Picture2 from "../../assets/picture2.jpeg";
+import Picture3 from "../../assets/picture3.jpeg";
 
 export default {
   title: "Components/SingleArtPage",
@@ -19,6 +22,31 @@ export const regular: Story = {
     art: Art,
     profile: Profile,
     title: "Mer de dunes noyées",
+    liked: false,
     nbrLikes: 457,
+    collections: [
+      {
+        id: 1,
+        picture: Picture1,
+        title: "Collection 1",
+      },
+      {
+        id: 2,
+        picture: Picture2,
+        title: "Collection 2",
+      },
+      {
+        id: 3,
+        picture: Picture3,
+        title: "Collection 3",
+      },
+    ],
+  },
+};
+
+export const liked: Story = {
+  args: {
+    ...regular.args,
+    liked: true,
   },
 };

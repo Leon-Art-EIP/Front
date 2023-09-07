@@ -7,6 +7,7 @@ interface IconButtonProps {
   icon: React.ComponentType<SvgIconProps>;
   backgroundColor: TTailwindCustomColor;
   onClick(): void;
+  color: string;
 }
 
 export default function IconButton({ icon: Icon, ...props }: IconButtonProps): JSX.Element {
@@ -16,7 +17,7 @@ export default function IconButton({ icon: Icon, ...props }: IconButtonProps): J
       style={{ background: `${props.backgroundColor === "black" ? "#3E3E3E" : "#F3F3F3"}` }}
       onClick={props.onClick}
     >
-      <Icon style={{ color: `${props.text ? "red" : "black"}` }} />
+      <Icon style={{ color: props.color }} />
       {props.text}
     </button>
   );
