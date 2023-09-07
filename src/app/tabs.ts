@@ -41,6 +41,11 @@ const tabs: ITab[] = [
     href: "/purchase",
     loggedIn: true,
   },
+  {
+    name: "Réinitialisation du mot de passe",
+    href: "/test/[id]",
+    loggedIn: false,
+  },  
 ];
 
 export default tabs;
