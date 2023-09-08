@@ -4,7 +4,7 @@ import { expect, test } from "vitest";
 import SingleArtPage from "../../src/components/single-art-page/SingleArtPage";
 import data from "../../src/components/single-art-page/fakeData";
 
-test("Messages page test", () => {
+test("Single Art page test", () => {
   const { container } = render(
     <SingleArtPage
       art={data.art}
