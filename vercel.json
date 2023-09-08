@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
   "builds": [
     { "src": "web-app-folder", "use": "@vercel/node" },
     { "src": "storybook-folder", "use": "@vercel/node" }
@@ -8,7 +9,12 @@
     { "src": "/web-app/(.*)", "dest": "web-app-folder/$1" },
     { "src": "/storybook/(.*)", "dest": "storybook-folder/$1" }
   ],
-  "installCommand": "npm install",
+  "install": {
+    "include": ["web-app-folder/package.json", "storybook-folder/package.json"]
+  },
   "framework": null,
-  "outputDirectory": "./web-app-folder"
+  "output": {
+    "web-app-folder/.*": "web-app-folder",
+    "storybook-folder/.*": "storybook-folder"
+  }
 }
