@@ -42,6 +42,11 @@ const tabs: ITab[] = [
     loggedIn: true,
   },
   {
+    name: "Réinitialisation du mot de passe",
+    href: "/reset_password",
+    loggedIn: false,
+  },
+  {
     name: "Single art page",
     href: "/single/1",
     loggedIn: true,
