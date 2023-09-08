@@ -41,6 +41,11 @@ const tabs: ITab[] = [
     href: "/purchase",
     loggedIn: true,
   },
+  {
+    name: "Single art page",
+    href: "/single/1",
+    loggedIn: true,
+  },
 ];
 
 export default tabs;

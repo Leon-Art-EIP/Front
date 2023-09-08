@@ -18,13 +18,13 @@ export default function Session(props: ISessionProps): JSX.Element | null {
   const pathname = usePathname();
   const needLoggedIn = pathname === "/" || props.tabs.find((tab) => tab.href === pathname)?.loggedIn;
 
-  if (isConnected || (!isConnected && !needLoggedIn)) {
+  // if (isConnected || (!isConnected && !needLoggedIn)) {
     return (
       <>
         <Header tabs={props.tabs} />
         {props.children}
       </>
     );
-  }
+  // }
   return <NotFound />;
 }

@@ -22,7 +22,9 @@ export default function Header(props: IHeaderProps): JSX.Element {
   }
 
   return (
-    <div className="flex flex-col gap-2 p-2 border border-neutral-400 bg-blue-200">
+    <div className="flex flex-col flex-wrap gap-2 p-2 border border-neutral-400 bg-blue-200 h-28">
+      {" "}
+      {/* h-28 provisoire, juste le temps que la navbar ne soit pas faite */}
       {props.tabs.map((tab) => (
         <Link key={`${tab.name}-${tab.href}`} href={tab.href} className="underline text-blue-400">
           {`->`} {tab.name}

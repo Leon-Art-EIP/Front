@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  font-family: 'Manrope', sans-serif;
+html body *{
+  font-family: 'Manrope', sans-serif !important;
 }
