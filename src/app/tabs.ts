@@ -46,6 +46,11 @@ const tabs: ITab[] = [
     href: "/reset_password",
     loggedIn: false,
   },
+  {
+    name: "Single art page",
+    href: "/single/1",
+    loggedIn: true,
+  },
 ];
 
 export default tabs;
