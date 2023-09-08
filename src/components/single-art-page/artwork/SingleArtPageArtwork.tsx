@@ -1,7 +1,7 @@
 import Image from "next/image";
 import IconButton from "./IconButton";
 import { BookmarkBorder, Favorite, FavoriteBorder } from "@mui/icons-material";
-import { useState } from "react";
+import { ElementType, useState } from "react";
 
 interface ISingleArtPageArtworkProps {
   art: string;
@@ -19,7 +19,7 @@ export default function SingleArtPageArtwork(props: ISingleArtPageArtworkProps):
       <Image src={props.art} alt="art" width={900} height={500} className="rounded-2xl" />
       <div className="flex">
         <div className="flex flex-1 font-bold text-3xl">{props.title}</div>
-        <div className="flex gap-4">
+        <div className="inline-flex gap-4 items-center">
           <IconButton icon={BookmarkBorder} backgroundColor="grey" onClick={props.bookmarkOnClick} color="black" />
           <IconButton
             icon={props.liked ? Favorite : FavoriteBorder}
