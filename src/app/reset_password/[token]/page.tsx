@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import Gallery from "../../../components/gallery";
-import zxcvbn from 'zxcvbn';
 import { isLoggedIn } from "../../../recoil/SetupRecoil";
+import zxcvbn from "zxcvbn";
+import Form from "./form";
 
 interface IBaseFormValues {
   newPassword: string;
@@ -15,14 +16,12 @@ interface IBaseFormValues {
 export default function Page(props: { params: { token: string } }): JSX.Element {
 
   const [validToken, setValidToken] = useState(true);
-  const [disableLogin, setDisableLogin] = useState(false);
   const setLoggedIn = useSetRecoilState(isLoggedIn);
   const router = useRouter();
 
   const [error, setError] = useState("");
 
   useEffect(() => {
-    console.log(props.params.token)
     if (props.params.token) {
       const token = props.params.token;
       fetch("http://localhost:5000/api/auth/reset-password/verify", {
@@ -48,27 +47,19 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
   function validateForm({ newPassword, confirmNewPassword }: IBaseFormValues) {
     if (!newPassword || !confirmNewPassword) {
       setError("Veuillez remplir tous les champs.");
-      setDisableLogin(true);
       return false;
     } else if (newPassword !== confirmNewPassword) {
       setError("Les mots de passe ne correspondent pas.");
-      setDisableLogin(true);
       return false;
     } else if (zxcvbn(newPassword).score < 3) {
       setError("Le mot de passe n'est pas assez puissant.");
-      setDisableLogin(true);
       return false;
     }
-    setDisableLogin(false);
+    setError("");
     return true;
   }
 
-  const handleInputChange = () => {
-    setError("");
-    setDisableLogin(false);
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (
       validateForm({
@@ -99,28 +90,7 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
           </label>
           <div className="max-w-xs w-full pt-28 xl:pt-0">
             <label className="xl:text-5xl text-2xl xl:font-extrabold xl:leading-relaxed font-semibold w-full xl:text-center text-start">Réinitialiser votre mot de passe</label>
-            <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={handleSubmit}>
-              <input
-                type="password"
-                name="newPassword"
-                className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
-                placeholder="Nouveau mot de passe"
-                onChange={handleInputChange}
-              />
-              <input
-                type="password"
-                name="confirmNewPassword"
-                className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
-                placeholder="Confirmer le nouveau mot de passe"
-                onChange={handleInputChange}
-              />
-              <div className="relative">
-                {error && <label className="absolute top-2 text-sm font-normal text-red-500">{error}</label>}
-                <button type="submit" className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 w-full hover:bg-[#c51708] disabled:bg-gray-300" disabled={disableLogin} name="reset">
-                  Réinitialiser
-                </button>
-              </div>
-            </form>
+            <Form handleSubmit={handleSubmit} error={error} setError={setError}></Form>
           </div>
         </div>
         <div className="xl:block hidden ml-[33.33%] w-2/3 p-4">
