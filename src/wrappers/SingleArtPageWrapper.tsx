@@ -9,6 +9,8 @@ export interface ISingleArtPageWrapperProps extends Omit<ISingleArtPageProps, "l
 export default function SingleArtPageWrapper(props: ISingleArtPageWrapperProps): JSX.Element {
   return (
     <SingleArtPage
+      artistName={props.artistName}
+      artistId={props.artistId}
       description={props.description}
       caracteristics={props.caracteristics}
       price={props.price}
