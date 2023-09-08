@@ -43,7 +43,7 @@ const tabs: ITab[] = [
   },
   {
     name: "Réinitialisation du mot de passe",
-    href: "/test",
+    href: "/reset_password",
     loggedIn: false,
   },
 ];

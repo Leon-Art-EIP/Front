@@ -1,33 +1,30 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import Gallery from "../../components/gallery";
+import Gallery from "../../../components/gallery";
 import zxcvbn from 'zxcvbn';
-import { IError, ISuccess } from "../../interfaces";
-import { isLoggedIn } from "../../recoil/SetupRecoil";
-import "./page.css";
+import { isLoggedIn } from "../../../recoil/SetupRecoil";
 
 interface IBaseFormValues {
   newPassword: string;
   confirmNewPassword: string;
 }
 
-export default function Page(): JSX.Element {
+export default function Page(props: { params: { token: string } }): JSX.Element {
 
   const [validToken, setValidToken] = useState(true);
   const [disableLogin, setDisableLogin] = useState(false);
   const setLoggedIn = useSetRecoilState(isLoggedIn);
   const router = useRouter();
-  const params = useParams();
 
   const [error, setError] = useState("");
 
   useEffect(() => {
-    console.log(params)
-    if (params.token) {
-      const token = params.token;
+    console.log(props.params.token)
+    if (props.params.token) {
+      const token = props.params.token;
       fetch("http://localhost:5000/api/auth/reset-password/verify", {
         method: "POST",
         headers: {
@@ -95,7 +92,7 @@ export default function Page(): JSX.Element {
     <>
     {validToken ? 
       <div className="flex h-screen">
-        <div className="left-pannel h-screen xl:w-1/3 w-full flex flex-col items-center justify-center fixed">
+        <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col items-center justify-center fixed">
           <label className="xl:hidden block text-6xl font-bold">
             <span className="leon-title">Leon</span>
             <span className="art-title">'Art</span>
@@ -106,27 +103,27 @@ export default function Page(): JSX.Element {
               <input
                 type="password"
                 name="newPassword"
-                className="login-text-field"
+                className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
                 placeholder="Nouveau mot de passe"
                 onChange={handleInputChange}
               />
               <input
                 type="password"
                 name="confirmNewPassword"
-                className="login-text-field"
+                className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
                 placeholder="Confirmer le nouveau mot de passe"
                 onChange={handleInputChange}
               />
               <div className="relative">
                 {error && <label className="absolute top-2 text-sm font-normal text-red-500">{error}</label>}
-                <button type="submit" className="login-button mt-10 w-full" disabled={disableLogin} name="reset">
+                <button type="submit" className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 w-full hover:bg-[#c51708] disabled:bg-gray-300" disabled={disableLogin} name="reset">
                   Réinitialiser
                 </button>
               </div>
             </form>
           </div>
         </div>
-        <div className="xl:block hidden right-side w-2/3 p-4">
+        <div className="xl:block hidden ml-[33.33%] w-2/3 p-4">
           <Gallery></Gallery>
         </div>
       </div>
