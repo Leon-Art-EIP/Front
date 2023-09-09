@@ -52,8 +52,8 @@ export default function Page(): JSX.Element {
           <span className="text-[#000000]">'Art</span>
         </label>
         <div className="max-w-xs w-full pt-28 xl:pt-0">
-          <label className="xl:text-5xl text-2xl xl:font-extrabold xl:leading-relaxed font-semibold w-4/6 xl:text-center text-start">
-            Forgot your password ?
+          <label className="xl:text-[43px] text-2xl xl:font-extrabold xl:leading-relaxed font-semibold w-4/6 xl:text-center text-start">
+            Mot de passe oublié ?
           </label>
           <Form handleSubmit={handleSubmit} error={error} setError={setError}></Form>
         </div>
