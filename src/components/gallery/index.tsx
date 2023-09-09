@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./index.css";
 
 export interface IGalleryProps {
   redirectUrl: string;
