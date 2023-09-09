@@ -7,10 +7,9 @@ export interface FormProps {
 }
 
 export default function Form({ handleSubmit, error, setError }: FormProps): JSX.Element {
-  
   function handleInputChange() {
     setError("");
-  };
+  }
 
   return (
     <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={handleSubmit}>
@@ -29,10 +28,15 @@ export default function Form({ handleSubmit, error, setError }: FormProps): JSX.
         onChange={handleInputChange}
       />
       <div className="relative">
-      {error && <label className="absolute top-2 text-sm font-normal text-red-500">{error}</label>}
-      <button type="submit" className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 w-full hover:bg-[#c51708] disabled:bg-gray-300" disabled={error !== ""} name="reset">
+        {error && <label className="absolute top-2 text-sm font-normal text-red-500 error-message">{error}</label>}
+        <button
+          type="submit"
+          className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 w-full hover:bg-[#c51708] disabled:bg-gray-300"
+          disabled={error !== ""}
+          name="reset"
+        >
           Réinitialiser
-      </button>
+        </button>
       </div>
     </form>
   );
