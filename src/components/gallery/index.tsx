@@ -61,12 +61,12 @@ function Gallery(props: IGalleryProps | {}) {
     <div>
       <div className="flex justify-center">
         <label className="text-6xl font-extrabold mt-7">
-          <span className="leon-title">Leon</span>
-          <span className="art-title">'Art</span>
+          <span className="text-[#E11C0A]">Leon</span>
+          <span className="text-[#000000]">'Art</span>
         </label>
         {"redirectUrl" in props && (
           <a href={props.redirectUrl}>
-            <button className="absolute mt-9 right-7 redirection-button text-xl font-extrabold">
+            <button className="absolute mt-9 right-7 rounded-[30px] shadow-md px-4 py-3 border border-[#b6b6b6] text-xl font-extrabold text-[#E11C0A] cursor-pointer hover:bg-[#fcfcfc] hover:scale-105 transition-transform ease-out">
               {props.redirectText}
             </button>
           </a>

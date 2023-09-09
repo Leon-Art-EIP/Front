@@ -74,8 +74,12 @@ export default function Page(): JSX.Element {
   return (
     <div className="flex h-screen">
       <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col items-center justify-center fixed">
+        <label className="xl:hidden block text-6xl font-bold">
+          <span className="text-[#E11C0A]">Leon</span>
+          <span className="text-[#000000]">'Art</span>
+        </label>
         <div className="max-w-xs w-full pt-28 xl:pt-0">
-          <label className="xl:text-5xl text-2xl xl:font-extrabold xl:leading-relaxed font-semibold w-full xl:text-center text-start">
+          <label className="xl:text-[43px] text-4xl xl:font-extrabold font-semibold w-full xl:text-center text-start">
             Se connecter
           </label>
           <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={handleSubmit}>
