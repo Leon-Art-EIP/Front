@@ -6,7 +6,6 @@ import { useSetRecoilState } from "recoil";
 import Gallery from "../../components/gallery";
 import { IError, ISuccess } from "../../interfaces";
 import { isLoggedIn } from "../../recoil/SetupRecoil";
-import "./page.css";
 
 interface IBaseFormValues {
   email: string;
@@ -74,38 +73,51 @@ export default function Page(): JSX.Element {
 
   return (
     <div className="flex h-screen">
-      <div className="left-side h-screen w-1/3 flex flex-col items-center justify-center fixed">
-        <label className="text-5xl font-extrabold w-4/6 text-center welcome-back">Ravi de vous revoir !</label>
-        <form className="flex flex-col gap-8 w-4/6" onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            className="login-text-field"
-            placeholder="Adresse email"
-            onChange={handleInputChange}
-          />
-          <input
-            type="password"
-            name="password"
-            className="login-text-field"
-            placeholder="Mot de passe"
-            onChange={handleInputChange}
-          />
-          <div className="relative flex justify-center mt-5">
-            {error && <label className="absolute top-2 text-sm font-normal text-red-500">{error}</label>}
-            <button type="submit" className="login-button mt-10" disabled={disableLogin} name="login">
-              Se connecter
-            </button>
-          </div>
-          <label className="flex justify-center font-normal">
-            Vous n'avez pas de compte ?{" "}
-            <a className="ms-1 font-extrabold" title="register" href="/register">
-              S'enregistrer
-            </a>
+      <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col items-center justify-center fixed">
+        <label className="xl:hidden block text-6xl font-bold">
+          <span className="text-[#E11C0A]">Leon</span>
+          <span className="text-[#000000]">'Art</span>
+        </label>
+        <div className="max-w-xs w-full pt-28 xl:pt-0">
+          <label className="xl:text-[43px] text-4xl xl:font-extrabold font-semibold w-full xl:text-center text-start">
+            Se connecter
           </label>
-        </form>
+          <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={handleSubmit}>
+            <input
+              type="email"
+              name="email"
+              className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
+              placeholder="Adresse email"
+              onChange={handleInputChange}
+            />
+            <input
+              type="password"
+              name="password"
+              className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
+              placeholder="Mot de passe"
+              onChange={handleInputChange}
+            />
+            <div className="relative flex justify-center mt-5">
+              {error && <label className="absolute top-2 text-sm font-normal text-red-500">{error}</label>}
+              <button
+                type="submit"
+                className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 w-full hover:bg-[#c51708] disabled:bg-gray-300"
+                disabled={disableLogin}
+                name="login"
+              >
+                Se connecter
+              </button>
+            </div>
+            <label className="flex justify-center font-normal">
+              Vous n'avez pas de compte ?{" "}
+              <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="register" href="/register">
+                S'enregistrer
+              </a>
+            </label>
+          </form>
+        </div>
       </div>
-      <div className="right-side w-2/3 p-4">
+      <div className="xl:block hidden ml-[33.33%] w-2/3 p-4">
         <Gallery redirectUrl={"/register"} redirectText={"S'enregistrer"}></Gallery>
       </div>
     </div>
