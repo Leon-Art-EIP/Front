@@ -19,6 +19,7 @@ export default function Collections(props: ICollectionsProps): JSX.Element {
       {props.collections.map((collection) => (
         <div
           key={`collection-${collection.id}`}
+          id={`collection-${collection.id}`}
           className={cn(
             "flex flex-col gap-2 pb-1 px-3 pt-3 rounded-3xl cursor-pointer",
             props.selectedCollections.includes(collection.id) ? "bg-[#FF7F74] text-white" : "hover:bg-secondaryGrey"

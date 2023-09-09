@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import React from "react";
 import { expect, test } from "vitest";
 import data from "../../../src/components/single-art-page/fakeData";
@@ -16,4 +16,8 @@ test("Collections test", () => {
   );
 
   expect(container.textContent).toContain("Enregistrer dans les galeries");
+
+  const collectionDiv = container.querySelector(`div[id="collection-${data.collections[0].id}"]`);
+
+  if (collectionDiv) fireEvent.click(collectionDiv);
 });
