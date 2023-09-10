@@ -6,6 +6,8 @@ import { useSetRecoilState } from "recoil";
 import Gallery from "../../components/gallery";
 import { IError, ISuccess } from "../../interfaces";
 import { isLoggedIn } from "../../recoil/SetupRecoil";
+import useLoginForm from "../../forms/useLoginForm";
+import { FormProvider } from "react-hook-form";
 
 interface IBaseFormValues {
   email: string;
@@ -13,9 +15,12 @@ interface IBaseFormValues {
 }
 
 export default function Page(): JSX.Element {
+  const methods = useLoginForm();
+
+  const router = useRouter();
+
   const [disableLogin, setDisableLogin] = useState(false);
   const setLoggedIn = useSetRecoilState(isLoggedIn);
-  const router = useRouter();
 
   const [error, setError] = useState("");
 
@@ -82,39 +87,41 @@ export default function Page(): JSX.Element {
           <label className="xl:text-[43px] text-4xl xl:font-extrabold font-semibold w-full xl:text-center text-start">
             Se connecter
           </label>
-          <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={handleSubmit}>
-            <input
-              type="email"
-              name="email"
-              className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
-              placeholder="Adresse email"
-              onChange={handleInputChange}
-            />
-            <input
-              type="password"
-              name="password"
-              className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
-              placeholder="Mot de passe"
-              onChange={handleInputChange}
-            />
-            <div className="relative flex justify-center mt-5">
-              {error && <label className="absolute top-2 text-sm font-normal text-red-500">{error}</label>}
-              <button
-                type="submit"
-                className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 w-full hover:bg-[#c51708] disabled:bg-gray-300"
-                disabled={disableLogin}
-                name="login"
-              >
-                Se connecter
-              </button>
-            </div>
-            <label className="flex justify-center font-normal">
-              Vous n'avez pas de compte ?{" "}
-              <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="register" href="/register">
-                S'enregistrer
-              </a>
-            </label>
-          </form>
+          <FormProvider {...methods}>
+            <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={handleSubmit}>
+              <input
+                type="email"
+                name="email"
+                className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
+                placeholder="Adresse email"
+                onChange={handleInputChange}
+              />
+              <input
+                type="password"
+                name="password"
+                className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
+                placeholder="Mot de passe"
+                onChange={handleInputChange}
+              />
+              <div className="relative flex justify-center mt-5">
+                {error && <label className="absolute top-2 text-sm font-normal text-red-500">{error}</label>}
+                <button
+                  type="submit"
+                  className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 w-full hover:bg-[#c51708] disabled:bg-gray-300"
+                  disabled={disableLogin}
+                  name="login"
+                >
+                  Se connecter
+                </button>
+              </div>
+              <label className="flex justify-center font-normal">
+                Vous n'avez pas de compte ?{" "}
+                <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="register" href="/register">
+                  S'enregistrer
+                </a>
+              </label>
+            </form>
+          </FormProvider>
         </div>
       </div>
       <div className="xl:block hidden ml-[33.33%] w-2/3 p-4">
