@@ -4,8 +4,6 @@ import fakeData from "../../../components/single-art-page/fakeData";
 import SingleArtPageWrapper from "../../../wrappers/SingleArtPageWrapper";
 
 export default async function Page(props: { params: { id: string } }) {
-  console.log("id de l'oeuvre: ", props.params.id);
-
   const data = await Promise.resolve(fakeData); // TODO: recup la data depuis le back
 
   return (
@@ -15,6 +13,8 @@ export default async function Page(props: { params: { id: string } }) {
       price={data.price}
       art={data.art}
       profile={data.profile}
+      artistName={data.artistName}
+      artistId={data.artistId}
       title={data.title}
       liked={data.liked}
       nbrLikes={data.nbrLikes}

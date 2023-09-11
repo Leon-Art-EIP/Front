@@ -13,6 +13,8 @@ export interface ISingleArtPageProps {
   price: number;
   art: string;
   profile: string;
+  artistName: string;
+  artistId: number;
   title: string;
   liked: boolean;
   nbrLikes: number;
@@ -68,11 +70,14 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
         <SingleArtPageArtwork
           art={props.art}
           profile={props.profile}
+          artisteName={props.artistName}
+          artistId={props.artistId}
           title={props.title}
           liked={isLiked}
           nbrLikes={nbrLikes}
           bookmarkOnClick={bookmarkOnClick}
           heartOnClick={heartOnClick}
+          link={props.link}
         />
         <SingleArtPageCard
           caracteristics={props.caracteristics}
