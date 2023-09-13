@@ -2,14 +2,18 @@
 
 import { useState } from "react";
 import QuizzQuestion from "../../components/quizz/QuizzQuestion";
+import QuizzNavigation from "../../components/quizz/QuizzNavigation";
+import QuizzStarter from "../../components/quizz/QuizzStarter";
 
 export interface QuizzWrapperProps {}
 
 export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
+  const [quizzStarted, setQuizzStarted] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([
     {
       question: "Que comptez-vous vendre ?",
+      multipleChoice: true,
       answers: [
         {
           text: "Peinture",
@@ -62,7 +66,8 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
       ],
     },
     {
-      question: "Comment avez-vous découvert l’application ?",
+      question: "Souhaitez-vous proposer des créations personnalisées ? ",
+      multipleChoice: false,
       answers: [
         {
           text: "Oui !",
@@ -79,7 +84,8 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
       ],
     },
     {
-      question: "Souhaitez-vous proposer des créations personnalisées ? ",
+      question: "Comment avez-vous découvert l’application ?",
+      multipleChoice: true,
       answers: [
         {
           text: "Réseaux sociaux",
@@ -101,10 +107,6 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
     },
   ]);
 
-  function handleQuestionChange(index: number) {
-    setQuestionIndex(index);
-  }
-
   function handleNextQuestion() {
     if (questionIndex < questions.length - 1) {
       setQuestionIndex(questionIndex + 1);
@@ -118,35 +120,38 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   }
 
   function onSelectAnswer(index: number) {
-    const newQuestions = [...questions];
-    newQuestions[questionIndex].answers[index].selected = !newQuestions[questionIndex].answers[index].selected;
-    setQuestions(newQuestions);
+    if (questions[questionIndex].multipleChoice) {
+      const newQuestions = [...questions];
+      newQuestions[questionIndex].answers[index].selected = !newQuestions[questionIndex].answers[index].selected;
+      setQuestions(newQuestions);
+    } else {
+      const newQuestions = [...questions];
+      for (let i = 0; i < newQuestions[questionIndex].answers.length; i++) {
+        if (i !== index) {
+          newQuestions[questionIndex].answers[i].selected = false;
+        }
+      }
+      newQuestions[questionIndex].answers[index].selected = !newQuestions[questionIndex].answers[index].selected;
+      setQuestions(newQuestions);
+    }
   }
 
   return (
-    <div className="grid grid-cols-1 justify-center items-center">
-      <QuizzQuestion question={questions[questionIndex]} onSelectAnswer={onSelectAnswer} />
-      <div className="flex items-baseline justify-center flex-row gap-24 w-full fixed bottom-14 select-none">
-        <button
-          onClick={handlePreviousQuestion}
-          className="py-3 px-16 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 hover:bg-[#c51708] disabled:bg-gray-300"
-          disabled={questionIndex === 0}
-          name="previous"
-        >
-          <span className="cursor-pointer">Précédente</span>
-        </button>
-        <span className="cursor-default text-2xl">
-          {questionIndex + 1}/{questions.length}
-        </span>
-        <button
-          onClick={handleNextQuestion}
-          className="py-3 px-16 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 hover:bg-[#c51708] disabled:bg-gray-300"
-          disabled={questionIndex === questions.length - 1}
-          name="previous"
-        >
-          <span className="cursor-auto">Suivante</span>
-        </button>
-      </div>
+    <div className="flex flex-col justify-center items-center">
+      {!quizzStarted ? (
+        <QuizzStarter />
+      ) : (
+        <>
+          <QuizzQuestion question={questions[questionIndex]} onSelectAnswer={onSelectAnswer} />
+          <QuizzNavigation
+            questionIndex={questionIndex}
+            questionsLength={questions.length}
+            setQuestionIndex={setQuestionIndex}
+            handlePreviousQuestion={handlePreviousQuestion}
+            handleNextQuestion={handleNextQuestion}
+          />
+        </>
+      )}
     </div>
   );
 }
