@@ -14,7 +14,6 @@ export default function QuizzNavigation(props: QuizzNavigationProps): JSX.Elemen
       <button
         onClick={props.handlePreviousQuestion}
         className="py-3 px-16 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 hover:bg-[#c51708] disabled:bg-gray-300"
-        disabled={props.questionIndex === 0}
         name="previous"
       >
         <span className="cursor-pointer">Précédente</span>
@@ -25,7 +24,6 @@ export default function QuizzNavigation(props: QuizzNavigationProps): JSX.Elemen
       <button
         onClick={props.handleNextQuestion}
         className="py-3 px-16 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 hover:bg-[#c51708] disabled:bg-gray-300"
-        disabled={props.questionIndex === props.questionsLength - 1}
         name="previous"
       >
         <span className="cursor-auto">Suivante</span>
