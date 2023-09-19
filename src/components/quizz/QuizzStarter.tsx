@@ -20,6 +20,7 @@ export default function QuizzStarter(props: QuizzStarterProps): JSX.Element {
     },
   ]);
   const [readyToStart, setReadyToStart] = useState(false);
+  const isBrowser = () => typeof window !== "undefined";
 
   function selectAnswer(index: number) {
     const newAnswer = [...answers];
@@ -33,33 +34,36 @@ export default function QuizzStarter(props: QuizzStarterProps): JSX.Element {
     setReadyToStart(true);
   }
 
+  function scrollToTop() {
+    if (!isBrowser()) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function startQuizz() {
-    console.log("start quizz")
+    scrollToTop();
     props.onSelectAnswerQuizzStarter(answers.findIndex((answer) => answer.selected));
   }
 
   return (
     <>
       <div className="flex flex-col pt-10 gap-20">
-        <span className="text-5xl font-bold mx-32 text-center">Bienvenue !</span>
+        <span className="text-5xl font-bold mx-32 text-center whitespace-nowrap">Bienvenue !</span>
         <span className="text-3xl font-semibold px-32">Avec Leon’Art, vous souhaitez...</span>
-        <div className="flex flex-col items-center gap-10 select-none">
-          <div className="flex flex-wrap justify-center gap-x-10 gap-y-5">
-            {answers.map((answer, index) => (
-              <span
-                className={` px-6 py-4 rounded-[60px] cursor-pointer hover:bg-[#fca199] hover:text-white ${
-                  answer.selected ? "bg-[#FF7F74] text-white" : "bg-[#F4F4F4] text-black"
-                }`}
-                onClick={() => selectAnswer(index)}
-                key={index}
-              >
-                <span className="text-lg">{answer.text}</span>
-              </span>
-            ))}
-          </div>
+        <div className="flex lg:flex-wrap flex-col lg:flex-row items-center gap-x-10 gap-y-5 px-8 lg:px-0 select-none">
+          {answers.map((answer, index) => (
+            <span
+              className={`px-6 py-4 rounded-[60px] cursor-pointer hover:bg-[#fca199] hover:text-white ${
+                answer.selected ? "bg-[#FF7F74] text-white" : "bg-[#F4F4F4] text-black"
+              }`}
+              onClick={() => selectAnswer(index)}
+              key={index}
+            >
+              <span className="text-lg">{answer.text}</span>
+            </span>
+          ))}
         </div>
       </div>
-      <div className="flex items-baseline justify-center flex-row gap-24 w-full fixed bottom-14 select-none">
+      <div className="flex items-baseline justify-center flex-row my-10 lg:mt-24 w-full select-none">
         <button
           onClick={startQuizz}
           className="py-3 px-16 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 hover:bg-[#c51708] disabled:bg-gray-300"

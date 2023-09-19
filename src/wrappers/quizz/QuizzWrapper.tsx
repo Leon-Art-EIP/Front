@@ -1,213 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import QuizzQuestion from "../../components/quizz/QuizzQuestion";
 import QuizzNavigation from "../../components/quizz/QuizzNavigation";
 import QuizzStarter from "../../components/quizz/QuizzStarter";
+import { QuizzResultDTO } from "../../DTOs/quizz/DTO";
+import { questionsArtiste, questionsBuyer, questionsCommon, Question } from "../../configs/quizz/questions";
 
-export interface QuizzWrapperProps {}
-
-interface Question {
-  question: string;
-  multipleChoice: boolean;
-  answers: {
-    text: string;
-    selected: boolean;
-  }[];
-}
+interface QuizzWrapperProps {}
 
 export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   const router = useRouter();
-  const [quizzStarted, setQuizzStarted] = useState(false);
+  const [quizzPath, setQuizzPath] = useState(-1);
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [questionsCommon, setQuestionsCommon] = useState([
-    {
-      question: "Comment avez-vous découvert l’application ?",
-      multipleChoice: true,
-      answers: [
-        {
-          text: "Réseaux sociaux",
-          selected: false,
-        },
-        {
-          text: "Salon professionnel",
-          selected: false,
-        },
-        {
-          text: "Bouche à oreilles",
-          selected: false,
-        },
-        {
-          text: "Autre",
-          selected: false,
-        },
-      ],
-    },
-  ]);
-  const [questionsArtiste, setQuestionsArtiste] = useState([
-    {
-      question: "Que comptez-vous vendre ?",
-      multipleChoice: true,
-      answers: [
-        {
-          text: "Peinture",
-          selected: false,
-        },
-        {
-          text: "Calligraphie",
-          selected: false,
-        },
-        {
-          text: "Photographie",
-          selected: false,
-        },
-        {
-          text: "Vêtements",
-          selected: false,
-        },
-        {
-          text: "Design graphique",
-          selected: false,
-        },
-        {
-          text: "Tattoo",
-          selected: false,
-        },
-        {
-          text: "Dessin",
-          selected: false,
-        },
-        {
-          text: "Illustration",
-          selected: false,
-        },
-        {
-          text: "Sculpture",
-          selected: false,
-        },
-        {
-          text: "Ecriture",
-          selected: false,
-        },
-        {
-          text: "Video",
-          selected: false,
-        },
-        {
-          text: "Autre",
-          selected: false,
-        },
-      ],
-    },
-    {
-      question: "Souhaitez-vous proposer des créations personnalisées ? ",
-      multipleChoice: false,
-      answers: [
-        {
-          text: "Oui !",
-          selected: false,
-        },
-        {
-          text: "Non",
-          selected: false,
-        },
-        {
-          text: "Peut-être plus tard ",
-          selected: false,
-        },
-      ],
-    },
-  ]);
-  const [questionsBuyer, setQuestionsBuyer] = useState([
-    {
-      question: "Quel type d’art vous intéresse ?",
-      multipleChoice: true,
-      answers: [
-        {
-          text: "Peinture",
-          selected: false,
-        },
-        {
-          text: "Calligraphie",
-          selected: false,
-        },
-        {
-          text: "Photographie",
-          selected: false,
-        },
-        {
-          text: "Vêtements",
-          selected: false,
-        },
-        {
-          text: "Design graphique",
-          selected: false,
-        },
-        {
-          text: "Tattoo",
-          selected: false,
-        },
-        {
-          text: "Dessin",
-          selected: false,
-        },
-        {
-          text: "Illustration",
-          selected: false,
-        },
-        {
-          text: "Sculpture",
-          selected: false,
-        },
-        {
-          text: "Ecriture",
-          selected: false,
-        },
-        {
-          text: "Video",
-          selected: false,
-        },
-        {
-          text: "Autre",
-          selected: false,
-        },
-      ],
-    },
-    {
-      question: "Quel est votre budget ?",
-      multipleChoice: false,
-      answers: [
-        {
-          text: "0-100€",
-          selected: false,
-        },
-        {
-          text: "100-500€",
-          selected: false,
-        },
-        {
-          text: "500-1000€",
-          selected: false,
-        },
-        {
-          text: "1000-10000€",
-          selected: false,
-        },
-        {
-          text: "Plus de 10000€",
-          selected: false,
-        },
-      ],
-    },
-  ]);
+  const [questions, setQuestions] = useState(questionsCommon);
 
   function handleNextQuestion() {
     if (questionIndex < questions.length - 1) {
       setQuestionIndex(questionIndex + 1);
     } else if (questionIndex === questions.length - 1) {
+      onSendResult();
       router.push("/");
     }
   }
@@ -216,7 +30,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
     if (questionIndex > 0) {
       setQuestionIndex(questionIndex - 1);
     } else if (questionIndex === 0) {
-      setQuizzStarted(false);
+      setQuizzPath(-1);
       setQuestions([]);
     }
   }
@@ -239,20 +53,76 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   }
 
   function onSelectAnswerQuizzStarter(index: number) {
-    console.log("index", index);
     if (index === 0) {
-      setQuestions([...questionsArtiste, ...questionsCommon]);
-    } else if (index === 1) {
       setQuestions([...questionsBuyer, ...questionsCommon]);
+    } else if (index === 1) {
+      setQuestions([...questionsArtiste, ...questionsCommon]);
     } else if (index === 2) {
       setQuestions([...questionsArtiste, ...questionsBuyer, ...questionsCommon]);
     }
-    setQuizzStarted(true);
+    setQuizzPath(index);
+  }
+
+  function fillDTOResult(questions: Question[]): QuizzResultDTO {
+    const result: QuizzResultDTO = {
+      user: "",
+      objective: quizzPath === 0 ? "discover" : quizzPath === 1 ? "sell" : "both",
+      artInterestType: [],
+      artSellingType: [],
+      location: "",
+      customCommands: "",
+      budget: "",
+      discoveryMethod: "",
+    };
+
+    for (const question of questions) {
+      if (question.question === "Quel type d’art vous intéresse ?") {
+        for (const answer of question.answers) {
+          if (answer.selected) {
+            result.artInterestType.push(answer.text);
+          }
+        }
+      } else if (question.question === "Que comptez-vous vendre ?") {
+        for (const answer of question.answers) {
+          if (answer.selected) {
+            result.artSellingType.push(answer.text);
+          }
+        }
+      } else if (question.question === "Comment avez-vous découvert l’application ?") {
+        for (const answer of question.answers) {
+          if (answer.selected) {
+            result.discoveryMethod = answer.text;
+          }
+        }
+      } else if (question.question === "Souhaitez-vous proposer des créations personnalisées ?") {
+        for (const answer of question.answers) {
+          if (answer.selected) {
+            result.customCommands = answer.text;
+          }
+        }
+      } else if (question.question === "Quel est votre budget ?") {
+        for (const answer of question.answers) {
+          if (answer.selected) {
+            result.budget = answer.text;
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  async function onSendResult() {
+    const result = fillDTOResult(questions);
+    const res = await fetch("/api/quizz", {
+      method: "POST",
+      body: JSON.stringify(result),
+    });
+    const data = await res.json();
   }
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      {!quizzStarted ? (
+    <div className="flex flex-col justify-center items-center ">
+      {quizzPath === -1 ? (
         <QuizzStarter onSelectAnswerQuizzStarter={onSelectAnswerQuizzStarter} />
       ) : (
         <>
