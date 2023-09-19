@@ -2,9 +2,9 @@ import QuizzWrapper from "../../wrappers/quizz/QuizzWrapper";
 
 export default function Page(): JSX.Element {
   return (
-    <>
+    <div>
       {/* Navbar to be removed */}
-      <div className="h-24 flex items-center justify-between px-8 border-b-[1px]">
+      <div className="h-24 flex items-center justify-between px-8 border-b-[1px] overflow-hidden">
         <div className="text-2xl">
           <span className="text-[#E11C0A]">Leon</span>
           <span className="text-[#000000]">'Art</span>
@@ -23,6 +23,6 @@ export default function Page(): JSX.Element {
         </div>
       </div>
       <QuizzWrapper />
-    </>
+    </div>
   );
 }

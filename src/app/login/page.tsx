@@ -61,7 +61,6 @@ export default function Page(): JSX.Element {
       const data = (await response.json()) as ISuccess | IError;
       if ("token" in data) {
         const token = data.token;
-        console.log("token", token);
         localStorage.setItem("token", token);
         setLoggedIn(true);
         router.push("/");
