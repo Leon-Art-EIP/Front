@@ -34,13 +34,7 @@ export default function QuizzStarter(props: QuizzStarterProps): JSX.Element {
     setReadyToStart(true);
   }
 
-  function scrollToTop() {
-    if (!isBrowser()) return;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
   function startQuizz() {
-    scrollToTop();
     props.onSelectAnswerQuizzStarter(answers.findIndex((answer) => answer.selected));
   }
 
@@ -57,6 +51,7 @@ export default function QuizzStarter(props: QuizzStarterProps): JSX.Element {
               }`}
               onClick={() => selectAnswer(index)}
               key={index}
+              id={`name-${index}`}
             >
               <span className="text-lg">{answer.text}</span>
             </span>

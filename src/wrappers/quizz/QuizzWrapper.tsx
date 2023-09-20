@@ -7,15 +7,19 @@ import QuizzQuestion from "../../components/quizz/QuizzQuestion";
 import QuizzNavigation from "../../components/quizz/QuizzNavigation";
 import QuizzStarter from "../../components/quizz/QuizzStarter";
 import { QuizzResultDTO } from "../../DTOs/quizz/DTO";
-import { questionsArtiste, questionsBuyer, questionsCommon, Question } from "../../configs/quizz/questions";
+import { Question } from "../../configs/quizz/questions";
 
-interface QuizzWrapperProps {}
+interface QuizzWrapperProps {
+  questionsArtiste: Question[];
+  questionsBuyer: Question[];
+  questionsCommon: Question[];
+}
 
 export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   const router = useRouter();
   const [quizzPath, setQuizzPath] = useState(-1);
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [questions, setQuestions] = useState(questionsCommon);
+  const [questions, setQuestions] = useState(props.questionsCommon);
 
   function handleNextQuestion() {
     if (questionIndex < questions.length - 1) {
@@ -54,11 +58,11 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
 
   function onSelectAnswerQuizzStarter(index: number) {
     if (index === 0) {
-      setQuestions([...questionsBuyer, ...questionsCommon]);
+      setQuestions([...props.questionsBuyer, ...props.questionsCommon]);
     } else if (index === 1) {
-      setQuestions([...questionsArtiste, ...questionsCommon]);
+      setQuestions([...props.questionsArtiste, ...props.questionsCommon]);
     } else if (index === 2) {
-      setQuestions([...questionsArtiste, ...questionsBuyer, ...questionsCommon]);
+      setQuestions([...props.questionsBuyer, ...props.questionsArtiste, ...props.questionsCommon]);
     }
     setQuizzPath(index);
   }
@@ -130,7 +134,6 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
           <QuizzNavigation
             questionIndex={questionIndex}
             questionsLength={questions.length}
-            setQuestionIndex={setQuestionIndex}
             handlePreviousQuestion={handlePreviousQuestion}
             handleNextQuestion={handleNextQuestion}
           />

@@ -26,6 +26,7 @@ export default function QuizzQuestion(props: QuizzQuestionProps): JSX.Element {
               }`}
               onClick={() => props.onSelectAnswer(index)}
               key={index}
+              id={`name-${index}`}
             >
               <span className="text-lg">{answer.text}</span>
             </span>
