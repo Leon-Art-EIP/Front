@@ -81,10 +81,8 @@ export default function RegisterForm(): JSX.Element {
             <a className="font-semibold text-[#E11C0A] cursor-pointer">notre Politique de confidentialité</a>
           </label>
         </div>
-        <div className="relative">
-          {connectionError && (
-            <label className="absolute top-2 text-sm font-normal text-red-500 error-message">{connectionError}</label>
-          )}
+        <div className="flex flex-col gap-2">
+          {connectionError && <div className="text-center text-red-500">{connectionError}</div>}
           <button
             type="submit"
             className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white w-full hover:bg-[#c51708] disabled:bg-gray-300"

@@ -66,13 +66,11 @@ export default function LoginForm(): JSX.Element {
           className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
           placeholder="Mot de passe"
         />
-        <div className="relative flex justify-center mt-5 gap-2">
-          {connectionError && (
-            <label className="absolute top-2 text-sm font-normal text-red-500">{connectionError}</label>
-          )}
+        <div className="flex flex-col justify-center mt-5 gap-2">
+          {connectionError && <div className="text-center text-red-500">{connectionError}</div>}
           <button
             type="submit"
-            className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 w-full hover:bg-[#c51708] disabled:bg-gray-300"
+            className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white w-full hover:bg-[#c51708] disabled:bg-gray-300"
             disabled={disableLogin}
             name="login"
           >
