@@ -75,7 +75,7 @@ export const questionsArtiste: Question[] = [
         selected: false,
       },
       {
-        text: "Peut-être plus tard ",
+        text: "Peut-être plus tard",
         selected: false,
       },
     ],
