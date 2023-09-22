@@ -11,6 +11,8 @@ const data = {
   price: 199,
   art: Art,
   profile: Profile,
+  artistName: "Rosalia Basquiat",
+  artistId: 1,
   title: "Mer de dunes noyées",
   liked: false,
   nbrLikes: 457,
