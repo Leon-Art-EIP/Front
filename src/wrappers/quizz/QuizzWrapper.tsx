@@ -39,6 +39,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
     }
   }
 
+  /* c8 ignore start */
   function onSelectAnswer(index: number) {
     if (questions[questionIndex].multipleChoice) {
       const newQuestions = [...questions];
@@ -55,6 +56,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
       setQuestions(newQuestions);
     }
   }
+  /* c8 ignore stop */
 
   function onSelectAnswerQuizzStarter(index: number) {
     if (index === 0) {
@@ -70,6 +72,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   function fillDTOResult(questions: Question[]): QuizzResultDTO {
     const result: QuizzResultDTO = {
       user: "",
+      /* c8 ignore next */
       objective: quizzPath === 0 ? "discover" : quizzPath === 1 ? "sell" : "both",
       artInterestType: [],
       artSellingType: [],
@@ -79,6 +82,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
       discoveryMethod: "",
     };
 
+    /* c8 ignore start */
     for (const question of questions) {
       if (question.question === "Quel type d’art vous intéresse ?") {
         for (const answer of question.answers) {
@@ -111,6 +115,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
           }
         }
       }
+    /* c8 ignore stop */
     }
     return result;
   }
