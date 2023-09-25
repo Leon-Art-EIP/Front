@@ -15,6 +15,8 @@ interface QuizzWrapperProps {
   questionsCommon: Question[];
 }
 
+const BACKEND_URL = "http://localhost:5000";
+
 export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   const router = useRouter();
   const [quizzPath, setQuizzPath] = useState(-1);
@@ -122,7 +124,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
 
   async function onSendResult() {
     const result = fillDTOResult(questions);
-    const res = await fetch("/api/quizz", {
+    const res = await fetch(BACKEND_URL + "/api/quizz/submit", {
       method: "POST",
       body: JSON.stringify(result),
     });
