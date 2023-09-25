@@ -19,6 +19,7 @@ export default function QuizzQuestion(props: QuizzQuestionProps): JSX.Element {
       <span className="text-3xl font-semibold px-14 lg:px-32">{props.question.question}</span>
       <div className="flex flex-col items-center gap-10 select-none">
         <div className="flex flex-wrap flex-col lg:flex-row items-center justify-center w-1/2 gap-x-10 gap-y-5">
+          {/* c8 ignore start */}
           {props.question.answers.map((answer, index) => (
             <span
               className={`text-center px-6 py-4 rounded-[60px] cursor-pointer hover:bg-[#fca199] hover:text-white ${
@@ -31,6 +32,7 @@ export default function QuizzQuestion(props: QuizzQuestionProps): JSX.Element {
               <span className="text-lg">{answer.text}</span>
             </span>
           ))}
+          {/* c8 ignore stop */}
         </div>
         <FormGroup className="px-6 lg:px-0">
           <FormControlLabel

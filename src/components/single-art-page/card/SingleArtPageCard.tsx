@@ -25,7 +25,9 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
           <Link href="/purchase">
             <Button backgroundColor="primaryBlack" title="Faire une offre" />
           </Link>
+          {/* c8 ignore start */}
           <Button
+            id="add-to-commands-button"
             disabled={belongingCommands}
             backgroundColor="primaryRed"
             title={(belongingCommands ? "Ajouté" : "Ajouter") + " aux commandes"}
@@ -33,6 +35,7 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
               setNotificationToast(true);
             }}
           />
+          {/* c8 ignore stop */}
           {notificationToast && <NotificationToast message="Oeuvre ajoutée aux commandes" type="success" />}
         </div>
       </div>

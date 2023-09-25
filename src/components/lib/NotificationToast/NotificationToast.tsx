@@ -38,7 +38,7 @@ const NotificationToast: React.FC<NotificationToastProps> = ({ message, type }) 
     return (
         visible ?
         <div className={`fixed right-0 top-0 m-6 p-4 border-2 ${borderColor} rounded-md bg-white shadow-lg z-50`}>
-            <button className="float-right" onClick={closeToast}>X</button>
+            <button id="close-toast" className="float-right" onClick={closeToast}>X</button>
             <p>{message}</p>
         </div>
         : null

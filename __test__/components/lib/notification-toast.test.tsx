@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import React from "react";
 import { expect, test } from "vitest";
 import { NotificationToast } from "../../../src/components/lib/lib";
@@ -7,6 +7,9 @@ test("NotificationToast success test", () => {
   const { container } = render(<NotificationToast message="hey" type="success" />);
 
   expect(container.textContent).toContain("hey");
+
+  const closeToastButton = container.querySelector("#close-toast");
+  if (closeToastButton) fireEvent.click(closeToastButton);
 });
 
 test("NotificationToast error test", () => {

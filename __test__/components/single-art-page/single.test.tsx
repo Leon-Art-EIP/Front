@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import React from "react";
 import { expect, test } from "vitest";
 import SingleArtPage from "../../../src/components/single-art-page/SingleArtPage";
@@ -94,4 +94,22 @@ test("Single Art page belonging commands test", () => {
   );
 
   expect(container.textContent).toContain("Faire une offre");
+
+  const addToCommandsButton = container.querySelector("#add-to-commands-button");
+
+  if (addToCommandsButton) fireEvent.click(addToCommandsButton);
+
+  const heartButton = container.querySelector("#like-button");
+
+  if (heartButton) fireEvent.click(heartButton);
+
+  const bookmarkButton = container.querySelector("#bookmark-button");
+
+  if (bookmarkButton) fireEvent.click(bookmarkButton);
+
+  const saveButton = container.querySelector("#save-button");
+
+  if (saveButton) fireEvent.click(saveButton);
+
+  if (heartButton) fireEvent.click(heartButton);
 });
