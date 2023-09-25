@@ -13,6 +13,8 @@ interface IBaseFormValues {
   confirmNewPassword: string;
 }
 
+const BACKEND_URL = "http://localhost:5000";
+
 export default function Page(props: { params: { token: string } }): JSX.Element {
   const [validToken, setValidToken] = useState(true);
   const setLoggedIn = useSetRecoilState(isLoggedIn);
@@ -23,7 +25,7 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
   useEffect(() => {
     if (props.params.token) {
       const token = props.params.token;
-      fetch("http://localhost:5000/api/auth/reset-password/verify", {
+      fetch(BACKEND_URL + "/api/auth/validate-reset-token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +35,7 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
         }),
       }).then(async (response) => {
         const data = await response.json();
-        if (data.success) {
+        if (response.status === 200) {
           setLoggedIn(true);
         } else {
           setError(data.error);
@@ -66,15 +68,23 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
         confirmNewPassword: event.currentTarget.confirmNewPassword.value,
       })
     ) {
-      const response = await fetch("http://localhost:5000/api/auth/reset-password", {
+      const response = await fetch(BACKEND_URL + "/api/auth/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          token: props.params.token,
           newPassword: event.currentTarget.newPassword.value,
         }),
       });
+      if (response.status === 404) {
+        setError("Le token est invalide.");
+      } else if (response.status === 422) {
+        setError("Le mot de passe n'est pas assez puissant.");
+      } else if (response.status === 200) {
+        setError("");
+      }
     }
   }
 
