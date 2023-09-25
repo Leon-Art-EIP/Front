@@ -31,6 +31,8 @@ global.fetch = vi.fn(() =>
   })
 );
 
+const BACKEND_URL = "http://localhost:5000";
+
 describe("QuizzWrapper", () => {
   let container: HTMLElement;
 
@@ -241,7 +243,7 @@ describe("QuizzWrapper", () => {
 
     // Expect fetch to be called with the correct arguments
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith("/api/quizz", {
+    expect(global.fetch).toHaveBeenCalledWith(BACKEND_URL + "/api/quizz/submit", {
       method: "POST",
       body: JSON.stringify({
         user: "",
