@@ -8,6 +8,8 @@ interface IBaseFormValues {
   email: string;
 }
 
+const BACKEND_URL = "http://localhost:5000";
+
 export default function Page(): JSX.Element {
   const [error, setError] = useState("");
 
@@ -32,7 +34,7 @@ export default function Page(): JSX.Element {
         email: event.currentTarget.email.value,
       })
     ) {
-      const response = await fetch("http://localhost:5000/api/auth/forgotten-password", {
+      const response = await fetch(BACKEND_URL + "/api/auth/request-reset", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,6 +43,11 @@ export default function Page(): JSX.Element {
           email: event.currentTarget.email.value,
         }),
       });
+      if (response.status === 404) {
+        setError("Aucun compte n'est associé à cette adresse email.");
+      } else if (response.status === 200) {
+        setError("");
+      }
     }
   };
 
