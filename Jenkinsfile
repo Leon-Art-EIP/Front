@@ -1,73 +1,72 @@
 pipeline{
   
   agent any
-    
-    triggers { githubPush() }
-
-    tools {nodejs "NodeJS"}
-
-    options{
-        ansiColor('xterm')
-    }
-    
-    stages {
-        stage("Install") {
-            steps {
-                sh "npm install -g yarn"
-                sh "yarn install"
-            }
-        }
-        stage('Testing'){
-            steps{
-                script {
-                    try {
-                        sh 'yarn run coverage | tee tests.log'
-                         sh 'sed -r "s/\\x1B\\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g" tests.log > tests_clean.log'
-                    } catch (Exception e) {
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        throw e
-                    }
-                }
-            }
-        }
-    stage('Push to DockerHUb')
-    {
-      when { 
-        branch 'dev'
+  
+  triggers { githubPush() }
+  
+  tools {nodejs "NodeJS"}
+  parameters{
+    string(name: 'SPEC', defaultValue: "cypress/e2e/**/**", description: "Enter the script path that you want to execute")
+  }
+  
+  options{
+    ansiColor('xterm')
+  }
+  
+  stages{
+    stage('Build') {
+      steps {
+        echo "Build step is empty."
       }
+    }
+    stage("Install") {
+        when { 
+            not { 
+                branch 'gh-pages' 
+            }
+        }
+      steps {
+        sh "npm install"
+        sh "npm install --save-dev mochawesome mochawesome-merge mochawesome-report-generator"
+        sh 'sudo apt-get update'
+      }
+    }
+    stage('Starting Server'){
+        when { 
+            not { 
+                branch 'gh-pages' 
+            }
+        }
       steps{
-        echo "Pushing to DockerHub..."
-        echo "Pushing to DockerHub..."
-        sh "docker build -t ${DOCKER_USERNAME}/${DOCKER_REPO_DEV_FRONT}:latest -t ${DOCKER_USERNAME}/${DOCKER_REPO_DEV_FRONT}:${BUILD_NUMBER} ."
-        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-        sh "docker push ${DOCKER_USERNAME}/${DOCKER_REPO_DEV_FRONT}:latest"
-        sh "docker push ${DOCKER_USERNAME}/${DOCKER_REPO_DEV_FRONT}:${BUILD_NUMBER}"
+        echo "Starting Server..."
+        sh 'nohup npm start &'
+      }
+    }
+    stage('Building'){
+        when { 
+            not { 
+                branch 'gh-pages' 
+            }
+        }
+      steps{
+        echo "Building..."
+      }
+    }
+    stage('Testing'){
+        when { 
+            not { 
+                branch 'gh-pages' 
+            }
+        }
+      steps{
+        sh "npx cypress run --headless --spec ${SPEC} --reporter mochawesome --reporter-options reportDir=cypress,overwrite=false,html=true"
       }
     }
   }
   
-  post {
-        always {
-            script {
-                def logContent = "```\n" + readFile('tests_clean.log').trim() + "\n```"
-                def branchName = env.BRANCH_NAME
-                def userName = env.CHANGE_AUTHOR
-                def buildNumber = env.BUILD_NUMBER
-
-                discordSend(
-                    webhookURL: "https://discord.com/api/webhooks/1123846491438583859/SlPmshTyfkaePCJ0xJZIhja219nY5mezlxGGSyPWRhzUvxnxI2gG2PZ9RK-jRR3Hb3ne",
-                    title: "${env.JOB_NAME}",
-                    description: """
-                        Branch: ${branchName}
-                        User: ${userName}
-                        Log Content:
-                        ${logContent}
-                    """,
-                    footer: "Build Number: ${buildNumber}",
-                    result: currentBuild.currentResult
-                )
-            }
-        }
+  post{
+    always{
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'cypress', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
     }
+  }
 }
