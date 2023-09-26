@@ -8,7 +8,7 @@ interface IBaseFormValues {
   email: string;
 }
 
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = "http://back-dev.leonart-dev.ovh";
 
 export default function Page(): JSX.Element {
   const [error, setError] = useState("");

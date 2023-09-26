@@ -31,7 +31,7 @@ global.fetch = vi.fn(() =>
   })
 );
 
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = "http://back-dev.leonart-dev.ovh";
 
 describe("QuizzWrapper", () => {
   let container: HTMLElement;
