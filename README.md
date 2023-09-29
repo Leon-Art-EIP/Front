@@ -11,7 +11,9 @@ To install the app, follow these steps:
 
 1. Clone the repository to your local machine
 2. Install the required dependencies by running `yarn install`
-3. Start the app by running `yarn dev`
+3. Create a .env.development file if you want to run the app in development mode, or a .env.production file if you want to run the app in production mode. The .env files should contain the following variables:
+NEXT_PUBLIC_BACKEND_URL="..."
+4. Start the app by running `yarn dev`
 
 
 ## Testing

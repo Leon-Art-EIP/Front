@@ -10,6 +10,8 @@ import { isLoggedIn } from "../../recoil/SetupRecoil";
 import { IError, ISuccess } from "../../interfaces";
 import { TLoginData } from "../../zod";
 
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function LoginForm(): JSX.Element {
   const [connectionError, setConnectionError] = useState("");
   const methods = useLoginForm();
@@ -19,7 +21,7 @@ export default function LoginForm(): JSX.Element {
 
   const handleSubmit = async (formData: TLoginData) => {
     try {
-      const response = await fetch("http://back-dev.leonart-dev.ovh/api/auth/login", {
+      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
