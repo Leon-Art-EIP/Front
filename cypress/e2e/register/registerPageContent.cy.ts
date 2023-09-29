@@ -10,7 +10,7 @@ describe('registerPageContent.cy.ts', () => {
 
   it('should contain "already registered ?"', () => {
     start('/register');
-    cy.get('[title="connect"]').should('contain', 'Se connecter');
+    cy.get('[title="login"]').should('contain', 'Se connecter');
   });
 });
 

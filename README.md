@@ -10,8 +10,24 @@ This is the web app for Leon'art, the startup that brings art to your doorstep, 
 To install the app, follow these steps:
 
 1. Clone the repository to your local machine
-2. Install the required dependencies by running `npm install`
-3. Start the app by running `npm start`
+2. Install the required dependencies by running `yarn install`
+3. Start the app by running `yarn dev`
+
+
+## Testing
+
+To test the app with cypress, follow these steps:
+
+### CLI Cypress testing (without UI interface)
+
+1. Start the app by running `yarn dev`
+2. Start the tests by running `yarn cypress run`
+
+### UI Cypress testing (with UI interface)
+
+1. Start the app by running `yarn dev`
+2. Install cypress app on your local machine, follow the doc for more informations : https://docs.cypress.io/guides/getting-started/installing-cypress
+3. Start the tests by running `yarn cypress:open`
 
 ## Usage
 

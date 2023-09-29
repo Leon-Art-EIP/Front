@@ -12,6 +12,11 @@ const tabs: ITab[] = [
     loggedIn: false,
   },
   {
+    name: "Accueil",
+    href: "/",
+    loggedIn: true,
+  },
+  {
     name: "Messages",
     href: "/messages",
     loggedIn: true,
@@ -34,6 +39,11 @@ const tabs: ITab[] = [
   {
     name: "Achats",
     href: "/purchase",
+    loggedIn: true,
+  },
+  {
+    name: "Single art page",
+    href: "/single/1",
     loggedIn: true,
   },
 ];
