@@ -12,8 +12,8 @@ export default function Button(props: IButtonProps): JSX.Element {
     <button
       onClick={props.onClick}
       className={cn(
-        "inline-flex py-0.5 px-5 text-center bg-white text-black text-xs rounded-2xl border-none",
-        props.className
+        "inline-flex py-0.5 px-5 text-center justify-center text-xs rounded-2xl border-none",
+        props.className ?? "bg-white text-black"
       )}
     >
       {props.text}
