@@ -8,6 +8,20 @@ export default {
 
 type Story = StoryObj<ITabsProps>;
 
-export const regular: Story = {
-  args: {},
+export const publicationsSelected: Story = {
+  args: {
+    selectedTab: "publications",
+  },
+};
+
+export const collectionsSelected: Story = {
+  args: {
+    selectedTab: "collections",
+  },
+};
+
+export const aboutSelected: Story = {
+  args: {
+    selectedTab: "about",
+  },
 };

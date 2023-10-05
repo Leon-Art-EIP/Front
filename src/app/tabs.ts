@@ -43,7 +43,7 @@ const tabs: ITab[] = [
   },
   {
     name: "Single art page",
-    href: "/single/1",
+    href: "/single",
     loggedIn: true,
   },
 ];

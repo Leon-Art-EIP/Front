@@ -15,7 +15,12 @@ export default function Header(props: IHeaderProps): JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
 
-  const displayHeader = pathname === "/" || props.tabs.find((tab) => tab.href === pathname)?.loggedIn;
+  const displayHeader =
+    pathname === "/" ||
+    props.tabs.find((tab) => {
+      if (tab.href === "/") return tab.href === pathname;
+      return pathname.includes(tab.href);
+    })?.loggedIn;
 
   if (!displayHeader) {
     return <></>;
