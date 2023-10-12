@@ -17,7 +17,7 @@ export default function UserList(props: UserListProps): JSX.Element {
   }
 
   return (
-    <div className="flex flex-grow flex-col h-full bg-gray-100 shadow-[3px_0_3px_0px_rgba(170,170,170)]">
+    <div className="flex flex-col h-full bg-gray-100 shadow-[3px_0_3px_0px_rgba(170,170,170)]">
       <div className="m-6 sm:m-10">
         <SearchBar onSearch={handleSearch} />
       </div>

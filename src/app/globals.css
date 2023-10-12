@@ -5,3 +5,7 @@
 html body *{
   font-family: 'Manrope', sans-serif !important;
 }
+
+.page-content-non-scrollable {
+  height: calc(100vh - 6rem);
+}

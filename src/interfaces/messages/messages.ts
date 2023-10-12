@@ -4,9 +4,9 @@ export interface IMessages {
 
 export interface IMessage {
   id: number;
-  sender: number;
+  sender: 0 | 1;
   contentType: string;
   content: string;
-  date: string;
+  dateTime: string;
   read: boolean;
 }
