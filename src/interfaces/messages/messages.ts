@@ -10,3 +10,12 @@ export interface IMessage {
   dateTime: string;
   read: boolean;
 }
+
+export interface IOrderInfos {
+  userRole: string;
+  orderState: string;
+  orderRating: number;
+  orderPicture: string;
+  orderDescription: string;
+  orderPrice: number;
+}

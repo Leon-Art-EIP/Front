@@ -1,18 +1,60 @@
 import { useState, useEffect } from "react";
-import { IMessages } from "../../interfaces/messages/messages";
+import { IMessages, IOrderInfos } from "../../interfaces/messages/messages";
+import { ConversationService } from "./useConversationService";
 
 export interface MessageService {
   messages: IMessages;
+  orderInfos?: IOrderInfos;
+  showOrder: boolean;
+  showRating: boolean;
   fetchMessages: (convId: number | undefined) => void;
   sendMessage: (convId: number | undefined, messageToSend: string) => void;
+  closeOrder: () => void;
+  closeRating: () => void;
+  handleRating: (rating: number) => void;
 }
 
-export function useMessageService(firstConvId: number | undefined) {
+export function useMessageService(conversationService: ConversationService): MessageService {
   const [messages, setMessages] = useState<IMessages>({ messages: [] });
+  const [orderInfos, setOrderInfos] = useState<IOrderInfos>();
+  const [showOrder, setShowOrder] = useState(false);
+  const [showRating, setShowRating] = useState(false);
 
   useEffect(() => {
-    fetchMessages(firstConvId || 0);
-  }, []);
+    fetchMessages(conversationService.convSelected?.id || 0);
+    fetchOrderInfo(conversationService.convSelected?.id || 0);
+  }, [conversationService.convSelected?.id]);
+
+  function fetchOrderInfo(convId: number | undefined) {
+    // const res = await fetch(BACKEND_URL + "/api/conversation/order_info", {
+    //   method: "GET",
+    //   body: JSON.stringify({
+    //     convId: convId,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // const data = await res.json();
+    // if (res.status === 200) {
+    //   this.conversations = data;
+    // } else {
+    //   console.log("error");
+    // }
+    const newOrderInfos: IOrderInfos = {
+      orderPicture: "https://www.pictureframesexpress.co.uk/blog/wp-content/uploads/2020/05/7-Tips-to-Finding-Art-Inspiration-Header-1024x649.jpg",
+      orderDescription: "Ceci est une description de cette oeuvvre d'art, elle est super belle ! Est-ce que tu veux l'acheter, alors appelle de 3630 et dit allo au père noel !",
+      orderPrice: 100,
+      userRole: "buyer",
+      orderState: "accepted",
+      orderRating: 0,
+    }
+    setOrderInfos(newOrderInfos);
+    setShowOrder(true);
+    if (newOrderInfos.userRole === "buyer" && newOrderInfos.orderState === "accepted") {
+      setShowRating(true);
+    }
+  }
 
   function fetchMessages(convId: number | undefined) {
     // const res = await fetch(BACKEND_URL + "/api/conversations", {
@@ -288,9 +330,51 @@ export function useMessageService(firstConvId: number | undefined) {
     setMessages(newMessages);
   }
 
+  function handleRating(rating: number) {
+    // const res = await fetch(BACKEND_URL + "/api/conversation/order/rating", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     convId: conversationId,
+    //     message: messageToSend,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // const data = await res.json();
+    // if (res.status === 200) {
+    //   this.conversations = data;
+    // } else {
+    //   console.log("error");
+    // }
+    const newOrderInfos: IOrderInfos = {
+      orderPicture: "https://www.pictureframesexpress.co.uk/blog/wp-content/uploads/2020/05/7-Tips-to-Finding-Art-Inspiration-Header-1024x649.jpg",
+      orderDescription: "Ceci est une description de cette oeuvvre d'art, elle est super belle ! Est-ce que tu veux l'acheter, alors appelle de 3630 et dit allo au père noel !",
+      orderPrice: 100,
+      userRole: "buyer",
+      orderState: "accepted",
+      orderRating: rating,
+    }
+    setOrderInfos(newOrderInfos);
+  }
+
+  function closeOrder() {
+    setShowOrder(false);
+  }
+
+  function closeRating() {
+    setShowRating(false);
+  }
+
   return {
     messages,
+    orderInfos,
+    showOrder,
+    showRating,
     fetchMessages,
     sendMessage,
+    closeOrder,
+    closeRating,
+    handleRating,
   };
 }
