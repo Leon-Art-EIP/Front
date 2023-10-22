@@ -1,9 +1,6 @@
-import Gallery from "../../../components/gallery";
-import Pictures from "../../../components/gallery/Pictures";
 import { TCategory } from "../../../components/profile/category/category";
 import Heading from "../../../components/profile/heading/Heading";
 import Infos from "../../../components/profile/infos/Infos";
-import PicturesWrapper from "../../../wrappers/profile/PicturesWrapper";
 import TabsWrapper from "../../../wrappers/profile/TabsWrapper";
 
 export default function Page(props: { params: { id: string } }): JSX.Element {
@@ -14,6 +11,13 @@ export default function Page(props: { params: { id: string } }): JSX.Element {
     numberOfFollowers: number;
     numberOfPosts: number;
     categories: TCategory[];
+    aboutTitle: string;
+    aboutDescription: string;
+    collections: {
+      id: number;
+      title: string;
+      picturesIds: number[];
+    }[];
   } = {
     artistName: "Lil Nas X",
     artistDescription: "Designer graphique",
@@ -33,6 +37,20 @@ export default function Page(props: { params: { id: string } }): JSX.Element {
       "Sanguine",
       "Craie",
     ],
+    aboutTitle: "Bienvenue dans mon espace créatif",
+    aboutDescription: "Je suis un artiste peintre qui aime la peinture à l'huile.",
+    collections: [
+      {
+        id: 1,
+        title: "Collection 1",
+        picturesIds: [1, 2, 3, 4, 5, 6],
+      },
+      {
+        id: 2,
+        title: "Collection 2",
+        picturesIds: [1, 2, 3, 4, 5, 6],
+      },
+    ],
   };
 
   return (
@@ -40,10 +58,11 @@ export default function Page(props: { params: { id: string } }): JSX.Element {
       <Heading />
       <div className="grid grid-cols-4">
         <div className="flex flex-col col-span-3 gap-2 p-4">
-          <div className="w-3/4">
-            <TabsWrapper />
-          </div>
-          <PicturesWrapper />
+          <TabsWrapper
+            aboutTitle={data.aboutTitle}
+            aboutDescription={data.aboutDescription}
+            collections={data.collections}
+          />
         </div>
         <div className="flex justify-center">
           <Infos
