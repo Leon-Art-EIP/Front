@@ -13,7 +13,7 @@ interface IBaseFormValues {
   confirmNewPassword: string;
 }
 
-const BACKEND_URL = "http://back-dev.leonart-dev.ovh";
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function Page(props: { params: { token: string } }): JSX.Element {
   const [validToken, setValidToken] = useState(true);
@@ -25,7 +25,7 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
   useEffect(() => {
     if (props.params.token) {
       const token = props.params.token;
-      fetch(BACKEND_URL + "/api/auth/validate-reset-token", {
+      fetch(NEXT_PUBLIC_BACKEND_URL + "/api/auth/validate-reset-token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
         confirmNewPassword: event.currentTarget.confirmNewPassword.value,
       })
     ) {
-      const response = await fetch(BACKEND_URL + "/api/auth/reset-password", {
+      const response = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/auth/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

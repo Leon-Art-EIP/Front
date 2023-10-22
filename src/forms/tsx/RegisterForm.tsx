@@ -10,6 +10,8 @@ import { useSetRecoilState } from "recoil";
 import { isLoggedIn } from "../../recoil/SetupRecoil";
 import { IError, ISuccess } from "../../interfaces";
 
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function RegisterForm(): JSX.Element {
   const methods = useRegisterForm();
   const router = useRouter();
@@ -19,7 +21,7 @@ export default function RegisterForm(): JSX.Element {
 
   const handleSubmit = async (formData: TRegisterData) => {
     try {
-      const response = await fetch("http://back-dev.leonart-dev.ovh/api/auth/signup", {
+      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

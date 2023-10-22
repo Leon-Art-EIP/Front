@@ -8,7 +8,7 @@ interface IBaseFormValues {
   email: string;
 }
 
-const BACKEND_URL = "http://back-dev.leonart-dev.ovh";
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function Page(): JSX.Element {
   const [error, setError] = useState("");
@@ -34,7 +34,7 @@ export default function Page(): JSX.Element {
         email: event.currentTarget.email.value,
       })
     ) {
-      const response = await fetch(BACKEND_URL + "/api/auth/request-reset", {
+      const response = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/auth/request-reset", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
