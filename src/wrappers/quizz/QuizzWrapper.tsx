@@ -15,7 +15,7 @@ interface QuizzWrapperProps {
   questionsCommon: Question[];
 }
 
-const BACKEND_URL = "http://back-dev.leonart-dev.ovh";
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   const router = useRouter();
@@ -117,14 +117,14 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
           }
         }
       }
-    /* c8 ignore stop */
+      /* c8 ignore stop */
     }
     return result;
   }
 
   async function onSendResult() {
     const result = fillDTOResult(questions);
-    const res = await fetch(BACKEND_URL + "/api/quizz/submit", {
+    const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/quizz/submit`, {
       method: "POST",
       body: JSON.stringify(result),
     });
