@@ -1,4 +1,4 @@
-import { TCategory } from "../../../components/profile/category/category";
+import { TCategory } from "../../../components/profile/category/Category";
 import Heading from "../../../components/profile/heading/Heading";
 import Infos from "../../../components/profile/infos/Infos";
 import TabsWrapper from "../../../wrappers/profile/TabsWrapper";
