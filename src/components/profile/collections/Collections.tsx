@@ -27,7 +27,7 @@ export default function Collections(props: ICollectionsProps): JSX.Element {
   return (
     <div className="flex flex-col gap-4">
       {props.collections.map((collection) => (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2" key={`collection-profile-${collection.id}`}>
           <div className="flex">
             <div className="font-medium text-xl">{collection.title}</div>
             <IconButton

@@ -12,6 +12,7 @@ export interface ISingleArtPageProps {
   caracteristics: string;
   price: number;
   art: string;
+  artId: number;
   profile: string;
   artistName: string;
   artistId: number;
@@ -23,6 +24,8 @@ export interface ISingleArtPageProps {
   belongingCommands: boolean;
   link: ElementType<{ children: JSX.Element; href: string }>; // Car Storybook ne supporte pas le Link de Next
 }
+
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -46,12 +49,28 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
     setModalOpen(false);
   };
 
-  const heartOnClick = () => {
-    if (isLiked) {
-      console.log("J'ai enlevé mon J'aime (envoyer -1 j'aime dans le back)"); // TODO
-    } else {
-      console.log("J'ai aimé cette publication (envoyer +1 j'aime dans le back)"); // TODO
+  const fetchLikePublication = async (id: number) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("No token found");
+      return;
     }
+    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/art-publication/like/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      console.log("Successful like request");
+    } else {
+      console.log("Failed with like request");
+    }
+  };
+
+  const heartOnClick = () => {
+    fetchLikePublication(props.artId);
     setLiked(!isLiked);
   };
 

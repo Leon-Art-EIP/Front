@@ -1,7 +1,6 @@
 import IconButtonWrapper from "../../../wrappers/profile/IconButtonWrapper";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
-import Category from "../category/Category";
-import { TCategory } from "../category/category";
+import Category, { TCategory } from "../category/Category";
 
 export interface IInfosProps {
   artistName: string;

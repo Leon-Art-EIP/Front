@@ -8,6 +8,7 @@ test("Single Art page regular test", () => {
   const { container } = render(
     <SingleArtPage
       art={data.art}
+      artId={data.artId}
       artistId={data.artistId}
       artistName={data.artistName}
       belongingCollections={data.belongingCollections}
@@ -31,6 +32,7 @@ test("Single Art page liked test", () => {
   const { container } = render(
     <SingleArtPage
       art={data.art}
+      artId={data.artId}
       artistId={data.artistId}
       artistName={data.artistName}
       belongingCollections={data.belongingCollections}
@@ -54,6 +56,7 @@ test("Single Art page belonging collection test", () => {
   const { container } = render(
     <SingleArtPage
       art={data.art}
+      artId={data.artId}
       artistId={data.artistId}
       artistName={data.artistName}
       belongingCollections={[1]}
@@ -77,6 +80,7 @@ test("Single Art page belonging commands test", () => {
   const { container } = render(
     <SingleArtPage
       art={data.art}
+      artId={data.artId}
       artistId={data.artistId}
       artistName={data.artistName}
       belongingCollections={data.belongingCollections}

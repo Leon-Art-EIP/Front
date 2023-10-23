@@ -15,6 +15,7 @@ export default function SingleArtPageWrapper(props: ISingleArtPageWrapperProps):
       caracteristics={props.caracteristics}
       price={props.price}
       art={props.art}
+      artId={props.artId}
       profile={props.profile}
       title={props.title}
       liked={props.liked}
