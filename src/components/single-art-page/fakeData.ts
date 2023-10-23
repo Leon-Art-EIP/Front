@@ -10,6 +10,7 @@ const data = {
   caracteristics: "Peinture - Huile sur toile, 187 x 121 cm",
   price: 199,
   art: Art,
+  artId: 1,
   profile: Profile,
   artistName: "Rosalia Basquiat",
   artistId: 1,

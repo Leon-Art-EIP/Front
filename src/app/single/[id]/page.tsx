@@ -12,6 +12,7 @@ export default async function Page(props: { params: { id: string } }) {
       caracteristics={data.caracteristics}
       price={data.price}
       art={data.art}
+      artId={data.artId}
       profile={data.profile}
       artistName={data.artistName}
       artistId={data.artistId}

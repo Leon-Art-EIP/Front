@@ -1,17 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import Pictures from "./Pictures";
+import { useEffect, useState } from "react";
+import Pictures from "../../components/gallery/Pictures";
 
-export interface IGalleryProps {
-  redirectUrl: string;
-  redirectText: string;
-}
-
-function Gallery(props: IGalleryProps | { title?: boolean }) {
+export default function PicturesWrapper(): JSX.Element {
   const [pictures, setPictures] = useState<string[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const seedData = [
       "https://irisphoto.art/web/image/65508/19-98-31.jpg",
       "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
@@ -59,32 +54,5 @@ function Gallery(props: IGalleryProps | { title?: boolean }) {
     setPictures(seedData);
   }, []);
 
-  return (
-    <div>
-      <div className="flex justify-center">
-        <label className="text-6xl font-extrabold mt-7">
-          <span className="text-[#E11C0A]">Leon</span>
-          <span className="text-[#000000]">'Art</span>
-        </label>
-        {"redirectUrl" in props && (
-          <a href={props.redirectUrl}>
-            <button className="absolute mt-9 right-7 rounded-[30px] shadow-md px-4 py-3 border border-[#b6b6b6] text-xl font-extrabold text-[#E11C0A] cursor-pointer hover:bg-[#fcfcfc] hover:scale-105 transition-transform ease-out">
-              {props.redirectText}
-            </button>
-          </a>
-        )}
-      </div>
-      <div className="flex justify-evenly mt-10">
-        <label className="text-4xl font-bold">Artistes</label>
-        <label className="text-4xl font-bold">Catégories</label>
-        <label className="text-4xl font-bold">Support</label>
-        <label className="text-4xl font-bold">Couleurs</label>
-      </div>
-      <div className="flex justify-center pb-10">
-        <Pictures pictures={pictures} />
-      </div>
-    </div>
-  );
+  return <Pictures pictures={pictures} />;
 }
-
-export default Gallery;
