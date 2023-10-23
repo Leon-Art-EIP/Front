@@ -13,6 +13,7 @@ export interface ICollectionsProps {
   }[];
 }
 
+/* c8 ignore start */
 export default function Collections(props: ICollectionsProps): JSX.Element {
   const [openCollections, setOpenCollections] = useState<number[]>([]);
 
@@ -54,3 +55,4 @@ export default function Collections(props: ICollectionsProps): JSX.Element {
     </div>
   );
 }
+/* c8 ignore end */

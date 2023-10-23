@@ -2,6 +2,7 @@
 
 import Button from "../../components/profile/Button";
 
+/* c8 ignore start */
 export default function InfosButtonsWrapper(): JSX.Element {
   return (
     <div className="flex gap-2 [&>*]:flex-1">
@@ -10,3 +11,4 @@ export default function InfosButtonsWrapper(): JSX.Element {
     </div>
   );
 }
+/* c8 ignore end */

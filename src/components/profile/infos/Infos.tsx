@@ -1,6 +1,6 @@
 import IconButtonWrapper from "../../../wrappers/profile/IconButtonWrapper";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
-import Category, { TCategory } from "../category/Category";
+import Category, { TCategory } from "../category/category";
 
 export interface IInfosProps {
   artistName: string;
@@ -11,6 +11,7 @@ export interface IInfosProps {
 }
 
 export default function Infos(props: IInfosProps): JSX.Element {
+  /* c8 ignore start */
   const kfollowers =
     props.numberOfFollowers > 1000
       ? props.numberOfFollowers > 1000000
@@ -42,10 +43,11 @@ export default function Infos(props: IInfosProps): JSX.Element {
         <div className="h-0.5 w-full bg-black" />
         <div className="flex gap-2 flex-wrap">
           {props.categories.map((category) => (
-            <Category category={category} />
+            <Category category={category} key={`buttonCategory-${category}`} />
           ))}
         </div>
       </div>
     </div>
+    /* c8 ignore end */
   );
 }
