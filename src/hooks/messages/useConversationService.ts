@@ -10,7 +10,7 @@ export interface ConversationService {
   selectConversation: (id: number) => void;
 }
 
-const BACKEND_URL = "http://back-dev.leonart-dev.ovh";
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export function useConversationService() {
   {/* c8 ignore start */}
@@ -23,7 +23,7 @@ export function useConversationService() {
   }, []);
 
   async function fetchConversations() {
-    const res = await fetch(BACKEND_URL + "/api/conversations", {
+    const res = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/conversations", {
       method: "GET",
     });
     const data = await res.json();
@@ -43,7 +43,7 @@ export function useConversationService() {
     }
     if (selected && selected.unreadMessages) {
       selected.unreadMessages = false;
-      // const res = await fetch(BACKEND_URL + "/api/conversation/read", {
+      // const res = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/conversation/read", {
       //   method: "POST",
       //   headers: {
       //     "Content-Type": "application/json",
