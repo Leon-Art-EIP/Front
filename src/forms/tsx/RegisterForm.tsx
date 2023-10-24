@@ -10,7 +10,7 @@ import { useSetRecoilState } from "recoil";
 import { isLoggedIn } from "../../recoil/SetupRecoil";
 import { IError, ISuccess } from "../../interfaces";
 
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const NEXT_PUBLIC_BACKEND_URL = "http://back-dev.leonart-dev.ovh";
 
 export default function RegisterForm(): JSX.Element {
   const methods = useRegisterForm();

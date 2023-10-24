@@ -25,7 +25,7 @@ export interface ISingleArtPageProps {
   link: ElementType<{ children: JSX.Element; href: string }>; // Car Storybook ne supporte pas le Link de Next
 }
 
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const NEXT_PUBLIC_BACKEND_URL = "http://back-dev.leonart-dev.ovh";
 
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   const [isModalOpen, setModalOpen] = useState(false);

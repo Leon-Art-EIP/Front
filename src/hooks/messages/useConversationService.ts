@@ -10,7 +10,7 @@ export interface ConversationService {
   selectConversation: (id: number) => void;
 }
 
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const NEXT_PUBLIC_BACKEND_URL = "http://back-dev.leonart-dev.ovh";
 
 export function useConversationService() {
   {/* c8 ignore start */}

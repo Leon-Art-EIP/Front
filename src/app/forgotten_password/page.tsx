@@ -8,7 +8,7 @@ interface IBaseFormValues {
   email: string;
 }
 
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const NEXT_PUBLIC_BACKEND_URL = "http://back-dev.leonart-dev.ovh";
 
 export default function Page(): JSX.Element {
   const [error, setError] = useState("");
