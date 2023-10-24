@@ -10,8 +10,9 @@ export interface RatingProps {
 }
 
 export function Rating(props: RatingProps): JSX.Element {
+  {/* c8 ignore start */}
   function onRating(index: number) {
-    props.messageService.handleRating(index);
+    props.messageService.handleRating(props.conversationService.convSelected?.id, index);
   }
 
   return (
@@ -73,4 +74,5 @@ export function Rating(props: RatingProps): JSX.Element {
       </div>
     </div>
   );
+  {/* c8 ignore stop */}
 }

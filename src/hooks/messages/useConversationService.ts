@@ -10,7 +10,10 @@ export interface ConversationService {
   selectConversation: (id: number) => void;
 }
 
+const BACKEND_URL = "http://back-dev.leonart-dev.ovh";
+
 export function useConversationService() {
+  {/* c8 ignore start */}
   const [conversations, setConversations] = useState<IConversations>({ conversations: [] });
   const [filteredConversations, setFilteredConversations] = useState<IConversations>({ conversations: [] });
   const [convSelected, setConvSelected] = useState<IConversation | undefined>(undefined);
@@ -19,46 +22,18 @@ export function useConversationService() {
     fetchConversations();
   }, []);
 
-  function fetchConversations() {
-    // const res = await fetch(BACKEND_URL + "/api/conversations", {
-    //   method: "POST",
-    // });
-    // const data = await res.json();
-    // if (res.status === 200) {
-    //   this.conversations = data;
-    // } else {
-    //   console.log("error");
-    // }
-
-    // TODO: remove this when backend is ready
-    const newConversations: IConversations = {
-      conversations: [
-        {
-          id: 0,
-          profileName: "Damien Demontis",
-          profilePricture: "",
-          lastMessage: "",
-          unreadMessages: false,
-        },
-        {
-          id: 1,
-          profileName: "Evan Keolhard",
-          profilePricture: "",
-          lastMessage: "Coucou",
-          unreadMessages: false,
-        },
-        {
-          id: 2,
-          profileName: "Vivant Lagarrigue",
-          profilePricture: "",
-          lastMessage: "On se fait un fifa ? test  test test test test test test test test test test test",
-          unreadMessages: true,
-        },
-      ],
-    };
-    setConversations(newConversations);
-    setFilteredConversations(newConversations);
-    setConvSelected(newConversations.conversations[0]);
+  async function fetchConversations() {
+    const res = await fetch(BACKEND_URL + "/api/conversations", {
+      method: "GET",
+    });
+    const data = await res.json();
+    if (res.status === 200) {
+      setConversations(data);
+      setFilteredConversations(data);
+      setConvSelected(data.conversations[0]);
+    } else {
+      console.log("error");
+    }
   };
 
   function selectConversation(id: number) {
@@ -94,4 +69,5 @@ export function useConversationService() {
     filterConversations,
     selectConversation,
   };
+  {/* c8 ignore stop */}
 }

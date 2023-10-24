@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = "http://back-dev.leonart-dev.ovh";
 const socket = io(BACKEND_URL);
 
 export function useWebSocket() {
