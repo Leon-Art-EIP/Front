@@ -8,6 +8,6 @@ export default {
 
 type Story = StoryObj;
 
-export const regular: Story = {
+export const Regular: Story = {
   args: {},
 };

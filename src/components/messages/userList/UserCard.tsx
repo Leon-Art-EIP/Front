@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { IConversation } from "../../../interfaces/messages/conversations";
+import Image from "next/image";
 
 export interface UserCardProps {
   data: IConversation;
@@ -8,7 +8,9 @@ export interface UserCardProps {
 }
 
 export function UserCard(props: UserCardProps): JSX.Element {
-  {/* c8 ignore start */}
+  {
+    /* c8 ignore start */
+  }
   function onSelectConv() {
     props.handleSelectConv(props.data.id);
   }
@@ -16,13 +18,17 @@ export function UserCard(props: UserCardProps): JSX.Element {
   return (
     <div className="pl-6 sm:pl-10">
       <div
-        className={`relative flex flex-row flex-grow-0 w-full p-2 cursor-pointer rounded-l-full hover:bg-gray-200 ${props.selected ? "bg-white" : ""}`}
+        className={`relative flex flex-row flex-grow-0 w-full p-2 cursor-pointer rounded-l-full hover:bg-gray-200 ${
+          props.selected ? "bg-white" : ""
+        }`}
         onClick={onSelectConv}
       >
         {props.data.unreadMessages && (
           <div className="absolute rounded-full w-3 h-3 bg-[#E11C0A] -left-4 top-1/2 transform -translate-y-1/2" />
         )}
         {props.data.profilePricture ? (
+          /* TODO: use <Image> next component */
+          /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={props.data.profilePricture}
             alt="profilePicture"
@@ -45,5 +51,7 @@ export function UserCard(props: UserCardProps): JSX.Element {
       </div>
     </div>
   );
-  {/* c8 ignore stop */}
+  {
+    /* c8 ignore stop */
+  }
 }

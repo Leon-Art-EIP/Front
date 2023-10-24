@@ -8,7 +8,7 @@ export default {
 
 type Story = StoryObj<ICollectionsProps>;
 
-export const regular: Story = {
+export const Regular: Story = {
   args: {
     collections: [
       {

@@ -11,7 +11,9 @@ export interface OrderProps {
 }
 
 export function Order(props: OrderProps): JSX.Element {
-  {/* c8 ignore start */}
+  {
+    /* c8 ignore start */
+  }
   function onValidateOffer() {}
 
   function onDeclineOffer() {}
@@ -29,6 +31,7 @@ export function Order(props: OrderProps): JSX.Element {
         {props.messageService.orderInfos?.userRole === "buyer" ? "Nouvelle offre" : "Nouvelle commande"}
       </span>
       {props.messageService.orderInfos?.orderPicture ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           className="w-11/12 h-fit max-w-xl rounded-2xl bg-gray-400 object-cover"
           src={props.messageService.orderInfos?.orderPicture}
@@ -70,16 +73,18 @@ export function Order(props: OrderProps): JSX.Element {
               <span className="text-xl font-semibold">Felicitation !</span>
               <Image src={emojiConfettis} alt="conffetis emoji" width={40} height={40} />
             </div>
-            <span className="text-md text-center">
-              L’offre a été acceptée !
-            </span>
+            <span className="text-md text-center">L’offre a été acceptée !</span>
           </div>
           <div className="flex flex-col flex-grow justify-end">
-            <button className="rounded-3xl px-10 py-2 text-white bg-[#e11c0a] hover:bg-[#a5382f]">Oeuvre récéptionnée</button>
+            <button className="rounded-3xl px-10 py-2 text-white bg-[#e11c0a] hover:bg-[#a5382f]">
+              Oeuvre récéptionnée
+            </button>
           </div>
         </>
       )}
     </div>
   );
-  {/* c8 ignore stop */}
+  {
+    /* c8 ignore stop */
+  }
 }

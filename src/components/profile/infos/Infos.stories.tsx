@@ -8,7 +8,7 @@ export default {
 
 type Story = StoryObj<IInfosProps>;
 
-export const regular: Story = {
+export const Regular: Story = {
   args: {
     artistDescription: "Designer graphique",
     artistName: "Lena H",

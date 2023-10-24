@@ -1,5 +1,6 @@
 import QuizzWrapper from "../../wrappers/quizz/QuizzWrapper";
 import { questionsArtiste, questionsBuyer, questionsCommon } from "../../configs/quizz/questions";
+import Image from "next/image";
 
 export default function Page(): JSX.Element {
   return (
@@ -8,7 +9,7 @@ export default function Page(): JSX.Element {
       <div className="h-24 flex items-center justify-between px-8 border-b-[1px] overflow-hidden">
         <div className="text-2xl">
           <span className="text-[#E11C0A]">Leon</span>
-          <span className="text-[#000000]">'Art</span>
+          <span className="text-[#000000]">&apos;Art</span>
         </div>
         <div className="flex text-xl gap-16">
           <span className="text-[#E11C0A]">Accueil</span>
@@ -17,7 +18,10 @@ export default function Page(): JSX.Element {
           <span className="text-[#000000]">Commandes</span>
         </div>
         <div className="text-xl">
+          {/* TODO: use <Image> next component */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
+            alt="quizz-image"
             className="w-14 h-14 rounded-full"
             src="https://toppng.com/uploads/preview/happy-black-person-11531493747ib42obkabb.png"
           />

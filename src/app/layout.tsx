@@ -7,7 +7,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr">
       <body>
         <div className="flex flex-col">
-          <Providers children={children} tabs={tabs} />
+          <Providers tabs={tabs}>{children}</Providers>
         </div>
       </body>
     </html>

@@ -15,7 +15,7 @@ export default {
 
 type Story = StoryObj<ICategoryProps>;
 
-export const regular: Story = {
+export const Regular: Story = {
   args: {
     category: "Art vestimentaire",
   },

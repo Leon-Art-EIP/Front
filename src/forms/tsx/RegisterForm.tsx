@@ -79,7 +79,7 @@ export default function RegisterForm(): JSX.Element {
           <input type="checkbox" name="conscent" />
           <label htmlFor="terms" className="text-sm font-normal w-11/12 text-center">
             En vous enregistrant, vous acceptez les{" "}
-            <a className="font-semibold text-[#E11C0A] cursor-pointer">Conditions d'utilisations</a> et{" "}
+            <a className="font-semibold text-[#E11C0A] cursor-pointer">Conditions d&pos;utilisations</a> et{" "}
             <a className="font-semibold text-[#E11C0A] cursor-pointer">notre Politique de confidentialité</a>
           </label>
         </div>
@@ -91,7 +91,7 @@ export default function RegisterForm(): JSX.Element {
             disabled={disableRegister}
             name="reset"
           >
-            S'inscrire
+            S&pos;inscrire
           </button>
         </div>
       </form>

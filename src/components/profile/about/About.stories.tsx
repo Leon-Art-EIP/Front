@@ -15,7 +15,7 @@ export default {
 
 type Story = StoryObj<IAboutProps>;
 
-export const regular: Story = {
+export const Regular: Story = {
   args: {
     title: "Bienvenue dans l'univers créatif de Léna",
     description:

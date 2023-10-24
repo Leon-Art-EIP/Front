@@ -7,7 +7,7 @@ export default function Page(): JSX.Element {
       <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col items-center justify-center fixed">
         <label className="xl:hidden block text-6xl font-bold">
           <span className="text-[#E11C0A]">Leon</span>
-          <span className="text-[#000000]">'Art</span>
+          <span className="text-[#000000]">&apos;Art</span>
         </label>
         <div className="max-w-xs w-full pt-28 xl:pt-0">
           <label className="xl:text-[43px] text-4xl xl:font-extrabold font-semibold w-full xl:text-center text-start">
@@ -15,9 +15,9 @@ export default function Page(): JSX.Element {
           </label>
           <LoginForm />
           <label className="flex justify-center font-normal">
-            Vous n'avez pas de compte ?{" "}
+            Vous n&apos;avez pas de compte ?{" "}
             <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="register" href="/register">
-              S'enregistrer
+              S&apos;enregistrer
             </a>
           </label>
         </div>

@@ -64,7 +64,7 @@ function Gallery(props: IGalleryProps | { title?: boolean }) {
       <div className="flex justify-center">
         <label className="text-6xl font-extrabold mt-7">
           <span className="text-[#E11C0A]">Leon</span>
-          <span className="text-[#000000]">'Art</span>
+          <span className="text-[#000000]">&apos;Art</span>
         </label>
         {"redirectUrl" in props && (
           <a href={props.redirectUrl}>

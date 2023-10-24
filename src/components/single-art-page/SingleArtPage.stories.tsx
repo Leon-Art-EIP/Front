@@ -9,30 +9,30 @@ export default {
 
 type Story = StoryObj<ISingleArtPageProps>;
 
-export const regular: Story = {
+export const Regular: Story = {
   args: {
     ...fakeData,
     link: "a",
   },
 };
 
-export const liked: Story = {
+export const Liked: Story = {
   args: {
-    ...regular.args,
+    ...Regular.args,
     liked: true,
   },
 };
 
-export const belongingCollection: Story = {
+export const BelongingCollection: Story = {
   args: {
-    ...liked.args,
+    ...Liked.args,
     belongingCollections: [1],
   },
 };
 
-export const belongingCommands: Story = {
+export const BelongingCommands: Story = {
   args: {
-    ...belongingCollection.args,
+    ...BelongingCollection.args,
     belongingCommands: true,
   },
 };
