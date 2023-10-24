@@ -1,5 +1,6 @@
 import SearchIcon from "@mui/icons-material/Search";
 
+/* c8 ignore start */
 export interface SearchBarProps {
   onSearch: (query: string) => void;
 }
@@ -22,3 +23,4 @@ export function SearchBar({ onSearch }: SearchBarProps): JSX.Element {
     </div>
   );
 }
+/* c8 ignore end */

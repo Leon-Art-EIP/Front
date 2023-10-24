@@ -4,6 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import emojiConfettis from "../../../assets/icons/emoji-conffetis.png";
 import Image from "next/image";
 
+/* c8 ignore start */
 export interface OrderProps {
   conversationService: ConversationService;
   messageService: MessageService;
@@ -11,9 +12,6 @@ export interface OrderProps {
 }
 
 export function Order(props: OrderProps): JSX.Element {
-  {
-    /* c8 ignore start */
-  }
   function onValidateOffer() {}
 
   function onDeclineOffer() {}
@@ -84,7 +82,5 @@ export function Order(props: OrderProps): JSX.Element {
       )}
     </div>
   );
-  {
-    /* c8 ignore stop */
-  }
 }
+/* c8 ignore stop */

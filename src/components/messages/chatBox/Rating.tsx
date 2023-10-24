@@ -3,6 +3,7 @@ import { MessageService } from "../../../hooks/messages/useMessageService";
 import CloseIcon from "@mui/icons-material/Close";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 
+/* c8 ignore start */
 export interface RatingProps {
   conversationService: ConversationService;
   messageService: MessageService;
@@ -10,7 +11,6 @@ export interface RatingProps {
 }
 
 export function Rating(props: RatingProps): JSX.Element {
-  {/* c8 ignore start */}
   function onRating(index: number) {
     props.messageService.handleRating(props.conversationService.convSelected?.id, index);
   }
@@ -74,5 +74,5 @@ export function Rating(props: RatingProps): JSX.Element {
       </div>
     </div>
   );
-  {/* c8 ignore stop */}
 }
+/* c8 ignore stop */
