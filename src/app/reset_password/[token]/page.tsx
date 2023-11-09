@@ -20,7 +20,9 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
   const setLoggedIn = useSetRecoilState(isLoggedIn);
   const router = useRouter();
 
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (props.params.token) {
@@ -38,7 +40,7 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
         if (response.status === 200) {
           setLoggedIn(true);
         } else {
-          setError(data.error);
+          setErrorMessage(data.error);
           router.push("/login");
         }
       });
@@ -47,16 +49,17 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
 
   function validateForm({ newPassword, confirmNewPassword }: IBaseFormValues) {
     if (!newPassword || !confirmNewPassword) {
-      setError("Veuillez remplir tous les champs.");
+      setErrorMessage("Veuillez remplir tous les champs.");
       return false;
     } else if (newPassword !== confirmNewPassword) {
-      setError("Les mots de passe ne correspondent pas.");
+      setErrorMessage("Les mots de passe ne correspondent pas.");
       return false;
     } else if (zxcvbn(newPassword).score < 3) {
-      setError("Le mot de passe n'est pas assez puissant.");
+      setErrorMessage("Le mot de passe n'est pas assez puissant.");
       return false;
     }
-    setError("");
+    setErrorMessage("");
+    setSuccessMessage("");
     return true;
   }
 
@@ -68,6 +71,7 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
         confirmNewPassword: event.currentTarget.confirmNewPassword.value,
       })
     ) {
+      setIsLoading(true);
       const response = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/auth/reset-password", {
         method: "POST",
         headers: {
@@ -78,12 +82,13 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
           newPassword: event.currentTarget.newPassword.value,
         }),
       });
+      setIsLoading(false);
       if (response.status === 404) {
-        setError("Le token est invalide.");
+        setErrorMessage("Le token est invalide.");
       } else if (response.status === 422) {
-        setError("Le mot de passe n'est pas assez puissant.");
+        setErrorMessage("Le mot de passe n'est pas assez puissant.");
       } else if (response.status === 200) {
-        setError("");
+        setSuccessMessage("Le mot à été réinitialisé avec succès.");
       }
     }
   }
@@ -101,7 +106,14 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
               <label className="xl:text-5xl text-2xl xl:font-extrabold xl:leading-relaxed font-semibold w-full xl:text-center text-start">
                 Réinitialiser votre mot de passe
               </label>
-              <Form handleSubmit={handleSubmit} error={error} setError={setError}></Form>
+              <Form
+                handleSubmit={handleSubmit}
+                error={errorMessage}
+                setError={setErrorMessage}
+                success={successMessage}
+                setSuccess={setSuccessMessage}
+                isLoading={isLoading}
+              ></Form>
             </div>
           </div>
           <div className="xl:block hidden ml-[33.33%] w-2/3 p-4">
