@@ -10,7 +10,7 @@ import { isLoggedIn } from "../../recoil/SetupRecoil";
 import { IError, ISuccess } from "../../interfaces";
 import { TLoginData } from "../../zod";
 
-const NEXT_PUBLIC_BACKEND_URL = "http://back-dev.leonart-dev.ovh";
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function LoginForm(): JSX.Element {
   const [connectionError, setConnectionError] = useState("");

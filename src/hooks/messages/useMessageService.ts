@@ -14,7 +14,7 @@ export interface MessageService {
   handleRating: (convId: number | undefined, rating: number) => void;
 }
 
-const NEXT_PUBLIC_BACKEND_URL = "http://back-dev.leonart-dev.ovh";
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export function useMessageService(conversationService: ConversationService): MessageService {
   {/* c8 ignore start */}

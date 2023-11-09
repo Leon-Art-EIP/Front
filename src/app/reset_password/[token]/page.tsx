@@ -13,7 +13,7 @@ interface IBaseFormValues {
   confirmNewPassword: string;
 }
 
-const NEXT_PUBLIC_BACKEND_URL = "http://back-dev.leonart-dev.ovh";
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function Page(props: { params: { token: string } }): JSX.Element {
   const [validToken, setValidToken] = useState(true);

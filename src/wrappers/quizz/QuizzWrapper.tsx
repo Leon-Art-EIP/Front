@@ -15,7 +15,7 @@ interface QuizzWrapperProps {
   questionsCommon: Question[];
 }
 
-const NEXT_PUBLIC_BACKEND_URL = "http://back-dev.leonart-dev.ovh";
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   const router = useRouter();
