@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { IMessages, IOrderInfos } from "../../interfaces/messages/messages";
+import { IMessage, IMessages, IOrderInfos } from "../../interfaces/messages/messages";
 import { ConversationService } from "./useConversationService";
 
 export interface MessageService {
@@ -9,6 +9,7 @@ export interface MessageService {
   showRating: boolean;
   fetchMessages: (convId: number | undefined) => void;
   sendMessage: (convId: number | undefined, messageToSend: string) => void;
+  recieveMessage: (messageToAppend: IMessage) => void;
   closeOrder: () => void;
   closeRating: () => void;
   handleRating: (convId: number | undefined, rating: number) => void;
@@ -48,7 +49,9 @@ export function useMessageService(conversationService: ConversationService): Mes
         setShowRating(true);
       }
     } else {
-      console.log("error");
+      setOrderInfos(undefined);
+      setShowOrder(false);
+      setShowRating(false);
     }
     // const newOrderInfos: IOrderInfos = {
     //   orderPicture: "https://www.pictureframesexpress.co.uk/blog/wp-content/uploads/2020/05/7-Tips-to-Finding-Art-Inspiration-Header-1024x649.jpg",
@@ -78,6 +81,7 @@ export function useMessageService(conversationService: ConversationService): Mes
     const data = await res.json();
     if (res.status === 200) {
       setMessages(data);
+      console.log(data)
     } else {
       console.log("error");
     }
@@ -110,8 +114,17 @@ export function useMessageService(conversationService: ConversationService): Mes
     }
   }
 
+  async function recieveMessage(messageToAppend: IMessage) {
+    const newMessages: IMessages = {
+      messages: [
+        ...messages.messages,
+        messageToAppend,
+      ],
+    };
+    setMessages(newMessages);
+  }
+
   async function handleRating(convId: number | undefined, rating: number) {
-    console.log(convId, rating)
     const res = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/conversations/order/rating", {
       method: "POST",
       body: JSON.stringify({
@@ -145,6 +158,7 @@ export function useMessageService(conversationService: ConversationService): Mes
     showRating,
     fetchMessages,
     sendMessage,
+    recieveMessage,
     closeOrder,
     closeRating,
     handleRating,

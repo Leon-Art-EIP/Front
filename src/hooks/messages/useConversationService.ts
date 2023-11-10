@@ -30,7 +30,9 @@ export function useConversationService() {
     if (res.status === 200) {
       setConversations(data);
       setFilteredConversations(data);
-      setConvSelected(data.conversations[0]);
+      if (!convSelected && data.conversations[0]) {
+        setConvSelected(data.conversations[0]);
+      }
     } else {
       console.log("error");
     }

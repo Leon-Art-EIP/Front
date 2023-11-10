@@ -17,7 +17,6 @@ export function ChatInput(props: ChatInputProps): JSX.Element {
 
     if (messageToSend === "") return;
 
-    console.log("sending message", messageToSend);
     props.messageService.sendMessage(props.conversationService.convSelected?.id, messageToSend);
     setMessageToSend("");
   }
