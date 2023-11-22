@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "../components/link/link";
 import SingleArtPage from "../components/single-art-page/SingleArtPage";
 import { ISingleArtPageProps } from "../components/single-art-page/SingleArtPage";
-import Link from "./link";
 
 export interface ISingleArtPageWrapperProps extends Omit<ISingleArtPageProps, "link"> {}
 

@@ -10,7 +10,7 @@ export default function Heading(): JSX.Element {
       <div></div>
       <div></div>
       <div></div>
-      <div className="z-10 h-full flex items-center justify-center">
+      <div className="z-10 h-full flex items-center justify-center p-5">
         <ProfilePicture src={profilePicture} />
       </div>
     </div>

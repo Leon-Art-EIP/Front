@@ -5,5 +5,5 @@ export interface IProfilePictureProps {
 }
 
 export default function ProfilePicture(props: IProfilePictureProps): JSX.Element {
-  return <Image className="w-52 h-52 rounded-full border-white border-4" alt="profilePicture" src={props.src} />;
+  return <Image className="h-full rounded-full border-white border-4" alt="profilePicture" src={props.src} />;
 }
