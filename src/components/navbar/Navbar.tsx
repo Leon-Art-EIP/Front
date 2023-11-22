@@ -6,14 +6,14 @@ import ProfilePicture from "../profile/profilePicture/ProfilePicture";
 
 export interface INavbarProps {
   tabs: ITab[];
-  selectedTabName: string;
+  selectedTabHref: string;
   link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
 export default function Navbar({ link: Link, ...props }: INavbarProps) {
   return (
     <div className="flex h-24 p-2 bg-white w-full gap-4 border-b border-b-secondaryGrey">
-      <div className="items-center justify-start flex px-2 h-full font-bold text-4xl">
+      <div className="items-center justify-start md:flex hidden px-2 h-full font-bold text-4xl">
         <Link href="/">
           <TextLogo />
         </Link>
@@ -23,7 +23,7 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
           (tab) =>
             !tab.hidden && (
               <Link key={`${tab.name}-${tab.href}`} href={tab.href}>
-                <div style={{ color: `${props.selectedTabName === tab.href ? "red" : "black"}` }}>{tab.name}</div>
+                <div style={{ color: `${props.selectedTabHref === tab.href ? "red" : "black"}` }}>{tab.name}</div>
               </Link>
             )
         )}

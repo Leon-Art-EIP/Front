@@ -19,7 +19,7 @@ type Story = StoryObj<INavbarProps>;
 export const SelectHome: Story = {
   args: {
     tabs,
-    selectedTabName: "Accueil",
+    selectedTabHref: "/",
     link: "a",
   },
 };
@@ -27,7 +27,7 @@ export const SelectHome: Story = {
 export const SelectExplorer: Story = {
   args: {
     tabs,
-    selectedTabName: "Explorer",
+    selectedTabHref: "/explore",
     link: "a",
   },
 };
@@ -35,7 +35,7 @@ export const SelectExplorer: Story = {
 export const SelectMessages: Story = {
   args: {
     tabs,
-    selectedTabName: "Messagerie",
+    selectedTabHref: "/messages",
     link: "a",
   },
 };
@@ -43,7 +43,15 @@ export const SelectMessages: Story = {
 export const SelectPurchase: Story = {
   args: {
     tabs,
-    selectedTabName: "Commandes",
+    selectedTabHref: "/purchase",
+    link: "a",
+  },
+};
+
+export const SelectProfile: Story = {
+  args: {
+    tabs,
+    selectedTabHref: "/profile",
     link: "a",
   },
 };

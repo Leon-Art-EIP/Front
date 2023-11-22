@@ -27,5 +27,5 @@ export default function Header(props: IHeaderProps): JSX.Element {
     return <></>;
   }
 
-  return <Navbar tabs={props.tabs} selectedTabName={pathname} link={Link} />;
+  return <Navbar tabs={props.tabs} selectedTabHref={pathname} link={Link} />;
 }

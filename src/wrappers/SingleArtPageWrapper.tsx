@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "../components/link/link";
+import Link from "../components/link/Link";
 import SingleArtPage from "../components/single-art-page/SingleArtPage";
 import { ISingleArtPageProps } from "../components/single-art-page/SingleArtPage";
 
