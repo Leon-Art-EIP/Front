@@ -1,5 +1,4 @@
 import SingleArtPage from "../../../components/single-art-page/SingleArtPage";
-import Link from "../../../wrappers/link";
 import fakeData from "../../../components/single-art-page/fakeData";
 import SingleArtPageWrapper from "../../../wrappers/SingleArtPageWrapper";
 
