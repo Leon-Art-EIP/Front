@@ -6,9 +6,11 @@ import { useState } from "react";
 import useLoginForm from "../methods/useLoginForm";
 import { useRouter } from "next/navigation";
 import { useSetRecoilState } from "recoil";
-import { isLoggedIn } from "../../recoil/SetupRecoil";
-import { IError, ISuccess } from "../../interfaces";
+import { connectedUser } from "../../recoil/SetupRecoil";
+import { IError } from "../../interfaces";
 import { TLoginData } from "../../zod";
+import { IConnectedUser } from "../../interfaces/user/user";
+import { MyFetch } from "../../tools/myFetch";
 
 const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -16,29 +18,26 @@ export default function LoginForm(): JSX.Element {
   const [connectionError, setConnectionError] = useState("");
   const methods = useLoginForm();
   const router = useRouter();
-  const setLoggedIn = useSetRecoilState(isLoggedIn);
+  const setConnectedUser = useSetRecoilState(connectedUser);
   const [disableLogin, setDisableLogin] = useState(false);
 
   const handleSubmit = async (formData: TLoginData) => {
     try {
-      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
+      const response = await MyFetch({
+        route: "/api/auth/login",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           email: formData.email,
           password: formData.password,
         }),
       });
 
-      const data = (await response.json()) as ISuccess | IError;
+      const data = (await response.json()) as IConnectedUser | IError;
 
       if ("token" in data) {
-        const token = data.token;
-        console.log("token", token);
-        localStorage.setItem("token", token);
-        setLoggedIn(true);
+        console.log("data", data);
+        localStorage.setItem("user", JSON.stringify(data));
+        setConnectedUser(data);
         router.push("/");
       } else {
         setConnectionError("Erreur lors de la connexion.");

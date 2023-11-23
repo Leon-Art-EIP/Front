@@ -7,8 +7,9 @@ import { TRegisterData } from "../../zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { isLoggedIn } from "../../recoil/SetupRecoil";
-import { IError, ISuccess } from "../../interfaces";
+import { connectedUser } from "../../recoil/SetupRecoil";
+import { IError } from "../../interfaces";
+import { IConnectedUser } from "../../interfaces/user/user";
 
 const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -16,7 +17,7 @@ export default function RegisterForm(): JSX.Element {
   const methods = useRegisterForm();
   const router = useRouter();
   const [disableRegister, setDisableRegister] = useState(false);
-  const setLoggedIn = useSetRecoilState(isLoggedIn);
+  const setConnectedUser = useSetRecoilState(connectedUser);
   const [connectionError, setConnectionError] = useState("");
 
   const handleSubmit = async (formData: TRegisterData) => {
@@ -33,13 +34,12 @@ export default function RegisterForm(): JSX.Element {
         }),
       });
 
-      const data = (await response.json()) as ISuccess | IError;
+      const data = (await response.json()) as IConnectedUser | IError;
 
       if ("token" in data) {
-        const token = data.token;
-        console.log("token", token);
-        localStorage.setItem("token", token);
-        setLoggedIn(true);
+        console.log("data", data);
+        localStorage.setItem("user", JSON.stringify(data));
+        setConnectedUser(data);
         router.push("/");
       } else {
         setConnectionError(data.errors[0].msg);

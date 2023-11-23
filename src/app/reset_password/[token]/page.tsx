@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import Gallery from "../../../components/gallery";
-import { isLoggedIn } from "../../../recoil/SetupRecoil";
+import { connectedUser } from "../../../recoil/SetupRecoil";
 import zxcvbn from "zxcvbn";
 import Form from "./form";
 
@@ -17,7 +17,7 @@ const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function Page(props: { params: { token: string } }): JSX.Element {
   const [validToken, setValidToken] = useState(true);
-  const setLoggedIn = useSetRecoilState(isLoggedIn);
+  const setConnectedUser = useSetRecoilState(connectedUser);
   const router = useRouter();
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -38,14 +38,15 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
       }).then(async (response) => {
         const data = await response.json();
         if (response.status === 200) {
-          setLoggedIn(true);
+          // TODO: wait for backend to return user data, then setConnectedUser as response data
+          // setConnectedUser(???);
         } else {
           setErrorMessage(data.error);
           router.push("/login");
         }
       });
     }
-  }, [props.params.token, router, setLoggedIn]);
+  }, [props.params.token, router]);
 
   function validateForm({ newPassword, confirmNewPassword }: IBaseFormValues) {
     if (!newPassword || !confirmNewPassword) {

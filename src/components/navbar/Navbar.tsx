@@ -3,11 +3,13 @@ import { ITab } from "../../interfaces";
 import TextLogo from "../text-logo/TextLogo";
 import profilePicture from "../../assets/profilePicture.png";
 import ProfilePicture from "../profile/profilePicture/ProfilePicture";
+import { IUser } from "../../interfaces/user/user";
 
 export interface INavbarProps {
   tabs: ITab[];
   selectedTabHref: string;
   link: ElementType<{ children: JSX.Element; href: string }>;
+  user: IUser;
 }
 
 export default function Navbar({ link: Link, ...props }: INavbarProps) {
@@ -29,7 +31,7 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
         )}
       </div>
       <div className="items-center justify-end flex px-2">
-        <Link href="/profile">
+        <Link href={`/profile/${props.user.id}`}>
           <div className="h-16 w-16">
             <ProfilePicture src={profilePicture} />
           </div>

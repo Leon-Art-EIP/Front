@@ -5,10 +5,6 @@ export interface ITab {
   hidden?: boolean;
 }
 
-export type ISuccess = {
-  token: string;
-};
-
 export type IError = {
   errors: {
     type: string;
