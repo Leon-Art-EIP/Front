@@ -13,6 +13,7 @@ export const ButtonMock: Story = {
   args: {
     children: 'Button',
     onClick: () => alert('Button clicked'),
-    color: 'danger',
+    color: 'primary',
+    type: "button",
   },
 };
