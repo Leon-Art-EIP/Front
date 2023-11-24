@@ -1,3 +1,6 @@
+"use client";
+
+import { IConnectedUser } from "../../../interfaces/user/user";
 import IconButtonWrapper from "../../../wrappers/profile/IconButtonWrapper";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
 import Category, { TCategory } from "../category/Category";
@@ -11,6 +14,7 @@ export interface IInfosProps {
 }
 
 export default function Infos(props: IInfosProps): JSX.Element {
+  const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
   /* c8 ignore start */
   const kfollowers =
     props.numberOfFollowers > 1000
@@ -22,7 +26,7 @@ export default function Infos(props: IInfosProps): JSX.Element {
   return (
     <div className="flex items-start w-3/4 h-full bg-gradient-to-b from-secondaryGrey">
       <div className="p-4 inline-flex flex-col gap-3 justify-center">
-        <div className="font-medium text-2xl text-center">{props.artistName}</div>
+        <div className="font-medium text-2xl text-center">{user.user.username ?? "X"}</div>
         <div className="inline-flex justify-center">
           <div className="bg-[#4E4E4E] rounded-2xl font-semibold px-4 py-1 text-sm text-center text-white">
             {props.artistDescription}

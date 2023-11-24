@@ -6,6 +6,7 @@ import SingleArtPageCard from "./card/SingleArtPageCard";
 import { Modal } from "../lib/lib";
 import SaveGallery from "./artwork/SaveGallery";
 import { TCollection } from "./artwork/Collections";
+import { myFetch } from "../../tools/myFetch";
 
 export interface ISingleArtPageProps {
   description: string;
@@ -24,8 +25,6 @@ export interface ISingleArtPageProps {
   belongingCommands: boolean;
   link: ElementType<{ children: JSX.Element; href: string }>; // Car Storybook ne supporte pas le Link de Next
 }
-
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -50,17 +49,9 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   };
 
   const fetchLikePublication = async (id: number) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.log("No token found");
-      return;
-    }
-    const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/art-publication/like/${id}`, {
+    const response = await myFetch({
+      route: `/api/art-publication/like/${id}`,
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
     });
     if (response.ok) {
       console.log("Successful like request");

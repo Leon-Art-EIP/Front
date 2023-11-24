@@ -3,7 +3,7 @@ import { start } from "../start";
 
 describe("parametersPageContent.cy.ts", () => {
   it("should test parametersPage", () => {
-    start("/parameters");
+    start("/settings");
     find("Page de paramètres");
   });
 });

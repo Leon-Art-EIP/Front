@@ -2,11 +2,8 @@ export interface ITab {
   name: string;
   href: string;
   loggedIn: boolean;
+  hidden?: boolean;
 }
-
-export type ISuccess = {
-  token: string;
-};
 
 export type IError = {
   errors: {

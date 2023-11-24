@@ -1,6 +1,6 @@
 import { SvgIconProps } from "@mui/material";
 
-type TTailwindCustomColor = "grey" | "black";
+type TTailwindCustomColor = "grey" | "black" | "white";
 
 interface IconButtonProps {
   text?: string;
@@ -12,11 +12,18 @@ interface IconButtonProps {
 }
 
 export default function IconButton({ icon: Icon, ...props }: IconButtonProps): JSX.Element {
+  let backgroundColor = "#ffffff";
+  if (props.backgroundColor === "grey") {
+    backgroundColor = "#F3F3F3";
+  } else if (props.backgroundColor === "black") {
+    backgroundColor = "#3E3E3E";
+  }
+
   return (
     <button
       id={props.id}
       className="rounded-full flex gap-4 px-6 py-2.5 text-white"
-      style={{ background: `${props.backgroundColor === "black" ? "#3E3E3E" : "#F3F3F3"}` }}
+      style={{ backgroundColor }}
       onClick={props.onClick}
     >
       <Icon style={{ color: props.color }} />

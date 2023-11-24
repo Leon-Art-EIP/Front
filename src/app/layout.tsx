@@ -1,4 +1,4 @@
-import Providers from "../components/providers";
+import Session from "../components/session";
 import "./globals.css";
 import tabs from "./tabs";
 
@@ -7,7 +7,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr">
       <body>
         <div className="flex flex-col">
-          <Providers tabs={tabs}>{children}</Providers>
+          <Session tabs={tabs}>{children}</Session>
         </div>
       </body>
     </html>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import IconButton from "./IconButton";
 import { BookmarkBorder, Favorite, FavoriteBorder } from "@mui/icons-material";
-import { ElementType, useState } from "react";
+import { ElementType } from "react";
 
 interface ISingleArtPageArtworkProps {
   art: string;
