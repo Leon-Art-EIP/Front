@@ -17,13 +17,13 @@ const Template: (args: ModalProps) => JSX.Element = (args) => {
 
   return (
     <>
-      <Button color="info" onClick={openModal}>
+      <Button color="secondary" onClick={openModal} type={"button"}>
         Open Modal
       </Button>
       <Modal {...args} isOpen={isOpen} handleClose={closeModal}>
         <h2>Modal Content</h2>
         <p className="m-10">This is an example of a generic modal in Storybook.</p>
-        <Button color="success" onClick={closeModal}>
+        <Button color="primary" onClick={closeModal} type={"button"}>
           Close Modal
         </Button>
       </Modal>
