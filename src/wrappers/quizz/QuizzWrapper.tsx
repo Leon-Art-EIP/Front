@@ -27,7 +27,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
       setQuestionIndex(questionIndex + 1);
     } else if (questionIndex === questions.length - 1) {
       onSendResult();
-      router.push("/home");
+      router.push("/");
     }
   }
 
