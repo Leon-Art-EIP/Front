@@ -18,7 +18,7 @@ const Template = (args: NotificationToastProps) => {
 
   return (
     <>
-      <Button color='success' onClick={handleClick}>Show Success Notification</Button>
+      <Button color='primary' onClick={handleClick} type={"button"}>Show Success Notification</Button>
       {show && <NotificationToast {...args} type="success" />}
     </>
   );
@@ -34,7 +34,7 @@ const ErrorTemplate = (args: NotificationToastProps) => {
 
   return (
     <>
-      <Button color='danger' onClick={handleClick}>Show Error Notification</Button>
+      <Button color='primary' onClick={handleClick} type={"button"}>Show Error Notification</Button>
       {show && <NotificationToast {...args} type="error" />}
     </>
   );
@@ -50,7 +50,7 @@ const InfoTemplate = (args: NotificationToastProps) => {
 
   return (
     <>
-      <Button color='info' onClick={handleClick}>Show Info Notification</Button>
+      <Button color='primary' onClick={handleClick} type={"button"}>Show Info Notification</Button>
       {show && <NotificationToast {...args} type="info" />}
     </>
   );
