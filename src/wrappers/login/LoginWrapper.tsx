@@ -14,10 +14,18 @@ export default function LoginWrapper() {
             Se connecter
           </label>
           <LoginForm />
-          <label className="flex justify-center font-normal">
-            Vous n&apos;avez pas de compte ?{" "}
+          <label className="flex flex-col justify-center items-center font-normal pt-2">
+            Vous n{"'"}avez pas de compte ?
             <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="register" href="/register">
-              S&apos;enregistrer
+              S{"'"}enregistrer
+            </a>
+          </label>
+          <div className="flex justify-center w-full pt-2">
+            <div className="h-1 w-5/6 bg-gray-300 rounded-full"></div>
+          </div>
+          <label className="flex flex-col justify-center items-center font-normal pt-2">
+            <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="forgotten_password" href="/forgotten_password">
+              Mot de passe oublié ?
             </a>
           </label>
         </div>

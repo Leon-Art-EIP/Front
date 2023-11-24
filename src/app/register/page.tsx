@@ -14,8 +14,8 @@ export default function Page(): JSX.Element {
             S&apos;enregistrer
           </label>
           <RegisterForm />
-          <label className="flex justify-center font-normal">
-            Vous avez déjà un compte ?{" "}
+          <label className="flex flex-col justify-center items-center font-normal pt-2">
+            Vous avez déjà un compte ?
             <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="login" href="/login">
               Se connecter
             </a>

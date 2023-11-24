@@ -64,6 +64,30 @@ const tabs: ITab[] = [
     navbar: false,
     verticalNavbar: false,
     header: false,
+  },
+  {
+    name: "Quizz",
+    href: "/quizz",
+    loggedIn: true,
+    navbar: false,
+    verticalNavbar: false,
+    header: true,
+  },
+  {
+    name: "Mot de passe oublié",
+    href: "/forgotten_password",
+    loggedIn: false,
+    navbar: false,
+    verticalNavbar: false,
+    header: false,
+  },
+  {
+    name: "Réinitialiser le mot de passe",
+    href: "/reset_password",
+    loggedIn: false,
+    navbar: false,
+    verticalNavbar: false,
+    header: false,
   }
 ];
 
