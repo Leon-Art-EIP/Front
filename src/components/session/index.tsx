@@ -23,11 +23,11 @@ export default function Session(props: ISessionProps): JSX.Element | null {
   })?.loggedIn;
 
   useEffect(() => {
+    setLoading(false);
     const user = localStorage.getItem("user");
     if (user) {
       setUser(JSON.parse(user));
     }
-    setLoading(false);
   }, []);
 
   if (loading) {
