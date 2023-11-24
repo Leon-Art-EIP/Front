@@ -34,7 +34,6 @@ export default function RegisterForm(): JSX.Element {
         console.log("data", data);
         localStorage.setItem("user", JSON.stringify(data));
         router.push("/");
-        location.reload();
       } else {
         setConnectionError(data.errors[0].msg);
       }

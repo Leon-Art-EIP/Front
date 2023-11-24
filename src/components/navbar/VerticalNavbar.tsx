@@ -21,16 +21,19 @@ export default function VerticalNavbar({ link: Link, ...props }: INavbarProps): 
       {open && (
         <div className="absolute z-10 flex bg-white mt-[95px] rounded-b-xl">
           <div className="flex flex-col justify-center items-center gap-5 py-2">
-            {props.tabs.map((tab) => (
-              <Link
-                key={`${tab.name}-${tab.href}`}
-                href={`${tab.href == "/profile" ? `/profile/${props.user.id}` : tab.href}`}
-              >
-                <div style={{ color: `${props.selectedTabHref === tab.href ? "red" : "black"}` }} className="px-2">
-                  {tab.name}
-                </div>
-              </Link>
-            ))}
+            {props.tabs.map(
+              (tab) =>
+                tab.verticalNavbar && (
+                  <Link
+                    key={`${tab.name}-${tab.href}`}
+                    href={`${tab.href == "/profile" ? `/profile/${props.user.id}` : tab.href}`}
+                  >
+                    <div style={{ color: `${props.selectedTabHref === tab.href ? "red" : "black"}` }} className="px-2">
+                      {tab.name}
+                    </div>
+                  </Link>
+                )
+            )}
           </div>
         </div>
       )}

@@ -24,7 +24,7 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
       <div className="flex flex-1 justify-around items-center align-middle gap-2 px-2">
         {props.tabs.map(
           (tab) =>
-            !tab.hidden && (
+            tab.navbar && (
               <Link key={`${tab.name}-${tab.href}`} href={tab.href}>
                 <div style={{ color: `${props.selectedTabHref === tab.href ? "red" : "black"}` }}>{tab.name}</div>
               </Link>

@@ -2,7 +2,9 @@ export interface ITab {
   name: string;
   href: string;
   loggedIn: boolean;
-  hidden?: boolean;
+  navbar: boolean;
+  verticalNavbar: boolean;
+  header: boolean;
 }
 
 export type IError = {

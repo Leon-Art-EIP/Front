@@ -33,7 +33,6 @@ export default function LoginForm(): JSX.Element {
         console.log("data", data);
         localStorage.setItem("user", JSON.stringify(data));
         router.push("/");
-        location.reload();
       } else {
         setConnectionError("Erreur lors de la connexion.");
       }
