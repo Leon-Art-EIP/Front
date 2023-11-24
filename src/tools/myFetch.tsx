@@ -1,5 +1,4 @@
-import { useSetRecoilState } from "recoil";
-import { connectedUser, notLoggedInUserData } from "../recoil/SetupRecoil";
+import { IConnectedUser } from "../interfaces/user/user";
 
 const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -11,19 +10,20 @@ interface IMyFetch {
   body?: string;
 }
 
-export async function MyFetch({ route, method, body }: IMyFetch) {
-  const setConnectedUser = useSetRecoilState(connectedUser);
+export async function myFetch({ route, method, body }: IMyFetch) {
+  const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const auth = user.token ? `Bearer ${user.token}` : "";
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}${route}`, {
     method,
     headers: {
       "Content-Type": "application/json",
+      Authorization: auth,
     },
     body,
   });
 
   if (response.status === 404) {
-    setConnectedUser(notLoggedInUserData);
     localStorage.removeItem("user");
   }
   return response;

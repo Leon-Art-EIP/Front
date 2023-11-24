@@ -4,29 +4,23 @@ import { FormProvider } from "react-hook-form";
 import Input from "../../components/form/Input";
 import useRegisterForm from "../methods/useRegisterForm";
 import { TRegisterData } from "../../zod";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { connectedUser } from "../../recoil/SetupRecoil";
 import { IError } from "../../interfaces";
 import { IConnectedUser } from "../../interfaces/user/user";
-
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+import { myFetch } from "../../tools/myFetch";
 
 export default function RegisterForm(): JSX.Element {
   const methods = useRegisterForm();
   const router = useRouter();
   const [disableRegister, setDisableRegister] = useState(false);
-  const setConnectedUser = useSetRecoilState(connectedUser);
   const [connectionError, setConnectionError] = useState("");
 
   const handleSubmit = async (formData: TRegisterData) => {
     try {
-      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/auth/signup`, {
+      const response = await myFetch({
+        route: "/api/auth/signup",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           username: formData.username,
           email: formData.email,
@@ -39,8 +33,8 @@ export default function RegisterForm(): JSX.Element {
       if ("token" in data) {
         console.log("data", data);
         localStorage.setItem("user", JSON.stringify(data));
-        setConnectedUser(data);
         router.push("/");
+        location.reload();
       } else {
         setConnectionError(data.errors[0].msg);
       }

@@ -1,6 +1,6 @@
 import { Test } from "../components/test";
 
-export default function Home(): JSX.Element {
+export default function Page(): JSX.Element {
   let n = 0;
   let arr = ["test"];
 

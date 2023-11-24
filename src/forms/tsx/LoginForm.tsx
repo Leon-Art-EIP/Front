@@ -4,26 +4,21 @@ import { FormProvider, useController } from "react-hook-form";
 import Input from "../../components/form/Input";
 import { useState } from "react";
 import useLoginForm from "../methods/useLoginForm";
-import { useRouter } from "next/navigation";
-import { useSetRecoilState } from "recoil";
-import { connectedUser } from "../../recoil/SetupRecoil";
+import { usePathname, useRouter } from "next/navigation";
 import { IError } from "../../interfaces";
 import { TLoginData } from "../../zod";
 import { IConnectedUser } from "../../interfaces/user/user";
-import { MyFetch } from "../../tools/myFetch";
-
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+import { myFetch } from "../../tools/myFetch";
 
 export default function LoginForm(): JSX.Element {
   const [connectionError, setConnectionError] = useState("");
   const methods = useLoginForm();
   const router = useRouter();
-  const setConnectedUser = useSetRecoilState(connectedUser);
   const [disableLogin, setDisableLogin] = useState(false);
 
   const handleSubmit = async (formData: TLoginData) => {
     try {
-      const response = await MyFetch({
+      const response = await myFetch({
         route: "/api/auth/login",
         method: "POST",
         body: JSON.stringify({
@@ -37,13 +32,14 @@ export default function LoginForm(): JSX.Element {
       if ("token" in data) {
         console.log("data", data);
         localStorage.setItem("user", JSON.stringify(data));
-        setConnectedUser(data);
         router.push("/");
+        location.reload();
       } else {
         setConnectionError("Erreur lors de la connexion.");
       }
       methods.reset();
     } catch (error) {
+      console.error(error);
       setConnectionError("Une erreur est survenue, veuillez réessayer plus tard");
     }
   };

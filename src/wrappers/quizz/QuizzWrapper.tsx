@@ -8,14 +8,13 @@ import QuizzNavigation from "../../components/quizz/QuizzNavigation";
 import QuizzStarter from "../../components/quizz/QuizzStarter";
 import { QuizzResultDTO } from "../../DTOs/quizz/DTO";
 import { Question } from "../../configs/quizz/questions";
+import { myFetch } from "../../tools/myFetch";
 
 interface QuizzWrapperProps {
   questionsArtiste: Question[];
   questionsBuyer: Question[];
   questionsCommon: Question[];
 }
-
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   const router = useRouter();
@@ -28,7 +27,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
       setQuestionIndex(questionIndex + 1);
     } else if (questionIndex === questions.length - 1) {
       onSendResult();
-      router.push("/");
+      router.push("/home");
     }
   }
 
@@ -124,7 +123,8 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
 
   async function onSendResult() {
     const result = fillDTOResult(questions);
-    const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/quizz/submit`, {
+    const res = await myFetch({
+      route: "/api/quizz/submit",
       method: "POST",
       body: JSON.stringify(result),
     });

@@ -3,12 +3,11 @@
 import React, { useState } from "react";
 import Gallery from "../../components/gallery";
 import Form from "./form";
+import { myFetch } from "../../tools/myFetch";
 
 interface IBaseFormValues {
   email: string;
 }
-
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function Page(): JSX.Element {
   const [errorMessage, setErrorMessage] = useState("");
@@ -38,11 +37,9 @@ export default function Page(): JSX.Element {
       })
     ) {
       setIsLoading(true);
-      const response = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/auth/request-reset", {
+      const response = await myFetch({
+        route: "/api/auth/request-reset",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           email: event.currentTarget.email.value,
         }),

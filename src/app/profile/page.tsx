@@ -1,16 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useSetRecoilState } from "recoil";
-import { connectedUser, notLoggedInUserData } from "../../recoil/SetupRecoil";
 
 export default function Page(): JSX.Element {
   const router = useRouter();
-  const setConnectedUser = useSetRecoilState(connectedUser);
 
   const handleOnClick = () => {
     localStorage.removeItem("user");
-    setConnectedUser(notLoggedInUserData);
     router.push("/login");
   };
 
