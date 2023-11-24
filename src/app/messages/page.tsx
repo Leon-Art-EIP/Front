@@ -1,3 +1,7 @@
+import MessagesWrapper from "../../wrappers/messages/MessagesWrapper";
+
 export default function Page(): JSX.Element {
-  return <div>Page de messages</div>;
+  return (
+    <MessagesWrapper></MessagesWrapper>
+  );
 }

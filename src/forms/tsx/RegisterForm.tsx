@@ -4,26 +4,23 @@ import { FormProvider } from "react-hook-form";
 import Input from "../../components/form/Input";
 import useRegisterForm from "../methods/useRegisterForm";
 import { TRegisterData } from "../../zod";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { isLoggedIn } from "../../recoil/SetupRecoil";
-import { IError, ISuccess } from "../../interfaces";
+import { IError } from "../../interfaces";
+import { IConnectedUser } from "../../interfaces/user/user";
+import { myFetch } from "../../tools/myFetch";
 
 export default function RegisterForm(): JSX.Element {
   const methods = useRegisterForm();
   const router = useRouter();
   const [disableRegister, setDisableRegister] = useState(false);
-  const setLoggedIn = useSetRecoilState(isLoggedIn);
   const [connectionError, setConnectionError] = useState("");
 
   const handleSubmit = async (formData: TRegisterData) => {
     try {
-      const response = await fetch("http://back-dev.leonart-dev.ovh/api/auth/signup", {
+      const response = await myFetch({
+        route: "/api/auth/signup",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           username: formData.username,
           email: formData.email,
@@ -31,14 +28,13 @@ export default function RegisterForm(): JSX.Element {
         }),
       });
 
-      const data = (await response.json()) as ISuccess | IError;
+      const data = (await response.json()) as IConnectedUser | IError;
 
       if ("token" in data) {
-        const token = data.token;
-        console.log("token", token);
-        localStorage.setItem("token", token);
-        setLoggedIn(true);
+        console.log("data", data);
+        localStorage.setItem("user", JSON.stringify(data));
         router.push("/");
+        location.reload();
       } else {
         setConnectionError(data.errors[0].msg);
       }
@@ -77,7 +73,7 @@ export default function RegisterForm(): JSX.Element {
           <input type="checkbox" name="conscent" />
           <label htmlFor="terms" className="text-sm font-normal w-11/12 text-center">
             En vous enregistrant, vous acceptez les{" "}
-            <a className="font-semibold text-[#E11C0A] cursor-pointer">Conditions d'utilisations</a> et{" "}
+            <a className="font-semibold text-[#E11C0A] cursor-pointer">Conditions d&pos;utilisations</a> et{" "}
             <a className="font-semibold text-[#E11C0A] cursor-pointer">notre Politique de confidentialité</a>
           </label>
         </div>
@@ -89,7 +85,7 @@ export default function RegisterForm(): JSX.Element {
             disabled={disableRegister}
             name="reset"
           >
-            S'inscrire
+            S&pos;inscrire
           </button>
         </div>
       </form>

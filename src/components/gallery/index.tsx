@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import Pictures from "./Pictures";
 
 export interface IGalleryProps {
   redirectUrl: string;
   redirectText: string;
 }
 
-function Gallery(props: IGalleryProps | {}) {
+function Gallery(props: IGalleryProps | { title?: boolean }) {
   const [pictures, setPictures] = useState<string[]>([]);
 
   React.useEffect(() => {
@@ -63,7 +64,7 @@ function Gallery(props: IGalleryProps | {}) {
       <div className="flex justify-center">
         <label className="text-6xl font-extrabold mt-7">
           <span className="text-[#E11C0A]">Leon</span>
-          <span className="text-[#000000]">'Art</span>
+          <span className="text-[#000000]">&apos;Art</span>
         </label>
         {"redirectUrl" in props && (
           <a href={props.redirectUrl}>
@@ -80,13 +81,7 @@ function Gallery(props: IGalleryProps | {}) {
         <label className="text-4xl font-bold">Couleurs</label>
       </div>
       <div className="flex justify-center pb-10">
-        <div className="grid grid-cols-4 gap-8 place-items-center justify-center mt-8 mx-4">
-          {pictures.map((url, index) => (
-            <div key={index} className="w-55 h-55 rounded-xl overflow-hidden bg-slate-300">
-              <img src={url} alt="" className="w-full h-full object-cover" />
-            </div>
-          ))}
-        </div>
+        <Pictures pictures={pictures} />
       </div>
     </div>
   );

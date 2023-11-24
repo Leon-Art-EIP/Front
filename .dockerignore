@@ -1,0 +1,21 @@
+# Exclude node_modules directory
+node_modules
+
+# Exclude log files
+*.log
+
+# Exclude editor files
+.vscode/
+.idea/
+
+# Exclude git files
+.git/
+.gitignore
+
+# Exclude Docker files
+Dockerfile
+docker-compose.yml
+
+# Exclude OS files
+Thumbs.db
+.DS_Store

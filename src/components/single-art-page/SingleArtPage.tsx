@@ -6,12 +6,14 @@ import SingleArtPageCard from "./card/SingleArtPageCard";
 import { Modal } from "../lib/lib";
 import SaveGallery from "./artwork/SaveGallery";
 import { TCollection } from "./artwork/Collections";
+import { myFetch } from "../../tools/myFetch";
 
 export interface ISingleArtPageProps {
   description: string;
   caracteristics: string;
   price: number;
   art: string;
+  artId: number;
   profile: string;
   artistName: string;
   artistId: number;
@@ -46,12 +48,20 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
     setModalOpen(false);
   };
 
-  const heartOnClick = () => {
-    if (isLiked) {
-      console.log("J'ai enlevé mon J'aime (envoyer -1 j'aime dans le back)"); // TODO
+  const fetchLikePublication = async (id: number) => {
+    const response = await myFetch({
+      route: `/api/art-publication/like/${id}`,
+      method: "POST",
+    });
+    if (response.ok) {
+      console.log("Successful like request");
     } else {
-      console.log("J'ai aimé cette publication (envoyer +1 j'aime dans le back)"); // TODO
+      console.log("Failed with like request");
     }
+  };
+
+  const heartOnClick = () => {
+    fetchLikePublication(props.artId);
     setLiked(!isLiked);
   };
 

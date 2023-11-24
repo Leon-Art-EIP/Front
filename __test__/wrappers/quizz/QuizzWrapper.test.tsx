@@ -31,7 +31,7 @@ global.fetch = vi.fn(() =>
   })
 );
 
-const BACKEND_URL = "http://back-dev.leonart-dev.ovh";
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 describe("QuizzWrapper", () => {
   let container: HTMLElement;
@@ -243,7 +243,7 @@ describe("QuizzWrapper", () => {
 
     // Expect fetch to be called with the correct arguments
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith(BACKEND_URL + "/api/quizz/submit", {
+    expect(global.fetch).toHaveBeenCalledWith(NEXT_PUBLIC_BACKEND_URL + "/api/quizz/submit", {
       method: "POST",
       body: JSON.stringify({
         user: "",

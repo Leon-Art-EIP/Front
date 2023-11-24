@@ -8,13 +8,13 @@ export default {
 
 type Story = StoryObj<IGalleryProps>;
 
-export const regular: Story = {
+export const Regular: Story = {
   args: {
     redirectText: "Voir la galerie",
     redirectUrl: "#",
   },
 };
 
-export const noRightButton: Story = {
+export const NoRightButton: Story = {
   args: {},
 };

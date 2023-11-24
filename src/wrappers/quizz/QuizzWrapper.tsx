@@ -8,14 +8,13 @@ import QuizzNavigation from "../../components/quizz/QuizzNavigation";
 import QuizzStarter from "../../components/quizz/QuizzStarter";
 import { QuizzResultDTO } from "../../DTOs/quizz/DTO";
 import { Question } from "../../configs/quizz/questions";
+import { myFetch } from "../../tools/myFetch";
 
 interface QuizzWrapperProps {
   questionsArtiste: Question[];
   questionsBuyer: Question[];
   questionsCommon: Question[];
 }
-
-const BACKEND_URL = "http://back-dev.leonart-dev.ovh";
 
 export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   const router = useRouter();
@@ -117,14 +116,15 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
           }
         }
       }
-    /* c8 ignore stop */
+      /* c8 ignore stop */
     }
     return result;
   }
 
   async function onSendResult() {
     const result = fillDTOResult(questions);
-    const res = await fetch(BACKEND_URL + "/api/quizz/submit", {
+    const res = await myFetch({
+      route: "/api/quizz/submit",
       method: "POST",
       body: JSON.stringify(result),
     });

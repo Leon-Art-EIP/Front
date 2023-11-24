@@ -1,5 +1,4 @@
 import SingleArtPage from "../../../components/single-art-page/SingleArtPage";
-import Link from "../../../wrappers/link";
 import fakeData from "../../../components/single-art-page/fakeData";
 import SingleArtPageWrapper from "../../../wrappers/SingleArtPageWrapper";
 
@@ -12,6 +11,7 @@ export default async function Page(props: { params: { id: string } }) {
       caracteristics={data.caracteristics}
       price={data.price}
       art={data.art}
+      artId={data.artId}
       profile={data.profile}
       artistName={data.artistName}
       artistId={data.artistId}
