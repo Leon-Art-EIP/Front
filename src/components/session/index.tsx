@@ -1,9 +1,12 @@
+"use client";
+
 import { usePathname } from "next/navigation";
-import { useRecoilValue } from "recoil";
-import NotFound from "../../app/not-found";
 import { ITab } from "../../interfaces";
-import { isLoggedIn } from "../../recoil/SetupRecoil";
 import Header from "../header";
+import LoginWrapper from "../../wrappers/login/LoginWrapper";
+import { IConnectedUser } from "../../interfaces/user/user";
+import { useEffect, useState } from "react";
+import LoadingPage from "../loading/LoadingPage";
 
 export interface ISessionProps {
   tabs: ITab[];
@@ -11,20 +14,35 @@ export interface ISessionProps {
 }
 
 export default function Session(props: ISessionProps): JSX.Element | null {
-  const isConnected = useRecoilValue(isLoggedIn);
+  const [user, setUser] = useState<IConnectedUser | undefined>();
+  const [loading, setLoading] = useState(true);
   const pathname = usePathname();
-  const needLoggedIn = props.tabs.find((tab) => {
+  const correspondingTab = props.tabs.find((tab) => {
     if (tab.href === "/") return tab.href === pathname;
     return pathname.includes(tab.href);
-  })?.loggedIn;
+  });
 
-  // if (isConnected || (!isConnected && !needLoggedIn)) {
+  useEffect(() => {
+    setLoading(false);
+    const user = localStorage.getItem("user");
+    if (user) {
+      setUser(JSON.parse(user));
+    } else {
+      setUser(undefined);
+    }
+  }, [pathname]);
+
+  if (loading) {
+    return <LoadingPage />;
+  }
+
+  if ((user && user.token) || ((!user || !user.token) && correspondingTab?.loggedIn === false)) {
     return (
       <>
-        <Header tabs={props.tabs} />
+        {correspondingTab?.header && user && <Header tabs={props.tabs} user={user.user} pathname={pathname} />}
         {props.children}
       </>
     );
-  // }
-  return <NotFound />;
+  }
+  return <LoginWrapper />;
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { IMessage, IMessages, IOrderInfos } from "../../interfaces/messages/messages";
 import { ConversationService } from "./useConversationService";
+import { myFetch } from "../../tools/myFetch";
 
 export interface MessageService {
   messages: IMessages;
@@ -15,8 +16,6 @@ export interface MessageService {
   handleRating: (convId: number | undefined, rating: number) => void;
 }
 
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
 export function useMessageService(conversationService: ConversationService): MessageService {
   {/* c8 ignore start */}
   const [messages, setMessages] = useState<IMessages>({ messages: [] });
@@ -30,15 +29,13 @@ export function useMessageService(conversationService: ConversationService): Mes
   }, [conversationService.convSelected?.id]);
 
   async function fetchOrderInfo(convId: number | undefined) {
-    const res = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/conversations/order/infos", {
+    const res = await myFetch({
+      route: "/api/conversations/order/infos",
       method: "POST",
       body: JSON.stringify({
         convId: convId,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    })
     const data = await res.json();
     if (res.status === 200) {
       setOrderInfos(data);
@@ -69,15 +66,13 @@ export function useMessageService(conversationService: ConversationService): Mes
   }
 
   async function fetchMessages(convId: number | undefined) {
-    const res = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/conversations/messages", {
+    const res = await myFetch({
+      route: "/api/conversations/messages",
       method: "POST",
       body: JSON.stringify({
         convId: convId,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    })
     const data = await res.json();
     if (res.status === 200) {
       setMessages(data);
@@ -88,7 +83,8 @@ export function useMessageService(conversationService: ConversationService): Mes
   }
 
   async function sendMessage(convId: number | undefined, messageToSend: string) {
-    const res = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/conversations/messages/new", {
+    const res = await myFetch({
+      route: "/api/conversations/messages/new",
       method: "POST",
       body: JSON.stringify({
         convId: convId,
@@ -96,10 +92,7 @@ export function useMessageService(conversationService: ConversationService): Mes
         sender: 0,
         content: messageToSend,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    })
     const data = await res.json();
     if (res.status === 200) {
       const newMessages: IMessages = {
@@ -125,16 +118,15 @@ export function useMessageService(conversationService: ConversationService): Mes
   }
 
   async function handleRating(convId: number | undefined, rating: number) {
-    const res = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/conversations/order/rating", {
+    console.log(convId, rating);
+    const res = await myFetch({
+      route: "/api/conversations/order/rating",
       method: "POST",
       body: JSON.stringify({
         convId: convId,
         rating: rating,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    })
     const data = await res.json();
     if (res.status === 200) {
       setOrderInfos(data.order);

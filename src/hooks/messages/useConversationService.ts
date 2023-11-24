@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IConversation, IConversations } from "../../interfaces/messages/conversations";
+import { myFetch } from '../../tools/myFetch';
 
 export interface ConversationService {
   conversations: IConversations;
@@ -9,8 +10,6 @@ export interface ConversationService {
   filterConversations: (search: string) => void;
   selectConversation: (id: number) => void;
 }
-
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export function useConversationService() {
   {/* c8 ignore start */}
@@ -23,9 +22,7 @@ export function useConversationService() {
   }, []);
 
   async function fetchConversations() {
-    const res = await fetch(NEXT_PUBLIC_BACKEND_URL + "/api/conversations", {
-      method: "GET",
-    });
+    const res = await myFetch({ route: "/api/conversations", method: "GET" });
     const data = await res.json();
     if (res.status === 200) {
       setConversations(data);
