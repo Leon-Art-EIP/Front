@@ -26,6 +26,12 @@ const tabs: ITab[] = [
     href: "/profile",
     loggedIn: true,
     hidden: true,
+  },
+  {
+    name: "Paramètres",
+    href: "/settings",
+    loggedIn: true,
+    hidden: true,
   }
 ];
 

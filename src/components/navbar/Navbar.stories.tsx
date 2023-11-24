@@ -21,37 +21,42 @@ export const SelectHome: Story = {
     tabs,
     selectedTabHref: "/",
     link: "a",
+    user: {
+      id: "",
+      username: "",
+      email: "",
+      is_artist: false,
+      availability: "",
+      subscription: "",
+      collections: [],
+    },
   },
 };
 
 export const SelectExplorer: Story = {
   args: {
-    tabs,
+    ...SelectHome.args,
     selectedTabHref: "/explore",
-    link: "a",
   },
 };
 
 export const SelectMessages: Story = {
   args: {
-    tabs,
+    ...SelectHome.args,
     selectedTabHref: "/messages",
-    link: "a",
   },
 };
 
 export const SelectPurchase: Story = {
   args: {
-    tabs,
+    ...SelectHome.args,
     selectedTabHref: "/purchase",
-    link: "a",
   },
 };
 
 export const SelectProfile: Story = {
   args: {
-    tabs,
+    ...SelectHome.args,
     selectedTabHref: "/profile",
-    link: "a",
   },
 };

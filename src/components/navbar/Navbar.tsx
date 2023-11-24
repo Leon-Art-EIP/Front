@@ -4,6 +4,7 @@ import TextLogo from "../text-logo/TextLogo";
 import profilePicture from "../../assets/profilePicture.png";
 import ProfilePicture from "../profile/profilePicture/ProfilePicture";
 import { IUser } from "../../interfaces/user/user";
+import { Settings } from "@mui/icons-material";
 
 export interface INavbarProps {
   tabs: ITab[];
@@ -31,11 +32,16 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
         )}
       </div>
       <div className="items-center justify-end flex px-2">
-        <Link href={`/profile/${props.user.id}`}>
-          <div className="h-16 w-16">
-            <ProfilePicture src={profilePicture} />
-          </div>
-        </Link>
+        <div className="flex gap-2 align-middle items-center">
+          <Link href={`/settings`}>
+            <Settings />
+          </Link>
+          <Link href={`/profile/${props.user.id}`}>
+            <div className="h-16 w-16">
+              <ProfilePicture src={profilePicture} />
+            </div>
+          </Link>
+        </div>
       </div>
     </div>
   );
