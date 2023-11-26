@@ -26,7 +26,7 @@ export default function IconButton({ icon: Icon, ...props }: IconButtonProps): J
       style={{ backgroundColor }}
       onClick={props.onClick}
     >
-      <Icon style={{ color: props.color }} />
+      <Icon style={{ color: props.color }}  />
       {props.text}
     </button>
   );

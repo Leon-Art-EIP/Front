@@ -1,5 +1,5 @@
 import { FormControlLabel, FormGroup, Switch } from "@mui/material";
-import { Badge } from "../lib/lib";
+import { Badge } from "../lib";
 
 export interface QuizzQuestionProps {
   question: {
