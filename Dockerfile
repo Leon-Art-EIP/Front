@@ -1,36 +1,26 @@
-# Étape de build
-FROM node:20-alpine3.17 AS builder
+# Choisir une image de base
+FROM node:alpine
 
-# Définir le répertoire de travail
+# Créer un répertoire pour l'application
 WORKDIR /app
 
-# Copier les fichiers package.json et package-lock.json/yarn.lock
+# Copier les fichiers package.json et yarn.lock (ou package-lock.json)
 COPY package.json yarn.lock ./
 
 # Installer les dépendances
 RUN yarn install --frozen-lockfile
 
-# Copier tous les fichiers du projet
+# Copier le reste des fichiers de l'application
 COPY . .
 
-# Construire l'application
+# Construire l'application Next.js
 RUN yarn build
 
-# Étape de production
-FROM node:20-alpine3.17 AS production
-
-# Définir le répertoire de travail
-WORKDIR /app
-
-# Copier les dépendances nécessaires pour l'exécution
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-
-# Exposer le port 3000
+# Exposer le port (par défaut Next.js utilise le port 3000)
 EXPOSE 3000
 
-# Démarrer l'application
+# Définir les variables d'environnement (exemple)
+ENV NEXT_PUBLIC_BACKEND_URL="http://back-dev.leonart-dev.ovh"
+
+# Lancer l'application
 CMD ["yarn", "start"]
