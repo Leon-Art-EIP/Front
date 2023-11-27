@@ -1,27 +1,27 @@
-import { IConversation } from "../../../interfaces/messages/conversations";
-import Image from "next/image";
+import { IChat } from "../../../interfaces/chat/chats";
 
-export interface UserCardProps {
-  data: IConversation;
-  selected: boolean;
-  handleSelectConv: (id: number) => void;
+export interface ChatUserCardProps {
+  data: IChat;
+  index: number;
+  currentSelected: number | undefined;
+  handleSelectChat: (index: number, chat: IChat) => void;
 }
 
-export function UserCard(props: UserCardProps): JSX.Element {
+export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
   {
     /* c8 ignore start */
   }
-  function onSelectConv() {
-    props.handleSelectConv(props.data.id);
+  function onSelectChat() {
+    props.handleSelectChat(props.index, props.data);
   }
 
   return (
     <div className="pl-6 sm:pl-10">
       <div
         className={`relative flex flex-row flex-grow-0 w-full p-2 cursor-pointer rounded-l-full hover:bg-gray-200 ${
-          props.selected ? "bg-white" : ""
+          props.index === props.currentSelected ? "bg-white" : ""
         }`}
-        onClick={onSelectConv}
+        onClick={onSelectChat}
       >
         {props.data.unreadMessages && (
           <div className="absolute rounded-full w-3 h-3 bg-[#E11C0A] -left-4 top-1/2 transform -translate-y-1/2" />
@@ -47,7 +47,7 @@ export function UserCard(props: UserCardProps): JSX.Element {
             )}
           </div>
         </div>
-        {props.selected && <div className="absolute right-0 top-0 w-1 h-full bg-[#E11C0A]" />}
+        {props.index === props.currentSelected && <div className="absolute right-0 top-0 w-1 h-full bg-[#E11C0A]" />}
       </div>
     </div>
   );

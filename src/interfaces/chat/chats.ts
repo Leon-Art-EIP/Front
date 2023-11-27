@@ -1,8 +1,8 @@
-export interface IConversations {
-  conversations: IConversation[];
+export interface IChats {
+  conversations: IChat[];
 }
 
-export interface IConversation {
+export interface IChat {
   id: number;
   profileName: string;
   profilePricture: string;

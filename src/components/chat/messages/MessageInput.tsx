@@ -3,21 +3,22 @@ import { ConversationService } from "../../../hooks/messages/useConversationServ
 import { MessageService } from "../../../hooks/messages/useMessageService";
 import AttachmentIcon from "@mui/icons-material/Attachment";
 import SendIcon from "@mui/icons-material/Send";
+import { IMessage } from "../../../interfaces/chat/messages";
 
-export interface ChatInputProps {
-  conversationService: ConversationService;
-  messageService: MessageService;
+export interface MessageInputProps {
+  handleSendMsg: (msg: string) => void;
 }
-export function ChatInput(props: ChatInputProps): JSX.Element {
-  {/* c8 ignore start */}
+export function MessageInput(props: MessageInputProps): JSX.Element {
+  {
+    /* c8 ignore start */
+  }
   const [messageToSend, setMessageToSend] = useState("");
 
   function onSendMessage(e: React.FormEvent) {
     e.preventDefault();
 
     if (messageToSend === "") return;
-
-    props.messageService.sendMessage(props.conversationService.convSelected?.id, messageToSend);
+    props.handleSendMsg(messageToSend);
     setMessageToSend("");
   }
 
@@ -42,5 +43,7 @@ export function ChatInput(props: ChatInputProps): JSX.Element {
       </form>
     </div>
   );
-  {/* c8 ignore stop */}
+  {
+    /* c8 ignore stop */
+  }
 }

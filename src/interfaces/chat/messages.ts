@@ -4,8 +4,8 @@ export interface IMessages {
 
 export interface IMessage {
   id: number;
-  sender: 0 | 1;
-  contentType: string;
+  senderId: string;
+  contentType: "text" | "image";
   content: string;
   dateTime: string;
   read: boolean;
