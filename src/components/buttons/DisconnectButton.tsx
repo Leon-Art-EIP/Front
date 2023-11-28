@@ -12,7 +12,7 @@ export default function DisconnectButton(): JSX.Element {
   };
 
   return (
-    <Button color="danger" onClick={handleOnClick}>
+    <Button color="danger" type="button" onClick={handleOnClick}>
       Se déconnecter
     </Button>
   );
