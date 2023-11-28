@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { ConversationService } from "../../../hooks/messages/useConversationService";
-import { MessageService } from "../../../hooks/messages/useMessageService";
 import AttachmentIcon from "@mui/icons-material/Attachment";
 import SendIcon from "@mui/icons-material/Send";
-import { IMessage } from "../../../interfaces/chat/messages";
 
 export interface MessageInputProps {
   handleSendMsg: (msg: string) => void;

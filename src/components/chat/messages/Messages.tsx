@@ -86,6 +86,7 @@ export default function Messages(props: MessagesProps): JSX.Element {
         }
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

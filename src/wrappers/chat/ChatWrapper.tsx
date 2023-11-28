@@ -25,6 +25,7 @@ export default function ChatWrapper(): JSX.Element {
       }
     }
     getCurrentUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
