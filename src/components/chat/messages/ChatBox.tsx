@@ -1,15 +1,17 @@
 import { useEffect, useRef } from "react";
-import { ConversationService } from "../../../hooks/messages/useConversationService";
-import { MessageService } from "../../../hooks/messages/useMessageService";
 import { Chat } from "./Chat";
+import { IMessages } from "../../../interfaces/chat/messages";
+import { IConnectedUser } from "../../../interfaces/user/user";
 
 export interface ChatBoxProps {
-  conversationService: ConversationService;
-  messageService: MessageService;
+  messages: IMessages;
+  currentUser: IConnectedUser | undefined;
 }
 
 export function ChatBox(props: ChatBoxProps): JSX.Element {
-  {/* c8 ignore start */}
+  {
+    /* c8 ignore start */
+  }
   const chatBoxRef = useRef<HTMLDivElement>(null);
   let prevDateTime: Date | null = null;
 
@@ -17,7 +19,7 @@ export function ChatBox(props: ChatBoxProps): JSX.Element {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
-  }, [props.messageService.messages]);
+  }, [props.messages]);
 
   const formatDate = (string: string) => {
     const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
@@ -29,12 +31,8 @@ export function ChatBox(props: ChatBoxProps): JSX.Element {
   };
 
   return (
-    <div 
-      ref={chatBoxRef}
-      dir="btt" 
-      className="flex flex-col h-full w-full overflow-y-auto gap-4"
-    >
-      {props.messageService.messages.messages.map((message, index) => {
+    <div ref={chatBoxRef} dir="btt" className="flex flex-col h-full w-full overflow-y-auto gap-4">
+      {props.messages.messages.map((message, index) => {
         const currentDateTime = new Date(message.dateTime);
         let showFullDate = false;
         let showTimeOnly = false;
@@ -52,7 +50,7 @@ export function ChatBox(props: ChatBoxProps): JSX.Element {
         prevDateTime = currentDateTime;
 
         return (
-          <div key={message.id} className="flex flex-col">
+          <div key={index} className="flex flex-col">
             {showFullDate && (
               <>
                 <span className="self-center mt-3 h-1 w-1/3 bg-[#c1c1c1] rounded-full" />
@@ -63,12 +61,14 @@ export function ChatBox(props: ChatBoxProps): JSX.Element {
               dateTime={showTimeOnly ? formatTime(message.dateTime) : ""}
               key={message.id}
               content={message.content}
-              sender={message.sender}
+              sender={message.senderId === props.currentUser?.user.id ? 0 : 1}
             />
           </div>
         );
       })}
     </div>
   );
-  {/* c8 ignore stop */}
+  {
+    /* c8 ignore stop */
+  }
 }

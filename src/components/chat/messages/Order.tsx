@@ -1,13 +1,9 @@
-import { ConversationService } from "../../../hooks/messages/useConversationService";
-import { MessageService } from "../../../hooks/messages/useMessageService";
 import CloseIcon from "@mui/icons-material/Close";
 import emojiConfettis from "../../../assets/icons/emoji-conffetis.png";
 import Image from "next/image";
 
 /* c8 ignore start */
 export interface OrderProps {
-  conversationService: ConversationService;
-  messageService: MessageService;
   closeOrder: () => void;
 }
 
@@ -22,7 +18,7 @@ export function Order(props: OrderProps): JSX.Element {
     <div
       className={`flex flex-grow overflow-y-auto items-center p-6 flex-col gap-4 bg-[#F3F3F3] rounded-2xl w-full relative`}
     >
-      <button className="absolute top-4 right-4" onClick={props.closeOrder}>
+      {/* <button className="absolute top-4 right-4" onClick={props.closeOrder}>
         <CloseIcon className="fill-[#8F8F8F]" />
       </button>
       <span className="text-2xl font-semibold">
@@ -37,9 +33,9 @@ export function Order(props: OrderProps): JSX.Element {
         />
       ) : (
         <span className="w-11/12 h-28 rounded-2xl bg-gray-400 flex-shrink-0" />
-      )}
+      )} */}
       {/* Pending order */}
-      {props.messageService.orderInfos?.orderState === "pending" && (
+      {/* {props.messageService.orderInfos?.orderState === "pending" && (
         <>
           <div className="flex flex-col self-start">
             <span className="text-xl font-semibold">Description</span>
@@ -61,9 +57,9 @@ export function Order(props: OrderProps): JSX.Element {
             </span>
           </div>
         </>
-      )}
+      )} */}
       {/* Accepted order */}
-      {props.messageService.orderInfos?.orderState === "accepted" && (
+      {/* {props.messageService.orderInfos?.orderState === "accepted" && (
         <>
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-2 items-center">
@@ -79,7 +75,7 @@ export function Order(props: OrderProps): JSX.Element {
             </button>
           </div>
         </>
-      )}
+      )} */}
     </div>
   );
 }

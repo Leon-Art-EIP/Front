@@ -1,9 +1,9 @@
 import { find } from "../find";
 import { start } from "../start";
 
-describe("messagesPageContent.cy.ts", () => {
+describe("chatPageContent.cy.ts", () => {
   it("should test messagesPage", () => {
-    start("/messages");
+    start("/chat");
     find("Page de messages");
   });
 });

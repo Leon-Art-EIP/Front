@@ -19,7 +19,7 @@ const tabs: ITab[] = [
   },
   {
     name: "Messagerie",
-    href: "/messages",
+    href: "/chat",
     loggedIn: true,
     navbar: true,
     verticalNavbar: true,
