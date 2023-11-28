@@ -12,7 +12,7 @@ import Messages from "../../components/chat/messages/Messages";
 export default function ChatWrapper(): JSX.Element {
   const router = useRouter();
   const socket = useRef<Socket | null>(null);
-  const [chats, setChats] = useState<IChats>({ conversations: [] });
+  const [chats, setChats] = useState<IChats>({ chats: [] });
   const [currentChat, setCurrentChat] = useState<IChat>();
   const [currentUser, setCurrentUser] = useState<IConnectedUser>();
 
@@ -37,8 +37,7 @@ export default function ChatWrapper(): JSX.Element {
   useEffect(() => {
     async function fetchChats() {
       if (currentUser) {
-        // const res = await myFetch({ route: `/api/conversations/${currentUser.user.id}`, method: "GET" }); TODO: replace conversations by chats
-        const res = await myFetch({ route: `/api/conversations`, method: "GET" });
+        const res = await myFetch({ route: `/api/chats/${currentUser.user.id}`, method: "GET" });
         const data: IChats = await res.json();
         setChats(data);
       }
@@ -48,8 +47,8 @@ export default function ChatWrapper(): JSX.Element {
   }, [currentUser]);
 
   useEffect(() => {
-    if (chats.conversations.length > 0) {
-      setCurrentChat(chats.conversations[0]);
+    if (chats.chats.length > 0) {
+      setCurrentChat(chats.chats[0]);
     }
   }, [chats]);
 
@@ -60,7 +59,7 @@ export default function ChatWrapper(): JSX.Element {
   return (
     <div className="flex flex-row page-content-non-scrollable">
       <div className="lg:w-1/3 lg:min-w-[350px] lg:max-w-[500px]">
-        <ChatList chats={chats} changeChat={handleChatChange} />
+        <ChatList chats={chats} changeChat={handleChatChange} currentUser={currentUser} />
       </div>
       {currentChat === undefined ? (
         <></>

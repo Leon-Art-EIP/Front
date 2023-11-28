@@ -17,45 +17,44 @@ export interface MessagesProps {
 }
 
 export default function Messages(props: MessagesProps): JSX.Element {
-  {
-    /* c8 ignore start */
-  }
+  {/* c8 ignore start */}
   const [messages, setMessages] = useState<IMessages>({ messages: [] });
   const [arrivalMessage, setArrivalMessage] = useState<IMessage>();
 
   useEffect(() => {
     async function fetchMessages() {
-      // const res = await myFetch({
-      //   route: `/api/chats/messages/${props.currentChat.id}`,
-      //   method: "GET" }); TODO: replace by that when modification of back is done
       const res = await myFetch({
-        route: "/api/conversations/messages",
-        method: "POST",
-        body: JSON.stringify({
-          convId: props.currentChat.id,
-        }),
-      });
+        route: `/api/chats/messages/${props.currentChat._id}`,
+        method: "GET" });
       const data = await res.json();
       setMessages(data);
     }
     fetchMessages();
   }, [props.currentChat]);
 
+  function getOtherUser() {
+    if (props.currentChat.UserOneId === props.currentUser?.user.id) {
+      return props.currentChat.UserTwoId;
+    } else {
+      return props.currentChat.UserOneId;
+    }
+  }
+
   async function handleSendMsg(msg: string) {
     if (props.socket.current) {
       props.socket.current.emit("send-msg", {
-        to: props.currentChat.id,
+        to: getOtherUser(),
         from: props.currentUser?.user.id,
+        convId: props.currentChat._id,
         msg,
       });
     }
 
     await myFetch({
-      // route: "/api/chats/messages/new", TODO: replace by that when modification of back is done
-      route: "/api/conversations/messages/new",
+      route: "/api/chats/messages/new",
       method: "POST",
       body: JSON.stringify({
-        convId: props.currentChat.id,
+        convId: props.currentChat._id,
         contentType: "text",
         userId: props.currentUser?.user.id,
         content: msg,
@@ -76,8 +75,11 @@ export default function Messages(props: MessagesProps): JSX.Element {
 
   useEffect(() => {
     if (props.socket.current) {
-      props.socket.current.on("msg-recieve", ({from, msg}) => {
-        if (from === props.currentChat.id) {
+      props.socket.current.on("msg-recieve", (msg: IMessage) => {
+        console.log("msg recieved", msg);
+        console.log("senderId", msg.senderId);
+        console.log("getOtherUser()", getOtherUser());
+        if (msg.senderId === getOtherUser()) {
           setArrivalMessage(msg);
         } else {
           // TODO: refresh the chat list
@@ -96,7 +98,7 @@ export default function Messages(props: MessagesProps): JSX.Element {
 
   return (
     <div className="flex flex-col h-full w-full">
-      <ChatUserBanner currentChat={props.currentChat} />
+      <ChatUserBanner currentChat={props.currentChat} currentUser={props.currentUser} />
       <div className="flex flex-row w-full" style={{ height: "calc(100% - 6rem)" }}>
         <div
           className="flex flex-col h-full w-full"

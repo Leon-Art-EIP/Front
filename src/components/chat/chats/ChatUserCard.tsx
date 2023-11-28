@@ -1,16 +1,16 @@
 import { IChat } from "../../../interfaces/chat/chats";
+import { IConnectedUser } from "../../../interfaces/user/user";
 
 export interface ChatUserCardProps {
   data: IChat;
+  currentUser: IConnectedUser | undefined;
   index: number;
   currentSelected: number | undefined;
   handleSelectChat: (index: number, chat: IChat) => void;
 }
 
 export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
-  {
-    /* c8 ignore start */
-  }
+  {/* c8 ignore start */}
   function onSelectChat() {
     props.handleSelectChat(props.index, props.data);
   }
@@ -26,11 +26,11 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
         {props.data.unreadMessages && (
           <div className="absolute rounded-full w-3 h-3 bg-[#E11C0A] -left-4 top-1/2 transform -translate-y-1/2" />
         )}
-        {props.data.profilePricture ? (
+        {(props.data.UserOneId !== props.currentUser?.user.id ? props.data.UserOnePicture : props.data.UserTwoPicture) ? (
           /* TODO: use <Image> next component */
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
-            src={props.data.profilePricture}
+            src={props.data.UserOneId !== props.currentUser?.user.id ? props.data.UserOnePicture : props.data.UserTwoPicture}
             alt="profilePicture"
             className="w-16 h-16 rounded-full bg-gray-500 flex-shrink-0"
           />
@@ -38,7 +38,7 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
           <span className="w-16 h-16 rounded-full bg-gray-400 flex-shrink-0"></span>
         )}
         <div className="flex flex-col justify-center flex-grow ml-4">
-          <span className="text-2xl tracking-wide truncate w-4/5">{props.data.profileName}</span>
+          <span className="text-2xl tracking-wide truncate w-4/5">{props.data.UserOneId !== props.currentUser?.user.id ? props.data.UserOneName : props.data.UserTwoName}</span>
           <div className="grid grid-cols-1">
             {props.data.lastMessage ? (
               <span className="text-sm truncate">{props.data.lastMessage}</span>

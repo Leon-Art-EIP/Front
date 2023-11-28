@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SearchBar } from "../../searchBar/SearchBar";
 import { ChatUserCard } from "./ChatUserCard";
-import { ConversationService } from "../../../hooks/messages/useConversationService";
 import { IChat, IChats } from "../../../interfaces/chat/chats";
+import { IConnectedUser } from "../../../interfaces/user/user";
 
 export interface ChatListProps {
   chats: IChats;
   changeChat: (chat: IChat) => void;
+  currentUser: IConnectedUser | undefined;
 }
 
 export default function ChatList(props: ChatListProps): JSX.Element {
@@ -28,10 +29,11 @@ export default function ChatList(props: ChatListProps): JSX.Element {
         <SearchBar onSearch={handleSearch} />
       </div>
       <div className="grid grid-cols-1 gap-3">
-        {props.chats.conversations.map((chat, index) => (
+        {props.chats.chats.map((chat, index) => (
           <ChatUserCard
             key={index}
             data={chat}
+            currentUser={props.currentUser}
             handleSelectChat={changeCurrentChat}
             currentSelected={currentSelected}
             index={index}
