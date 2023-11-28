@@ -3,7 +3,7 @@
 import { ElementType, useState } from "react";
 import SingleArtPageArtwork from "./artwork/SingleArtPageArtwork";
 import SingleArtPageCard from "./card/SingleArtPageCard";
-import { Modal } from "../lib/lib";
+import { Modal } from "../lib";
 import SaveGallery from "./artwork/SaveGallery";
 import { TCollection } from "./artwork/Collections";
 import { myFetch } from "../../tools/myFetch";

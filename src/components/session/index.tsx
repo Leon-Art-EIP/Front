@@ -15,7 +15,7 @@ export interface ISessionProps {
 
 export default function Session(props: ISessionProps): JSX.Element | null {
   const [user, setUser] = useState<IConnectedUser | undefined>();
-  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const pathname = usePathname();
   const correspondingTab = props.tabs.find((tab) => {
     if (tab.href === "/") return tab.href === pathname;
@@ -23,18 +23,14 @@ export default function Session(props: ISessionProps): JSX.Element | null {
   });
 
   useEffect(() => {
-    setLoading(false);
     const user = localStorage.getItem("user");
     if (user) {
       setUser(JSON.parse(user));
     } else {
       setUser(undefined);
     }
+    setLoaded(true);
   }, [pathname]);
-
-  if (loading) {
-    return <LoadingPage />;
-  }
 
   if ((user && user.token) || ((!user || !user.token) && correspondingTab?.loggedIn === false)) {
     return (
@@ -43,6 +39,8 @@ export default function Session(props: ISessionProps): JSX.Element | null {
         {props.children}
       </>
     );
+  } else if (loaded && (!user || !user.token)) {
+    return <LoginWrapper />;
   }
-  return <LoginWrapper />;
+  return <LoadingPage />;
 }
