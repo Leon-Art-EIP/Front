@@ -1,7 +1,7 @@
 import { ElementType, useState } from "react";
 import Button from "./Button";
 import Label from "./Label";
-import { NotificationToast } from "../../lib/lib";
+import { NotificationToast } from "../../lib";
 
 export interface ISingleArtPageCardProps {
   description: string;
