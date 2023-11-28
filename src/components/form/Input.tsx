@@ -25,6 +25,7 @@ export default function Input(props: IInputProps): JSX.Element {
         className={props.className}
         placeholder={props.placeholder}
         onChange={onChange}
+        value={value}
       />
       {error && <div className="text-red-600">{error.message}</div>}
     </div>

@@ -37,7 +37,7 @@ export default function RegisterForm(): JSX.Element {
       } else {
         setConnectionError(data.errors[0].msg);
       }
-      methods.reset();
+      // methods.reset();
     } catch (error) {
       setConnectionError("Une erreur est survenue, veuillez réessayer plus tard");
     }

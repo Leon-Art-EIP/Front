@@ -43,13 +43,13 @@ export default function SettingsPasswordForm(): JSX.Element {
     },
   ];
 
-  const resetPassword = async (token: string, newPassword: string) => {
+  const handleSubmit = async (formData: TSettingsPasswordData) => {
     const response = await myFetch({
-      route: "/api/auth/reset-password",
+      route: "/api/auth/change-password",
       method: "POST",
       body: JSON.stringify({
-        token: token,
-        newPassword,
+        currentPassword: formData.password,
+        newPassword: formData.newpassword,
       }),
     });
 
@@ -57,51 +57,24 @@ export default function SettingsPasswordForm(): JSX.Element {
 
     if (response.status === 200) {
       localStorage.removeItem("user");
-      router.push("/login");
+      router.push("/login?newpassword=true");
     } else if ("errors" in data) {
       methods.setError("newpassword", {
         type: "manual",
         message: data.errors[0].msg,
       });
     } else {
-      methods.setError("confirmpassword", {
+      methods.setError("password", {
         type: "manual",
         message: data.msg,
       });
     }
   };
 
-  const handleSubmit = async (formData: TSettingsPasswordData) => {
-    const response = await myFetch({
-      route: "/api/auth/login",
-      method: "POST",
-      body: JSON.stringify({
-        email: user.user.email,
-        password: formData.password,
-      }),
-    });
-
-    const data = (await response.json()) as IConnectedUser | IError;
-
-    if ("token" in data) {
-      user.token = data.token;
-      localStorage.setItem("user", JSON.stringify(user));
-      resetPassword(data.token, formData.newpassword);
-    } else {
-      methods.setError("password", {
-        type: "manual",
-        message: "Mot de passe incorrect",
-      });
-    }
-  };
-
   const onSubmit = async (data: TSettingsPasswordData): Promise<void> => {
     setLoading(true);
-
-    setTimeout(async () => {
-      await handleSubmit(data);
-      setLoading(false);
-    }, 5000);
+    await handleSubmit(data);
+    setLoading(false);
   };
 
   return (
