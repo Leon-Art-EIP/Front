@@ -31,9 +31,8 @@ export default function RegisterForm(): JSX.Element {
       const data = (await response.json()) as IConnectedUser | IError;
 
       if ("token" in data) {
-        console.log("data", data);
         localStorage.setItem("user", JSON.stringify(data));
-        router.push("/");
+        router.push("/quizz");
       } else {
         setConnectionError(data.errors[0].msg);
       }
@@ -71,9 +70,9 @@ export default function RegisterForm(): JSX.Element {
         <div className="flex flex-row">
           <input type="checkbox" name="conscent" />
           <label htmlFor="terms" className="text-sm font-normal w-11/12 text-center">
-            En vous enregistrant, vous acceptez les{" "}
-            <a className="font-semibold text-[#E11C0A] cursor-pointer">Conditions d&pos;utilisations</a> et{" "}
-            <a className="font-semibold text-[#E11C0A] cursor-pointer">notre Politique de confidentialité</a>
+            En vous enregistrant, vous acceptez les
+            <a className="font-semibold text-[#E11C0A] cursor-pointer"> Conditions d{"'"}utilisations</a> et
+            <a className="font-semibold text-[#E11C0A] cursor-pointer"> notre Politique de confidentialité</a>
           </label>
         </div>
         <div className="flex flex-col gap-2">
@@ -84,7 +83,7 @@ export default function RegisterForm(): JSX.Element {
             disabled={disableRegister}
             name="reset"
           >
-            S&pos;inscrire
+            S{"'"}inscrire
           </button>
         </div>
       </form>

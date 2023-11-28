@@ -23,7 +23,7 @@ export async function myFetch({ route, method, body }: IMyFetch) {
     body,
   });
 
-  if (response.status === 404) {
+  if (response.status === 401) {
     localStorage.removeItem("user");
   }
   return response;

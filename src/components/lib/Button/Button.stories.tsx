@@ -11,8 +11,9 @@ type Story = StoryObj<IButtonProps>;
 
 export const ButtonMock: Story = {
   args: {
-    children: "Button",
-    onClick: () => alert("Button clicked"),
-    color: "danger",
+    children: 'Button',
+    onClick: () => alert('Button clicked'),
+    color: 'primary',
+    type: "button",
   },
 };

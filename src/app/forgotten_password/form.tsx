@@ -62,7 +62,7 @@ export default function Form({
           )}
         </button>
       </div>
-      <label className="flex justify-center items-center font-normal xl:flex-row flex-col">
+      <label className="flex flex-col justify-center items-center font-normal pt-2">
         Vous vous souvenez du mot de passe ?
         <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="login" href="/login">
           {"S'identifier"}
