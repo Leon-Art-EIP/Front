@@ -30,30 +30,48 @@ export default function ExplorerWrapper(): JSX.Element {
     artistLimit: 99,
   });
 
+  function createQueryStringForFetch(filters: ISearchbarFilters): string {
+    return `?${filters.searchTerm ? `searchTerm=${filters.searchTerm}&` : ''}${
+      filters.artType ? `artType=${filters.artType}&` : ''
+    }${filters.priceRange ? `priceRange=${filters.priceRange}&` : ''}${
+      filters.isForSale ? `isForSale=${filters.isForSale}&` : ''
+    }${filters.sort ? `sort=${filters.sort}&` : ''}${
+      filters.artPage ? `artPage=${filters.artPage}&` : ''
+    }${filters.artLimit ? `artLimit=${filters.artLimit}&` : ''}${
+      filters.artistPage ? `artistPage=${filters.artistPage}&` : ''
+    }${filters.artistLimit ? `artistLimit=${filters.artistLimit}` : ''}`.slice(0, -1);
+  }
+
   useEffect(() => {
     async function fetchArtPub() {
-      const queryString = `?artPage=${filters.artPage}&artLimit=${filters.artLimit}&artistPage=${filters.artistPage}&artistLimit=${filters.artistLimit}`;
+      const queryString = createQueryStringForFetch(filters);
       const res = await myFetch({ route: `/api/explorer/search${queryString}`, method: "GET" });
-      const data = await res.json();
-      setArtPubs(data);
-      setFilteredArtPubs(data);
-      setUsers(data);
-      setFilteredUsers(data);
+      if (res.status !== 401) {
+        const data = await res.json();
+        setArtPubs(data);
+        setFilteredArtPubs(data);
+        setUsers(data);
+        setFilteredUsers(data);
+      }
     }
 
     fetchArtPub();
   }, [filters]);
 
-  function handleSearchTerm(e: React.ChangeEvent<HTMLInputElement>) {
-    setFilters({ ...filters, searchTerm: e.target.value });
+  function handleSearchTerm(searchTerm: string) {
+    setFilters({ ...filters, searchTerm: searchTerm });
+  }
+
+  function handleFilters(filters: ISearchbarFilters) {
+    setFilters({ ...filters });
   }
 
   return (
     <div className="flex justify-center">
       <div className="flex flex-col max-w-[1500px] w-full items-center gap-4 lg:py-8 py-4 lg:px-10 px-6">
-        <div className="flex flex-row w-full justify-between">
-          <Searchbar />
-          <SearchbarFilter />
+        <div className="flex flex-row w-full gap-4">
+          <Searchbar handleSearchTerm={handleSearchTerm}/>
+          <SearchbarFilter handleFilters={handleFilters} />
         </div>
         <FiltersApplied />
         <span className="w-2/3 h-1 bg-gray-200 rounded-full"></span>
