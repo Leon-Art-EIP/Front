@@ -36,7 +36,7 @@ export default function LoginForm(): JSX.Element {
       } else {
         setConnectionError("Erreur lors de la connexion.");
       }
-      methods.reset();
+      // methods.reset();
     } catch (error) {
       console.error(error);
       setConnectionError("Une erreur est survenue, veuillez réessayer plus tard");
@@ -51,7 +51,7 @@ export default function LoginForm(): JSX.Element {
     <FormProvider {...methods}>
       <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={methods.handleSubmit(onSubmit)}>
         <Input
-          type="email"
+          type="text"
           name="email"
           className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
           placeholder="Adresse email"

@@ -31,5 +31,20 @@ export const registerSchema = z
     }
   });
 
+export const settingsPasswordSchema = z.object({
+    password: nonEmptyString,
+    newpassword: nonEmptyString,
+    confirmpassword: nonEmptyString,
+}).superRefine((data, ctx) => {
+    if (data.newpassword !== data.confirmpassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Les mots de passe ne correspondent pas",
+        path: ["confirmpassword"],
+    });
+  }
+});
+
 export type TLoginData = z.infer<typeof loginSchema>;
 export type TRegisterData = z.infer<typeof registerSchema>;
+export type TSettingsPasswordData = z.infer<typeof settingsPasswordSchema>;
