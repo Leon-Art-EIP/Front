@@ -74,6 +74,14 @@ const tabs: ITab[] = [
     header: true,
   },
   {
+    name: "Publication d'art",
+    href: "/single",
+    loggedIn: true,
+    navbar: false,
+    verticalNavbar: false,
+    header: true,
+  },
+  {
     name: "Mot de passe oublié",
     href: "/forgotten_password",
     loggedIn: false,
