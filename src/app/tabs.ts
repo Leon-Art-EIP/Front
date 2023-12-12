@@ -11,7 +11,7 @@ const tabs: ITab[] = [
   },
   {
     name: "Explorer",
-    href: "/explore",
+    href: "/explorer",
     loggedIn: true,
     navbar: true,
     verticalNavbar: true,
