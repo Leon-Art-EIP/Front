@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Searchbar from "../../components/explorer/Searchbar";
-import SearchbarFilter from "../../components/explorer/SearchbarFilter";
+import Filters from "../../components/explorer/Filters";
 import FiltersApplied from "../../components/explorer/FiltersApplied";
 import Gallery4x4 from "../../components/gallery/Gallery4x4";
 import { myFetch } from "../../tools/myFetch";
 import { IArtPublications } from "../../interfaces/gallery/artPublications";
-import { ISearchbarFilters } from "../../interfaces/explorer/searchbarFilters";
+import { IFilters } from "../../interfaces/explorer/filters";
 import { IUsers } from "../../interfaces/explorer/users";
 import UsersSlider from "../../components/explorer/UsersSlider";
 
@@ -18,7 +18,7 @@ export default function ExplorerWrapper(): JSX.Element {
   const [users, setUsers] = useState<IUsers>({ users: [] });
   const [filteredUsers, setFilteredUsers] = useState<IUsers>({ users: [] });
 
-  const [filters, setFilters] = useState<ISearchbarFilters>({
+  const [filters, setFilters] = useState<IFilters>({
     searchTerm: "",
     artType: "",
     priceRange: "",
@@ -30,16 +30,16 @@ export default function ExplorerWrapper(): JSX.Element {
     artistLimit: 99,
   });
 
-  function createQueryStringForFetch(filters: ISearchbarFilters): string {
-    return `?${filters.searchTerm ? `searchTerm=${filters.searchTerm}&` : ''}${
-      filters.artType ? `artType=${filters.artType}&` : ''
-    }${filters.priceRange ? `priceRange=${filters.priceRange}&` : ''}${
-      filters.isForSale ? `isForSale=${filters.isForSale}&` : ''
-    }${filters.sort ? `sort=${filters.sort}&` : ''}${
-      filters.artPage ? `artPage=${filters.artPage}&` : ''
-    }${filters.artLimit ? `artLimit=${filters.artLimit}&` : ''}${
-      filters.artistPage ? `artistPage=${filters.artistPage}&` : ''
-    }${filters.artistLimit ? `artistLimit=${filters.artistLimit}` : ''}`.slice(0, -1);
+  function createQueryStringForFetch(filters: IFilters): string {
+    return `?${filters.searchTerm ? `searchTerm=${filters.searchTerm}&` : ""}${
+      filters.artType ? `artType=${filters.artType}&` : ""
+    }${filters.priceRange ? `priceRange=${filters.priceRange}&` : ""}${
+      filters.isForSale ? `isForSale=${filters.isForSale}&` : ""
+    }${filters.sort ? `sort=${filters.sort}&` : ""}${filters.artPage ? `artPage=${filters.artPage}&` : ""}${
+      filters.artLimit ? `artLimit=${filters.artLimit}&` : ""
+    }${filters.artistPage ? `artistPage=${filters.artistPage}&` : ""}${
+      filters.artistLimit ? `artistLimit=${filters.artistLimit}` : ""
+    }`.slice(0, -1);
   }
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function ExplorerWrapper(): JSX.Element {
     setFilters({ ...filters, searchTerm: searchTerm });
   }
 
-  function handleFilters(filters: ISearchbarFilters) {
+  function handleFilters(filters: IFilters) {
     setFilters({ ...filters });
   }
 
@@ -70,8 +70,8 @@ export default function ExplorerWrapper(): JSX.Element {
     <div className="flex justify-center">
       <div className="flex flex-col max-w-[1500px] w-full items-center gap-4 lg:py-8 py-4 lg:px-10 px-6">
         <div className="flex flex-row w-full gap-4">
-          <Searchbar handleSearchTerm={handleSearchTerm}/>
-          <SearchbarFilter handleFilters={handleFilters} />
+          <Searchbar handleSearchTerm={handleSearchTerm} />
+          <Filters handleFilters={handleFilters} filters={filters} />
         </div>
         <FiltersApplied />
         <span className="w-2/3 h-1 bg-gray-200 rounded-full"></span>

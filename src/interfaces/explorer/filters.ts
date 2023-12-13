@@ -1,4 +1,4 @@
-export interface ISearchbarFilters {
+export interface IFilters {
   searchTerm: string;
   artType: string;
   priceRange: string;
