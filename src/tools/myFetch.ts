@@ -1,6 +1,6 @@
 import { IConnectedUser } from "../interfaces/user/user";
 
-const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const NEXT_PUBLIC_BACKEND_URL = "http://localhost:5000";
 
 type TMethod = "GET" | "POST" | "PUT" | "DELETE";
 
