@@ -7,7 +7,7 @@ interface ISingleArtPageArtworkProps {
   art: string;
   profile: string;
   artisteName: string;
-  artistId: number;
+  artistId: string;
   title: string;
   liked: boolean;
   nbrLikes: number;
@@ -23,7 +23,13 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
       <div className="flex">
         <div className="flex flex-1 font-bold text-3xl">{props.title}</div>
         <div className="inline-flex gap-4 items-center">
-          <IconButton id="bookmark-button" icon={BookmarkBorder} backgroundColor="grey" onClick={props.bookmarkOnClick} color="black" />
+          <IconButton
+            id="bookmark-button"
+            icon={BookmarkBorder}
+            backgroundColor="grey"
+            onClick={props.bookmarkOnClick}
+            color="black"
+          />
           <IconButton
             id="like-button"
             icon={props.liked ? Favorite : FavoriteBorder}

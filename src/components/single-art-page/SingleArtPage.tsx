@@ -13,10 +13,10 @@ export interface ISingleArtPageProps {
   caracteristics: string;
   price: number;
   art: string;
-  artId: number;
+  artId: string;
   profile: string;
   artistName: string;
-  artistId: number;
+  artistId: string;
   title: string;
   liked: boolean;
   nbrLikes: number;
@@ -48,7 +48,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
     setModalOpen(false);
   };
 
-  const fetchLikePublication = async (id: number) => {
+  const fetchLikePublication = async (id: string) => {
     const response = await myFetch({
       route: `/api/art-publication/like/${id}`,
       method: "POST",
