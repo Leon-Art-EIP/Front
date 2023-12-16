@@ -50,7 +50,7 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
       description={artPublication.description}
       caracteristics={artPublication.artType}
       price={artPublication.price}
-      art={data.art}
+      art={artPublication.image}
       artId={artPublication._id}
       profile={data.profile}
       title={artPublication.name}
