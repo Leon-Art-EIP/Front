@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Searchbar from "../../components/explorer/Searchbar";
 import Filters from "../../components/explorer/Filters";
-import FiltersApplied from "../../components/explorer/FiltersApplied";
+import PriceFilters from "../../components/explorer/PriceFilters";
 import Gallery4x4 from "../../components/gallery/Gallery4x4";
 import { myFetch } from "../../tools/myFetch";
 import { IArtPublications } from "../../interfaces/gallery/artPublications";
@@ -74,7 +74,7 @@ export default function ExplorerWrapper(): JSX.Element {
           <Searchbar handleSearchTerm={handleSearchTerm} />
           <Filters handleFilters={handleFilters} filters={filters} />
         </div>
-        <FiltersApplied />
+        <PriceFilters handleFilters={handleFilters} filters={filters} />
         <span className="w-2/3 h-1 bg-gray-200 rounded-full"></span>
         <div className="flex flex-col self-start gap-4 w-full">
           <span className="text-3xl font-bold">Artistes</span>
