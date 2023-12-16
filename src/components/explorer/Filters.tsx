@@ -39,7 +39,6 @@ export default function Filters(props: FiltersProps): JSX.Element {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Node;
 
-      // Vérifiez si le clic est dans les références des boutons ou des dropdowns
       if (
         (filterButtonRef.current && filterButtonRef.current.contains(target)) ||
         (sortButtonRef.current && sortButtonRef.current.contains(target)) ||
@@ -74,6 +73,18 @@ export default function Filters(props: FiltersProps): JSX.Element {
       });
     });
     setArtTypes(newArtTypes);
+    let artTypeAlreadySelected: string = props.filters.artType;
+    if (artTypeAlreadySelected.includes(type)) {
+      artTypeAlreadySelected = artTypeAlreadySelected.replace(`${type},`, "");
+      artTypeAlreadySelected = artTypeAlreadySelected.replace(`${type}`, "");
+    } else {
+      artTypeAlreadySelected += `${type},`;
+    }
+    props.handleFilters({ ...props.filters, artType: artTypeAlreadySelected });
+  }
+
+  function handleSort(sort: string) {
+    props.handleFilters({ ...props.filters, sort: sort });
   }
 
   return (
@@ -138,8 +149,30 @@ export default function Filters(props: FiltersProps): JSX.Element {
           <SortIcon />
         </button>
         {collapseSort && (
-          <div ref={sortRef} className="absolute w-52 z-10 mt-14 bg-gray-100 shadow-lg rounded-xl p-4">
-            <div className="flex flex-row"></div>
+          <div
+            ref={sortRef}
+            className="absolute top-[110%] right-0 w-[260px] h-fit overflow-y-auto z-10 bg-gray-100 shadow-lg rounded-xl p-4"
+          >
+            <div className="flex flex-col gap-2">
+              <button
+                type="button"
+                className={`py-2 w-full flex flex-row justify-between items-center px-4 rounded-xl hover:bg-gray-200 hover:shadow-lg duration-300 ease-in-out
+                ${props.filters.sort === "" ? "bg-gray-200" : ""}`}
+                onClick={() => handleSort("")}
+              >
+                Nouveauté
+                {props.filters.sort === "" && <CheckIcon className="text-green-300" />}
+              </button>
+              <button
+                type="button"
+                className={`py-2 w-full flex flex-row justify-between items-center px-4 rounded-xl hover:bg-gray-200 hover:shadow-lg duration-300 ease-in-out
+                ${props.filters.sort === "popularity" ? "bg-gray-200" : ""}`}
+                onClick={() => handleSort("popularity")}
+              >
+                Popularité
+                {props.filters.sort === "popularity" && <CheckIcon className="text-green-300" />}
+              </button>
+            </div>
           </div>
         )}
       </div>

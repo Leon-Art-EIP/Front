@@ -46,7 +46,7 @@ export default function ExplorerWrapper(): JSX.Element {
     async function fetchArtPub() {
       const queryString = createQueryStringForFetch(filters);
       const res = await myFetch({ route: `/api/explorer/search${queryString}`, method: "GET" });
-      if (res.status !== 401) {
+      if (res.status !== 401 && res.status !== 422) {
         const data = await res.json();
         setArtPubs(data);
         setFilteredArtPubs(data);
@@ -64,6 +64,7 @@ export default function ExplorerWrapper(): JSX.Element {
 
   function handleFilters(filters: IFilters) {
     setFilters({ ...filters });
+    console.log("filters", filters)
   }
 
   return (
