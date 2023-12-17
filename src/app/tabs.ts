@@ -27,7 +27,7 @@ const tabs: ITab[] = [
   },
   {
     name: "Commandes",
-    href: "/purchase",
+    href: "/order",
     loggedIn: true,
     navbar: true,
     verticalNavbar: true,
