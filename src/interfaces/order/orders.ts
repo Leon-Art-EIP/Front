@@ -10,7 +10,8 @@ export interface Order {
   orderPicture: string
   orderDescription: string
   orderTitle: string
+  orderUserProviderName: string
+  orderUserProviderId: string
   orderPrice: number
-  selected: boolean
 }
 

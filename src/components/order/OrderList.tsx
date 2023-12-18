@@ -5,6 +5,7 @@ import { Order, Orders } from "../../interfaces/order/orders";
 
 export interface OrderListProps {
   orders: Orders;
+  selectedOrder: Order | undefined;
   handleOrderChange: (order: Order) => void;
 }
 
@@ -35,7 +36,13 @@ export default function OrderList(props: OrderListProps): JSX.Element {
           {props.orders.orders.map((order, index) => (
             <>
               {order.orderState === "pending" && (
-                <button className={`flex flex-row gap-4 items-center px-3 py-3 rounded-xl ${order.selected ? "bg-gray-200" : ""} hover:bg-gray-200 hover:shadow-lg transition duration-300 ease-in-out`}>
+                <button
+                  className={`relative overflow-hidden flex flex-row gap-4 items-center px-5 py-3 rounded-xl ${
+                    order.orderId === props.selectedOrder?.orderId ? "bg-gray-200" : ""
+                  } hover:bg-gray-200 hover:shadow-lg transition duration-300 ease-in-out`}
+                  onClick={() => onOrderChange(order)}
+                >
+                  {order.orderId === props.selectedOrder?.orderId && <span className="absolute top-0 left-0 h-full w-[5px] bg-[#e11c0a]"></span>}
                   <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
                     <img src={order.orderPicture} alt="order" className="w-full h-full object-cover object-center" />
                   </div>
@@ -59,7 +66,12 @@ export default function OrderList(props: OrderListProps): JSX.Element {
           {props.orders.orders.map((order, index) => (
             <>
               {order.orderState !== "pending" && (
-                <button className="flex flex-row gap-4 items-center px-3 py-3 rounded-xl hover:bg-[#d4d2d2] transition duration-300 ease-in-out">
+                <button
+                  className={`flex flex-row gap-4 items-center px-3 py-3 rounded-xl ${
+                    order.orderId === props.selectedOrder?.orderId ? "bg-gray-200" : ""
+                  } hover:bg-gray-200 hover:shadow-lg transition duration-300 ease-in-out`}
+                  onClick={() => onOrderChange(order)}
+                >
                   <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
                     <img src={order.orderPicture} alt="order" className="w-full h-full object-cover object-center" />
                   </div>
