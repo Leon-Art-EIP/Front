@@ -12,7 +12,7 @@ export default function OrderWrapper(): JSX.Element {
   const [orders, setOrders] = useState<Orders>({ orders: [] });
   const [selectedOrder, setSelectedOrder] = useState<Order>();
 
-  const [deliveryHelpModal, setDeliveryHelpModal] = useState<boolean>(true);
+  const [deliveryHelpModal, setDeliveryHelpModal] = useState<boolean>(false);
 
   // to be removed for the end of Sprint 3
   function populateOrders() {
@@ -39,7 +39,7 @@ export default function OrderWrapper(): JSX.Element {
       orderPrice: 40,
       orderRating: 2,
       orderState: "pending",
-      orderDeliveryState: "preparation",
+      orderDeliveryState: "sent",
       orderUserProviderName: "Pokemon Pickachumaster",
       orderUserProviderId: "nezuineuzanuezauibezabiezabieza",
     };
@@ -52,7 +52,7 @@ export default function OrderWrapper(): JSX.Element {
       orderPrice: 200,
       orderRating: 4,
       orderState: "pending",
-      orderDeliveryState: "preparation",
+      orderDeliveryState: "in coming",
       orderUserProviderName: "Mathias legrand",
       orderUserProviderId: "nezuineuzanuezauibezabiezabieza",
     };
@@ -65,7 +65,7 @@ export default function OrderWrapper(): JSX.Element {
       orderPrice: 2100,
       orderRating: 4,
       orderState: "accepted",
-      orderDeliveryState: "preparation",
+      orderDeliveryState: "arrived",
       orderUserProviderName: "Frederick tototito",
       orderUserProviderId: "nezuineuzanuezauibezabiezabieza",
     };
@@ -78,7 +78,7 @@ export default function OrderWrapper(): JSX.Element {
       orderPrice: 1100,
       orderRating: 2,
       orderState: "accepted",
-      orderDeliveryState: "preparation",
+      orderDeliveryState: "sent",
       orderUserProviderName: "Elder Ringmaster",
       orderUserProviderId: "nezuineuzanuezauibezabiezabieza",
     };
