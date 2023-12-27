@@ -11,7 +11,7 @@ const tabs: ITab[] = [
   },
   {
     name: "Explorer",
-    href: "/explore",
+    href: "/explorer",
     loggedIn: true,
     navbar: true,
     verticalNavbar: true,
@@ -68,6 +68,14 @@ const tabs: ITab[] = [
   {
     name: "Quizz",
     href: "/quizz",
+    loggedIn: true,
+    navbar: false,
+    verticalNavbar: false,
+    header: true,
+  },
+  {
+    name: "Publication d'art",
+    href: "/single",
     loggedIn: true,
     navbar: false,
     verticalNavbar: false,
