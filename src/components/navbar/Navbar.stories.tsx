@@ -36,14 +36,14 @@ export const SelectHome: Story = {
 export const SelectExplorer: Story = {
   args: {
     ...SelectHome.args,
-    selectedTabHref: "/explore",
+    selectedTabHref: "/explorer",
   },
 };
 
 export const SelectMessages: Story = {
   args: {
     ...SelectHome.args,
-    selectedTabHref: "/messages",
+    selectedTabHref: "/chat",
   },
 };
 
