@@ -12,6 +12,5 @@ type Story = StoryObj<IPassingArtsProps>;
 export const Regular: Story = {
   args: {
     passingArts: passingArts,
-    position: 1,
   },
 };
