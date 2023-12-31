@@ -14,3 +14,9 @@ export const Regular: Story = {
     passingArts: passingArts,
   },
 };
+
+export const LotOfArticles: Story = {
+  args: {
+    passingArts: passingArts.concat(passingArts).concat(passingArts).concat(passingArts).concat(passingArts),
+  },
+};
