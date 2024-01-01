@@ -26,7 +26,7 @@ export default function VerticalNavbar({ link: Link, ...props }: INavbarProps): 
                 tab.verticalNavbar && (
                   <Link
                     key={`${tab.name}-${tab.href}`}
-                    href={`${tab.href == "/profile" ? `/profile/${props.user.id}` : tab.href}`}
+                    href={`${tab.href == "/profile" ? `/profile/${props.userId}` : tab.href}`}
                   >
                     <div style={{ color: `${props.selectedTabHref === tab.href ? "red" : "black"}` }} className="px-2">
                       {tab.name}

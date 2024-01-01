@@ -21,15 +21,7 @@ export const SelectHome: Story = {
     tabs,
     selectedTabHref: "/",
     link: "a",
-    user: {
-      id: "",
-      username: "",
-      email: "",
-      is_artist: false,
-      availability: "",
-      subscription: "",
-      collections: [],
-    },
+    userId: "",
   },
 };
 

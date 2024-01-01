@@ -10,9 +10,7 @@ import { IPassingArt } from "../../interfaces/home/passingArt";
 import { myFetch } from "../../tools/myFetch";
 import { passingArts as fakePassingArts } from "./../../components/home/passingArt/passingArts";
 import { IArtist } from "../../interfaces/home/artist";
-import { artists as fakeArtists } from "../../components/home/artists/artists";
 import { IArtPublication } from "../../interfaces/artPublication/artPublication";
-import { arts as fakeArts } from "../../components/home/forYou/arts";
 
 // TODO: lorsqu'on pourra récup les données du user connecté côté back, on pourra donc myFetch sans "use client",
 // TODO: on pourra donc faire cet appel depuis le back (de l'app web) directement dans le page.tsx du home
@@ -29,7 +27,7 @@ export default function HomeWrapper(): JSX.Element {
       const passingArts: IPassingArt[] = data.map((article, index) => ({
         ...article,
         author: { username: article.author.username },
-        mainImage: fakePassingArts[index % fakePassingArts.length].mainImage,
+        mainImage: fakePassingArts[index % fakePassingArts.length].mainImage, // `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${article.mainImage}`,
         position: index,
       }));
       setPassingArts(passingArts);
@@ -42,9 +40,9 @@ export default function HomeWrapper(): JSX.Element {
     try {
       const response = await myFetch({ method: "GET", route: "/api/artists/latest" });
       const data = (await response.json()) as { artists: IArtist[] };
-      const artists = data.artists.map((artist, index) => ({
+      const artists = data.artists.map((artist) => ({
         ...artist,
-        profilePicture: fakeArtists[index % fakeArtists.length].profilePicture,
+        profilePicture: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${artist.profilePicture}`,
       }));
       setArtists(artists);
     } catch (error) {
@@ -56,9 +54,9 @@ export default function HomeWrapper(): JSX.Element {
     try {
       const response = await myFetch({ method: "GET", route: "/api/art-publication/feed/latest" });
       const data = (await response.json()) as IArtPublication[];
-      const arts = data.map((art, index) => ({
+      const arts = data.map((art) => ({
         ...art,
-        image: fakeArts[index % fakeArts.length].image,
+        image: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${art.image}`,
       }));
       setArts(arts);
     } catch (error) {

@@ -22,7 +22,13 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
   return (
     <div className="flex flex-col gap-5">
       <div className="w-auto h-auto rounded-2xl overflow-hidden">
-        <img src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.art}`} alt="art" className="object-cover" />
+        <Image
+          src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.art}`}
+          alt="art"
+          className="object-cover"
+          width={2000}
+          height={2000}
+        />
       </div>
       <div className="flex">
         <div className="flex flex-1 font-bold text-3xl">{props.title}</div>
