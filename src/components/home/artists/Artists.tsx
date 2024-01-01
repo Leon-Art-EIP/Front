@@ -15,10 +15,10 @@ export default function Artists(props: IArtistsProps): JSX.Element {
         {props.artists.map((artist) => {
           return (
             <NamedProfilePicture
-              key={`artist-${artist.id}`}
+              key={`artist-${artist._id}`}
               name={artist.username}
               src={artist.profilePicture}
-              id={artist.id}
+              id={artist._id}
               link={props.link}
             />
           );

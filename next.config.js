@@ -1,8 +1,10 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
-    env: {
-        NEXT_PUBLIC_BACKEND_URL: "http://back-dev.leonart-dev.ovh",
-    },
-}
+  env: {
+    NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  },
+  images: {
+    domains: ["localhost"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
