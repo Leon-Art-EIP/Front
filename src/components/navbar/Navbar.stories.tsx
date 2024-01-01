@@ -21,29 +21,21 @@ export const SelectHome: Story = {
     tabs,
     selectedTabHref: "/",
     link: "a",
-    user: {
-      id: "",
-      username: "",
-      email: "",
-      is_artist: false,
-      availability: "",
-      subscription: "",
-      collections: [],
-    },
+    userId: "",
   },
 };
 
 export const SelectExplorer: Story = {
   args: {
     ...SelectHome.args,
-    selectedTabHref: "/explore",
+    selectedTabHref: "/explorer",
   },
 };
 
 export const SelectMessages: Story = {
   args: {
     ...SelectHome.args,
-    selectedTabHref: "/messages",
+    selectedTabHref: "/chat",
   },
 };
 

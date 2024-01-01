@@ -10,7 +10,7 @@ export interface INavbarProps {
   tabs: ITab[];
   selectedTabHref: string;
   link: ElementType<{ children: JSX.Element; href: string }>;
-  user: IUser;
+  userId: string;
 }
 
 export default function Navbar({ link: Link, ...props }: INavbarProps) {
@@ -36,7 +36,7 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
           <Link href={`/settings`}>
             <Settings />
           </Link>
-          <Link href={`/profile/${props.user.id}`}>
+          <Link href={`/profile/${props.userId}`}>
             <div className="h-16 w-16">
               <ProfilePicture src={profilePicture} />
             </div>
