@@ -5,14 +5,19 @@ import IconButton from "../IconButton";
 import { ElementType, useState } from "react";
 import Image from "next/image";
 import { IProfileCollection } from "../../../interfaces/profile/profileCollection";
+import Publications from "../publications/Publications";
 
 export interface ICollectionsProps {
   collections: IProfileCollection[];
   link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
-export default function Collections({ link: Link, ...props }: ICollectionsProps): JSX.Element {
+export default function Collections(props: ICollectionsProps): JSX.Element {
   const [openCollections, setOpenCollections] = useState<string[]>([]);
+
+  if (props.collections.length === 0) {
+    return <div className="text-2xl">Aucune collection</div>;
+  }
 
   const handleOpenCollectionsOnClick = (collectionId: string) => {
     if (openCollections.includes(collectionId)) {
@@ -34,14 +39,9 @@ export default function Collections({ link: Link, ...props }: ICollectionsProps)
               onClick={() => handleOpenCollectionsOnClick(collection.id)}
             />
           </div>
-          {openCollections.includes(collection.id) &&
-            collection.pictures.map((picture) => (
-              <Link key={`collection-${collection.id}-art-${picture.id}`} href={`/single/${picture.id}`}>
-                <div className="flex flex-wrap gap-2 bg-secondaryGrey">
-                  <Image src={picture.src} alt="art-publication" width={200} height={200} />
-                </div>
-              </Link>
-            ))}
+          {openCollections.includes(collection.id) && (
+            <Publications link={props.link} profileArts={collection.pictures} />
+          )}
         </div>
       ))}
     </div>

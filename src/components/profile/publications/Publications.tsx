@@ -8,15 +8,17 @@ interface IPublicationsProps {
 }
 
 export default function Publications({ link: Link, ...props }: IPublicationsProps): JSX.Element {
+  if (props.profileArts.length === 0) {
+    return <div className="text-2xl">Aucune publication</div>;
+  }
+
   return (
-    <>
+    <div className="flex flex-wrap gap-4 bg-secondaryGrey p-4 rounded">
       {props.profileArts.map((picture) => (
         <Link key={`art-${picture.id}`} href={`/single/${picture.id}`}>
-          <div className="flex flex-wrap gap-2 bg-secondaryGrey">
-            <Image src={picture.src} alt="art-publication" width={200} height={200} />
-          </div>
+          <Image src={picture.src} alt="art-publication" width={300} height={300} className="rounded" />
         </Link>
       ))}
-    </>
+    </div>
   );
 }

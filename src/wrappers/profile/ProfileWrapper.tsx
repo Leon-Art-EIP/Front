@@ -23,6 +23,7 @@ interface IProfileWrapperProps {
 export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element {
   const [artist, setArtist] = useState<IArtist | null>(null);
   const [collections, setCollections] = useState<IProfileCollection[]>([]);
+  const [publications, setPublications] = useState<IProfileArt[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,8 +55,21 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         return profileCollections;
       }
 
+      async function fetchPublications(): Promise<IProfileArt[]> {
+        const response = await myFetch({ route: `/api/art-publication/user/${props.id}`, method: "GET" });
+        const arts = (await response.json()) as IArtPublication[];
+
+        const publications = arts.map((art) => ({
+          id: art._id,
+          src: `${imageApi}/${art.image}`,
+        }));
+        return publications;
+      }
+
       const collections: IProfileCollection[] = await fetchCollectionsWithPublications();
       setCollections(collections);
+      const publications: IProfileArt[] = await fetchPublications();
+      setPublications(publications);
     };
     fetchData();
   }, [props.id]);
@@ -84,6 +98,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             aboutTitle={data.aboutTitle} // TODO: ask backend to send this
             aboutDescription={artist.biography}
             collections={collections}
+            publications={publications}
             link={Link}
           />
         </div>
