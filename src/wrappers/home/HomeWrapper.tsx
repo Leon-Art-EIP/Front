@@ -11,6 +11,7 @@ import { myFetch } from "../../tools/myFetch";
 import { passingArts as fakePassingArts } from "./../../components/home/passingArt/passingArts";
 import { IArtist } from "../../interfaces/home/artist";
 import { IArtPublication } from "../../interfaces/artPublication/artPublication";
+import { imageApi } from "../../tools/variables";
 
 // TODO: lorsqu'on pourra récup les données du user connecté côté back, on pourra donc myFetch sans "use client",
 // TODO: on pourra donc faire cet appel depuis le back (de l'app web) directement dans le page.tsx du home
@@ -42,7 +43,7 @@ export default function HomeWrapper(): JSX.Element {
       const data = (await response.json()) as { artists: IArtist[] };
       const artists = data.artists.map((artist) => ({
         ...artist,
-        profilePicture: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${artist.profilePicture}`,
+        profilePicture: `${imageApi}/${artist.profilePicture}`,
       }));
       setArtists(artists);
     } catch (error) {
@@ -56,7 +57,7 @@ export default function HomeWrapper(): JSX.Element {
       const data = (await response.json()) as IArtPublication[];
       const arts = data.map((art) => ({
         ...art,
-        image: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${art.image}`,
+        image: `${imageApi}/${art.image}`,
       }));
       setArts(arts);
     } catch (error) {

@@ -1,5 +1,3 @@
-import { ICollection } from "./collection";
-
 export interface IArtist {
   _id: string;
   username: string;
@@ -7,7 +5,7 @@ export interface IArtist {
   is_artist: boolean;
   availability: "available" | "unavailable";
   subscription: string;
-  collections: ICollection[];
+  collections: string[]; // id of collections
   subscriptions: string[];
   subscribers: string[];
   subscribersCount: number;
@@ -16,4 +14,5 @@ export interface IArtist {
   profilePicture: string;
   bannerPicture: string;
   __v?: number;
+  biography?: string;
 }

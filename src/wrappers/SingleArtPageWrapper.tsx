@@ -9,6 +9,7 @@ import { myFetch } from "../tools/myFetch";
 import { IArtPublication } from "../interfaces/artPublication/artPublication";
 import { IProfileUser } from "../interfaces/user/profileUser";
 import LoadingPage from "../components/loading/LoadingPage";
+import { imageApi } from "../tools/variables";
 
 export default function SingleArtPageWrapper(props: { params: { id: string } }): JSX.Element {
   const [artPublication, setArtPublication] = useState<IArtPublication>();
@@ -52,7 +53,7 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
       price={artPublication.price}
       art={artPublication.image}
       artId={artPublication._id}
-      profile={data.profile}
+      profile={`${imageApi}/${artist.profilePicture}`}
       title={artPublication.name}
       liked={artPublication.likes.includes(user.id)}
       nbrLikes={artPublication.likes.length}

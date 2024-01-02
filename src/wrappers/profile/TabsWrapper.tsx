@@ -1,19 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { ElementType, useState } from "react";
 import Tabs from "../../components/profile/tabs/Tabs";
-import PicturesWrapper from "./PicturesWrapper";
 import About from "../../components/profile/about/About";
 import Collections from "../../components/profile/collections/Collections";
+import { IProfileArt, IProfileCollection } from "../../interfaces/profile/profileCollection";
+import Publications from "../../components/profile/publications/Publications";
 
 interface ITabsWrapperProps {
   aboutTitle: string;
-  aboutDescription: string;
-  collections: {
-    id: number;
-    title: string;
-    picturesIds: number[];
-  }[];
+  aboutDescription?: string;
+  collections: IProfileCollection[];
+  publications: IProfileArt[];
+  link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
 export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
@@ -41,8 +40,8 @@ export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
           selectedTab={selectedTab}
         />
       </div>
-      {selectedTab === "publications" && <PicturesWrapper />}
-      {selectedTab === "collections" && <Collections collections={props.collections} />}
+      {selectedTab === "publications" && <Publications link={props.link} profileArts={props.publications} />}
+      {selectedTab === "collections" && <Collections link={props.link} collections={props.collections} />}
       {selectedTab === "about" && <About title={props.aboutTitle} description={props.aboutDescription} />}
     </>
   );

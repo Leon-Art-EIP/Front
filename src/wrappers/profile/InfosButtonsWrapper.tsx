@@ -1,14 +1,37 @@
 "use client";
 
+import { ElementType, useState } from "react";
 import Button from "../../components/profile/Button";
+import { props } from "cypress/types/bluebird";
+import { myFetch } from "../../tools/myFetch";
 
-/* c8 ignore start */
-export default function InfosButtonsWrapper(): JSX.Element {
+interface IInfosButtonsWrapperProps {
+  link: ElementType<{ children: JSX.Element; href: string }>;
+  following: boolean;
+  id: string;
+}
+
+export default function InfosButtonsWrapper({ link: Link, ...props }: IInfosButtonsWrapperProps): JSX.Element {
+  const [following, setFollowing] = useState<boolean>(props.following);
+
+  const handleFollow = async () => {
+    const response = await myFetch({ route: `/api/follow/${props.id}`, method: "POST" });
+
+    if (response.status === 200) {
+      setFollowing(!following);
+    }
+  };
+
   return (
-    <div className="flex gap-2 [&>*]:flex-1">
-      <Button onClick={() => {}} text="Contacter" />
-      <Button onClick={() => {}} text="Suivre" className="text-white bg-primaryRed" />
+    <div className="grid grid-cols-2 gap-2">
+      <Link href="/chat">
+        <Button text="Contacter" className="w-full bg-white text-black" />
+      </Link>
+      {following ? (
+        <Button onClick={handleFollow} text="Ne plus suivre" className="text-black bg-gray-300" />
+      ) : (
+        <Button onClick={handleFollow} text="Suivre" className="text-white bg-primaryRed" />
+      )}
     </div>
   );
 }
-/* c8 ignore end */
