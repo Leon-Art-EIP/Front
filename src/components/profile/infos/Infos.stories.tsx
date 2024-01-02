@@ -8,12 +8,20 @@ export default {
 
 type Story = StoryObj<IInfosProps>;
 
-export const Regular: Story = {
+export const AvailableForCommands: Story = {
   args: {
-    artistDescription: "Designer graphique",
+    availability: "available",
+    artType: "Designer graphique",
     artistName: "Lena H",
     categories: ["Photographie numérique", "Photographe couleur", "Art vestimentaire", "Acrylique", "Broderie"],
     numberOfFollowers: 1300,
     numberOfPosts: 64,
+  },
+};
+
+export const UnavailableForCommands: Story = {
+  args: {
+    ...AvailableForCommands.args,
+    availability: "unavailable",
   },
 };

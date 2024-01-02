@@ -4,7 +4,6 @@ interface IPicturesProps {
   pictures: string[];
 }
 
-/* c8 ignore start */
 export default function Pictures(props: IPicturesProps): JSX.Element {
   return (
     <div className="grid grid-cols-4 gap-8 place-items-center justify-center py-4 px-4">
@@ -17,4 +16,3 @@ export default function Pictures(props: IPicturesProps): JSX.Element {
     </div>
   );
 }
-/* c8 ignore stop */

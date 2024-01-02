@@ -1,23 +1,20 @@
 "use client";
 
-import { ChevronRight, ExpandMore, ForkRight } from "@mui/icons-material";
+import { ChevronRight, ExpandMore } from "@mui/icons-material";
 import IconButton from "../IconButton";
-import Pictures from "../../gallery/Pictures";
-import { useState } from "react";
+import { ElementType, useState } from "react";
+import Image from "next/image";
+import { IProfileCollection } from "../../../interfaces/profile/profileCollection";
 
 export interface ICollectionsProps {
-  collections: {
-    id: number;
-    title: string;
-    picturesIds: number[];
-  }[];
+  collections: IProfileCollection[];
+  link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
-/* c8 ignore start */
-export default function Collections(props: ICollectionsProps): JSX.Element {
-  const [openCollections, setOpenCollections] = useState<number[]>([]);
+export default function Collections({ link: Link, ...props }: ICollectionsProps): JSX.Element {
+  const [openCollections, setOpenCollections] = useState<string[]>([]);
 
-  const handleOpenCollectionsOnClick = (collectionId: number) => {
+  const handleOpenCollectionsOnClick = (collectionId: string) => {
     if (openCollections.includes(collectionId)) {
       setOpenCollections(openCollections.filter((id) => id !== collectionId));
     } else {
@@ -37,22 +34,16 @@ export default function Collections(props: ICollectionsProps): JSX.Element {
               onClick={() => handleOpenCollectionsOnClick(collection.id)}
             />
           </div>
-          {openCollections.includes(collection.id) && (
-            <div className="bg-secondaryGrey">
-              <Pictures
-                // tmp data
-                pictures={[
-                  "https://irisphoto.art/web/image/65508/19-98-31.jpg",
-                  "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-                  "https://media.cdnws.com/_i/119489/433/3867/37/jm-arthot-newlessables-044-liberte-time-workofart-frame.jpeg ",
-                  "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-                ]}
-              />
-            </div>
-          )}
+          {openCollections.includes(collection.id) &&
+            collection.pictures.map((picture) => (
+              <Link key={`collection-${collection.id}-art-${picture.id}`} href={`/single/${picture.id}`}>
+                <div className="flex flex-wrap gap-2 bg-secondaryGrey">
+                  <Image src={picture.src} alt="art-publication" width={200} height={200} />
+                </div>
+              </Link>
+            ))}
         </div>
       ))}
     </div>
   );
 }
-/* c8 ignore end */
