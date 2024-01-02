@@ -19,18 +19,18 @@ export const Regular: Story = {
   args: {
     collections: [
       {
-        id: 1,
+        id: "1",
         title: "Collection 1",
         pictures: pictures.map((picture, index) => ({
-          id: index,
+          id: `${index}`,
           src: picture,
         })),
       },
       {
-        id: 2,
+        id: "2",
         title: "Collection 2",
         pictures: pictures.map((picture, index) => ({
-          id: index,
+          id: `${index}`,
           src: picture,
         })),
       },
