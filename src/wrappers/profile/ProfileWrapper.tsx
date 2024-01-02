@@ -13,14 +13,15 @@ import { myFetch } from "../../tools/myFetch";
 import { imageApi } from "../../tools/variables";
 import TabsWrapper from "./TabsWrapper";
 import LoadingPage from "../../components/loading/LoadingPage";
-import profilePicture from "../../assets/profilePicture.png";
 import banner from "../../assets/profileBanner.png";
+import { IConnectedUser } from "../../interfaces/user/user";
 
 interface IProfileWrapperProps {
   id: string;
 }
 
 export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element {
+  const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
   const [artist, setArtist] = useState<IArtist | null>(null);
   const [collections, setCollections] = useState<IProfileCollection[]>([]);
   const [publications, setPublications] = useState<IProfileArt[]>([]);
@@ -109,7 +110,11 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             artistName={artist.username}
             categories={data.categories} // TODO: ask backend to send this
             numberOfFollowers={artist.subscribersCount}
-            numberOfPosts={collections.reduce((total, collection) => total + collection.pictures.length, 0)}
+            numberOfPosts={publications.length}
+            myProfile={Object.keys(user).length > 0 && user.user.id === props.id}
+            following={Object.keys(user).length > 0 && artist.subscribers.includes(user.user.id)}
+            id={props.id}
+            link={Link}
           />
         </div>
       </div>

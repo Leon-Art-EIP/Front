@@ -16,6 +16,8 @@ export const AvailableForCommands: Story = {
     categories: ["Photographie numérique", "Photographe couleur", "Art vestimentaire", "Acrylique", "Broderie"],
     numberOfFollowers: 1300,
     numberOfPosts: 64,
+    link: "a",
+    id: "1",
   },
 };
 

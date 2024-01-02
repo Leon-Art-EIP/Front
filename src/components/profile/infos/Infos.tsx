@@ -1,3 +1,4 @@
+import { ElementType } from "react";
 import AvailableForCommandsButton from "../../../wrappers/profile/AvailableForCommandsButton";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
 import Category, { TCategory } from "../category/Category";
@@ -9,6 +10,10 @@ export interface IInfosProps {
   numberOfFollowers: number;
   numberOfPosts: number;
   categories: TCategory[];
+  myProfile: boolean;
+  following: boolean;
+  id: string;
+  link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
 export default function Infos(props: IInfosProps): JSX.Element {
@@ -38,7 +43,7 @@ export default function Infos(props: IInfosProps): JSX.Element {
             <div>posts</div>
           </div>
         </div>
-        <InfosButtonsWrapper />
+        {!props.myProfile && <InfosButtonsWrapper following={props.following} link={props.link} id={props.id} />}
         {props.availability === "available" && <AvailableForCommandsButton />}
         <div className="h-0.5 w-full bg-black" />
         <div className="flex gap-2 flex-wrap">

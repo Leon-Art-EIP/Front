@@ -1,9 +1,8 @@
-import { ElementType, useState } from "react";
+import { ElementType } from "react";
 import { ITab } from "../../interfaces";
 import TextLogo from "../text-logo/TextLogo";
 import profilePicture from "../../assets/profilePicture.png";
 import ProfilePicture from "../profile/profilePicture/ProfilePicture";
-import { IUser } from "../../interfaces/user/user";
 import { Settings } from "@mui/icons-material";
 
 export interface INavbarProps {
@@ -11,6 +10,7 @@ export interface INavbarProps {
   selectedTabHref: string;
   link: ElementType<{ children: JSX.Element; href: string }>;
   userId: string;
+  image: string;
 }
 
 export default function Navbar({ link: Link, ...props }: INavbarProps) {
@@ -38,7 +38,7 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
           </Link>
           <Link href={`/profile/${props.userId}`}>
             <div className="h-16 w-16">
-              <ProfilePicture src={profilePicture} />
+              <ProfilePicture src={props.image} width={64} height={64} />
             </div>
           </Link>
         </div>

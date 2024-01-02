@@ -3,7 +3,7 @@ import IconButton from "../single-art-page/artwork/IconButton";
 import { INavbarProps } from "./Navbar";
 import { Menu } from "@mui/icons-material";
 
-export default function VerticalNavbar({ link: Link, ...props }: INavbarProps): JSX.Element {
+export default function VerticalNavbar({ link: Link, ...props }: Omit<INavbarProps, "image">): JSX.Element {
   const [open, setOpen] = useState(false);
 
   return (
