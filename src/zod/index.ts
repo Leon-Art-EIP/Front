@@ -31,20 +31,34 @@ export const registerSchema = z
     }
   });
 
-export const settingsPasswordSchema = z.object({
+export const settingsPasswordSchema = z
+  .object({
     password: nonEmptyString,
     newpassword: nonEmptyString,
     confirmpassword: nonEmptyString,
-}).superRefine((data, ctx) => {
+  })
+  .superRefine((data, ctx) => {
     if (data.newpassword !== data.confirmpassword) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Les mots de passe ne correspondent pas",
         path: ["confirmpassword"],
-    });
-  }
+      });
+    }
+  });
+
+export const createArtSchema = z.object({
+  image: nonEmptyString,
+  artType: nonEmptyString,
+  name: nonEmptyString,
+  description: nonEmptyString,
+  dimensions: nonEmptyString,
+  isForSale: z.boolean(),
+  price: z.number().min(0),
+  location: nonEmptyString.optional(),
 });
 
 export type TLoginData = z.infer<typeof loginSchema>;
 export type TRegisterData = z.infer<typeof registerSchema>;
 export type TSettingsPasswordData = z.infer<typeof settingsPasswordSchema>;
+export type TCreateArtData = z.infer<typeof createArtSchema>;
