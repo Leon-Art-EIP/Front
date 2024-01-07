@@ -16,3 +16,8 @@ export type IError = {
     value: string;
   }[];
 };
+
+export interface IOption<T extends string | number> {
+  value: T;
+  label: string;
+}

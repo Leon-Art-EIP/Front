@@ -1,9 +1,11 @@
 import { AddSharp } from "@mui/icons-material";
 import { useController } from "react-hook-form";
+import { cn } from "../../tools/cn";
 
 interface IFileInputProps {
   title?: string;
   name: string;
+  className?: string;
 }
 
 export default function FileInput(props: IFileInputProps): JSX.Element {
@@ -13,11 +15,11 @@ export default function FileInput(props: IFileInputProps): JSX.Element {
   } = useController({ name: props.name });
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className={cn("flex flex-col gap-2", props.className)}>
       <div className="text-lg">{props.title}</div>
       <label
         htmlFor="file_input"
-        className="hover:cursor-pointer bg-secondaryGrey rounded flex justify-center items-center h-24 w-48 text-gray-400"
+        className="hover:cursor-pointer bg-secondaryGrey rounded flex justify-center items-center h-24 text-gray-400"
       >
         <AddSharp style={{ fontSize: 50 }} />
       </label>
