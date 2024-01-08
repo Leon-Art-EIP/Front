@@ -10,7 +10,7 @@ interface INamedProfilePictureProps {
 
 export default function NamedProfilePicture({ link: Link, ...props }: INamedProfilePictureProps): JSX.Element {
   return (
-    <Link href={`/profile/${props.id}`}>
+    <Link href={`/profile/${props.id}`} className="rounded-lg p-2 hover:bg-secondaryGrey">
       <div className="flex flex-col gap-2 text-center">
         <div className="h-32 w-32">
           <ProfilePicture src={props.src} width={128} height={128} />

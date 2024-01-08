@@ -2,6 +2,7 @@ import { ElementType } from "react";
 import AvailableForCommandsButton from "../../../wrappers/profile/AvailableForCommandsButton";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
 import Category, { TCategory } from "../category/Category";
+import LinkButton from "../../lib/Button/LinkButton";
 
 export interface IInfosProps {
   availability: "available" | "unavailable";
@@ -51,6 +52,11 @@ export default function Infos(props: IInfosProps): JSX.Element {
             <Category category={category} key={`buttonCategory-${category}`} />
           ))}
         </div>
+        {props.myProfile && (
+          <LinkButton link={props.link} href={`/single/new`} color="danger" type="button" className="w-fit self-center">
+            Nouvelle publication
+          </LinkButton>
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import React from "react";
 export type ButtonType = "submit" | "button" | "reset";
 export type ButtonColor = "primary" | "secondary" | "danger" | "success" | "info";
 
-export interface ButtonProps {
+export interface IButtonProps {
   children: React.ReactNode;
   type: ButtonType;
   color: ButtonColor;
@@ -21,7 +21,7 @@ const colorClasses: Record<ButtonColor, string> = {
   info: "bg-purple-800 text-white hover:bg-purple-900 disabled:bg-purple-400",
 };
 
-export default function Button({ children, type, color, className = "", onClick, loading }: ButtonProps): JSX.Element {
+export default function Button({ children, type, color, className = "", onClick, loading }: IButtonProps): JSX.Element {
   return (
     <button
       type={type}

@@ -1,11 +1,11 @@
-export function appendFormData<T extends Record<string, unknown>>(data: T) {
-  const formData = new FormData();
-
+export function appendFormData(formData: FormData, data: Record<string, unknown>) {
   for (const [key, value] of Object.entries(data)) {
     if (value !== undefined) {
-      formData.append(key, String(value));
+      if (value instanceof File) {
+        formData.append(key, value);
+      } else {
+        formData.append(key, String(value));
+      }
     }
   }
-
-  return formData;
 }

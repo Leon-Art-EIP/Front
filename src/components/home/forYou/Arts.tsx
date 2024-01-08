@@ -8,10 +8,14 @@ export interface IArtsProps {
 
 export default function Arts({ link: Link, ...props }: IArtsProps): JSX.Element {
   return (
-    <div className="flex flex-wrap overflow-y-auto gap-8">
+    <div className="max-h-full flex flex-wrap gap-8 justify-around p-4">
       {props.arts.map((art) => {
         return (
-          <Link href={`/single/${art._id}`} key={`art-${art._id}`}>
+          <Link
+            href={`/single/${art._id}`}
+            key={`art-${art._id}`}
+            className="border border-secondaryGrey hover:bg-secondaryGrey p-2 rounded-lg"
+          >
             <Image alt="art-image" src={art.image} width={320} height={320} className="rounded-xl" />
           </Link>
         );

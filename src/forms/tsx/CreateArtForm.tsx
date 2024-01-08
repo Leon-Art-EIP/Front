@@ -8,11 +8,14 @@ import Select from "../../components/form/Select";
 import Input from "../../components/form/Input";
 import TextArea from "../../components/form/TextArea";
 import { Button } from "../../components/lib";
-import { IOption } from "../../interfaces";
+import { IError, IOption } from "../../interfaces";
 import NumberInput from "../../components/form/NumberInput";
 import { myFetch } from "../../tools/myFetch";
-import { appendFormData } from "../../tools/formData";
 import Checkbox from "../../components/form/Checkbox";
+import { useRouter } from "next/navigation";
+import { use } from "chai";
+import { useState } from "react";
+import { appendFormData } from "../../tools/formData";
 
 export interface ICreateArtFormProps {
   artTypes: IOption<string>[];
@@ -21,25 +24,32 @@ export interface ICreateArtFormProps {
 export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   const methods = useCreateArtForm();
   const isForSale = methods.watch("isForSale");
+  const router = useRouter();
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (data: TCreateArtData): Promise<void> => {
-    const formData = appendFormData(data);
+  const handleSubmit = async (zodData: TCreateArtData): Promise<void> => {
+    const formData = new FormData();
+
+    appendFormData(formData, zodData);
 
     const response = await myFetch({
-      route: "api/art-publication",
+      route: "/api/art-publication",
       method: "POST",
       body: formData,
+      formData: true,
     });
 
-    if (response.ok) {
-      console.log("Single art créée avec succès");
-    } else {
-      console.error("Erreur lors de la création de l'art");
+    const data = (await response.json()) as { msg: string; artPublication: { id: string } } | IError;
+
+    if (response.ok && "msg" in data) {
+      router.push(`/single/${data.artPublication.id}`);
+    } else if ("errors" in data && data.errors.length > 0) {
+      setError(data.errors[0].msg);
     }
   };
 
   const onSubmit = async (data: TCreateArtData): Promise<void> => {
-    console.log("submit");
+    data.price = data.isForSale ? data.price : undefined;
     await handleSubmit(data);
   };
 
@@ -51,7 +61,7 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
       >
         <div className="text-2xl font-semibold">Publier</div>
         <div className="sm:grid sm:grid-cols-3 gap-12 flex flex-col flex-1">
-          <FileInput title="Image" name="image" className="col-span-1 flex-1" />
+          <FileInput name="image" />
           <Select
             name="artType"
             title="Type d'art"
@@ -83,6 +93,7 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
         <Button color="danger" type="submit" className="self-end">
           Publier
         </Button>
+        {error && <div className="text-red-600 text-end">{error}</div>}
       </form>
     </FormProvider>
   );

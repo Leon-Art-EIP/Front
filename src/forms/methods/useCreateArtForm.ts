@@ -5,14 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export default function useCreateArtForm(): UseFormReturn<TCreateArtData> {
   const methods = useForm<TCreateArtData>({
     defaultValues: {
-      image: "",
+      image: undefined,
       artType: "",
       name: "",
       description: "",
       dimensions: "",
       isForSale: false,
       price: 0,
-      location: "",
+      location: undefined,
     },
     resolver: zodResolver(createArtSchema),
   });

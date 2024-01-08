@@ -9,9 +9,9 @@ export interface IArtistsProps {
 
 export default function Artists(props: IArtistsProps): JSX.Element {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 px-4">
       <div className="text-xl font-semibold">Artistes {`>`}</div>
-      <div className="flex gap-12 overflow-x-auto">
+      <div className="flex gap-4 overflow-x-auto">
         {props.artists.map((artist) => {
           return (
             <NamedProfilePicture
