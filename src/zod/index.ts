@@ -54,7 +54,7 @@ export const createArtSchema = z.object({
   description: nonEmptyString,
   dimensions: nonEmptyString,
   isForSale: z.boolean(),
-  price: z.number().min(0),
+  price: z.number().min(0).optional(),
   location: nonEmptyString.optional(),
 });
 

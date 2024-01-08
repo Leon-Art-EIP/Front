@@ -6,7 +6,7 @@ import { cn } from "../../tools/cn";
 interface IInputProps {
   type: string;
   name: string;
-  className: string;
+  className?: string;
   placeholder: string;
   title?: string;
 }

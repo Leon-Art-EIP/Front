@@ -17,10 +17,10 @@ export default function FileInput(props: IFileInputProps): JSX.Element {
   return (
     <div className={cn("flex flex-col gap-2", props.className)}>
       {props.title && <div className="text-lg">{props.title}</div>}
-      <div className="flex flex-col">
+      <div className="flex flex-col h-full">
         <label
           htmlFor="file_input"
-          className="hover:cursor-pointer bg-secondaryGrey rounded flex justify-center items-center h-24 text-gray-400"
+          className="hover:cursor-pointer bg-secondaryGrey rounded flex justify-center items-center text-gray-400 h-full"
         >
           <AddSharp style={{ fontSize: 50 }} />
         </label>

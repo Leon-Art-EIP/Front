@@ -18,7 +18,7 @@ type Story = StoryObj<ICreateArtFormProps>;
 
 export const Regular: Story = {
   args: {
-    options: [
+    artTypes: [
       { value: "painting", label: "Peinture" },
       { value: "sculpture", label: "Sculpture" },
       { value: "photography", label: "Photographie" },

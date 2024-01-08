@@ -26,7 +26,7 @@ export default function Select(props: ISelectProps): JSX.Element {
         value={value}
         className={cn("border-none focus:outline-none p-2 rounded hover:cursor-pointer")}
       >
-        <option value="" disabled selected>
+        <option value="" disabled>
           {props.placeholder}
         </option>
         {props.options.map((option) => (
