@@ -16,15 +16,18 @@ export default function FileInput(props: IFileInputProps): JSX.Element {
 
   return (
     <div className={cn("flex flex-col gap-2", props.className)}>
-      <div className="text-lg">{props.title}</div>
-      <label
-        htmlFor="file_input"
-        className="hover:cursor-pointer bg-secondaryGrey rounded flex justify-center items-center h-24 text-gray-400"
-      >
-        <AddSharp style={{ fontSize: 50 }} />
-      </label>
-      <input id="file_input" type="file" className="hidden" value={value} onChange={onChange} />
-      <p>{value.split("\\").pop()}</p>
+      {props.title && <div className="text-lg">{props.title}</div>}
+      <div className="flex flex-col">
+        <label
+          htmlFor="file_input"
+          className="hover:cursor-pointer bg-secondaryGrey rounded flex justify-center items-center h-24 text-gray-400"
+        >
+          <AddSharp style={{ fontSize: 50 }} />
+        </label>
+        <input id="file_input" type="file" className="hidden" value={value} onChange={onChange} />
+        <p>{value.split("\\").pop()}</p>
+      </div>
+
       {error && <div className="text-red-600">{error.message}</div>}
     </div>
   );

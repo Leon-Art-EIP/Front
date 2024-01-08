@@ -18,13 +18,13 @@ export default function Select(props: ISelectProps): JSX.Element {
 
   return (
     <div className={cn("flex flex-col gap-2", props.className)}>
-      <div className="text-lg">{props.title}</div>
+      {props.title && <div className="text-lg">{props.title}</div>}
       <select
         name={props.name}
         id={props.name}
         onChange={onChange}
         value={value}
-        className="border-none focus:outline-none p-2 rounded hover:cursor-pointer"
+        className={cn("border-none focus:outline-none p-2 rounded hover:cursor-pointer")}
       >
         <option value="" disabled selected>
           {props.placeholder}

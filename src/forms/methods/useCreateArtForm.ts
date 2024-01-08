@@ -11,7 +11,7 @@ export default function useCreateArtForm(): UseFormReturn<TCreateArtData> {
       description: "",
       dimensions: "",
       isForSale: false,
-      price: undefined,
+      price: 0,
       location: "",
     },
     resolver: zodResolver(createArtSchema),
