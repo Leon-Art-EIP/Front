@@ -3,7 +3,7 @@ import IconButton from "../single-art-page/artwork/IconButton";
 import { INavbarProps } from "./Navbar";
 import { Menu } from "@mui/icons-material";
 
-export default function VerticalNavbar({ link: Link, ...props }: INavbarProps): JSX.Element {
+export default function VerticalNavbar({ link: Link, ...props }: Omit<INavbarProps, "image">): JSX.Element {
   const [open, setOpen] = useState(false);
 
   return (
@@ -26,7 +26,7 @@ export default function VerticalNavbar({ link: Link, ...props }: INavbarProps): 
                 tab.verticalNavbar && (
                   <Link
                     key={`${tab.name}-${tab.href}`}
-                    href={`${tab.href == "/profile" ? `/profile/${props.user.id}` : tab.href}`}
+                    href={`${tab.href == "/profile" ? `/profile/${props.userId}` : tab.href}`}
                   >
                     <div style={{ color: `${props.selectedTabHref === tab.href ? "red" : "black"}` }} className="px-2">
                       {tab.name}

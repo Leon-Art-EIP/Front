@@ -16,10 +16,20 @@ interface ISingleArtPageArtworkProps {
   link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleArtPageArtworkProps): JSX.Element {
   return (
     <div className="flex flex-col gap-5">
-      <Image src={props.art} alt="art" width={900} height={500} className="rounded-2xl" />
+      <div className="w-auto h-auto rounded-2xl overflow-hidden">
+        <Image
+          src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.art}`}
+          alt="art"
+          className="object-cover"
+          width={2000}
+          height={2000}
+        />
+      </div>
       <div className="flex">
         <div className="flex flex-1 font-bold text-3xl">{props.title}</div>
         <div className="inline-flex gap-4 items-center">

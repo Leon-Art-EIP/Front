@@ -35,7 +35,7 @@ export default function Session(props: ISessionProps): JSX.Element | null {
   if ((user && user.token) || ((!user || !user.token) && correspondingTab?.loggedIn === false)) {
     return (
       <>
-        {correspondingTab?.header && user && <Header tabs={props.tabs} user={user.user} pathname={pathname} />}
+        {correspondingTab?.header && user && <Header tabs={props.tabs} userId={user.user.id} pathname={pathname} />}
         {props.children}
       </>
     );

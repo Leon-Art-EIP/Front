@@ -1,21 +1,22 @@
-"use client";
-
-import { IConnectedUser } from "../../../interfaces/user/user";
-import IconButtonWrapper from "../../../wrappers/profile/IconButtonWrapper";
+import { ElementType } from "react";
+import AvailableForCommandsButton from "../../../wrappers/profile/AvailableForCommandsButton";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
 import Category, { TCategory } from "../category/Category";
 
 export interface IInfosProps {
+  availability: "available" | "unavailable";
   artistName: string;
-  artistDescription: string;
+  artType: string;
   numberOfFollowers: number;
   numberOfPosts: number;
   categories: TCategory[];
+  myProfile: boolean;
+  following: boolean;
+  id: string;
+  link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
 export default function Infos(props: IInfosProps): JSX.Element {
-  const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
-  /* c8 ignore start */
   const kfollowers =
     props.numberOfFollowers > 1000
       ? props.numberOfFollowers > 1000000
@@ -26,10 +27,10 @@ export default function Infos(props: IInfosProps): JSX.Element {
   return (
     <div className="flex items-start w-3/4 h-full bg-gradient-to-b from-secondaryGrey">
       <div className="p-4 inline-flex flex-col gap-3 justify-center">
-        <div className="font-medium text-2xl text-center">{user.user.username ?? "X"}</div>
+        <div className="font-medium text-2xl text-center">{props.artistName}</div>
         <div className="inline-flex justify-center">
           <div className="bg-[#4E4E4E] rounded-2xl font-semibold px-4 py-1 text-sm text-center text-white">
-            {props.artistDescription}
+            {props.artType}
           </div>
         </div>
         <div className="flex gap-4">
@@ -42,8 +43,8 @@ export default function Infos(props: IInfosProps): JSX.Element {
             <div>posts</div>
           </div>
         </div>
-        <InfosButtonsWrapper />
-        <IconButtonWrapper />
+        {!props.myProfile && <InfosButtonsWrapper following={props.following} link={props.link} id={props.id} />}
+        {props.availability === "available" && <AvailableForCommandsButton />}
         <div className="h-0.5 w-full bg-black" />
         <div className="flex gap-2 flex-wrap">
           {props.categories.map((category) => (
@@ -52,6 +53,5 @@ export default function Infos(props: IInfosProps): JSX.Element {
         </div>
       </div>
     </div>
-    /* c8 ignore end */
   );
 }
