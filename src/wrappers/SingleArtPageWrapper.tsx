@@ -36,7 +36,7 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
     getData();
   }, [props.params.id]);
 
-  const user: IUser | undefined = JSON.parse(localStorage.getItem("user") || "");
+  const user: IUser | undefined = (JSON.parse(localStorage.getItem("user") || "")).user;
 
   if (!user || !artPublication || !artist) {
     return <LoadingPage />;
@@ -55,7 +55,7 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
       artId={artPublication._id}
       profile={`${imageApi}/${artist.profilePicture}`}
       title={artPublication.name}
-      liked={artPublication.likes.includes(user.id)}
+      liked={artPublication.likes.find((like) => like._id === user.id) ? true : false}
       nbrLikes={artPublication.likes.length}
       collections={data.collections}
       belongingCollections={data.belongingCollections}

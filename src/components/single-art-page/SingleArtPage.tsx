@@ -40,7 +40,6 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   }
 
   const bookmarkOnClick = () => {
-    console.log("bookmark click");
     setModalOpen(!isModalOpen);
   };
 
@@ -54,15 +53,14 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
       method: "POST",
     });
     if (response.ok) {
-      console.log("Successful like request");
+      setLiked(!isLiked);
     } else {
-      console.log("Failed with like request");
+      console.error("Failed like request");
     }
   };
 
   const heartOnClick = () => {
     fetchLikePublication(props.artId);
-    setLiked(!isLiked);
   };
 
   return (

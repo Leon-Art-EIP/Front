@@ -1,3 +1,5 @@
+import { IArtist } from "../home/artist";
+
 export interface IArtPublication {
   _id: string;
   userId: string;
@@ -9,7 +11,7 @@ export interface IArtPublication {
   isForSale: boolean;
   price: number;
   location: string;
-  likes: string[];
-  comments: string[],
+  likes: IArtist[];
+  comments: string[];
   __v: number;
 }
