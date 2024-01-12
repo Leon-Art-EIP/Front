@@ -5,8 +5,8 @@ import SingleArtPageArtwork from "./artwork/SingleArtPageArtwork";
 import SingleArtPageCard from "./card/SingleArtPageCard";
 import { Modal } from "../lib";
 import SaveGallery from "./artwork/SaveGallery";
-import { TCollection } from "./artwork/Collections";
 import { myFetch } from "../../tools/myFetch";
+import { ICollectionArtsExtended } from "../../interfaces/single/collection";
 
 export interface ISingleArtPageProps {
   description: string;
@@ -20,7 +20,7 @@ export interface ISingleArtPageProps {
   title: string;
   liked: boolean;
   nbrLikes: number;
-  collections: TCollection[];
+  collections: ICollectionArtsExtended[];
   belongingCollections: number[];
   belongingCommands: boolean;
   link: ElementType<{ children: JSX.Element; href: string }>; // Car Storybook ne supporte pas le Link de Next
