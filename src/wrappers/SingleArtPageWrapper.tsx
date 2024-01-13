@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "../components/link/Link";
 import SingleArtPage from "../components/single-art-page/SingleArtPage";
-import fakeData from "../components/single-art-page/fakeData";
 import { IUser } from "../interfaces/user/user";
 import { myFetch } from "../tools/myFetch";
 import { IArtPublication } from "../interfaces/artPublication/artPublication";
@@ -85,7 +84,10 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
     return <LoadingPage />;
   }
 
-  const data = fakeData;
+  const getCollectionsWithArt = collectionsArtsExtended.filter((collection) =>
+    collection.artPublications.find((art) => art._id === artPublication._id)
+  );
+  const idsOfCollectionsWithArt = getCollectionsWithArt.map((collection) => collection._id);
 
   return (
     <SingleArtPage
@@ -101,8 +103,8 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
       liked={artPublication.likes.find((like) => like._id === user.id) ? true : false}
       nbrLikes={artPublication.likes.length}
       collections={collectionsArtsExtended}
-      belongingCollections={data.belongingCollections}
-      belongingCommands={data.belongingCommands}
+      belongingCollectionsIds={idsOfCollectionsWithArt}
+      belongingCommands={false} // TODO
       link={Link}
     />
   );

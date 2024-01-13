@@ -21,7 +21,7 @@ export interface ISingleArtPageProps {
   liked: boolean;
   nbrLikes: number;
   collections: ICollectionArtsExtended[];
-  belongingCollections: number[];
+  belongingCollectionsIds: string[];
   belongingCommands: boolean;
   link: ElementType<{ children: JSX.Element; href: string }>; // Car Storybook ne supporte pas le Link de Next
 }
@@ -29,7 +29,7 @@ export interface ISingleArtPageProps {
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isLiked, setLiked] = useState(props.liked);
-  const [selectedCollections, setSelectedCollections] = useState<number[]>(props.belongingCollections);
+  const [selectedCollections, setSelectedCollections] = useState<string[]>(props.belongingCollectionsIds);
 
   let nbrLikes = props.nbrLikes;
 
@@ -69,9 +69,9 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
         <SaveGallery
           collections={props.collections}
           handleClose={closeModal}
-          belongingCollections={props.belongingCollections}
           selectedCollections={selectedCollections}
           setSelectedCollections={setSelectedCollections}
+          artId={props.artId}
         />
       </Modal>
       <div className="flex p-20 gap-8 flex-wrap lg:flex-nowrap">

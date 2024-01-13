@@ -11,6 +11,8 @@ export interface IButtonProps {
   className?: string;
   onClick?: () => void;
   loading?: boolean;
+  id?: string;
+  name?: string;
 }
 
 const colorClasses: Record<ButtonColor, string> = {
@@ -21,14 +23,18 @@ const colorClasses: Record<ButtonColor, string> = {
   info: "bg-purple-800 text-white hover:bg-purple-900 disabled:bg-purple-400",
 };
 
-export default function Button({ children, type, color, className = "", onClick, loading }: IButtonProps): JSX.Element {
+export default function Button(props: IButtonProps): JSX.Element {
   return (
     <button
-      type={type}
-      className={`rounded-[20px] px-16 py-3 font-semibold text-base transition duration-200 ${colorClasses[color]} ${className}`}
-      onClick={onClick}
+      id={props.id}
+      name={props.name}
+      type={props.type}
+      className={`rounded-[20px] px-16 py-3 font-semibold text-base transition duration-200 ${
+        colorClasses[props.color]
+      } ${props.className}`}
+      onClick={props.onClick}
     >
-      {loading ? <CircularProgress size={20} thickness={4} color="primary" /> : children}
+      {props.loading ? <CircularProgress size={20} thickness={4} color="primary" /> : props.children}
     </button>
-  )
-};
+  );
+}
