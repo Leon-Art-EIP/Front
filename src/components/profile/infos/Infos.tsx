@@ -1,4 +1,6 @@
-import { ElementType } from "react";
+"use client";
+
+import { ElementType, useState } from "react";
 import AvailableForCommandsButton from "../../../wrappers/profile/AvailableForCommandsButton";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
 import Category, { TCategory } from "../category/Category";
@@ -18,12 +20,15 @@ export interface IInfosProps {
 }
 
 export default function Infos(props: IInfosProps): JSX.Element {
+  const [following, setFollowing] = useState<boolean>(props.following); // can be deleted when parent component server side
+  const numberOfFollowers =
+    props.numberOfFollowers + (!props.following && following ? 1 : 0) - (props.following && !following ? 1 : 0);
   const kfollowers =
-    props.numberOfFollowers > 1000
-      ? props.numberOfFollowers > 1000000
-        ? `${Math.floor(props.numberOfFollowers / 100000) / 10}M`
-        : `${Math.floor(props.numberOfFollowers / 100) / 10}k`
-      : props.numberOfFollowers;
+    numberOfFollowers > 1000
+      ? numberOfFollowers > 1000000
+        ? `${Math.floor(numberOfFollowers / 100000) / 10}M`
+        : `${Math.floor(numberOfFollowers / 100) / 10}k`
+      : numberOfFollowers;
 
   return (
     <div className="flex items-start w-3/4 h-full bg-gradient-to-b from-secondaryGrey">
@@ -37,14 +42,16 @@ export default function Infos(props: IInfosProps): JSX.Element {
         <div className="flex gap-4">
           <div className="flex-col flex flex-1 text-center gap-2">
             <div className="font-medium text-xl">{kfollowers}</div>
-            <div>followers</div>
+            <div>{`follower${numberOfFollowers > 1 ? "s" : ""}`}</div>
           </div>
           <div className="flex flex-col flex-1 text-center gap-2">
             <div className="font-medium text-xl">{props.numberOfPosts}</div>
             <div>posts</div>
           </div>
         </div>
-        {!props.myProfile && <InfosButtonsWrapper following={props.following} link={props.link} id={props.id} />}
+        {!props.myProfile && (
+          <InfosButtonsWrapper following={following} link={props.link} id={props.id} setFollowing={setFollowing} />
+        )}
         {props.availability === "available" && <AvailableForCommandsButton />}
         <div className="h-0.5 w-full bg-black" />
         <div className="flex gap-2 flex-wrap">

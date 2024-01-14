@@ -2,7 +2,7 @@ import { IConnectedUser } from "../interfaces/user/user";
 
 const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-type TMethod = "GET" | "POST" | "PUT" | "DELETE";
+type TMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 interface IMyFetch {
   route: string;

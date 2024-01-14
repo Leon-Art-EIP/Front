@@ -50,19 +50,29 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
             }),
           });
 
-          if (response.ok) {
-            props.setSelectedCollections([...props.selectedCollections, collectionId]);
-          } else {
-            console.error(`/api/collection error for collection ${collectionName} and art ${props.artId}`);
+          if (!response.ok) {
+            console.error(`collection add error for collection ${collectionName} and art ${props.artId}`);
           }
         })
       ),
-      // Promise.all(
-      //   deletedCollections.map(async (collectionId) => {
-      //   })
-      // ),
+      Promise.all(
+        deletedCollections.map(async (collectionId) => {
+          const response = await myFetch({
+            route: `/api/collection/${collectionId}/remove`,
+            method: "PATCH",
+            body: JSON.stringify({
+              artPublicationIds: [props.artId],
+            }),
+          });
+
+          if (!response.ok) {
+            console.error(`collection remove error for collection ${collectionId} and art ${props.artId}`);
+          }
+        })
+      ),
     ]);
 
+    props.setSelectedCollections(selectedCollections);
     props.handleClose();
   };
 
