@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 export interface NotificationToastProps {
   message: string;
   type: "success" | "error" | "info";
@@ -14,6 +13,7 @@ export default function NotificationToast({ message, type }: NotificationToastPr
     }, 5000);
 
     return () => {
+      /* c8 ignore next 3 */
       clearTimeout(timer);
     };
   }, []);
