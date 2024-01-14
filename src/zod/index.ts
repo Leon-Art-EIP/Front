@@ -65,7 +65,12 @@ export const createArtSchema = z.object({
   location: nonEmptyString.optional(),
 });
 
+export const createCollectionSchema = z.object({
+  collectionName: nonEmptyString,
+});
+
 export type TLoginData = z.infer<typeof loginSchema>;
 export type TRegisterData = z.infer<typeof registerSchema>;
 export type TSettingsPasswordData = z.infer<typeof settingsPasswordSchema>;
 export type TCreateArtData = z.infer<typeof createArtSchema>;
+export type TCreateCollectionData = z.infer<typeof createCollectionSchema>;

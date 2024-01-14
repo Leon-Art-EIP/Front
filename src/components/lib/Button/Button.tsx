@@ -29,9 +29,9 @@ export default function Button(props: IButtonProps): JSX.Element {
       id={props.id}
       name={props.name}
       type={props.type}
-      className={`rounded-[20px] px-16 py-3 font-semibold text-base transition duration-200 ${
-        colorClasses[props.color]
-      } ${props.className}`}
+      className={`rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 ${colorClasses[props.color]} ${
+        props.className
+      }`}
       onClick={props.onClick}
     >
       {props.loading ? <CircularProgress size={20} thickness={4} color="primary" /> : props.children}

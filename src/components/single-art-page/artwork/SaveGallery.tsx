@@ -1,7 +1,9 @@
 "use client";
 
+import CreateCollectionForm from "../../../forms/tsx/CreateCollectionForm";
 import { ICollectionArtsExtended } from "../../../interfaces/single/collection";
 import { myFetch } from "../../../tools/myFetch";
+import Input from "../../form/Input";
 import { Button } from "../../lib";
 import Collection from "./Collection";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -16,6 +18,7 @@ interface ISaveGalleryProps {
 
 export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
   const [selectedCollections, setSelectedCollections] = useState<string[]>(props.selectedCollections);
+  const [nameNewCollection, setNameNewCollection] = useState<string | undefined>();
 
   const handleSelectCollection = (id: string) => {
     if (selectedCollections.includes(id)) {
@@ -76,6 +79,14 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
     props.handleClose();
   };
 
+  const handleNewCollection = () => {
+    if (nameNewCollection === undefined) {
+      setNameNewCollection("");
+    } else {
+      setNameNewCollection(undefined);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-7 px-2 pb-2">
       {props.collections.length > 0 ? (
@@ -84,7 +95,7 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
             <button className="text-xl font-medium" onClick={props.handleClose}>
               Annuler
             </button>
-            <div className="md:block text-3xl font-bold hidden">Gérer dans mes galeries</div>
+            <div className="md:block text-3xl font-bold hidden">Gérer dans mes collections</div>
             <Button
               type="button"
               color="danger"
@@ -111,9 +122,13 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
           Vous n&apos;avez pas encore de collection
         </div>
       )}
-      <Button color="danger" type="button" className="self-center">
-        Ajouter à une nouvelle collection
-      </Button>
+      {nameNewCollection === undefined ? (
+        <Button color="danger" type="button" className="self-center" onClick={handleNewCollection}>
+          Créer une nouvelle collection
+        </Button>
+      ) : (
+        <CreateCollectionForm handleClose={handleNewCollection} artId={props.artId} />
+      )}
     </div>
   );
 }
