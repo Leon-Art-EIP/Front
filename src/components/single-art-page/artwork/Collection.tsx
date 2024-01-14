@@ -34,7 +34,7 @@ export default function Collection(props: ICollectionProps): JSX.Element {
       )}
       onClick={handleOnClick}
     >
-      <div className="flex flex-col rounded-xl overflow-hidden w-48 h-48">
+      <div className="flex flex-col rounded-xl overflow-hidden w-48 h-48 bg-gray-300">
         {pairs.map((pair, pairIndex) => (
           <div key={`pair-${pairIndex}`} className="flex flex-wrap overflow-hidden flex-1">
             {pair.map((image, imageIndex) => (
@@ -49,6 +49,7 @@ export default function Collection(props: ICollectionProps): JSX.Element {
             ))}
           </div>
         ))}
+        {artSources.length === 2 && <div className="flex-1 bg-gray-300" />}
       </div>
       <div className="text-2xl font-semibold">{props.collection.name}</div>
     </button>
