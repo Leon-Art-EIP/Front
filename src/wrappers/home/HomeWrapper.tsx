@@ -8,7 +8,7 @@ import Link from "../../components/link/Link";
 import { IArticle } from "../../interfaces/home/article";
 import { IPassingArt } from "../../interfaces/home/passingArt";
 import { myFetch } from "../../tools/myFetch";
-import { passingArts as fakePassingArts } from "./../../components/home/passingArt/passingArts";
+import { passingArts as fakePassingArts } from "./../../components/home/passingArt/passingArtsDummyData";
 import { IArtist } from "../../interfaces/home/artist";
 import { IArtPublication } from "../../interfaces/artPublication/artPublication";
 import { imageApi } from "../../tools/variables";
