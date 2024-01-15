@@ -6,14 +6,19 @@ import Infos from "../../../src/components/profile/infos/Infos";
 test("Infos component test", () => {
   const { container } = render(
     <Infos
-      artistDescription="description"
+      artType="Peinture"
+      availability="available"
+      following={false}
+      id="1234idtest"
+      link={"a"}
+      myProfile={false}
+      key={"1234idtest"}
       artistName="jean"
-      categories={["Broderie", "Peinture"]}
+      categories={["Broderie", "Acrylique"]}
       numberOfFollowers={1234}
       numberOfPosts={3}
     />
   );
 
-  expect(container.textContent).toContain("description");
   expect(container.textContent).toContain("jean");
 });

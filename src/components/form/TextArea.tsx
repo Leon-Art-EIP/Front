@@ -1,33 +1,29 @@
-"use client";
-
 import { useController } from "react-hook-form";
 import { cn } from "../../tools/cn";
 
-interface IInputProps {
-  type: string;
+interface ITextAreaProps {
   name: string;
   className?: string;
-  placeholder: string;
   title?: string;
+  placeholder?: string;
 }
 
-export default function Input(props: IInputProps): JSX.Element {
+export default function TextArea(props: ITextAreaProps): JSX.Element {
   const {
     field: { onChange, value },
     fieldState: { error },
   } = useController({ name: props.name });
 
   return (
-    <div className="flex flex-col gap-2 sm:min-w-min min-w-0">
+    <div className={cn("flex flex-col gap-2 sm:min-w-min min-w-0", props.className)}>
       {props.title && <div className="text-lg">{props.title}</div>}
-      <input
-        type={props.type}
+      <textarea
         name={props.name}
         id={props.name}
-        className={cn("sm:min-w-min min-w-0", props.className)}
-        placeholder={props.placeholder}
         onChange={onChange}
         value={value}
+        placeholder={props.placeholder}
+        className="bg-secondaryGrey p-2 rounded flex-1 sm:min-w-min min-w-0"
       />
       {error && <div className="text-red-600">{error.message}</div>}
     </div>

@@ -6,7 +6,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr">
       <body>
-        <div className="flex flex-col">
+        <div className="flex flex-col h-screen">
           <Session tabs={tabs}>{children}</Session>
         </div>
       </body>

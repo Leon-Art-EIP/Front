@@ -21,7 +21,7 @@ const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleArtPageArtworkProps): JSX.Element {
   return (
     <div className="flex flex-col gap-5">
-      <div className="w-auto h-auto rounded-2xl overflow-hidden">
+      <div className="w-auto rounded-2xl overflow-y-auto" style={{ maxHeight: "60vh" }}>
         <Image
           src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.art}`}
           alt="art"

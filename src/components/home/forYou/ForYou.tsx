@@ -8,7 +8,7 @@ export interface IForYouProps {
 
 export default function ForYou(props: IForYouProps): JSX.Element {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 overflow-y-auto px-4">
       <div className="text-xl font-semibold">Pour vous {`>`}</div>
       <Arts arts={props.forYouArts} link={props.link} />
     </div>
