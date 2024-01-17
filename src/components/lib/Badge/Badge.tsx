@@ -6,21 +6,14 @@ export interface BadgeProps {
 }
 
 const Badge: React.FC<BadgeProps> = ({ text, color }) => {
-    let badgeColor: string;
+    let badgeColor: string = "bg-gray-200 text-purple-800"
 
-    switch(color) {
-        case 'danger':
-            badgeColor = 'bg-red-600 text-white';
-            break;
-        case 'success':
-            badgeColor = 'bg-gray-200 text-purple-800';
-            break;
-        case 'info':
-            badgeColor = 'bg-purple-800 text-white';
-            break;
-        default:
-            badgeColor = '';
-    }
+    if (color === 'danger')
+        badgeColor = 'bg-red-600 text-white';
+    else if (color === 'success')
+        badgeColor = 'bg-gray-200 text-purple-800';
+    else if (color === 'info')
+        badgeColor = 'bg-purple-800 text-white';
 
     return (
         <span className={`inline-block py-3 px-5 rounded-full text-sm font-semibold ${badgeColor}`}>
