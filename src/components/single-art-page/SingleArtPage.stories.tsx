@@ -26,7 +26,7 @@ export const Liked: Story = {
 export const BelongingCollection: Story = {
   args: {
     ...Liked.args,
-    belongingCollections: [1],
+    belongingCollectionsIds: ["1"],
   },
 };
 
