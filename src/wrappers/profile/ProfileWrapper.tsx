@@ -96,7 +96,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         profilePicture={`${imageApi}/${artist.profilePicture}`}
         banner={artist.bannerPicture.includes("default") ? banner : `${imageApi}/${artist.bannerPicture}`}
       />
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-4 bg-white">
         <div className="flex flex-col col-span-3 gap-2 p-4">
           <TabsWrapper
             aboutTitle={data.aboutTitle} // TODO: ask backend to send this

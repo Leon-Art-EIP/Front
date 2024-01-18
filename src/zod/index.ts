@@ -70,8 +70,8 @@ export const createCollectionSchema = z.object({
 });
 
 export const profileHeadingSchema = z.object({
-  bannerPicture: nonEmptyString.optional(),
-  profilePicture: nonEmptyString.optional(),
+  bannerPicture: z.instanceof(File).optional(),
+  profilePicture: z.instanceof(File).optional(),
 });
 
 export type TLoginData = z.infer<typeof loginSchema>;
