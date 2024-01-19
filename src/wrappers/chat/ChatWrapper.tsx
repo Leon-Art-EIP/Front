@@ -43,7 +43,7 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
   useEffect(() => {
     async function fetchChats() {
       if (currentUser) {
-        const res = await myFetch({ route: `/api/chats/${currentUser.user.id}`, method: "GET" });
+        const res = await myFetch({ route: `/api/conversations/${currentUser.user.id}`, method: "GET" });
         const data: IChats = await res.json();
         setChats(data);
       }
@@ -51,9 +51,9 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
     async function fetchConversationDetails() {
       if (currentUser) {
         if (props.convId !== undefined) {
-          const res = await myFetch({ route: `/api/chats/conversation/${props.convId}`, method: "GET" });
-          const data: IChat = await res.json();
-          setCurrentChat(data);
+          const res = await myFetch({ route: `/api/conversations/single/${props.convId}`, method: "GET" });
+          const data = await res.json();
+          handleChatChange(data.chat)
         }
       }
     }
