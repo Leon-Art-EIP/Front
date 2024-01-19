@@ -8,8 +8,13 @@ import { myFetch } from "../../tools/myFetch";
 import ChatList from "../../components/chat/chats/ChatList";
 import { IChat, IChats } from "../../interfaces/chat/chats";
 import Messages from "../../components/chat/messages/Messages";
+import ForumIcon from "@mui/icons-material/Forum";
 
-export default function ChatWrapper(): JSX.Element {
+interface IChatWrapperProps {
+  convId: string | undefined;
+}
+
+export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
   const router = useRouter();
   const socket = useRef<Socket | null>(null);
   const [chats, setChats] = useState<IChats>({ chats: [] });
@@ -25,7 +30,7 @@ export default function ChatWrapper(): JSX.Element {
       }
     }
     getCurrentUser();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -38,20 +43,30 @@ export default function ChatWrapper(): JSX.Element {
   useEffect(() => {
     async function fetchChats() {
       if (currentUser) {
-        const res = await myFetch({ route: `/api/chats/${currentUser.user.id}`, method: "GET" });
+        const res = await myFetch({ route: `/api/conversations/${currentUser.user.id}`, method: "GET" });
         const data: IChats = await res.json();
         setChats(data);
       }
     }
-
-    fetchChats();
-  }, [currentUser]);
-
-  useEffect(() => {
-    if (chats.chats.length > 0) {
-      setCurrentChat(chats.chats[0]);
+    async function fetchConversationDetails() {
+      if (currentUser) {
+        if (props.convId !== undefined) {
+          const res = await myFetch({ route: `/api/conversations/single/${props.convId}`, method: "GET" });
+          const data = await res.json();
+          handleChatChange(data.chat)
+        }
+      }
     }
-  }, [chats]);
+
+    fetchConversationDetails();
+    fetchChats();
+  }, [currentUser, props.convId]);
+
+  // useEffect(() => {
+  //   if (chats.chats.length > 0) {
+  //     setCurrentChat(chats.chats[0]);
+  //   }
+  // }, [chats]);
 
   const handleChatChange = (chat: IChat) => {
     setCurrentChat(chat);
@@ -62,10 +77,26 @@ export default function ChatWrapper(): JSX.Element {
       <div className="lg:w-1/3 lg:min-w-[350px] lg:max-w-[500px]">
         <ChatList chats={chats} changeChat={handleChatChange} currentUser={currentUser} />
       </div>
-      {currentChat === undefined ? (
-        <></>
+      {props.convId === undefined && currentChat === undefined ? (
+        <div className="flex flex-col items-center justify-center w-full h-full gap-4 text-gray-400">
+          <ForumIcon sx={{ fontSize: 200 }} />
+          <span className="text-2xl font-bold">Bienvenue sur votre messagerie</span>
+          <div className="flex flex-col w-1/3 text-center gap-6">
+            <span className="text-xl font-medium">
+              Pour envoyer un message à un utilisateur, cliquez sur {'"aller à la conversation"'} depuis une commande dans l{"'"}onglet Commande
+            </span>
+            {chats.chats.length > 0 && (<span className="text-xl font-medium">
+              Pour séléctionner une conversation existante, rien de plus simple, cliquez sur celle-ci dans la liste de
+              gauche
+            </span>)}
+          </div>
+        </div>
       ) : (
-        <Messages currentChat={currentChat} currentUser={currentUser} socket={socket} />
+        <>
+          {currentChat !== undefined && (
+            <Messages currentChat={currentChat} currentUser={currentUser} socket={socket} />
+          )}
+        </>
       )}
     </div>
   );
