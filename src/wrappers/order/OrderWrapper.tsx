@@ -6,15 +6,20 @@ import OrderInfo from "../../components/order/OrderInfo";
 import { Order, Orders } from "../../interfaces/order/orders";
 import Modal from "../../components/lib/Modal/Modal";
 import { orderDeliveryHelpText } from "../../configs/order/orderDeliveryHelp";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 
-export default function OrderWrapper(): JSX.Element {
+interface OrderWrapperProps {
+  orderId: string | undefined;
+}
+
+export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
   const [orders, setOrders] = useState<Orders>({ orders: [] });
   const [selectedOrder, setSelectedOrder] = useState<Order>();
 
   const [deliveryHelpModal, setDeliveryHelpModal] = useState<boolean>(false);
 
-  // to be removed for the end of Sprint 3
+  // to be removed at the end of the third Sprint
   function populateOrders() {
     const order1: Order = {
       orderDescription:
@@ -83,7 +88,6 @@ export default function OrderWrapper(): JSX.Element {
       orderUserProviderId: "nezuineuzanuezauibezabiezabieza",
     };
     setOrders({ orders: [order1, order2, order3, order4, order5] });
-    setSelectedOrder(order1);
   }
 
   useEffect(() => {
@@ -103,11 +107,27 @@ export default function OrderWrapper(): JSX.Element {
       <div className="lg:w-1/3 lg:min-w-[350px] lg:max-w-[450px] flex-shrink-0">
         <OrderList orders={orders} selectedOrder={selectedOrder} handleOrderChange={handleOrderChange} />
       </div>
-      <OrderInfo
-        selectedOrder={selectedOrder}
-        deliveryHelpModal={deliveryHelpModal}
-        openDeliveryHelpModal={handleToggleDeliveryHelpModal}
-      />
+      {props.orderId === undefined && selectedOrder === undefined ? (
+        <div className="flex flex-col items-center justify-center w-full h-full gap-4 text-gray-400">
+          <LocalGroceryStoreIcon sx={{ fontSize: 200 }} />
+          <span className="text-2xl font-bold">Bienvenue sur votre espace d'achat et vente</span>
+          <div className="flex flex-col w-1/3 text-center gap-6">
+            <span className="text-xl font-medium">
+              Ici vous pouvez retrouver toutes vos commandes en cours, ainsi que vos commandes passées
+            </span>
+            <span className="text-xl font-medium">
+              Pour en créer une commande, il vous suffit simplement d'ajouter au panier une oeuvre d'art et vous pourrez
+              la retrouver ici.
+            </span>
+          </div>
+        </div>
+      ) : (
+        <OrderInfo
+          selectedOrder={selectedOrder}
+          deliveryHelpModal={deliveryHelpModal}
+          openDeliveryHelpModal={handleToggleDeliveryHelpModal}
+        />
+      )}
       {deliveryHelpModal && (
         <Modal handleClose={handleToggleDeliveryHelpModal} isOpen={deliveryHelpModal}>
           <div className="flex flex-col justify-start gap-5">
