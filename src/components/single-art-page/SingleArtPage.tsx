@@ -5,8 +5,8 @@ import SingleArtPageArtwork from "./artwork/SingleArtPageArtwork";
 import SingleArtPageCard from "./card/SingleArtPageCard";
 import { Modal } from "../lib";
 import SaveGallery from "./artwork/SaveGallery";
-import { TCollection } from "./artwork/Collections";
 import { myFetch } from "../../tools/myFetch";
+import { ICollectionArtsExtended } from "../../interfaces/single/collection";
 
 export interface ISingleArtPageProps {
   description: string;
@@ -20,8 +20,8 @@ export interface ISingleArtPageProps {
   title: string;
   liked: boolean;
   nbrLikes: number;
-  collections: TCollection[];
-  belongingCollections: number[];
+  collections: ICollectionArtsExtended[];
+  belongingCollectionsIds: string[];
   belongingCommands: boolean;
   link: ElementType<{ children: JSX.Element; href: string }>; // Car Storybook ne supporte pas le Link de Next
 }
@@ -29,7 +29,7 @@ export interface ISingleArtPageProps {
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isLiked, setLiked] = useState(props.liked);
-  const [selectedCollections, setSelectedCollections] = useState<number[]>(props.belongingCollections);
+  const [selectedCollections, setSelectedCollections] = useState<string[]>(props.belongingCollectionsIds);
 
   let nbrLikes = props.nbrLikes;
 
@@ -40,7 +40,6 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   }
 
   const bookmarkOnClick = () => {
-    console.log("bookmark click");
     setModalOpen(!isModalOpen);
   };
 
@@ -54,15 +53,14 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
       method: "POST",
     });
     if (response.ok) {
-      console.log("Successful like request");
+      setLiked(!isLiked);
     } else {
-      console.log("Failed with like request");
+      console.error("Failed like request");
     }
   };
 
   const heartOnClick = () => {
     fetchLikePublication(props.artId);
-    setLiked(!isLiked);
   };
 
   return (
@@ -71,9 +69,9 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
         <SaveGallery
           collections={props.collections}
           handleClose={closeModal}
-          belongingCollections={props.belongingCollections}
           selectedCollections={selectedCollections}
           setSelectedCollections={setSelectedCollections}
+          artId={props.artId}
         />
       </Modal>
       <div className="flex p-20 gap-8 flex-wrap lg:flex-nowrap">

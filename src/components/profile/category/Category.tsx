@@ -50,7 +50,6 @@ export interface ICategoryProps {
   category: TCategory;
 }
 
-/* c8 ignore start */
 export default function Category(props: ICategoryProps): JSX.Element {
   return (
     <Button
@@ -60,4 +59,3 @@ export default function Category(props: ICategoryProps): JSX.Element {
     />
   );
 }
-/* c8 ignore end */

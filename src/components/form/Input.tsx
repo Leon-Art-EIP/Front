@@ -2,11 +2,13 @@
 
 import { useController } from "react-hook-form";
 import { cn } from "../../tools/cn";
+import { HTMLInputTypeAttribute } from "react";
 
 interface IInputProps {
-  type: string;
+  type: HTMLInputTypeAttribute;
   name: string;
   className?: string;
+  errorClassName?: string;
   placeholder: string;
   title?: string;
 }
@@ -29,7 +31,7 @@ export default function Input(props: IInputProps): JSX.Element {
         onChange={onChange}
         value={value}
       />
-      {error && <div className="text-red-600">{error.message}</div>}
+      {error && <div className={cn("text-red-600", props.errorClassName)}>{error.message}</div>}
     </div>
   );
 }

@@ -3,46 +3,91 @@
 import { useEffect, useState } from "react";
 import Link from "../components/link/Link";
 import SingleArtPage from "../components/single-art-page/SingleArtPage";
-import fakeData from "../components/single-art-page/fakeData";
 import { IUser } from "../interfaces/user/user";
 import { myFetch } from "../tools/myFetch";
 import { IArtPublication } from "../interfaces/artPublication/artPublication";
 import { IProfileUser } from "../interfaces/user/profileUser";
 import LoadingPage from "../components/loading/LoadingPage";
 import { imageApi } from "../tools/variables";
+import { ICollection, ICollectionArtsExtended } from "../interfaces/single/collection";
 
 export default function SingleArtPageWrapper(props: { params: { id: string } }): JSX.Element {
   const [artPublication, setArtPublication] = useState<IArtPublication>();
   const [artist, setArtist] = useState<IProfileUser>();
+  const [collectionsArtsExtended, setCollectionsArtsExtended] = useState<ICollectionArtsExtended[]>([]);
 
   useEffect(() => {
     const getData = async () => {
-      const artPublicationResponse = await myFetch({
-        route: `/api/art-publication/${props.params.id}`,
-        method: "GET",
-      });
+      try {
+        const [collectionsResponse, artPublicationResponse] = await Promise.all([
+          myFetch({
+            route: "/api/collection/my-collections",
+            method: "GET",
+          }),
+          myFetch({
+            route: `/api/art-publication/${props.params.id}`,
+            method: "GET",
+          }),
+        ]);
 
-      const artPublication: IArtPublication = await artPublicationResponse.json();
-      setArtPublication(artPublication);
+        const artPublication: IArtPublication = await artPublicationResponse.json();
+        setArtPublication(artPublication);
 
-      const artistResponse = await myFetch({
-        route: `/api/user/profile/${artPublication.userId}`,
-        method: "GET",
-      });
+        const collections: ICollection[] = await collectionsResponse.json();
 
-      const artist: IProfileUser = await artistResponse.json();
-      setArtist(artist);
+        const [collectionsArtsExtended, artistResponse]: [ICollectionArtsExtended[], Response] = await Promise.all([
+          Promise.all(
+            collections.map(async (collectionArtsExtended) => {
+              const artPromises: Promise<IArtPublication | null>[] = collectionArtsExtended.artPublications.map(
+                async (artId) => {
+                  const artPublicationsResponse = await myFetch({
+                    route: `/api/art-publication/${artId}`,
+                    method: "GET",
+                  });
+
+                  if (artPublicationsResponse.ok) {
+                    const artPublication: IArtPublication = await artPublicationsResponse.json();
+                    return artPublication;
+                  }
+                  return null;
+                }
+              );
+
+              const artPublications: (IArtPublication | null)[] = await Promise.all(artPromises);
+
+              return {
+                ...collectionArtsExtended,
+                artPublications: artPublications.filter((art) => art !== null) as IArtPublication[],
+              };
+            })
+          ),
+          myFetch({
+            route: `/api/user/profile/${artPublication.userId}`,
+            method: "GET",
+          }),
+        ]);
+
+        setCollectionsArtsExtended(collectionsArtsExtended);
+
+        const artist: IProfileUser = await artistResponse.json();
+        setArtist(artist);
+      } catch (error) {
+        console.error(error);
+      }
     };
     getData();
   }, [props.params.id]);
 
-  const user: IUser | undefined = JSON.parse(localStorage.getItem("user") || "");
+  const user: IUser | undefined = JSON.parse(localStorage.getItem("user") || "").user;
 
   if (!user || !artPublication || !artist) {
     return <LoadingPage />;
   }
 
-  const data = fakeData;
+  const getCollectionsWithArt = collectionsArtsExtended.filter((collection) =>
+    collection.artPublications.find((art) => art._id === artPublication._id)
+  );
+  const idsOfCollectionsWithArt = getCollectionsWithArt.map((collection) => collection._id);
 
   return (
     <SingleArtPage
@@ -55,11 +100,11 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
       artId={artPublication._id}
       profile={`${imageApi}/${artist.profilePicture}`}
       title={artPublication.name}
-      liked={artPublication.likes.includes(user.id)}
+      liked={artPublication.likes.find((like) => like._id === user.id) ? true : false}
       nbrLikes={artPublication.likes.length}
-      collections={data.collections}
-      belongingCollections={data.belongingCollections}
-      belongingCommands={data.belongingCommands}
+      collections={collectionsArtsExtended}
+      belongingCollectionsIds={idsOfCollectionsWithArt}
+      belongingCommands={false} // TODO
       link={Link}
     />
   );
