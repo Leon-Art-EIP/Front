@@ -24,6 +24,8 @@ export interface ISingleArtPageProps {
   belongingCollections: number[];
   belongingCommands: boolean;
   link: ElementType<{ children: JSX.Element; href: string }>; // Car Storybook ne supporte pas le Link de Next
+  paymentSuccessful: boolean;
+  paymentCanceled: boolean;
 }
 
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
@@ -90,11 +92,14 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
           link={props.link}
         />
         <SingleArtPageCard
+          artPublicationId={props.artId}
           caracteristics={props.caracteristics}
           description={props.description}
           price={props.price}
           link={props.link}
           belongingCommands={props.belongingCommands}
+          paymentSuccessful={props.paymentSuccessful}
+          paymentCanceled={props.paymentCanceled}
         />
       </div>
     </>

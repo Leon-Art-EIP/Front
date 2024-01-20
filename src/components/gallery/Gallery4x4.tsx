@@ -20,7 +20,7 @@ export default function Gallery4x4(props: Gallery4x4Props): JSX.Element {
       {props.artPublications.artPublications.map((artPublication, index) => (
         <div
           key={index}
-          className="md:w-72 w-52 md:h-72 h-52 rounded-xl bg-gray-400 shadow-xl overflow-hidden hover:scale-[1.03] hover:opacity-75 duration-300 hover:shadow-2xl transition ease-in-out"
+          className="md:w-72 w-52 md:h-72 h-52 rounded-xl bg-gray-400 shadow-xl overflow-hidden hover:scale-[1.03] hover:opacity-75 duration-300 hover:shadow-2xl transition ease-in-out cursor-pointer"
           onClick={() => handleClickOnArtPublication(index)}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}

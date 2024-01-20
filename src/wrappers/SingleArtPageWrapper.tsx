@@ -11,14 +11,20 @@ import { IProfileUser } from "../interfaces/user/profileUser";
 import LoadingPage from "../components/loading/LoadingPage";
 import { imageApi } from "../tools/variables";
 
-export default function SingleArtPageWrapper(props: { params: { id: string } }): JSX.Element {
+interface SingleArtPageWrapperProps {
+  id: string;
+  success: boolean;
+  cancel: boolean;
+}
+
+export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): JSX.Element {
   const [artPublication, setArtPublication] = useState<IArtPublication>();
   const [artist, setArtist] = useState<IProfileUser>();
 
   useEffect(() => {
     const getData = async () => {
       const artPublicationResponse = await myFetch({
-        route: `/api/art-publication/${props.params.id}`,
+        route: `/api/art-publication/${props.id}`,
         method: "GET",
       });
 
@@ -34,7 +40,7 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
       setArtist(artist);
     };
     getData();
-  }, [props.params.id]);
+  }, [props.id]);
 
   const user: IUser | undefined = JSON.parse(localStorage.getItem("user") || "");
 
@@ -61,6 +67,8 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
       belongingCollections={data.belongingCollections}
       belongingCommands={data.belongingCommands}
       link={Link}
+      paymentSuccessful={props.success}
+      paymentCanceled={props.cancel}
     />
   );
 }
