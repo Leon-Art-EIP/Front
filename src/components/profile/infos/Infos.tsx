@@ -52,7 +52,7 @@ export default function Infos(props: IInfosProps): JSX.Element {
         {!props.myProfile && (
           <InfosButtonsWrapper following={following} link={props.link} id={props.id} setFollowing={setFollowing} />
         )}
-        {props.availability === "available" && <AvailableForCommandsButton />}
+        <AvailableForCommandsButton isAvailable={props.availability === "available"} disabled={!props.myProfile} />
         <div className="h-0.5 w-full bg-black" />
         <div className="flex gap-2 flex-wrap">
           {props.categories.map((category) => (

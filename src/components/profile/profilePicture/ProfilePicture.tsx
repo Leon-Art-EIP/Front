@@ -9,6 +9,7 @@ export interface IProfilePictureProps {
   className?: string;
   onClick?: () => void;
   modifiable?: boolean;
+  style?: React.CSSProperties;
 }
 
 export default function ProfilePicture(props: IProfilePictureProps): JSX.Element {
@@ -23,7 +24,6 @@ export default function ProfilePicture(props: IProfilePictureProps): JSX.Element
         width={props.width}
         height={props.height}
         onClick={props.onClick}
-        color="black"
       />
     );
   }
@@ -36,6 +36,7 @@ export default function ProfilePicture(props: IProfilePictureProps): JSX.Element
       width={props.width}
       height={props.height}
       onClick={props.onClick}
+      style={props.style}
     />
   );
 }

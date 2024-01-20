@@ -5,8 +5,9 @@ interface IIconButtonProps {
   onClick: () => void;
   text: string;
   className?: string;
-  icon: React.ComponentType<SvgIconProps>;
+  icon: React.ComponentType<SvgIconProps> | undefined;
   left?: boolean;
+  disabled?: boolean;
 }
 
 export default function IconButton({ icon: Icon, ...props }: IIconButtonProps): JSX.Element {
@@ -17,10 +18,11 @@ export default function IconButton({ icon: Icon, ...props }: IIconButtonProps): 
         "inline-flex py-0.5 px-5 text-center justify-center text-xs rounded-2xl border-none gap-2 items-center",
         props.className ?? "bg-white text-black"
       )}
+      disabled={props.disabled}
     >
-      {props.left && <Icon />}
+      {props.left && Icon && <Icon />}
       {props.text}
-      {!props.left && <Icon />}
+      {!props.left && Icon && <Icon />}
     </button>
   );
 }
