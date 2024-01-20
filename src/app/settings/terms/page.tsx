@@ -1,10 +1,9 @@
 import GoBackButton from "../../../components/buttons/GoBackButtons";
 import { IResponseTerms } from "../../../interfaces/settings/terms";
-import { NEXT_PUBLIC_BACKEND_URL } from "../../../tools/myFetch";
 import NotFound from "../../not-found";
 
 export default async function Page(): Promise<JSX.Element> {
-  const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/conditions`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/conditions`, {
     method: "GET",
   });
 
