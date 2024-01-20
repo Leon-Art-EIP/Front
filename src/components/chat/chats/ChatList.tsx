@@ -11,7 +11,7 @@ export interface ChatListProps {
 }
 
 export default function ChatList(props: ChatListProps): JSX.Element {
-  const [currentSelected, setCurrentSelected] = useState<number>(0);
+  const [currentSelected, setCurrentSelected] = useState<number>();
 
   {
     /* c8 ignore start */
