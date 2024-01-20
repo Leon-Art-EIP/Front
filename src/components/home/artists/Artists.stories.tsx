@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Artists, { IArtistsProps } from "./Artists";
-import { artists } from "./artists";
+import { artists } from "./artistsDummyData";
 
 export default {
   title: "Components/Home/Artists",

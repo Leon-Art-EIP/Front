@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import PassingArts, { IPassingArtsProps } from "./PassingArts";
-import { passingArts } from "./passingArts";
+import { passingArts } from "./passingArtsDummyData";
 
 export default {
   title: "Components/Home/PassingArts",
