@@ -1,12 +1,11 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ITab } from "../../interfaces";
 import Header from "../header";
-import LoginWrapper from "../../wrappers/login/LoginWrapper";
 import { IConnectedUser } from "../../interfaces/user/user";
-import { useEffect, useState } from "react";
 import LoadingPage from "../loading/LoadingPage";
+import { useEffect, useState } from "react";
 
 export interface ISessionProps {
   tabs: ITab[];
@@ -14,23 +13,30 @@ export interface ISessionProps {
 }
 
 export default function Session(props: ISessionProps): JSX.Element | null {
-  const [user, setUser] = useState<IConnectedUser | undefined>();
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const [user, setUser] = useState<IConnectedUser | null | undefined>(undefined);
   const pathname = usePathname();
+  const router = useRouter();
   const correspondingTab = props.tabs.find((tab) => {
     if (tab.href === "/") return tab.href === pathname;
     return pathname.includes(tab.href);
   });
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setUser(JSON.parse(user));
+    // no choice to use useEffect for localStorage
+    const local = localStorage.getItem("user");
+    if (local) {
+      setUser(JSON.parse(local));
     } else {
-      setUser(undefined);
+      setUser(null);
     }
-    setLoaded(true);
   }, [pathname]);
+
+  useEffect(() => {
+    // Redirect only after the initial render
+    if (user === null || (user && !user.token)) {
+      router.replace("/login");
+    }
+  }, [user, router]);
 
   if ((user && user.token) || ((!user || !user.token) && correspondingTab?.loggedIn === false)) {
     return (
@@ -39,8 +45,7 @@ export default function Session(props: ISessionProps): JSX.Element | null {
         {props.children}
       </>
     );
-  } else if (loaded && (!user || !user.token)) {
-    return <LoginWrapper />;
   }
+
   return <LoadingPage />;
 }
