@@ -66,7 +66,7 @@ export default function OrderList(props: OrderListProps): JSX.Element {
         <div className="flex flex-col gap-3">
           {orderToShow.map((order, index) => (
             <>
-              {order.orderState === "pending" && (
+              {(order.orderState === "pending" || order.orderState === "paid" || order.orderState === "shipping") && (
                 <button
                   className={`relative overflow-hidden flex flex-row gap-4 items-center px-5 py-3 rounded-xl ${
                     order.orderId === props.selectedOrderId ? "bg-gray-200" : ""
@@ -98,7 +98,7 @@ export default function OrderList(props: OrderListProps): JSX.Element {
         <div className="flex flex-col gap-3">
           {orderToShow.map((order, index) => (
             <>
-              {order.orderState !== "pending" && (
+              {(order.orderState === "completed" || order.orderState === "cancelled") && (
                 <button
                   className={`flex flex-row gap-4 items-center px-3 py-3 rounded-xl ${
                     order.orderId === props.selectedOrderId ? "bg-gray-200" : ""

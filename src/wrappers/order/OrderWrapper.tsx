@@ -9,16 +9,20 @@ import { orderDeliveryHelpText } from "../../configs/order/orderDeliveryHelp";
 import CloseIcon from "@mui/icons-material/Close";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import { myFetch } from "../../tools/myFetch";
+import { IConnectedUser } from "../../interfaces/user/user";
+import { useRouter } from "next/navigation";
 
 interface OrderWrapperProps {
   orderId: string | undefined;
 }
 
 export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
+  const router = useRouter();
   const [orderType, setOrderType] = useState<"sell" | "buy">("buy");
   const [buyOrders, setBuyOrders] = useState<Order[]>([]);
   const [sellOrders, setSellOrders] = useState<Order[]>([]);
   const [selectedOrderId, setSelectedOrderId] = useState<string>();
+  const [currentUser, setCurrentUser] = useState<IConnectedUser>();
 
   const [deliveryHelpModal, setDeliveryHelpModal] = useState<boolean>(false);
 
@@ -33,7 +37,15 @@ export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
       const data: Order[] = await res.json();
       setSellOrders(data);
     }
-
+    async function getCurrentUser() {
+      if (!localStorage.getItem("user")) {
+        router.push("/login");
+      } else {
+        setCurrentUser(await JSON.parse(localStorage.getItem("user") || "{}"));
+      }
+    }
+    
+    getCurrentUser();
     fetchBuyOrders();
     fetchSellOrders();
   }, []);
@@ -82,6 +94,7 @@ export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
           orderType={orderType}
           deliveryHelpModal={deliveryHelpModal}
           openDeliveryHelpModal={handleToggleDeliveryHelpModal}
+          currentUser={currentUser}
         />
       )}
       {deliveryHelpModal && (

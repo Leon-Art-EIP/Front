@@ -4,12 +4,14 @@ import { useRouter } from "next/navigation";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useEffect, useState } from "react";
 import { myFetch } from "../../tools/myFetch";
+import { IConnectedUser } from "../../interfaces/user/user";
 
 interface OrderInfoProps {
   selectedOrderId: string | undefined;
   orderType: "sell" | "buy";
   deliveryHelpModal: boolean;
   openDeliveryHelpModal: () => void;
+  currentUser: IConnectedUser | undefined;
 }
 
 const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -36,7 +38,20 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
     router.push(`/profile/${props.orderType === "buy" ? selectedOrder?.sellerId : selectedOrder?.buyerId}`);
   }
 
-  function onGoToChat() {}
+  async function onGoToChat() {
+    const response = await myFetch({
+      route: `/api/conversations/create`,
+      method: "PUT",
+      body: JSON.stringify({ 
+        UserOneId: props.orderType === "buy" ? selectedOrder?.sellerId : selectedOrder?.buyerId,
+        UserTwoId: props.currentUser?.user.id,
+      })
+    });
+    const data = await response.json();
+    if (response.status === 200) {
+      router.push(`/chat/${data.convId}`);
+    }
+  }
 
   function onOpenDeliveryHelpModal() {
     props.openDeliveryHelpModal();
@@ -57,6 +72,27 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
     }
   }
 
+  async function onConfirmReception() {
+    const res = await myFetch({
+      route: `/api/order/confirm-reception`,
+      method: "POST",
+      body: JSON.stringify({
+        orderId: props.selectedOrderId,
+      }),
+    });
+  }
+
+  async function onConfirmSend() {
+    const res = await myFetch({
+      route: `/api/order/confirm-delivery-rate`,
+      method: "POST",
+      body: JSON.stringify({
+        orderId: props.selectedOrderId,
+        rating: 5,
+      }),
+    });
+  }
+
   return (
     <>
       {selectedOrder && (
@@ -72,7 +108,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
                 Aller à la conversation
               </Button>
             </div>
-            <div className="flex flex-col justify-start items-start gap-12 xl:pt-0 pt-8">
+            <div className="flex flex-col justify-start items-start gap-12 xl:pt-0 pt-12">
               <span className="text-2xl font-semibold">{selectedOrder.artPublicationName}</span>
               <span className="text-lg line-clamp-5">{selectedOrder.artPublicationDescription}</span>
               <div className="flex flex-row w-full justify-between">
@@ -105,8 +141,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
                   selectedOrder.orderState === "preparation" && "font-semibold"
                 }`}
               >
-                Préparation de la
-                <br /> commande
+                Commande payée
               </span>
             </div>
             <span
@@ -127,7 +162,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
                   selectedOrder.orderState === "sent" && "font-semibold"
                 }`}
               >
-                Expédition
+                Commande envoyée
               </span>
             </div>
             <span
@@ -148,30 +183,17 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
                   selectedOrder.orderState === "in coming" && "font-semibold"
                 }`}
               >
-                En transit
+                Commande reçue
               </span>
             </div>
-            <span
-              className={`${
-                deliveryStateNumber(selectedOrder.orderState) >= 4 ? "bg-[#adabff]" : "bg-[#cbcbcb]"
-              } w-40 h-1`}
-            ></span>
-            <div className="flex relative w-8 h-8">
-              <span
-                className={`rounded-full ${
-                  deliveryStateNumber(selectedOrder.orderState) >= 4
-                    ? "border-[#5a57df] border-2 bg-[#adabff]"
-                    : "bg-[#cbcbcb]"
-                } w-full h-full`}
-              />
-              <span
-                className={`absolute top-[120%] text-lg text-center left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
-                  selectedOrder.orderState === "arrived" && "font-semibold"
-                }`}
-              >
-                Livraison réussie
-              </span>
-            </div>
+          </div>
+          <div className="flex">
+            {(props.orderType === "sell" && selectedOrder.orderState === "paid") && (<Button color="primary" type="button" className="w-full" onClick={onConfirmReception}>
+              Confirmer l'envoie de la commande
+            </Button>)}
+            {(props.orderType === "buy" && selectedOrder.orderState === "shipping") && (<Button color="primary" type="button" className="w-full" onClick={onConfirmSend}>
+              Confirmer la réception de la commande
+            </Button>)}
           </div>
         </div>
       )}
