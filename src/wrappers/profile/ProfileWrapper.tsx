@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "../../components/link/Link";
 import { TCategory } from "../../components/profile/category/Category";
-import Heading from "../../components/profile/heading/Heading";
 import Infos from "../../components/profile/infos/Infos";
 import { IArtPublication } from "../../interfaces/artPublication/artPublication";
 import { IArtist } from "../../interfaces/home/artist";
@@ -15,6 +14,8 @@ import TabsWrapper from "./TabsWrapper";
 import LoadingPage from "../../components/loading/LoadingPage";
 import banner from "../../assets/profileBanner.png";
 import { IConnectedUser } from "../../interfaces/user/user";
+import ProfileHeadingForm from "../../forms/tsx/ProfileHeadingForm";
+import Heading from "../../components/profile/heading/Heading";
 
 interface IProfileWrapperProps {
   id: string;
@@ -22,6 +23,8 @@ interface IProfileWrapperProps {
 
 export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element {
   const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const myProfile = Object.keys(user).length > 0 && user.user.id === props.id;
+  const ProfileComponent = myProfile ? ProfileHeadingForm : Heading;
   const [artist, setArtist] = useState<IArtist | null>(null);
   const [collections, setCollections] = useState<IProfileCollection[]>([]);
   const [publications, setPublications] = useState<IProfileArt[]>([]);
@@ -89,11 +92,11 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
 
   return (
     <div className="flex flex-col">
-      <Heading
+      <ProfileComponent
         profilePicture={`${imageApi}/${artist.profilePicture}`}
         banner={artist.bannerPicture.includes("default") ? banner : `${imageApi}/${artist.bannerPicture}`}
       />
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-4 bg-white">
         <div className="flex flex-col col-span-3 gap-2 p-4">
           <TabsWrapper
             aboutTitle={data.aboutTitle} // TODO: ask backend to send this
@@ -111,7 +114,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             categories={data.categories} // TODO: ask backend to send this
             numberOfFollowers={artist.subscribersCount}
             numberOfPosts={publications.length}
-            myProfile={Object.keys(user).length > 0 && user.user.id === props.id}
+            myProfile={myProfile}
             following={Object.keys(user).length > 0 && artist.subscribers.includes(user.user.id)}
             id={props.id}
             link={Link}

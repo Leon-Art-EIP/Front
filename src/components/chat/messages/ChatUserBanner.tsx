@@ -1,5 +1,6 @@
 import { IChat } from "../../../interfaces/chat/chats";
 import { IConnectedUser } from "../../../interfaces/user/user";
+import { NEXT_PUBLIC_BACKEND_URL } from "../../../tools/myFetch";
 
 export interface ChatUserBannerProps {
   currentChat: IChat;
@@ -16,7 +17,7 @@ export function ChatUserBanner(props: ChatUserBannerProps): JSX.Element {
         /* TODO: use <Image> next component */
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
-          src={props.currentChat.UserOneId !== props.currentUser?.user.id ? props.currentChat.UserOnePicture : props.currentChat.UserTwoPicture}
+          src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.currentChat.UserOneId !== props.currentUser?.user.id ? props.currentChat.UserOnePicture : props.currentChat.UserTwoPicture}`}
           alt="profilePicture"
           className="w-16 h-16 rounded-full bg-gray-500 flex-shrink-0"
         />

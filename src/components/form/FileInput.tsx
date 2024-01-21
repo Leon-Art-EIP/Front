@@ -1,14 +1,15 @@
 "use client";
 
-import { ChangeEvent, DragEvent, useEffect } from "react";
+import { ChangeEvent, DragEvent } from "react";
 import { useRef, useState } from "react";
 import { cn } from "../../tools/cn";
 import { useController } from "react-hook-form";
-import { AddSharp, Loop } from "@mui/icons-material";
-import { Button } from "../lib";
+import { AddSharp } from "@mui/icons-material";
 
 interface IUploadButtonProps {
   name: string;
+  children?: React.ReactNode;
+  className?: string;
 }
 
 export default function FileInput(props: IUploadButtonProps): JSX.Element {
@@ -60,7 +61,7 @@ export default function FileInput(props: IUploadButtonProps): JSX.Element {
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className={cn("flex flex-col gap-2", props.className)}>
       <button
         type="button"
         title="Importer"
@@ -73,7 +74,7 @@ export default function FileInput(props: IUploadButtonProps): JSX.Element {
           isDragging && "cursor-grab"
         )}
       >
-        <AddSharp style={{ fontSize: 50 }} />
+        {props.children ?? <AddSharp style={{ fontSize: 50 }} />}
       </button>
       {value && (
         <div className="flex gap-2">
