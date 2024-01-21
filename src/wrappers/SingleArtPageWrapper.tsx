@@ -11,7 +11,13 @@ import LoadingPage from "../components/loading/LoadingPage";
 import { imageApi } from "../tools/variables";
 import { ICollection, ICollectionArtsExtended } from "../interfaces/single/collection";
 
-export default function SingleArtPageWrapper(props: { params: { id: string } }): JSX.Element {
+interface SingleArtPageWrapperProps {
+  id: string;
+  success: boolean;
+  cancel: boolean;
+}
+
+export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): JSX.Element {
   const [artPublication, setArtPublication] = useState<IArtPublication>();
   const [artist, setArtist] = useState<IProfileUser>();
   const [collectionsArtsExtended, setCollectionsArtsExtended] = useState<ICollectionArtsExtended[]>([]);
@@ -25,7 +31,7 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
             method: "GET",
           }),
           myFetch({
-            route: `/api/art-publication/${props.params.id}`,
+            route: `/api/art-publication/${props.id}`,
             method: "GET",
           }),
         ]);
@@ -76,7 +82,7 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
       }
     };
     getData();
-  }, [props.params.id]);
+  }, [props.id]);
 
   const user: IUser | undefined = JSON.parse(localStorage.getItem("user") || "").user;
 
@@ -106,6 +112,8 @@ export default function SingleArtPageWrapper(props: { params: { id: string } }):
       belongingCollectionsIds={idsOfCollectionsWithArt}
       belongingCommands={false} // TODO
       link={Link}
+      paymentSuccessful={props.success}
+      paymentCanceled={props.cancel}
     />
   );
 }

@@ -6,8 +6,7 @@ import Picture3 from "../../assets/picture3.jpeg";
 import { ISingleArtPageProps } from "./SingleArtPage";
 
 const data: Omit<ISingleArtPageProps, "link"> = {
-  description:
-    "Cette peinture est l’expression la plus pure du mélange chaud/froid, défini par les différentes teintes de rose et de bleu. Ici, nous pouvons assister à un affrontement au sein même de la nature : le froid et la tristesse des vagues contre la chaleur ainsi que l’aridité du désert rosé.",
+  description: "Cette peinture est l’expression la plus pure du mélange chaud/froid, défini par les différentes teintes de rose et de bleu. Ici, nous pouvons assister à un affrontement au sein même de la nature : le froid et la tristesse des vagues contre la chaleur ainsi que l’aridité du désert rosé.",
   caracteristics: "Peinture - Huile sur toile, 187 x 121 cm",
   price: 199,
   art: Art,
@@ -21,6 +20,8 @@ const data: Omit<ISingleArtPageProps, "link"> = {
   collections: [],
   belongingCollectionsIds: [],
   belongingCommands: false,
+  paymentSuccessful: false,
+  paymentCanceled: false
 };
 
 export default data;

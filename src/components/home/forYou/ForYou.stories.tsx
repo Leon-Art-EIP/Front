@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import ForYou, { IForYouProps } from "./ForYou";
-import { arts } from "./arts";
+import { arts } from "./artsDummyData";
 
 export default {
   title: "Components/Home/ForYou",

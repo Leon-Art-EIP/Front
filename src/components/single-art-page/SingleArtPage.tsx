@@ -1,12 +1,14 @@
 "use client";
 
-import { ElementType, useState } from "react";
+import { ElementType, useState, useEffect } from "react";
 import SingleArtPageArtwork from "./artwork/SingleArtPageArtwork";
 import SingleArtPageCard from "./card/SingleArtPageCard";
-import { Modal } from "../lib";
+import { Button, Modal } from "../lib";
 import SaveGallery from "./artwork/SaveGallery";
 import { myFetch } from "../../tools/myFetch";
 import { ICollectionArtsExtended } from "../../interfaces/single/collection";
+import { IConnectedUser } from "../../interfaces/user/user";
+import { useRouter } from "next/navigation";
 
 export interface ISingleArtPageProps {
   description: string;
@@ -24,12 +26,28 @@ export interface ISingleArtPageProps {
   belongingCollectionsIds: string[];
   belongingCommands: boolean;
   link: ElementType<{ children: JSX.Element; href: string }>; // Car Storybook ne supporte pas le Link de Next
+  paymentSuccessful: boolean;
+  paymentCanceled: boolean;
 }
 
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
+  const router = useRouter();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isLiked, setLiked] = useState(props.liked);
   const [selectedCollections, setSelectedCollections] = useState<string[]>(props.belongingCollectionsIds);
+  const [currentUser, setCurrentUser] = useState<IConnectedUser>();
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      if (!localStorage.getItem("user")) {
+        router.push("/login");
+      } else {
+        setCurrentUser(await JSON.parse(localStorage.getItem("user") || "{}"));
+      }
+    }
+    getCurrentUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   let nbrLikes = props.nbrLikes;
 
@@ -63,6 +81,21 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
     fetchLikePublication(props.artId);
   };
 
+  async function onSendMessage() {
+    const response = await myFetch({
+      route: `/api/conversations/create`,
+      method: "PUT",
+      body: JSON.stringify({ 
+        UserOneId: props.artistId,
+        UserTwoId: currentUser?.user.id,
+      })
+    });
+    const data = await response.json();
+    if (response.status === 200) {
+      router.push(`/chat/${data.convId}`);
+    }
+  }
+
   return (
     <>
       <Modal isOpen={isModalOpen} handleClose={closeModal}>
@@ -87,13 +120,21 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
           heartOnClick={heartOnClick}
           link={props.link}
         />
-        <SingleArtPageCard
-          caracteristics={props.caracteristics}
-          description={props.description}
-          price={props.price}
-          link={props.link}
-          belongingCommands={props.belongingCommands}
-        />
+        <div className="flex flex-col gap-4">
+          <SingleArtPageCard
+            artPublicationId={props.artId}
+            caracteristics={props.caracteristics}
+            description={props.description}
+            price={props.price}
+            link={props.link}
+            belongingCommands={props.belongingCommands}
+            paymentSuccessful={props.paymentSuccessful}
+            paymentCanceled={props.paymentCanceled}
+          />
+          <Button color="primary" type="button" onClick={onSendMessage}>
+            Envoyer un message
+          </Button>
+        </div>
       </div>
     </>
   );
