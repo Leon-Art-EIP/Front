@@ -1,13 +1,6 @@
 import { z } from "zod";
 import zxcvbn from "zxcvbn";
 
-// const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
-//   console.error(issue, ctx);
-//   return { message: issue.message ?? "ZodError" };
-// };
-
-// z.setErrorMap(customErrorMap);
-
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const nonEmptyString = z.string().min(1, { message: "Veuillez remplir ce champ" });
@@ -55,7 +48,12 @@ export const settingsPasswordSchema = z
   });
 
 export const createArtSchema = z.object({
-  image: z.instanceof(File, { message: "Veuillez sélectionner une image" }),
+  image: z.preprocess((arg) => {
+    if (typeof File !== 'undefined' && arg instanceof File) {
+      return arg;
+    }
+    return new Error("Veuillez sélectionner une image");
+  }, z.any()),
   artType: nonEmptyString,
   name: nonEmptyString,
   description: nonEmptyString,
