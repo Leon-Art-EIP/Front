@@ -189,7 +189,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
           </div>
           <div className="flex">
             {(props.orderType === "sell" && selectedOrder.orderState === "paid") && (<Button color="primary" type="button" className="w-full" onClick={onConfirmReception}>
-              Confirmer l'envoie de la commande
+              Confirmer l{"'"}envoie de la commande
             </Button>)}
             {(props.orderType === "buy" && selectedOrder.orderState === "shipping") && (<Button color="primary" type="button" className="w-full" onClick={onConfirmSend}>
               Confirmer la réception de la commande

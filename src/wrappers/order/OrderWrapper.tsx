@@ -77,13 +77,13 @@ export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
       {props.orderId === undefined && selectedOrderId === undefined ? (
         <div className="flex flex-col items-center justify-center w-full h-full gap-4 text-gray-400">
           <LocalGroceryStoreIcon sx={{ fontSize: 200 }} />
-          <span className="text-2xl font-bold">Bienvenue sur votre espace d'achat et vente</span>
+          <span className="text-2xl font-bold">Bienvenue sur votre espace d{"'"}achat et vente</span>
           <div className="flex flex-col w-1/3 text-center gap-6">
             <span className="text-xl font-medium">
               Ici vous pouvez retrouver toutes vos commandes en cours, ainsi que vos commandes passées
             </span>
             <span className="text-xl font-medium">
-              Pour en créer une commande, il vous suffit simplement d'ajouter au panier une oeuvre d'art et vous pourrez
+              Pour en créer une commande, il vous suffit simplement d{"'"}ajouter au panier une oeuvre d{"'"}art et vous pourrez
               la retrouver ici.
             </span>
           </div>
