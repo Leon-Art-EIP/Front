@@ -20,17 +20,17 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
   const router = useRouter();
   const [selectedOrder, setSelectedOrder] = useState<Order>();
 
-  useEffect(() => {
-    async function fetchOrderInfos() {
-      const res = await myFetch({
-        route: `/api/order/${props.orderType === "buy" ? "buy" : "sell"}/${props.selectedOrderId}`,
-        method: "GET",
-      });
-      const data: Order = await res.json();
-      console.log(data);
-      setSelectedOrder(data);
-    }
+  async function fetchOrderInfos() {
+    const res = await myFetch({
+      route: `/api/order/${props.orderType === "buy" ? "buy" : "sell"}/${props.selectedOrderId}`,
+      method: "GET",
+    });
+    const data: Order = await res.json();
+    console.log(data);
+    setSelectedOrder(data);
+  }
 
+  useEffect(() => {
     fetchOrderInfos();
   }, [props.selectedOrderId]);
 
@@ -59,14 +59,12 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
 
   function deliveryStateNumber(acutalDeliveryState: string) {
     switch (acutalDeliveryState) {
-      case "preparation":
+      case "paid":
         return 1;
-      case "sent":
+      case "shipping":
         return 2;
-      case "in coming":
+      case "completed":
         return 3;
-      case "arrived":
-        return 4;
       default:
         return 1;
     }
@@ -74,12 +72,15 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
 
   async function onConfirmReception() {
     const res = await myFetch({
-      route: `/api/order/confirm-reception`,
+      route: `/api/order/confirm-shipping`,
       method: "POST",
       body: JSON.stringify({
         orderId: props.selectedOrderId,
       }),
     });
+    if (res.status === 200) {
+      fetchOrderInfos();
+    }
   }
 
   async function onConfirmSend() {
@@ -91,6 +92,9 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
         rating: 5,
       }),
     });
+    if (res.status === 200) {
+      fetchOrderInfos();
+    }
   }
 
   return (
