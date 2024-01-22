@@ -1,18 +1,7 @@
 import GoBackButton from "../../../components/buttons/GoBackButtons";
-import { IResponseTerms } from "../../../interfaces/settings/terms";
-import NotFound from "../../not-found";
+import TermsWrapper from "../../../wrappers/terms/TermsWrapper";
 
 export default async function Page(): Promise<JSX.Element> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/conditions`, {
-    method: "GET",
-  });
-
-  if (!response.ok) {
-    return <NotFound />;
-  }
-
-  const terms = (await response.json()) as IResponseTerms;
-
   return (
     <div className="flex flex-col py-5 gap-4">
       <div className="flex items-center align-middle">
@@ -25,7 +14,7 @@ export default async function Page(): Promise<JSX.Element> {
           <div>Conditions générales de vente</div>
         </div>
       </div>
-      <div className="px-24 font-semibold whitespace-pre-line">{terms.conditions}</div>
+      <TermsWrapper />
     </div>
   );
 }

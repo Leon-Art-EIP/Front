@@ -85,10 +85,10 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
     const response = await myFetch({
       route: `/api/conversations/create`,
       method: "PUT",
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         UserOneId: props.artistId,
         UserTwoId: currentUser?.user.id,
-      })
+      }),
     });
     const data = await response.json();
     if (response.status === 200) {
