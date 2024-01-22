@@ -117,6 +117,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             myProfile={myProfile}
             following={Object.keys(user).length > 0 && artist.subscribers.includes(user.user.id)}
             id={props.id}
+            connectedUserId={user.user.id}
             link={Link}
           />
         </div>

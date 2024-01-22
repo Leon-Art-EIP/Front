@@ -16,6 +16,7 @@ export interface IInfosProps {
   myProfile: boolean;
   following: boolean;
   id: string;
+  connectedUserId: string;
   link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
@@ -50,7 +51,13 @@ export default function Infos(props: IInfosProps): JSX.Element {
           </div>
         </div>
         {!props.myProfile && (
-          <InfosButtonsWrapper following={following} link={props.link} id={props.id} setFollowing={setFollowing} />
+          <InfosButtonsWrapper
+            following={following}
+            link={props.link}
+            id={props.id}
+            connectedUserId={props.connectedUserId}
+            setFollowing={setFollowing}
+          />
         )}
         <AvailableForCommandsButton isAvailable={props.availability === "available"} disabled={!props.myProfile} />
         <div className="h-0.5 w-full bg-black" />
