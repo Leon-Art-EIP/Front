@@ -33,7 +33,7 @@ export default function Session(props: ISessionProps): JSX.Element | null {
 
   useEffect(() => {
     // Redirect only after the initial render
-    if (user === null || (user && !user.token)) {
+    if (correspondingTab?.loggedIn !== false && (user === null || (user && !user.token))) {
       router.replace("/login");
     }
   }, [user, router]);
