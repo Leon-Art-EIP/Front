@@ -1,6 +1,6 @@
 const nextConfig = {
   env: {
-    NEXT_PUBLIC_BACKEND_URL: "https://back-dev.leonart-dev.ovh/",
+    NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
   },
   images: {
     domains: ["localhost", "front-dev.leonart-dev.ovh"],
