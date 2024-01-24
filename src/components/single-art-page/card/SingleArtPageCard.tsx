@@ -7,7 +7,6 @@ import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "put the public key in the .env file!");
 
-
 export interface ISingleArtPageCardProps {
   artPublicationId: string;
   description: string;
@@ -27,17 +26,15 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
     const response = await myFetch({
       route: `/api/order/create`,
       method: "POST",
-      body: JSON.stringify({ artPublicationId: props.artPublicationId })
+      body: JSON.stringify({ artPublicationId: props.artPublicationId }),
     });
     const data = await response.json();
-  
-    if (data.sessionId) {
-      const stripe = await stripePromise;
-      if (stripe) {
-        stripe.redirectToCheckout({ sessionId: data.sessionId });
-      } else {
-        console.log("Stripe n'a pas été initialisé correctement.");
-      }
+
+    if (data.url) {
+      // Redirect to the Stripe Checkout page
+      window.location.href = data.url;
+    } else {
+      console.log("Failed to initiate payment process.");
     }
   }
 
