@@ -42,10 +42,10 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
     const response = await myFetch({
       route: `/api/conversations/create`,
       method: "PUT",
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         UserOneId: props.orderType === "buy" ? selectedOrder?.sellerId : selectedOrder?.buyerId,
         UserTwoId: props.currentUser?.user.id,
-      })
+      }),
     });
     const data = await response.json();
     if (response.status === 200) {
@@ -80,6 +80,16 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
     });
     if (res.status === 200) {
       fetchOrderInfos();
+    }
+  }
+
+  async function onCancelOrder() {
+    const res = await myFetch({
+      route: `/api/order/cancel/${props.selectedOrderId}`,
+      method: "POST",
+    });
+    if (res.status === 200) {
+      router.push("/order")
     }
   }
 
@@ -132,72 +142,90 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
             </button>
           </div>
           <div className="lg:flex hidden justify-center items-center pt-10 pb-20">
-            <div className="flex relative w-8 h-8">
-              <span
-                className={`rounded-full ${
-                  deliveryStateNumber(selectedOrder.orderState) >= 1
-                    ? "border-[#5a57df] border-2 bg-[#adabff]"
-                    : "bg-[#cbcbcb]"
-                } w-full h-full`}
-              />
-              <span
-                className={`absolute top-[120%] text-lg text-center left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
-                  selectedOrder.orderState === "preparation" && "font-semibold"
-                }`}
-              >
-                Commande payée
-              </span>
-            </div>
-            <span
-              className={`${
-                deliveryStateNumber(selectedOrder.orderState) >= 2 ? "bg-[#adabff]" : "bg-[#cbcbcb]"
-              } w-40 h-1`}
-            ></span>
-            <div className="flex relative w-8 h-8">
-              <span
-                className={`rounded-full ${
-                  deliveryStateNumber(selectedOrder.orderState) >= 2
-                    ? "border-[#5a57df] border-2 bg-[#adabff]"
-                    : "bg-[#cbcbcb]"
-                } w-full h-full`}
-              />
-              <span
-                className={`absolute top-[120%] text-lg text-center left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
-                  selectedOrder.orderState === "sent" && "font-semibold"
-                }`}
-              >
-                Commande envoyée
-              </span>
-            </div>
-            <span
-              className={`${
-                deliveryStateNumber(selectedOrder.orderState) >= 3 ? "bg-[#adabff]" : "bg-[#cbcbcb]"
-              } w-40 h-1`}
-            ></span>
-            <div className="flex relative w-8 h-8">
-              <span
-                className={`rounded-full ${
-                  deliveryStateNumber(selectedOrder.orderState) >= 3
-                    ? "border-[#5a57df] border-2 bg-[#adabff]"
-                    : "bg-[#cbcbcb]"
-                } w-full h-full`}
-              />
-              <span
-                className={`absolute top-[120%] text-lg text-center left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
-                  selectedOrder.orderState === "in coming" && "font-semibold"
-                }`}
-              >
-                Commande reçue
-              </span>
-            </div>
+            {selectedOrder.orderState === "cancelled" ? (
+              <div className="flex flex-col gap-4">
+                <span className="text-2xl">Commande annulée</span>
+                <span className="text-lg">Le remboursemenent a été initié</span>
+              </div>
+            ) : (
+              <>
+                <div className="flex relative w-8 h-8">
+                  <span
+                    className={`rounded-full ${
+                      deliveryStateNumber(selectedOrder.orderState) >= 1
+                        ? "border-[#5a57df] border-2 bg-[#adabff]"
+                        : "bg-[#cbcbcb]"
+                    } w-full h-full`}
+                  />
+                  <span
+                    className={`absolute top-[120%] text-lg text-center left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
+                      selectedOrder.orderState === "paid" && "font-semibold"
+                    }`}
+                  >
+                    Commande payée
+                  </span>
+                </div>
+                <span
+                  className={`${
+                    deliveryStateNumber(selectedOrder.orderState) >= 2 ? "bg-[#adabff]" : "bg-[#cbcbcb]"
+                  } w-40 h-1`}
+                ></span>
+                <div className="flex relative w-8 h-8">
+                  <span
+                    className={`rounded-full ${
+                      deliveryStateNumber(selectedOrder.orderState) >= 2
+                        ? "border-[#5a57df] border-2 bg-[#adabff]"
+                        : "bg-[#cbcbcb]"
+                    } w-full h-full`}
+                  />
+                  <span
+                    className={`absolute top-[120%] text-lg text-center left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
+                      selectedOrder.orderState === "shipping" && "font-semibold"
+                    }`}
+                  >
+                    Commande envoyée
+                  </span>
+                </div>
+                <span
+                  className={`${
+                    deliveryStateNumber(selectedOrder.orderState) >= 3 ? "bg-[#adabff]" : "bg-[#cbcbcb]"
+                  } w-40 h-1`}
+                ></span>
+                <div className="flex relative w-8 h-8">
+                  <span
+                    className={`rounded-full ${
+                      deliveryStateNumber(selectedOrder.orderState) >= 3
+                        ? "border-[#5a57df] border-2 bg-[#adabff]"
+                        : "bg-[#cbcbcb]"
+                    } w-full h-full`}
+                  />
+                  <span
+                    className={`absolute top-[120%] text-lg text-center left-1/2 transform -translate-x-1/2 whitespace-nowrap ${
+                      selectedOrder.orderState === "completed" && "font-semibold"
+                    }`}
+                  >
+                    Commande reçue
+                  </span>
+                </div>
+              </>
+            )}
           </div>
-          <div className="flex">
-            {(props.orderType === "sell" && selectedOrder.orderState === "paid") && (<Button color="primary" type="button" className="w-full" onClick={onConfirmReception}>
-              Confirmer l{"'"}envoie de la commande
-            </Button>)}
-            {(props.orderType === "buy" && selectedOrder.orderState === "shipping") && (<Button color="primary" type="button" className="w-full" onClick={onConfirmSend}>
-              Confirmer la réception de la commande
-            </Button>)}
+          <div className="flex flex-col gap-4">
+            {props.orderType === "sell" && selectedOrder.orderState === "paid" && (
+              <Button color="primary" type="button" className="w-full" onClick={onConfirmReception}>
+                Confirmer l{"'"}envoie de la commande
+              </Button>
+            )}
+            {props.orderType === "sell" && selectedOrder.orderState === "paid" && (
+              <Button color="secondary" type="button" className="w-full" onClick={onCancelOrder}>
+                Annuler la commande
+              </Button>
+            )}
+            {props.orderType === "buy" && selectedOrder.orderState === "shipping" && (
+              <Button color="primary" type="button" className="w-full" onClick={onConfirmSend}>
+                Confirmer la réception de la commande
+              </Button>
+            )}
           </div>
         </div>
       )}
