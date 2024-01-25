@@ -1,16 +1,11 @@
-# Choisir une image de base
-FROM node:alpine
+# Stage de build
+FROM node:alpine AS builder
 
-# Créer un répertoire pour l'application
 WORKDIR /app
 
-ARG NEXT_PUBLIC_BACKEND_URL
-
-ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
-# Copier les fichiers package.json et yarn.lock (ou package-lock.json)
+# Copier les fichiers package.json et yarn.lock
 COPY package.json yarn.lock ./
 
-RUN printenv
 # Installer les dépendances
 RUN yarn install --frozen-lockfile
 
@@ -20,11 +15,22 @@ COPY . .
 # Construire l'application Next.js
 RUN yarn build
 
-# Exposer le port (par défaut Next.js utilise le port 3000)
+# Supprimer les fichiers inutiles post-construction
+RUN rm -rf node_modules && yarn install --production
+
+# Stage final
+FROM node:alpine
+
+WORKDIR /app
+
+# Copier les fichiers nécessaires depuis le builder
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+
+# Exposer le port (Next.js utilise le port 3000 par défaut)
 EXPOSE 3000
 
-# Définir les variables d'environnement (exemple)
-ENV NEXT_PUBLIC_BACKEND_URL="http://back-dev.leonart-dev.ovh"
-
-# Lancer l'application
-CMD ["yarn", "start"]
+# Lancer l'application en mode production
+CMD ["node_modules/.bin/next", "start"]
