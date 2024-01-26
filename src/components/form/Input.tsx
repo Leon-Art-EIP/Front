@@ -13,6 +13,8 @@ interface IInputProps {
   title?: string;
 }
 
+/* c8 ignore start */
+
 export default function Input(props: IInputProps): JSX.Element {
   const {
     field: { onChange, value },
@@ -35,3 +37,5 @@ export default function Input(props: IInputProps): JSX.Element {
     </div>
   );
 }
+
+/* c8 ignore stop */

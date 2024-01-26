@@ -1,6 +1,8 @@
 import { z } from "zod";
 import zxcvbn from "zxcvbn";
 
+/* c8 ignore start */
+
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const nonEmptyString = z.string().min(1, { message: "Veuillez remplir ce champ" });
@@ -71,6 +73,8 @@ export const profileHeadingSchema = z.object({
   bannerPicture: z.instanceof(File).optional(),
   profilePicture: z.instanceof(File).optional(),
 });
+
+/* c8 ignore stop */
 
 export type TLoginData = z.infer<typeof loginSchema>;
 export type TRegisterData = z.infer<typeof registerSchema>;

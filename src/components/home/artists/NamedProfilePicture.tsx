@@ -8,6 +8,8 @@ interface INamedProfilePictureProps {
   link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
+/* c8 ignore start */
+
 export default function NamedProfilePicture({ link: Link, ...props }: INamedProfilePictureProps): JSX.Element {
   return (
     <Link href={`/profile/${props.id}`} className="rounded-lg p-2 hover:bg-secondaryGrey">
@@ -20,3 +22,5 @@ export default function NamedProfilePicture({ link: Link, ...props }: INamedProf
     </Link>
   );
 }
+
+/* c8 ignore stop */

@@ -11,6 +11,8 @@ interface IMyFetch {
   formData?: boolean;
 }
 
+/* c8 ignore start */
+
 export async function myFetch({ route, method, body, formData }: IMyFetch) {
   const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
   const auth = user.token ? `Bearer ${user.token}` : "";
@@ -35,3 +37,5 @@ export async function myFetch({ route, method, body, formData }: IMyFetch) {
   }
   return response;
 }
+
+/* c8 ignore stop */

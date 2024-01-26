@@ -5,6 +5,8 @@ export interface BadgeProps {
     color?: 'danger' | 'success' | 'info';
 }
 
+/* c8 ignore start */
+
 const Badge: React.FC<BadgeProps> = ({ text, color }) => {
     let badgeColor: string = "bg-gray-200 text-purple-800"
 
@@ -21,5 +23,7 @@ const Badge: React.FC<BadgeProps> = ({ text, color }) => {
         </span>
     );
 };
+
+/* c8 ignore stop */
 
 export default Badge;

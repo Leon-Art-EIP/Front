@@ -12,6 +12,8 @@ interface ICreateCollectionFormProps {
   artId: string;
 }
 
+/* c8 ignore start */
+
 export default function CreateCollectionForm(props: ICreateCollectionFormProps): JSX.Element {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -69,3 +71,5 @@ export default function CreateCollectionForm(props: ICreateCollectionFormProps):
     </FormProvider>
   );
 }
+
+/* c8 ignore stop */

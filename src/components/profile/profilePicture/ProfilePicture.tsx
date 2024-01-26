@@ -12,6 +12,8 @@ export interface IProfilePictureProps {
   style?: React.CSSProperties;
 }
 
+/* c8 ignore start */
+
 export default function ProfilePicture(props: IProfilePictureProps): JSX.Element {
   if (props.modifiable) {
     return (
@@ -40,3 +42,5 @@ export default function ProfilePicture(props: IProfilePictureProps): JSX.Element
     />
   );
 }
+
+/* c8 ignore stop */

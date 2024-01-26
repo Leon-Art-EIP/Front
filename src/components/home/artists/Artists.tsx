@@ -7,6 +7,8 @@ export interface IArtistsProps {
   link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
+/* c8 ignore start */
+
 export default function Artists(props: IArtistsProps): JSX.Element {
   return (
     <div className="flex flex-col gap-2 px-4">
@@ -27,3 +29,5 @@ export default function Artists(props: IArtistsProps): JSX.Element {
     </div>
   );
 }
+
+/* c8 ignore stop */

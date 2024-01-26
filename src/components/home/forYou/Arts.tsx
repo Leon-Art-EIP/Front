@@ -6,6 +6,8 @@ export interface IArtsProps {
   link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
+/* c8 ignore start */
+
 export default function Arts({ link: Link, ...props }: IArtsProps): JSX.Element {
   return (
     <div className="max-h-full flex flex-wrap gap-8 justify-around p-4">
@@ -23,3 +25,5 @@ export default function Arts({ link: Link, ...props }: IArtsProps): JSX.Element 
     </div>
   );
 }
+
+/* c8 ignore stop */

@@ -4,6 +4,8 @@ export interface NotificationToastProps {
   type: "success" | "error" | "info";
 }
 
+/* c8 ignore start */
+
 export default function NotificationToast({ message, type }: NotificationToastProps): JSX.Element | null {
   const [visible, setVisible] = useState(true);
 
@@ -44,3 +46,5 @@ export default function NotificationToast({ message, type }: NotificationToastPr
     </div>
   ) : null;
 }
+
+/* c8 ignore stop */

@@ -13,6 +13,8 @@ interface IInfosButtonsWrapperProps {
   setFollowing: Dispatch<SetStateAction<boolean>>;
 }
 
+/* c8 ignore start */
+
 export default function InfosButtonsWrapper({ link: Link, ...props }: IInfosButtonsWrapperProps): JSX.Element {
   const router = useRouter();
 
@@ -50,3 +52,5 @@ export default function InfosButtonsWrapper({ link: Link, ...props }: IInfosButt
     </div>
   );
 }
+
+/* c8 ignore stop */

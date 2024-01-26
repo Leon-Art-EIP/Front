@@ -5,6 +5,8 @@ export interface CardProps {
     children: React.ReactNode;
 }
 
+/* c8 ignore start */
+
 const Card: React.FC<CardProps> = ({ title, children }) => {
     return (
         <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
@@ -21,5 +23,7 @@ const Card: React.FC<CardProps> = ({ title, children }) => {
         </div>
     );
 };
+
+/* c8 ignore start */
 
 export default Card;

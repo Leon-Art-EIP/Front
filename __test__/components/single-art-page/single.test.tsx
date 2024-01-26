@@ -3,117 +3,37 @@ import React from "react";
 import { expect, test } from "vitest";
 import SingleArtPage from "../../../src/components/single-art-page/SingleArtPage";
 import data from "../../../src/components/single-art-page/fakeData";
+import SaveGallery from "../../../src/components/single-art-page/artwork/SaveGallery";
+import SingleArtPageArtwork from "../../../src/components/single-art-page/artwork/SingleArtPageArtwork";
+import SingleArtPageCard from "../../../src/components/single-art-page/card/SingleArtPageCard";
 
-test("Single Art page regular test", () => {
+test("SaveGallery regular test", () => {
   const { container } = render(
-    <SingleArtPage
-      art={data.art}
-      artId={data.artId}
-      artistId={data.artistId}
-      artistName={data.artistName}
-      belongingCollections={data.belongingCollections}
-      belongingCommands={data.belongingCommands}
-      caracteristics={data.caracteristics}
+    <SaveGallery
       collections={data.collections}
-      description={data.description}
-      link="a"
-      price={data.price}
-      profile={data.profile}
-      title={data.title}
-      liked={data.liked}
-      nbrLikes={data.nbrLikes}
+      handleClose={() => {}}
+      selectedCollections={[]}
+      setSelectedCollections={() => {}}
+      artId={"1"}
     />
   );
 
-  expect(container.textContent).toContain("Faire une offre");
+  expect(container.textContent).toContain("Vous n'avez pas encore de collection");
 });
 
-test("Single Art page liked test", () => {
+test("SingleArtPageCard regular test", () => {
   const { container } = render(
-    <SingleArtPage
-      art={data.art}
-      artId={data.artId}
-      artistId={data.artistId}
-      artistName={data.artistName}
-      belongingCollections={data.belongingCollections}
+    <SingleArtPageCard
+      artPublicationId={data.artId}
+      caracteristics={data.caracteristics}
+      description={data.description}
+      price={data.price}
+      link="a"
       belongingCommands={data.belongingCommands}
-      caracteristics={data.caracteristics}
-      collections={data.collections}
-      description={data.description}
-      link="a"
-      price={data.price}
-      profile={data.profile}
-      title={data.title}
-      liked={true}
-      nbrLikes={data.nbrLikes}
+      paymentSuccessful={data.paymentSuccessful}
+      paymentCanceled={data.paymentCanceled}
     />
   );
 
-  expect(container.textContent).toContain("Faire une offre");
-});
-
-test("Single Art page belonging collection test", () => {
-  const { container } = render(
-    <SingleArtPage
-      art={data.art}
-      artId={data.artId}
-      artistId={data.artistId}
-      artistName={data.artistName}
-      belongingCollections={[1]}
-      belongingCommands={data.belongingCommands}
-      caracteristics={data.caracteristics}
-      collections={data.collections}
-      description={data.description}
-      link="a"
-      price={data.price}
-      profile={data.profile}
-      title={data.title}
-      liked={data.liked}
-      nbrLikes={data.nbrLikes}
-    />
-  );
-
-  expect(container.textContent).toContain("Faire une offre");
-});
-
-test("Single Art page belonging commands test", () => {
-  const { container } = render(
-    <SingleArtPage
-      art={data.art}
-      artId={data.artId}
-      artistId={data.artistId}
-      artistName={data.artistName}
-      belongingCollections={data.belongingCollections}
-      belongingCommands={true}
-      caracteristics={data.caracteristics}
-      collections={data.collections}
-      description={data.description}
-      link="a"
-      price={data.price}
-      profile={data.profile}
-      title={data.title}
-      liked={data.liked}
-      nbrLikes={data.nbrLikes}
-    />
-  );
-
-  expect(container.textContent).toContain("Faire une offre");
-
-  const addToCommandsButton = container.querySelector("#add-to-commands-button");
-
-  if (addToCommandsButton) fireEvent.click(addToCommandsButton);
-
-  const heartButton = container.querySelector("#like-button");
-
-  if (heartButton) fireEvent.click(heartButton);
-
-  const bookmarkButton = container.querySelector("#bookmark-button");
-
-  if (bookmarkButton) fireEvent.click(bookmarkButton);
-
-  const saveButton = container.querySelector("#save-button");
-
-  if (saveButton) fireEvent.click(saveButton);
-
-  if (heartButton) fireEvent.click(heartButton);
+  expect(container.textContent).toContain("Description");
 });

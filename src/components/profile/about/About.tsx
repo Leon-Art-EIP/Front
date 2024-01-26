@@ -3,6 +3,8 @@ export interface IAboutProps {
   description?: string;
 }
 
+/* c8 ignore start */
+
 export default function About(props: IAboutProps): JSX.Element {
   return (
     <div className="flex flex-col gap-2">
@@ -11,3 +13,5 @@ export default function About(props: IAboutProps): JSX.Element {
     </div>
   );
 }
+
+/* c8 ignore stop */

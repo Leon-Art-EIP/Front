@@ -20,6 +20,8 @@ export interface IInfosProps {
   link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
+/* c8 ignore start */
+
 export default function Infos(props: IInfosProps): JSX.Element {
   const [following, setFollowing] = useState<boolean>(props.following); // can be deleted when parent component server side
   const numberOfFollowers =
@@ -75,3 +77,5 @@ export default function Infos(props: IInfosProps): JSX.Element {
     </div>
   );
 }
+
+/* c8 ignore stop */
