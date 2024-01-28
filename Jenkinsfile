@@ -48,7 +48,7 @@ pipeline{
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                     sh "docker push ${DOCKER_USERNAME}/${DOCKER_REPO_DEV_FRONT}:latest"
                     sh "docker push ${DOCKER_USERNAME}/${DOCKER_REPO_DEV_FRONT}:${BUILD_NUMBER}"
-                } catch {
+                } catch (Exception e){
                     echo "Stage failed due to exception: ${e}"
                     error("Failed to push to DockerHub.")
                 }
