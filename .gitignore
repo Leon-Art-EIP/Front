@@ -41,3 +41,7 @@ next-env.d.ts
 
 # screenshots of cypress tests
 /cypress/screenshots
+
+# test result for junit
+
+/test-results
