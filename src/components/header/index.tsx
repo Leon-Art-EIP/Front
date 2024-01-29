@@ -6,7 +6,6 @@ import Link from "../link/Link";
 import { useEffect, useState } from "react";
 import VerticalNavbar from "../navbar/VerticalNavbar";
 import { myFetch } from "../../tools/myFetch";
-import { method } from "cypress/types/bluebird";
 import { IArtist } from "../../interfaces/home/artist";
 import { imageApi } from "../../tools/variables";
 
@@ -29,6 +28,7 @@ export default function Header(props: IHeaderProps): JSX.Element {
     const fetchData = async () => {
       const response = await myFetch({ route: `/api/user/profile/${props.userId}`, method: "GET" });
       const artist = (await response.json()) as IArtist;
+      console.log("artist: ", artist);
       setProfilePicture(artist.profilePicture);
     };
 

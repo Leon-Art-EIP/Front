@@ -31,7 +31,7 @@ export default function ProfilePicture(props: IProfilePictureProps): JSX.Element
   }
 
   return (
-    <Image
+    <img
       className={cn("h-full rounded-full border-white border-4 bg-white", props.className)}
       alt="profilePicture"
       src={props.src}

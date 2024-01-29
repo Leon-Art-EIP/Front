@@ -40,7 +40,7 @@ export default function Collection(props: ICollectionProps): JSX.Element {
         {pairs.map((pair, pairIndex) => (
           <div key={`pair-${pairIndex}`} className="flex flex-wrap overflow-hidden flex-1">
             {pair.map((image, imageIndex) => (
-              <Image
+              <img
                 key={`pair-${pairIndex}-image-${imageIndex}`}
                 alt={`collection-picture-${pairIndex}-${imageIndex}`}
                 src={`${imageApi}/${image}`}
