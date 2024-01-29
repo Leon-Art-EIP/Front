@@ -12,12 +12,11 @@ export interface IPassingArtProps {
 export default function PassingArt(props: IPassingArtProps): JSX.Element {
   return (
     <div className="flex h-72 relative cursor-pointer" onClick={props.increasePosition}>
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={props.passingArt.mainImage}
+      <div className="absolute inset-0 z-0 w-full max-h-72">
+        <img
+          src={props.passingArt.mainImage.src}
           alt={`mainImage-${props.passingArt.position}`}
-          layout="fill"
-          objectFit="cover"
+          className="w-full max-h-72"
         />
       </div>
       <div className="flex flex-col px-16 pt-16 pb-2 relative z-10 w-full">

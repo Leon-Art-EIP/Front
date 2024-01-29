@@ -18,7 +18,7 @@ export default function Arts({ link: Link, ...props }: IArtsProps): JSX.Element 
             key={`art-${art._id}`}
             className="border border-secondaryGrey hover:bg-secondaryGrey p-2 rounded-lg"
           >
-            <Image alt="art-image" src={art.image} width={320} height={320} className="rounded-xl" />
+            <img alt="art-image" src={art.image} width={320} height={320} className="rounded-xl" />
           </Link>
         );
       })}

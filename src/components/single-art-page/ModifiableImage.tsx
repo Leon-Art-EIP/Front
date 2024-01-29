@@ -36,7 +36,7 @@ export default function ModifiableImage(props: IModifiableImageProps): JSX.Eleme
         </div>
       )}
 
-      <Image
+      <img
         className={cn(props.imageClassName)}
         alt={props.alt}
         src={props.src}

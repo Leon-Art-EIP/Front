@@ -6,7 +6,6 @@ import Link from "../link/Link";
 import { useEffect, useState } from "react";
 import VerticalNavbar from "../navbar/VerticalNavbar";
 import { myFetch } from "../../tools/myFetch";
-import { method } from "cypress/types/bluebird";
 import { IArtist } from "../../interfaces/home/artist";
 import { imageApi } from "../../tools/variables";
 
