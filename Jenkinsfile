@@ -48,6 +48,19 @@ pipeline{
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                     sh "docker push ${DOCKER_USERNAME}/${DOCKER_REPO_DEV_FRONT}:latest"
                     sh "docker push ${DOCKER_USERNAME}/${DOCKER_REPO_DEV_FRONT}:${BUILD_NUMBER}"
+                    echo "Pushed to DockerHub!"
+                    echo "Cleaning up..."
+                    sh "docker rmi ${DOCKER_USERNAME}/${DOCKER_REPO_DEV_FRONT}:latest"
+                    sh "docker rmi ${DOCKER_USERNAME}/${DOCKER_REPO_DEV_FRONT}:${BUILD_NUMBER}"
+
+                    cleanWs(cleanWhenNotBuilt: false,
+                            deleteDirs: true,
+                            disableDeferredWipeout: true,
+                            notFailBuild: true,
+                            patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                                            [pattern: '.propsfile', type: 'EXCLUDE']])
+
+
                 } catch (Exception e){
                     echo "Stage failed due to exception: ${e}"
                     error("Failed to push to DockerHub.")
