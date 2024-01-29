@@ -12,6 +12,13 @@ const nextConfig = {
       "back-dev.leonart-dev.ovh",
       "back-dev.leonart-dev",
       "back-dev",
+      "https://back-dev.leonart-dev.ovh/api/uploads",
+      "https://back-dev.leonart-dev.ovh",
+      "https://back-dev.leonart-dev",
+      "https://back-dev",
+      "https://front-dev.leonart-dev.ovh",
+      "https://front-dev.leonart-dev",
+      "https://front-dev"
     ],
   },
 };
