@@ -1,5 +1,9 @@
 # Exclude node_modules directory
 node_modules
+.vscode
+__tests__
+coverage
+cypress
 
 # Exclude log files
 *.log
