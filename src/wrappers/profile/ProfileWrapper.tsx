@@ -103,6 +103,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             aboutDescription={artist.biography}
             collections={collections}
             publications={publications}
+            myProfile={myProfile}
             link={Link}
           />
         </div>

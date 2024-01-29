@@ -28,7 +28,6 @@ export default function Header(props: IHeaderProps): JSX.Element {
     const fetchData = async () => {
       const response = await myFetch({ route: `/api/user/profile/${props.userId}`, method: "GET" });
       const artist = (await response.json()) as IArtist;
-      console.log("artist: ", artist);
       setProfilePicture(artist.profilePicture);
     };
 

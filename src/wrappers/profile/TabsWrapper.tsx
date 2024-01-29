@@ -12,6 +12,7 @@ interface ITabsWrapperProps {
   aboutDescription?: string;
   collections: IProfileCollection[];
   publications: IProfileArt[];
+  myProfile: boolean;
   link: ElementType<{ children: JSX.Element; href: string }>;
 }
 
@@ -42,7 +43,9 @@ export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
       </div>
       {selectedTab === "publications" && <Publications link={props.link} profileArts={props.publications} />}
       {selectedTab === "collections" && <Collections link={props.link} collections={props.collections} />}
-      {selectedTab === "about" && <About title={props.aboutTitle} description={props.aboutDescription} />}
+      {selectedTab === "about" && (
+        <About title={props.aboutTitle} description={props.aboutDescription ?? ""} myProfile={props.myProfile} />
+      )}
     </>
   );
 }
