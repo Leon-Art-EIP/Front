@@ -17,7 +17,7 @@ pipeline{
             steps {
                 sh "sudo dnf install openssl1.1 -y"
                 sh "npm install -g yarn"
-                sh "yarn install"
+                sh "yarn install --network-timeout 100000"
             }
         }
         stage('Testing'){

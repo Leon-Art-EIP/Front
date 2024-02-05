@@ -21,6 +21,7 @@ const nextConfig = {
       "https://front-dev"
     ],
   },
+  output: 'standalone'
 };
 
 module.exports = nextConfig;

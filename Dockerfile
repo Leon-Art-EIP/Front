@@ -1,4 +1,14 @@
-# Stage de build
+# Stage 1: Dependencies
+
+FROM node:alpine AS dependencies
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY  package.json yarn.lock ./
+RUN yarn install --production=true --frozen-lockfile --omit=dev
+RUN yarn add @types/zxcvbn
+
+
+# Stage 2: Build
 FROM node:alpine AS builder
 
 WORKDIR /app
@@ -7,35 +17,30 @@ ARG NEXT_PUBLIC_BACKEND_URL
 
 ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
 
-# Copier les fichiers package.json et yarn.lock
-COPY package.json yarn.lock ./
+COPY --from=dependencies /app/node_modules ./node_modules
 
-# Installer les dépendances
-RUN yarn install --frozen-lockfile
-
-# Copier le reste des fichiers de l'application
 COPY . .
 
-# Construire l'application Next.js
-RUN yarn build
-
-# Supprimer les fichiers inutiles post-construction
-RUN rm -rf node_modules && yarn install --production
+RUN NODE_ENV=production yarn build
 
 # Stage final
-FROM node:alpine
+FROM node:alpine as runner
 
 WORKDIR /app
 
-# Copier les fichiers nécessaires depuis le builder
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/next.config.js ./next.config.js
+ENV NODE_ENV production
 
-# Exposer le port (Next.js utilise le port 3000 par défaut)
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER 1001
+
 EXPOSE 3000
 
-# Lancer l'application en mode production
-CMD ["node_modules/.bin/next", "start"]
+ENV PORT 3000
+ENV NEXT_TELEMETRY_DISABLED 1
+
+CMD ["node", "server.js"]
