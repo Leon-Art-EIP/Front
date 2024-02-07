@@ -28,6 +28,7 @@ export default function About(props: IAboutProps): JSX.Element {
         route: "/api/user/profile/bio",
         method: "POST",
         body: JSON.stringify({ description: inputValue }),
+        successStr: "La description a été modifiée avec succès",
       });
       if (response.ok) {
         setModalOpen(false);

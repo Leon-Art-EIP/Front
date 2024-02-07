@@ -36,7 +36,6 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
       route: "/api/art-publication",
       method: "POST",
       body: formData,
-      formData: true,
     });
 
     const data = (await response.json()) as { msg: string; artPublication: { id: string } } | IError;

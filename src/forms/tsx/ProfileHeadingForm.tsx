@@ -37,7 +37,6 @@ export default function ProfileHeadingForm(props: IHeadingProps): JSX.Element {
       route: `/api/user/profile/${profilePicture ? "profile" : "banner"}-pic`,
       method: "POST",
       body: formData,
-      formData: true,
     });
     if (response.ok) {
       const data = (await response.json()) as IProfileUser;
