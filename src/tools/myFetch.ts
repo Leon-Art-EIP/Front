@@ -12,14 +12,16 @@ interface IFetchData {
   handleUnauthorized?: () => void;
 }
 
-interface IMyFetchResponse {
+export interface IMyFetchResponse {
   ok: boolean;
   message: string;
+  json: any;
 }
 
 /* c8 ignore start */
 
 export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
+  let json;
   let message = props.successStr;
   const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
   const auth = user.token ? `Bearer ${user.token}` : "";
@@ -47,6 +49,7 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
     message = error.msg;
   } else if (response.status === 422) {
     const error: IError = await response.json();
+    console.log(error);
     message = error.errors.length > 0 ? error.errors[0].msg : "Something wrong happened";
   } else if (response.status === 404) {
     message = "404 Not Found";
@@ -54,11 +57,14 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
     message = "500 Internal Server Error";
   } else if (!response.ok) {
     message = "Something wrong happened";
+  } else {
+    json = response.json();
   }
 
   return {
     ok: response.ok,
     message,
+    json,
   };
 }
 

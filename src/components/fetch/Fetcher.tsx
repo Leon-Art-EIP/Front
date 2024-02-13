@@ -1,25 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TMethod } from "../../interfaces/fetch/methods";
-import { myFetch } from "../../tools/myFetch";
+import { IMyFetchResponse, myFetch } from "../../tools/myFetch";
+import { NotificationToast } from "../lib";
+import { IFetcherDivProps } from "./FetcherDiv";
 
-interface IFetcherProps {
-  nbFetchs: number;
-  route: string;
-  method: TMethod;
-  body?: string | FormData;
-  formData?: boolean;
-  handleOk: () => void;
-  successStr: string;
-}
-
-export default function Fetcher(props: IFetcherProps): JSX.Element {
-  const [notification, setNotification] = useState<string>("");
+export default function Fetcher(props: Omit<IFetcherDivProps, "children">): JSX.Element | null {
+  const [response, setResponse] = useState<IMyFetchResponse>();
 
   useEffect(() => {
-    console.log("Fetching");
+    setResponse(undefined);
     const fetchData = async () => {
+      if (props.setIsLoading) {
+        props.setIsLoading(true);
+      }
+
       const response = await myFetch({
         route: props.route,
         method: props.method,
@@ -27,13 +22,19 @@ export default function Fetcher(props: IFetcherProps): JSX.Element {
         successStr: props.successStr,
       });
 
-      if (response.ok) {
-        props.handleOk();
+      if (props.setIsLoading) {
+        props.setIsLoading(false);
       }
-      setNotification(response.message);
+
+      if (response.ok && props.handleOk) {
+        props.handleOk(response.json);
+      }
+      setResponse(response);
     };
     fetchData();
   }, [props.nbFetchs, props]);
 
-  return <div>Fetcher</div>;
+  return response?.message ? (
+    <NotificationToast message={response.message} type={response.ok ? "success" : "error"} />
+  ) : null;
 }

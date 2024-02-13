@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button, Input, Modal } from "../../lib";
 import { myFetch } from "../../../tools/myFetch";
+import Fetcher from "../../fetch/Fetcher";
 
 export interface IAboutProps {
   title: string;
@@ -13,6 +14,7 @@ export interface IAboutProps {
 /* c8 ignore start */
 
 export default function About(props: IAboutProps): JSX.Element {
+  const [nbFetchs, setNbFetchs] = useState(0);
   const [description, setDescription] = useState(props.description);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
@@ -23,28 +25,28 @@ export default function About(props: IAboutProps): JSX.Element {
   };
 
   const handleOnModify = async () => {
-    if (inputValue.length > 0) {
-      const response = await myFetch({
-        route: "/api/user/profile/bio",
-        method: "POST",
-        body: JSON.stringify({ description: inputValue }),
-        successStr: "La description a été modifiée avec succès",
-      });
-      if (response.ok) {
-        setModalOpen(false);
-        setError("");
-        setInputValue("");
-        setDescription(inputValue);
-      } else {
-        setError("Une erreur est survenue");
-      }
-    } else {
+    if (inputValue.length === 0) {
       setError("La description ne peut pas être vide");
+    } else {
+      setNbFetchs(nbFetchs + 1);
     }
+  };
+
+  const handleOk = async () => {
+    setModalOpen(false);
+    setDescription(inputValue);
   };
 
   return (
     <>
+      <Fetcher
+        nbFetchs={nbFetchs}
+        handleOk={handleOk}
+        method="POST"
+        route="/api/user/profile/bio"
+        successStr="La description a été modifiée avec succès"
+        body={JSON.stringify({ description: inputValue })}
+      ></Fetcher>
       <Modal
         handleClose={() => {
           setModalOpen(false);
