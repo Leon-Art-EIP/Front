@@ -107,7 +107,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
           artId={props.artId}
         />
       </Modal>
-      <div className="flex p-20 gap-8 flex-wrap lg:flex-nowrap">
+      <div className="flex px-20 py-10 gap-8 flex-wrap lg:flex-nowrap">
         <SingleArtPageArtwork
           art={props.art}
           profile={props.profile}
@@ -120,7 +120,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
           heartOnClick={heartOnClick}
           link={props.link}
         />
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-1/4">
           <SingleArtPageCard
             artPublicationId={props.artId}
             caracteristics={props.caracteristics}
