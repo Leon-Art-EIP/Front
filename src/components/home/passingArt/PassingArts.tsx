@@ -12,7 +12,7 @@ export default function PassingArts(props: IPassingArtsProps): JSX.Element {
   const [position, setPosition] = useState(1);
 
   if (props.passingArts.length === 0) {
-    return <div>Aucune oeuvre à proposer</div>;
+    return <span className="text-lg font-medium italic">Aucun article n'est disponible</span>;
   }
 
   const increasePosition = () => {
