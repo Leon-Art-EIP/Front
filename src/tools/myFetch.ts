@@ -8,13 +8,13 @@ interface IFetchData {
   route: string;
   method: TMethod;
   body?: string | FormData;
-  successStr: string;
+  successStr?: string;
   handleUnauthorized?: () => void;
 }
 
 export interface IMyFetchResponse {
   ok: boolean;
-  message: string;
+  message?: string;
   json: any;
 }
 
@@ -38,7 +38,7 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
 
   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}${props.route}`, {
     method: props.method,
-    headers: auth ? headers : undefined,
+    headers,
     body: props.body,
   });
 
@@ -58,7 +58,7 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
   } else if (!response.ok) {
     message = "Something wrong happened";
   } else {
-    json = response.json();
+    json = await response.json();
   }
 
   return {

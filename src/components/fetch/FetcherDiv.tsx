@@ -7,7 +7,7 @@ export interface IFetcherDivProps {
   handleOk?: (json?: any) => void;
   method: TMethod;
   route: string;
-  successStr: string;
+  successStr?: string;
   body?: string | FormData;
   setIsLoading?: (isLoading: boolean) => void;
 }

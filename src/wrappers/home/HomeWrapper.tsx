@@ -1,78 +1,62 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Artists from "../../components/home/artists/Artists";
 import ForYou from "../../components/home/forYou/ForYou";
 import PassingArts from "../../components/home/passingArt/PassingArts";
 import Link from "../../components/link/Link";
 import { IArticle } from "../../interfaces/home/article";
 import { IPassingArt } from "../../interfaces/home/passingArt";
-import { myFetch } from "../../tools/myFetch";
 import { passingArts as fakePassingArts } from "./../../components/home/passingArt/passingArtsDummyData";
 import { IArtist } from "../../interfaces/home/artist";
 import { IArtPublication } from "../../interfaces/artPublication/artPublication";
 import { imageApi } from "../../tools/variables";
+import Fetcher from "../../components/fetch/Fetcher";
 
 export default function HomeWrapper(): JSX.Element {
   const [passingArts, setPassingArts] = useState<IPassingArt[]>([]);
   const [artists, setArtists] = useState<IArtist[]>([]);
   const [arts, setArts] = useState<IArtPublication[]>([]);
 
-  const fetchArticles = async () => {
-    try {
-      const response = await myFetch({ method: "GET", route: "/api/article/latest" });
-      const data = (await response.json()) as IArticle[];
-      const passingArts: IPassingArt[] = data.map((article, index) => ({
-        ...article,
-        author: { username: article.author.username },
-        mainImage: fakePassingArts[index % fakePassingArts.length].mainImage.src, // `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${article.mainImage}`,
-        position: index,
-      }));
-      setPassingArts(passingArts);
-    } catch (error) {
-      console.error("Error fetching latest article:", error);
-    }
+  const fetchArticles = (json: any) => {
+    const data = json as IArticle[];
+    const passingArts: IPassingArt[] = data.map((article, index) => ({
+      ...article,
+      author: { username: article.author.username },
+      mainImage: fakePassingArts[index % fakePassingArts.length].mainImage.src, // `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${article.mainImage}`,
+      position: index,
+    }));
+    setPassingArts(passingArts);
   };
 
-  const fetchArtists = async () => {
-    try {
-      const response = await myFetch({ method: "GET", route: "/api/artists/latest" });
-      const data = (await response.json()) as { artists: IArtist[] };
-      const artists = data.artists.map((artist) => ({
-        ...artist,
-        profilePicture: `${imageApi}/${artist.profilePicture}`,
-      }));
-      setArtists(artists);
-    } catch (error) {
-      console.error("Error fetching latest artists:", error);
-    }
+  const handleArtistsOk = (json: any) => {
+    const data = json as { artists: IArtist[] };
+    const artists = data.artists.map((artist) => ({
+      ...artist,
+      profilePicture: `${imageApi}/${artist.profilePicture}`,
+    }));
+    setArtists(artists);
   };
 
-  const fetchArts = async () => {
-    try {
-      const response = await myFetch({ method: "GET", route: "/api/art-publication/feed/latest" });
-      const data = (await response.json()) as IArtPublication[];
-      const arts = data.map((art) => ({
-        ...art,
-        image: `${imageApi}/${art.image}`,
-      }));
-      setArts(arts);
-    } catch (error) {
-      console.error("Error fetching latest arts:", error);
-    }
+  const handleArtsOk = (json: any) => {
+    const data = json as IArtPublication[];
+    const arts = data.map((art) => ({
+      ...art,
+      image: `${imageApi}/${art.image}`,
+    }));
+    setArts(arts);
   };
-
-  useEffect(() => {
-    fetchArticles();
-    fetchArtists();
-    fetchArts();
-  }, []);
 
   return (
-    <div className="flex flex-col gap-4">
-      <PassingArts passingArts={passingArts} />
-      <Artists artists={artists} link={Link} />
-      <ForYou forYouArts={arts} link={Link} />
-    </div>
+    <>
+      <Fetcher method="GET" nbFetchs={1} route="/api/article/latest" handleOk={fetchArticles} />
+      <Fetcher method="GET" nbFetchs={1} route="/api/artists/latest" handleOk={handleArtistsOk} />
+      <Fetcher method="GET" nbFetchs={1} route="/api/art-publication/feed/latest" handleOk={handleArtsOk} />
+      <div className="flex flex-col gap-4">
+        <PassingArts passingArts={passingArts} />
+        <Artists artists={artists} link={Link} />
+        <ForYou forYouArts={arts} link={Link} />
+      </div>
+    </>
   );
 }

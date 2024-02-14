@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import Button from "../Button/Button";
 import CheckCircle from "../../animated/check-circle";
 import CrossCircle from "../../animated/cross-circle";
+
 export interface NotificationToastProps {
   message: string;
   type: "success" | "error";
+  closeNotification?: () => void;
 }
 
 /* c8 ignore start */
 
-export default function NotificationToast({ message, type }: NotificationToastProps): JSX.Element | null {
+export default function NotificationToast(props: NotificationToastProps): JSX.Element | null {
   const [visible, setVisible] = useState(true);
   const [display, setDisplay] = useState(true);
 
@@ -31,8 +33,15 @@ export default function NotificationToast({ message, type }: NotificationToastPr
     }, 500);
   };
 
+  const handleOnClick = () => {
+    closeToast();
+    if (props.closeNotification) {
+      props.closeNotification();
+    }
+  };
+
   let backgroundColor = "bg-white";
-  switch (type) {
+  switch (props.type) {
     case "success":
       backgroundColor = "bg-green-500";
       break;
@@ -50,9 +59,9 @@ export default function NotificationToast({ message, type }: NotificationToastPr
       <div
         className={`m-6 p-4 w-1/3 rounded-md text-white z-50 flex flex-col gap-4 bg-gray-100 border border-gray-300 shadow-lg`}
       >
-        {type === "success" ? <CheckCircle /> : <CrossCircle />}
-        <p className="text-xl text-center text-gray-500 font-bold">{message}</p>
-        <Button color="primary" type="button" className="self-end" onClick={closeToast}>
+        {props.type === "success" ? <CheckCircle /> : <CrossCircle />}
+        <p className="text-xl text-center text-gray-500 font-bold">{props.message}</p>
+        <Button color="primary" type="button" className="self-end" onClick={handleOnClick}>
           Ok
         </Button>
       </div>

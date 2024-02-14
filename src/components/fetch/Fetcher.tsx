@@ -7,9 +7,9 @@ import { IFetcherDivProps } from "./FetcherDiv";
 
 export default function Fetcher(props: Omit<IFetcherDivProps, "children">): JSX.Element | null {
   const [response, setResponse] = useState<IMyFetchResponse>();
+  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
-    setResponse(undefined);
     const fetchData = async () => {
       if (props.setIsLoading) {
         props.setIsLoading(true);
@@ -30,11 +30,33 @@ export default function Fetcher(props: Omit<IFetcherDivProps, "children">): JSX.
         props.handleOk(response.json);
       }
       setResponse(response);
+      setShowNotification(true);
     };
     fetchData();
-  }, [props.nbFetchs, props]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.nbFetchs]);
 
-  return response?.message ? (
-    <NotificationToast message={response.message} type={response.ok ? "success" : "error"} />
+  useEffect(() => {
+    if (showNotification) {
+      const timer = setTimeout(() => {
+        if (showNotification) {
+          setShowNotification(false);
+        }
+      }, 5500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showNotification]);
+
+  const handleCloseNotification = () => {
+    setShowNotification(false);
+  };
+
+  return showNotification && response?.message ? (
+    <NotificationToast
+      message={response.message}
+      type={response.ok ? "success" : "error"}
+      closeNotification={handleCloseNotification}
+    />
   ) : null;
 }
