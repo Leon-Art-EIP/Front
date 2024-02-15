@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Gallery from "../../components/gallery";
 import Form from "./form";
-import { myFetch } from "../../tools/myFetch";
 import FetcherDiv from "../../components/fetch/FetcherDiv";
 
 interface IBaseFormValues {

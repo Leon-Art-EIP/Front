@@ -44,7 +44,6 @@ export default function LoginForm(): JSX.Element {
       method="POST"
       nbFetchs={nbFetchs}
       route="/api/auth/login"
-      successStr="Connexion réussie."
       body={body}
       handleOk={handleOk}
       setIsLoading={setIsLoading}

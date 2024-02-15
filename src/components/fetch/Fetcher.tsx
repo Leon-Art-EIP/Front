@@ -4,10 +4,16 @@ import { useEffect, useState } from "react";
 import { IMyFetchResponse, myFetch } from "../../tools/myFetch";
 import { NotificationToast } from "../lib";
 import { IFetcherDivProps } from "./FetcherDiv";
+import { useRouter } from "next/navigation";
 
 export default function Fetcher(props: Omit<IFetcherDivProps, "children">): JSX.Element | null {
   const [response, setResponse] = useState<IMyFetchResponse>();
   const [showNotification, setShowNotification] = useState(false);
+  const router = useRouter();
+
+  const handleUnauthorized = () => {
+    router.push("/login");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +26,7 @@ export default function Fetcher(props: Omit<IFetcherDivProps, "children">): JSX.
         method: props.method,
         body: props.body,
         successStr: props.successStr,
+        handleUnauthorized,
       });
 
       if (props.setIsLoading) {
@@ -32,7 +39,9 @@ export default function Fetcher(props: Omit<IFetcherDivProps, "children">): JSX.
       setResponse(response);
       setShowNotification(true);
     };
-    fetchData();
+    if (props.nbFetchs > 0) {
+      fetchData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.nbFetchs]);
 

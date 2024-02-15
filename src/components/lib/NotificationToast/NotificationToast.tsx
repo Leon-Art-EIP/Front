@@ -52,12 +52,12 @@ export default function NotificationToast(props: NotificationToastProps): JSX.El
 
   return display ? (
     <div
-      className={`fixed top-0 left-0 flex justify-center w-screen h-screen items-center transition-opacity duration-500 ${
+      className={`fixed top-0 left-0 flex justify-center w-screen h-screen items-center transition-opacity duration-500 z-50 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
     >
       <div
-        className={`m-6 p-4 w-1/3 rounded-md text-white z-50 flex flex-col gap-4 bg-gray-100 border border-gray-300 shadow-lg`}
+        className={`m-6 p-4 w-1/3 rounded-md text-white flex flex-col gap-4 bg-white border border-gray-300 shadow-lg`}
       >
         {props.type === "success" ? <CheckCircle /> : <CrossCircle />}
         <p className="text-xl text-center text-gray-500 font-bold">{props.message}</p>

@@ -44,7 +44,9 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
 
   if (response.status === 401) {
     localStorage.removeItem("user");
-    props.handleUnauthorized; // (router.push("/login") ?
+    if (props.handleUnauthorized) {
+      props.handleUnauthorized();
+    }
     const error: IUnauthorized = await response.json();
     message = error.msg;
   } else if (response.status === 422) {
