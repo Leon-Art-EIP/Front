@@ -9,6 +9,7 @@ import { myFetch } from "../../tools/myFetch";
 import { ICollectionArtsExtended } from "../../interfaces/single/collection";
 import { IConnectedUser } from "../../interfaces/user/user";
 import { useRouter } from "next/navigation";
+import Fetcher from "../fetch/Fetcher";
 
 export interface ISingleArtPageProps {
   description: string;
@@ -36,6 +37,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   const [isLiked, setLiked] = useState(props.liked);
   const [selectedCollections, setSelectedCollections] = useState<string[]>(props.belongingCollectionsIds);
   const [currentUser, setCurrentUser] = useState<IConnectedUser>();
+  const [nbFetchs, setNbFetchs] = useState(0);
 
   useEffect(() => {
     async function getCurrentUser() {
@@ -65,20 +67,12 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
     setModalOpen(false);
   };
 
-  const fetchLikePublication = async (id: string) => {
-    const response = await myFetch({
-      route: `/api/art-publication/like/${id}`,
-      method: "POST",
-    });
-    if (response.ok) {
-      setLiked(!isLiked);
-    } else {
-      console.error("Failed like request");
-    }
+  const handleOk = () => {
+    setLiked(!isLiked);
   };
 
   const heartOnClick = () => {
-    fetchLikePublication(props.artId);
+    setNbFetchs(nbFetchs + 1);
   };
 
   async function onSendMessage() {
@@ -90,14 +84,20 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
         UserTwoId: currentUser?.user.id,
       }),
     });
-    const data = await response.json();
-    if (response.status === 200) {
+    const data = response.json;
+    if (response.ok) {
       router.push(`/chat/${data.convId}`);
     }
   }
 
   return (
     <>
+      <Fetcher
+        route={`/api/art-publication/like/${props.artId}`}
+        method="POST"
+        nbFetchs={nbFetchs}
+        handleOk={handleOk}
+      />
       <Modal isOpen={isModalOpen} handleClose={closeModal}>
         <SaveGallery
           collections={props.collections}

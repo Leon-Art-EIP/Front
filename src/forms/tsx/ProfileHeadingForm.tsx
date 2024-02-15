@@ -39,7 +39,7 @@ export default function ProfileHeadingForm(props: IHeadingProps): JSX.Element {
       body: formData,
     });
     if (response.ok) {
-      const data = (await response.json()) as IProfileUser;
+      const data = response.json as IProfileUser;
       if (profilePicture) {
         setCurrentProfilePicture(`${imageApi}/${data.profilePicture}`);
       } else {

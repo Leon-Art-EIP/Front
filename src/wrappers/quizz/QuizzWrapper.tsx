@@ -128,7 +128,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
       method: "POST",
       body: JSON.stringify(result),
     });
-    const data = await res.json();
+    const data = res.json;
   }
 
   return (

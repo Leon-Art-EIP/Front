@@ -16,7 +16,7 @@ export default function CreateSingleArtWrapper(): JSX.Element {
       });
 
       if (response.ok) {
-        const data = (await response.json()) as { category: string; types: string[] }[];
+        const data = response.json as { category: string; types: string[] }[];
         const artTypes = data.map((category) => ({
           label: category.category,
           value: category.category,

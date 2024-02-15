@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Button, Input, Modal } from "../../lib";
-import { myFetch } from "../../../tools/myFetch";
 import Fetcher from "../../fetch/Fetcher";
 
 export interface IAboutProps {

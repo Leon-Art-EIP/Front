@@ -29,12 +29,12 @@ export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
   useEffect(() => {
     async function fetchBuyOrders() {
       const res = await myFetch({ route: `/api/order/latest-buy-orders`, method: "GET" });
-      const data: Order[] = await res.json();
+      const data: Order[] = res.json;
       setBuyOrders(data);
     }
     async function fetchSellOrders() {
       const res = await myFetch({ route: `/api/order/latest-sell-orders`, method: "GET" });
-      const data: Order[] = await res.json();
+      const data: Order[] = res.json;
       setSellOrders(data);
     }
     async function getCurrentUser() {
@@ -44,7 +44,7 @@ export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
         setCurrentUser(await JSON.parse(localStorage.getItem("user") || "{}"));
       }
     }
-    
+
     getCurrentUser();
     fetchBuyOrders();
     fetchSellOrders();
@@ -83,8 +83,8 @@ export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
               Ici vous pouvez retrouver toutes vos commandes en cours, ainsi que vos commandes passées
             </span>
             <span className="text-xl font-medium">
-              Pour en créer une commande, il vous suffit simplement d{"'"}ajouter au panier une oeuvre d{"'"}art et vous pourrez
-              la retrouver ici.
+              Pour en créer une commande, il vous suffit simplement d{"'"}ajouter au panier une oeuvre d{"'"}art et vous
+              pourrez la retrouver ici.
             </span>
           </div>
         </div>
