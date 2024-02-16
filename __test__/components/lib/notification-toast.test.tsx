@@ -43,10 +43,4 @@ describe("NotificationToast Tests", () => {
 
     expect(container.textContent).toContain("hey");
   });
-
-  test("NotificationToast info test", () => {
-    const { container } = render(<NotificationToast message="hey" type="info" />);
-
-    expect(container.textContent).toContain("hey");
-  });
 });

@@ -6,11 +6,9 @@ import useSettingsPasswordForm from "../methods/useSettingsPasswordForm";
 import { Button } from "../../components/lib";
 import { TSettingsPasswordData } from "../../zod";
 import { useState } from "react";
-import { myFetch } from "../../tools/myFetch";
 import LoadingPage from "../../components/loading/LoadingPage";
 import { IConnectedUser } from "../../interfaces/user/user";
-import { IError } from "../../interfaces";
-import { useRouter } from "next/navigation";
+import FetcherDiv from "../../components/fetch/FetcherDiv";
 
 interface ISettingsPasswordInputs {
   name: string;
@@ -20,7 +18,8 @@ interface ISettingsPasswordInputs {
 export default function SettingsPasswordForm(): JSX.Element {
   const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
+  const [body, setBody] = useState("");
+  const [nbFetchs, setNbFetchs] = useState(0);
 
   const methods = useSettingsPasswordForm();
 
@@ -43,58 +42,52 @@ export default function SettingsPasswordForm(): JSX.Element {
     },
   ];
 
+  const handleOk = () => {
+    methods.reset();
+  };
+
   const handleSubmit = async (formData: TSettingsPasswordData) => {
-    const response = await myFetch({
-      route: "/api/auth/change-password",
-      method: "POST",
-      body: JSON.stringify({
+    setBody(
+      JSON.stringify({
         currentPassword: formData.password,
         newPassword: formData.newpassword,
-      }),
-    });
-
-    const data = (await response.json()) as IError | { msg: string };
-
-    if (response.status === 200) {
-      localStorage.removeItem("user");
-      router.push("/login?newpassword=true");
-    } else if ("errors" in data) {
-      methods.setError("newpassword", {
-        type: "manual",
-        message: data.errors[0].msg,
-      });
-    } else {
-      methods.setError("password", {
-        type: "manual",
-        message: data.msg,
-      });
-    }
+      })
+    );
+    setNbFetchs(nbFetchs + 1);
   };
 
   const onSubmit = async (data: TSettingsPasswordData): Promise<void> => {
-    setLoading(true);
     await handleSubmit(data);
-    setLoading(false);
   };
 
   return (
-    <FormProvider {...methods}>
-      <form className="flex flex-col p-2 gap-3" onSubmit={methods.handleSubmit((data) => onSubmit(data))}>
-        {inputs.map((input) => (
-          <Input
-            key={`settings-password-${input.name}`}
-            className="bg-secondaryGrey rounded p-2 truncate max-w-sm"
-            name={input.name}
-            placeholder={input.placeholder}
-            type="password"
-          />
-        ))}
-        <div className="flex [&>*]:flex-1 max-w-sm">
-          <Button color="danger" type="submit" loading={loading}>
-            Changer le mot de passe
-          </Button>
-        </div>
-      </form>
-    </FormProvider>
+    <FetcherDiv
+      route="/api/auth/change-password"
+      method="POST"
+      body={body}
+      nbFetchs={nbFetchs}
+      successStr="Mot de passe modifié avec succès"
+      setIsLoading={setLoading}
+      handleOk={handleOk}
+    >
+      <FormProvider {...methods}>
+        <form className="flex flex-col p-2 gap-3" onSubmit={methods.handleSubmit((data) => onSubmit(data))}>
+          {inputs.map((input) => (
+            <Input
+              key={`settings-password-${input.name}`}
+              className="bg-secondaryGrey rounded p-2 truncate max-w-sm"
+              name={input.name}
+              placeholder={input.placeholder}
+              type="password"
+            />
+          ))}
+          <div className="flex [&>*]:flex-1 max-w-sm">
+            <Button color="danger" type="submit" loading={loading}>
+              Changer le mot de passe
+            </Button>
+          </div>
+        </form>
+      </FormProvider>
+    </FetcherDiv>
   );
 }

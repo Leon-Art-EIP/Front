@@ -44,7 +44,7 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
     async function fetchChats() {
       if (currentUser) {
         const res = await myFetch({ route: `/api/conversations/${currentUser.user.id}`, method: "GET" });
-        const data: IChats = await res.json();
+        const data: IChats = res.json;
         setChats(data);
       }
     }
@@ -52,8 +52,8 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
       if (currentUser) {
         if (props.convId !== undefined) {
           const res = await myFetch({ route: `/api/conversations/single/${props.convId}`, method: "GET" });
-          const data = await res.json();
-          handleChatChange(data.chat)
+          const data = res.json;
+          handleChatChange(data.chat);
         }
       }
     }
@@ -83,12 +83,15 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
           <span className="text-2xl font-bold">Bienvenue sur votre messagerie</span>
           <div className="flex flex-col w-1/3 text-center gap-6">
             <span className="text-xl font-medium">
-              Pour envoyer un message à un utilisateur, cliquez sur {'"aller à la conversation"'} depuis une commande dans l{"'"}onglet Commande
+              Pour envoyer un message à un utilisateur, cliquez sur {'"aller à la conversation"'} depuis une commande
+              dans l{"'"}onglet Commande
             </span>
-            {chats.chats.length > 0 && (<span className="text-xl font-medium">
-              Pour séléctionner une conversation existante, rien de plus simple, cliquez sur celle-ci dans la liste de
-              gauche
-            </span>)}
+            {chats.chats.length > 0 && (
+              <span className="text-xl font-medium">
+                Pour séléctionner une conversation existante, rien de plus simple, cliquez sur celle-ci dans la liste de
+                gauche
+              </span>
+            )}
           </div>
         </div>
       ) : (
