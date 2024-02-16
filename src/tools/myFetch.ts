@@ -1,6 +1,7 @@
 import { IError, IUnauthorized } from "../interfaces";
 import { TMethod } from "../interfaces/fetch/methods";
 import { IConnectedUser } from "../interfaces/user/user";
+import { TErrorMessages, errors } from "./variables";
 
 export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -37,6 +38,13 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
           Authorization: auth,
         };
 
+  const resetCredentials = () => {
+    localStorage.removeItem("user");
+    if (props.handleUnauthorized) {
+      props.handleUnauthorized();
+    }
+  };
+
   try {
     response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}${props.route}`, {
       method: props.method,
@@ -45,28 +53,26 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
     });
 
     if (response.status === 401) {
-      localStorage.removeItem("user");
-      if (props.handleUnauthorized) {
-        props.handleUnauthorized();
-      }
+      resetCredentials();
       const error: IUnauthorized = await response.json();
-      message = error.msg;
+      const serverErrorMsg = errors[error.msg as TErrorMessages];
+      message = error.msg ? serverErrorMsg ?? error.msg : "Vous n'êtes pas autorisé à effectuer cette action";
     } else if (response.status === 422) {
       const error: IError = await response.json();
-      console.log(error);
-      message = error.errors.length > 0 ? error.errors[0].msg : "Something wrong happened";
+      const serverErrorMsg = (error.errors.length > 0 ? error.errors[0].msg : undefined) as TErrorMessages | undefined;
+      message = serverErrorMsg ? errors[serverErrorMsg] ?? serverErrorMsg : "Une erreur est survenue";
     } else if (response.status === 404) {
-      message = "404 Not Found";
+      message = "404 Ressource non disponible";
     } else if (response.status === 500) {
-      message = "500 Internal Server Error";
+      message = "Cette requête est actuellement indisponible";
     } else if (!response.ok) {
-      message = "Something wrong happened";
+      message = "Une erreur est survenue";
     } else {
       json = await response.json();
     }
   } catch (error) {
-    message = "The server is not responding";
-    console.error(error);
+    message = "Le serveur ne répond pas, veuillez réessayer plus tard";
+    resetCredentials();
   }
 
   return {
