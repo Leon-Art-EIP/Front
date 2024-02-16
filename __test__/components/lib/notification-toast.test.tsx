@@ -11,20 +11,23 @@ describe("NotificationToast Tests", () => {
     expect(queryByText("hey")).toBeTruthy();
 
     act(() => {
-      vi.advanceTimersByTime(5000);
+      vi.advanceTimersByTime(5500);
     });
 
     expect(queryByText("hey")).toBeNull();
     vi.useRealTimers();
   });
 
-  test("NotificationToast should close when close button is clicked", () => {
+  test("NotificationToast should close when close button is clicked", async () => {
     const { queryByText, getByText } = render(<NotificationToast message="hey" type="success" />);
 
     expect(queryByText("hey")).toBeTruthy();
 
-    const closeButton = getByText("X");
+    const closeButton = getByText("Ok");
     fireEvent.click(closeButton);
+
+    // Use setTimeout to wait for 500ms
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     expect(queryByText("hey")).toBeNull();
   });

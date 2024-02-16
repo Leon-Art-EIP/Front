@@ -1,23 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { Button, Input, Modal } from "../../lib";
-import Fetcher from "../../fetch/Fetcher";
+import { useEffect, useState } from "react";
+import { Button, Modal } from "../../lib";
 
 export interface IAboutProps {
   title: string;
   description: string;
   myProfile: boolean;
+  handleOnModify: (inputValue: string) => void;
+  ok: number;
 }
 
 /* c8 ignore start */
 
 export default function About(props: IAboutProps): JSX.Element {
-  const [nbFetchs, setNbFetchs] = useState(0);
   const [description, setDescription] = useState(props.description);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>("");
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -27,25 +27,23 @@ export default function About(props: IAboutProps): JSX.Element {
     if (inputValue.length === 0) {
       setError("La description ne peut pas être vide");
     } else {
-      setNbFetchs(nbFetchs + 1);
+      props.handleOnModify(inputValue);
     }
   };
 
-  const handleOk = async () => {
-    setModalOpen(false);
-    setDescription(inputValue);
-  };
+  useEffect(() => {
+    const updateModal = () => {
+      setModalOpen(false);
+      setDescription(inputValue);
+    };
+    if (props.ok > 0) {
+      updateModal();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.ok]);
 
   return (
     <>
-      <Fetcher
-        nbFetchs={nbFetchs}
-        handleOk={handleOk}
-        method="POST"
-        route="/api/user/profile/bio"
-        successStr="La description a été modifiée avec succès"
-        body={JSON.stringify({ description: inputValue })}
-      ></Fetcher>
       <Modal
         handleClose={() => {
           setModalOpen(false);
