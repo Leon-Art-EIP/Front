@@ -7,15 +7,15 @@ export interface ITab {
   header: boolean;
 }
 
-export type IError = {
+export interface IError {
   errors: {
-    type: string;
     msg: string;
-    path: string;
-    location: string;
-    value: string;
   }[];
 };
+
+export interface IUnauthorized {
+  msg: string;
+}
 
 export interface IOption<T extends string | number> {
   value: T;

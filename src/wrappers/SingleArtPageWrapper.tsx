@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "../components/link/Link";
 import SingleArtPage from "../components/single-art-page/SingleArtPage";
 import { IUser } from "../interfaces/user/user";
-import { myFetch } from "../tools/myFetch";
+import { IMyFetchResponse, myFetch } from "../tools/myFetch";
 import { IArtPublication } from "../interfaces/artPublication/artPublication";
 import { IProfileUser } from "../interfaces/user/profileUser";
 import LoadingPage from "../components/loading/LoadingPage";
@@ -36,46 +36,47 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
           }),
         ]);
 
-        const artPublication: IArtPublication = await artPublicationResponse.json();
+        const artPublication: IArtPublication = artPublicationResponse.json;
         setArtPublication(artPublication);
 
-        const collections: ICollection[] = await collectionsResponse.json();
+        const collections: ICollection[] = collectionsResponse.json;
 
-        const [collectionsArtsExtended, artistResponse]: [ICollectionArtsExtended[], Response] = await Promise.all([
-          Promise.all(
-            collections.map(async (collectionArtsExtended) => {
-              const artPromises: Promise<IArtPublication | null>[] = collectionArtsExtended.artPublications.map(
-                async (artId) => {
-                  const artPublicationsResponse = await myFetch({
-                    route: `/api/art-publication/${artId}`,
-                    method: "GET",
-                  });
+        const [collectionsArtsExtended, artistResponse]: [ICollectionArtsExtended[], IMyFetchResponse] =
+          await Promise.all([
+            Promise.all(
+              collections.map(async (collectionArtsExtended) => {
+                const artPromises: Promise<IArtPublication | null>[] = collectionArtsExtended.artPublications.map(
+                  async (artId) => {
+                    const artPublicationsResponse = await myFetch({
+                      route: `/api/art-publication/${artId}`,
+                      method: "GET",
+                    });
 
-                  if (artPublicationsResponse.ok) {
-                    const artPublication: IArtPublication = await artPublicationsResponse.json();
-                    return artPublication;
+                    if (artPublicationsResponse.ok) {
+                      const artPublication: IArtPublication = artPublicationsResponse.json;
+                      return artPublication;
+                    }
+                    return null;
                   }
-                  return null;
-                }
-              );
+                );
 
-              const artPublications: (IArtPublication | null)[] = await Promise.all(artPromises);
+                const artPublications: (IArtPublication | null)[] = await Promise.all(artPromises);
 
-              return {
-                ...collectionArtsExtended,
-                artPublications: artPublications.filter((art) => art !== null) as IArtPublication[],
-              };
-            })
-          ),
-          myFetch({
-            route: `/api/user/profile/${artPublication.userId}`,
-            method: "GET",
-          }),
-        ]);
+                return {
+                  ...collectionArtsExtended,
+                  artPublications: artPublications.filter((art) => art !== null) as IArtPublication[],
+                };
+              })
+            ),
+            myFetch({
+              route: `/api/user/profile/${artPublication.userId}`,
+              method: "GET",
+            }),
+          ]);
 
         setCollectionsArtsExtended(collectionsArtsExtended);
 
-        const artist: IProfileUser = await artistResponse.json();
+        const artist: IProfileUser = artistResponse.json;
         setArtist(artist);
       } catch (error) {
         console.error(error);

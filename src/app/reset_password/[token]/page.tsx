@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Gallery from "../../../components/gallery";
 import zxcvbn from "zxcvbn";
 import Form from "./form";
-import { myFetch } from "../../../tools/myFetch";
+import Fetcher from "../../../components/fetch/Fetcher";
 
 interface IBaseFormValues {
   newPassword: string;
@@ -21,6 +21,9 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [body, setBody] = useState("");
+  const [nbFetchs, setNbFetchs] = useState(0);
 
   useEffect(() => {
     if (props.params.token) {
@@ -69,28 +72,25 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
         confirmNewPassword: event.currentTarget.confirmNewPassword.value,
       })
     ) {
-      setIsLoading(true);
-      const response = await myFetch({
-        route: "/api/auth/reset-password",
-        method: "POST",
-        body: JSON.stringify({
+      setBody(
+        JSON.stringify({
           token: props.params.token,
           newPassword: event.currentTarget.newPassword.value,
-        }),
-      });
-      setIsLoading(false);
-      if (response.status === 404) {
-        setErrorMessage("Le token est invalide.");
-      } else if (response.status === 422) {
-        setErrorMessage("Le mot de passe n'est pas assez puissant.");
-      } else if (response.status === 200) {
-        setSuccessMessage("Le mot à été réinitialisé avec succès.");
-      }
+        })
+      );
+      setNbFetchs(nbFetchs + 1);
     }
   }
 
   return (
     <>
+      <Fetcher
+        method="POST"
+        route="/api/auth/reset-password"
+        body={body}
+        setIsLoading={setIsLoading}
+        nbFetchs={nbFetchs}
+      />
       {validToken ? (
         <div className="flex h-screen">
           <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col items-center justify-center fixed">

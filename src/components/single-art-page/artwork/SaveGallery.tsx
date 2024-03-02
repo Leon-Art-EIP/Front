@@ -3,7 +3,6 @@
 import CreateCollectionForm from "../../../forms/tsx/CreateCollectionForm";
 import { ICollectionArtsExtended } from "../../../interfaces/single/collection";
 import { myFetch } from "../../../tools/myFetch";
-import Input from "../../form/Input";
 import { Button } from "../../lib";
 import Collection from "./Collection";
 import { Dispatch, SetStateAction, useState } from "react";
