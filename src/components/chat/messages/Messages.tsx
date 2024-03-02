@@ -17,7 +17,9 @@ export interface MessagesProps {
 }
 
 export default function Messages(props: MessagesProps): JSX.Element {
-  {/* c8 ignore start */}
+  {
+    /* c8 ignore start */
+  }
   const [messages, setMessages] = useState<IMessages>({ messages: [] });
   const [arrivalMessage, setArrivalMessage] = useState<IMessage>();
 
@@ -25,9 +27,12 @@ export default function Messages(props: MessagesProps): JSX.Element {
     async function fetchMessages() {
       const res = await myFetch({
         route: `/api/chats/messages/${props.currentChat._id}`,
-        method: "GET" });
-      const data = await res.json();
-      setMessages(data);
+        method: "GET",
+      });
+      if (res.ok) {
+        const data = res.json;
+        setMessages(data);
+      }
     }
     fetchMessages();
   }, [props.currentChat]);
@@ -86,7 +91,7 @@ export default function Messages(props: MessagesProps): JSX.Element {
         }
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

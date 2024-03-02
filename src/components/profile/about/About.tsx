@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { Button, Input, Modal } from "../../lib";
-import { myFetch } from "../../../tools/myFetch";
+import { useEffect, useState } from "react";
+import { Button, Modal } from "../../lib";
 
 export interface IAboutProps {
   title: string;
   description: string;
   myProfile: boolean;
+  handleOnModify: (inputValue: string) => void;
+  ok: number;
 }
 
 /* c8 ignore start */
@@ -15,32 +16,31 @@ export interface IAboutProps {
 export default function About(props: IAboutProps): JSX.Element {
   const [description, setDescription] = useState(props.description);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>("");
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
   const handleOnModify = async () => {
-    if (inputValue.length > 0) {
-      const response = await myFetch({
-        route: "/api/user/profile/bio",
-        method: "POST",
-        body: JSON.stringify({ description: inputValue }),
-      });
-      if (response.ok) {
-        setModalOpen(false);
-        setError("");
-        setInputValue("");
-        setDescription(inputValue);
-      } else {
-        setError("Une erreur est survenue");
-      }
-    } else {
+    if (inputValue.length === 0) {
       setError("La description ne peut pas être vide");
+    } else {
+      props.handleOnModify(inputValue);
     }
   };
+
+  useEffect(() => {
+    const updateModal = () => {
+      setModalOpen(false);
+      setDescription(inputValue);
+    };
+    if (props.ok > 0) {
+      updateModal();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.ok]);
 
   return (
     <>

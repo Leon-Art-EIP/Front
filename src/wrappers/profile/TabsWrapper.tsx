@@ -2,10 +2,10 @@
 
 import { ElementType, useState } from "react";
 import Tabs from "../../components/profile/tabs/Tabs";
-import About from "../../components/profile/about/About";
 import Collections from "../../components/profile/collections/Collections";
 import { IProfileArt, IProfileCollection } from "../../interfaces/profile/profileCollection";
 import Publications from "../../components/profile/publications/Publications";
+import AboutWrapper from "./AboutWrapper";
 
 interface ITabsWrapperProps {
   aboutTitle: string;
@@ -44,7 +44,7 @@ export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
       {selectedTab === "publications" && <Publications link={props.link} profileArts={props.publications} />}
       {selectedTab === "collections" && <Collections link={props.link} collections={props.collections} />}
       {selectedTab === "about" && (
-        <About title={props.aboutTitle} description={props.aboutDescription ?? ""} myProfile={props.myProfile} />
+        <AboutWrapper title={props.aboutTitle} description={props.aboutDescription ?? ""} myProfile={props.myProfile} />
       )}
     </>
   );

@@ -32,12 +32,12 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   useEffect(() => {
     const fetchData = async () => {
       const response = await myFetch({ route: `/api/user/profile/${props.id}`, method: "GET" });
-      const artist = (await response.json()) as IArtist;
+      const artist = response.json as IArtist;
       setArtist(artist);
 
       async function fetchPublicationsForCollection(collection: IUserCollection): Promise<IProfileCollection> {
         const response = await myFetch({ route: `/api/collection/${collection._id}/publications`, method: "GET" });
-        const arts = (await response.json()) as IArtPublication[];
+        const arts = response.json as IArtPublication[];
         const pictures: IProfileArt[] = arts.map((art) => ({
           id: art._id,
           src: `${imageApi}/${art.image}`,
@@ -51,7 +51,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
 
       async function fetchCollectionsWithPublications(): Promise<IProfileCollection[]> {
         const response = await myFetch({ route: `/api/collection/user/${props.id}/collections`, method: "GET" });
-        const collections = (await response.json()) as IUserCollection[];
+        const collections = response.json as IUserCollection[];
 
         const profileCollections = await Promise.all(
           collections.map((collection) => fetchPublicationsForCollection(collection))
@@ -61,7 +61,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
 
       async function fetchPublications(): Promise<IProfileArt[]> {
         const response = await myFetch({ route: `/api/art-publication/user/${props.id}`, method: "GET" });
-        const arts = (await response.json()) as IArtPublication[];
+        const arts = response.json as IArtPublication[];
 
         const publications = arts.map((art) => ({
           id: art._id,

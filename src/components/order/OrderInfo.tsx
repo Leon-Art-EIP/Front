@@ -47,8 +47,8 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
         UserTwoId: props.currentUser?.user.id,
       }),
     });
-    const data = await response.json();
-    if (response.status === 200) {
+    const data = response.json;
+    if (response.ok) {
       router.push(`/chat/${data.convId}`);
     }
   }
@@ -78,7 +78,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
         orderId: props.selectedOrderId,
       }),
     });
-    if (res.status === 200) {
+    if (res.ok) {
       fetchOrderInfos();
     }
   }
@@ -88,7 +88,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
       route: `/api/order/cancel/${props.selectedOrderId}`,
       method: "POST",
     });
-    if (res.status === 200) {
+    if (res.ok) {
       router.push("/order")
     }
   }
@@ -102,7 +102,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
         rating: 5,
       }),
     });
-    if (res.status === 200) {
+    if (res.ok) {
       fetchOrderInfos();
     }
   }
