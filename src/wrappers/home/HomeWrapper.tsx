@@ -30,12 +30,12 @@ export default function HomeWrapper(): JSX.Element {
   };
 
   const handleArtistsOk = (json: any) => {
-    const data = (await response.json()) as { artists: IUser[] };
+    const data = json as { artists: IUser[] };
     setArtists({ users: data.artists });
   };
 
   const handleArtsOk = (json: any) => {
-    const data = (await response.json()) as IArtPublication[];
+    const data = json as IArtPublication[];
     setArts({ artPublications: data });
   };
 
@@ -45,19 +45,20 @@ export default function HomeWrapper(): JSX.Element {
       <Fetcher method="GET" nbFetchs={1} route="/api/artists/latest" handleOk={handleArtistsOk} />
       <Fetcher method="GET" nbFetchs={1} route="/api/art-publication/feed/latest" handleOk={handleArtsOk} />
       <div className="flex flex-col items-center">
-      <div className="w-full">
-        <PassingArts passingArts={passingArts} />
-      </div>
-      <div className="flex flex-col max-w-[1500px] w-full items-center gap-8 lg:py-8 py-4 lg:px-10 px-6">
-        <div className="flex flex-col self-start gap-4 w-full">
-          <span className="text-3xl font-bold">Artistes</span>
-          <UsersSlider users={artists} />
+        <div className="w-full">
+          <PassingArts passingArts={passingArts} />
         </div>
-        <div className="flex flex-col self-start gap-4 w-full">
-          <span className="text-3xl font-bold">Pour vous</span>
-          <Gallery4x4 artPublications={arts} />
+        <div className="flex flex-col max-w-[1500px] w-full items-center gap-8 lg:py-8 py-4 lg:px-10 px-6">
+          <div className="flex flex-col self-start gap-4 w-full">
+            <span className="text-3xl font-bold">Artistes</span>
+            <UsersSlider users={artists} />
+          </div>
+          <div className="flex flex-col self-start gap-4 w-full">
+            <span className="text-3xl font-bold">Pour vous</span>
+            <Gallery4x4 artPublications={arts} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
