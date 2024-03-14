@@ -39,6 +39,7 @@ pipeline{
       when { 
         branch 'dev'
       }
+      agent any
       steps{
         script {
             try {
