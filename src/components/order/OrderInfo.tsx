@@ -25,7 +25,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
       route: `/api/order/${props.orderType === "buy" ? "buy" : "sell"}/${props.selectedOrderId}`,
       method: "GET",
     });
-    const data: Order = await res.json();
+    const data = res.json as Order;
     console.log(data);
     setSelectedOrder(data);
   }
