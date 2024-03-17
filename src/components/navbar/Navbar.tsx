@@ -4,6 +4,7 @@ import TextLogo from "../text-logo/TextLogo";
 import profilePicture from "../../assets/profilePicture.png";
 import ProfilePicture from "../profile/profilePicture/ProfilePicture";
 import { Settings } from "@mui/icons-material";
+import Notifications from "./notifications/Notifications";
 
 export interface INavbarProps {
   tabs: ITab[];
@@ -32,7 +33,8 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
         )}
       </div>
       <div className="items-center justify-end flex px-2">
-        <div className="flex gap-2 align-middle items-center">
+        <div className="flex gap-3 align-middle items-center">
+          <Notifications />
           <Link href={`/settings`}>
             <Settings />
           </Link>

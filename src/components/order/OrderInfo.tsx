@@ -25,13 +25,23 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
       route: `/api/order/${props.orderType === "buy" ? "buy" : "sell"}/${props.selectedOrderId}`,
       method: "GET",
     });
-    const data = res.json as Order;
-    console.log(data);
-    setSelectedOrder(data);
+    if (res.ok) {
+      const data = res.json as Order;
+      setSelectedOrder(data);
+    } else {
+      const resSell = await myFetch({
+        route: `/api/order/sell/${props.selectedOrderId}`,
+        method: "GET",
+      }); // Have to do this because I don't know the orderType with just the orderId in the URL. So if the user is the seller, I have to fetch the order with the sell route.
+      const dataSell = resSell.json as Order;
+      setSelectedOrder(dataSell);
+    }
   }
 
   useEffect(() => {
-    fetchOrderInfos();
+    if (props.selectedOrderId) {
+      fetchOrderInfos();
+    }
   }, [props.selectedOrderId]);
 
   function onGoToUserProviderProfile() {
