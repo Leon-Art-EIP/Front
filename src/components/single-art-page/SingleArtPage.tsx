@@ -1,15 +1,16 @@
 "use client";
 
-import { ElementType, useState, useEffect } from "react";
-import SingleArtPageArtwork from "./artwork/SingleArtPageArtwork";
-import SingleArtPageCard from "./card/SingleArtPageCard";
-import { Button, Modal } from "../lib";
-import SaveGallery from "./artwork/SaveGallery";
-import { myFetch } from "../../tools/myFetch";
+import { useRouter } from "next/navigation";
+import { ElementType, useEffect, useState } from "react";
 import { ICollectionArtsExtended } from "../../interfaces/single/collection";
 import { IConnectedUser } from "../../interfaces/user/user";
-import { useRouter } from "next/navigation";
+import { myFetch } from "../../tools/myFetch";
 import Fetcher from "../fetch/Fetcher";
+import { Button, Modal } from "../lib";
+import SaveGallery from "./artwork/SaveGallery";
+import SingleArtPageArtwork from "./artwork/SingleArtPageArtwork";
+import SingleArtPageCard from "./card/SingleArtPageCard";
+import SingleArtPageComments from "./comment/SingleArtPageComments";
 
 export interface ISingleArtPageProps {
   description: string;
@@ -108,18 +109,22 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
         />
       </Modal>
       <div className="flex px-20 py-10 gap-8 flex-wrap lg:flex-nowrap">
-        <SingleArtPageArtwork
-          art={props.art}
-          profile={props.profile}
-          artisteName={props.artistName}
-          artistId={props.artistId}
-          title={props.title}
-          liked={isLiked}
-          nbrLikes={nbrLikes}
-          bookmarkOnClick={bookmarkOnClick}
-          heartOnClick={heartOnClick}
-          link={props.link}
-        />
+        <div className="w-3/4 flex flex-col gap-8 justify-center">
+          <SingleArtPageArtwork
+            art={props.art}
+            profile={props.profile}
+            artisteName={props.artistName}
+            artistId={props.artistId}
+            title={props.title}
+            liked={isLiked}
+            nbrLikes={nbrLikes}
+            bookmarkOnClick={bookmarkOnClick}
+            heartOnClick={heartOnClick}
+            link={props.link}
+          />
+          <SingleArtPageComments />
+        </div>
+
         <div className="flex flex-col gap-4 w-1/4">
           <SingleArtPageCard
             artPublicationId={props.artId}

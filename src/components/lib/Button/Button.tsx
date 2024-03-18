@@ -13,6 +13,7 @@ export interface IButtonProps {
   loading?: boolean;
   id?: string;
   name?: string;
+  disabled?: boolean;
 }
 
 const colorClasses: Record<ButtonColor, string> = {
@@ -33,6 +34,7 @@ export default function Button(props: IButtonProps): JSX.Element {
         props.className
       }`}
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       {props.loading ? <CircularProgress size={20} thickness={4} color="primary" /> : props.children}
     </button>

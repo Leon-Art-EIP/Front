@@ -1,13 +1,13 @@
 "use client";
 
-import { FormProvider } from "react-hook-form";
-import Input from "../../components/form/Input";
-import useRegisterForm from "../methods/useRegisterForm";
-import { TRegisterData } from "../../zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FormProvider } from "react-hook-form";
+import Fetcher from "../../components/fetch/Fetcher";
+import Input from "../../components/form/Input";
 import { IConnectedUser } from "../../interfaces/user/user";
-import FetcherDiv from "../../components/fetch/FetcherDiv";
+import { TRegisterData } from "../../zod";
+import useRegisterForm from "../methods/useRegisterForm";
 
 export default function RegisterForm(): JSX.Element {
   const [nbFetchs, setNbFetchs] = useState(0);
@@ -41,15 +41,16 @@ export default function RegisterForm(): JSX.Element {
   };
 
   return (
-    <FetcherDiv
-      method="POST"
-      route="/api/auth/signup"
-      body={body}
-      nbFetchs={nbFetchs}
-      handleOk={handleOk}
-      successStr="Inscription réussie."
-      setIsLoading={setIsLoading}
-    >
+    <>
+      <Fetcher
+        method="POST"
+        route="/api/auth/signup"
+        body={body}
+        nbFetchs={nbFetchs}
+        handleOk={handleOk}
+        successStr="Inscription réussie."
+        setIsLoading={setIsLoading}
+      />
       <FormProvider {...methods}>
         <form className="flex flex-col gap-6 w-full mt-6 xl:mt-14" onSubmit={methods.handleSubmit(onSubmit)}>
           <Input
@@ -90,6 +91,6 @@ export default function RegisterForm(): JSX.Element {
           </div>
         </form>
       </FormProvider>
-    </FetcherDiv>
+    </>
   );
 }

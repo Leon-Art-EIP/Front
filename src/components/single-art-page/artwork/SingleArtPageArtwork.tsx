@@ -1,11 +1,10 @@
-import Image from "next/image";
-import IconButton from "./IconButton";
 import { BookmarkBorder, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { ElementType, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
+import IconButton from "./IconButton";
 
 interface ISingleArtPageArtworkProps {
   art: string;
@@ -34,7 +33,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
   }
 
   return (
-    <div className="flex flex-col gap-5 w-3/4">
+    <div className="flex flex-col gap-5 w-full">
       <img
         src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.art}`}
         alt={props.title}

@@ -1,12 +1,22 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { TMethod } from "../../interfaces/fetch/methods";
 import { IMyFetchResponse, myFetch } from "../../tools/myFetch";
 import { NotificationToast } from "../lib";
-import { IFetcherDivProps } from "./FetcherDiv";
-import { useRouter } from "next/navigation";
 
-export default function Fetcher(props: Omit<IFetcherDivProps, "children">): JSX.Element | null {
+export interface IFetcherProps {
+  nbFetchs: number;
+  handleOk?: (json?: any) => void;
+  method: TMethod;
+  route: string;
+  successStr?: string;
+  body?: string | FormData;
+  setIsLoading?: (isLoading: boolean) => void;
+}
+
+export default function Fetcher(props: IFetcherProps): JSX.Element | null {
   const [response, setResponse] = useState<IMyFetchResponse>();
   const [showNotification, setShowNotification] = useState(false);
   const router = useRouter();

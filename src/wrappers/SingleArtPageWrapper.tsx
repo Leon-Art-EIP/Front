@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "../components/link/Link";
+import LoadingPage from "../components/loading/LoadingPage";
 import SingleArtPage from "../components/single-art-page/SingleArtPage";
+import { IArtPublication } from "../interfaces/artPublication/artPublication";
+import { ICollection, ICollectionArtsExtended } from "../interfaces/single/collection";
+import { IProfileUser } from "../interfaces/user/profileUser";
 import { IUser } from "../interfaces/user/user";
 import { IMyFetchResponse, myFetch } from "../tools/myFetch";
-import { IArtPublication } from "../interfaces/artPublication/artPublication";
-import { IProfileUser } from "../interfaces/user/profileUser";
-import LoadingPage from "../components/loading/LoadingPage";
 import { imageApi } from "../tools/variables";
-import { ICollection, ICollectionArtsExtended } from "../interfaces/single/collection";
 
 interface SingleArtPageWrapperProps {
   id: string;

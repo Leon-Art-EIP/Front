@@ -1,9 +1,8 @@
 import { ElementType, useEffect, useState } from "react";
+import Fetcher from "../../fetch/Fetcher";
+import { NotificationToast } from "../../lib";
 import Button from "./Button";
 import Label from "./Label";
-import { NotificationToast } from "../../lib";
-import { myFetch } from "../../../tools/myFetch";
-import FetcherDiv from "../../fetch/FetcherDiv";
 
 export interface ISingleArtPageCardProps {
   artPublicationId: string;
@@ -49,13 +48,14 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
   }, [props.paymentCanceled]);
 
   return (
-    <FetcherDiv
-      method="POST"
-      route="/api/order/create"
-      body={JSON.stringify({ artPublicationId: props.artPublicationId })}
-      nbFetchs={nbFetchs}
-      handleOk={handleOk}
-    >
+    <>
+      <Fetcher
+        method="POST"
+        route="/api/order/create"
+        body={JSON.stringify({ artPublicationId: props.artPublicationId })}
+        nbFetchs={nbFetchs}
+        handleOk={handleOk}
+      />
       <div className="p-8 w-full flex flex-col rounded-2xl bg-cardBackground gap-10 h-fit">
         <Label title="Description" text={props.description} />
         <Label title="Caractéristiques" text={props.caracteristics} />
@@ -85,7 +85,7 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
           <div className="italic font-semibold">Cette oeuvre n&apos;est pas à vendre</div>
         )}
       </div>
-    </FetcherDiv>
+    </>
   );
 }
 

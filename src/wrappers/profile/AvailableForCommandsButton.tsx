@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Fetcher from "../../components/fetch/Fetcher";
 import IconButton from "../../components/profile/IconButton";
 import Chevron from "../../components/profile/infos/Chevron";
 import { cn } from "../../tools/cn";
-import { myFetch } from "../../tools/myFetch";
-import FetcherDiv from "../../components/fetch/FetcherDiv";
 
 interface IAvailableForCommandsButtonProps {
   isAvailable: boolean;
@@ -27,16 +26,17 @@ export default function AvailableForCommandsButton(props: IAvailableForCommandsB
   };
 
   return (
-    <FetcherDiv
-      route="/api/user/profile/availability"
-      method="POST"
-      body={JSON.stringify({
-        availability: isAvailable ? "unavailable" : "available",
-      })}
-      nbFetchs={nbFetchs}
-      handleOk={handleOk}
-      successStr="Disponibilité modifiée avec succès"
-    >
+    <>
+      <Fetcher
+        route="/api/user/profile/availability"
+        method="POST"
+        body={JSON.stringify({
+          availability: isAvailable ? "unavailable" : "available",
+        })}
+        nbFetchs={nbFetchs}
+        handleOk={handleOk}
+        successStr="Disponibilité modifiée avec succès"
+      />
       <IconButton
         onClick={handleOnClick}
         text={`${isAvailable ? "Ouvert" : "Indisponible"} aux commandes`}
@@ -44,7 +44,7 @@ export default function AvailableForCommandsButton(props: IAvailableForCommandsB
         icon={isAvailable ? Chevron : undefined}
         disabled={props.disabled}
       />
-    </FetcherDiv>
+    </>
   );
 }
 

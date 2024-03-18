@@ -1,13 +1,13 @@
 "use client";
 
-import { FormProvider } from "react-hook-form";
-import Input from "../../components/form/Input";
-import { useState } from "react";
-import useLoginForm from "../methods/useLoginForm";
 import { useRouter } from "next/navigation";
-import { TLoginData } from "../../zod";
+import { useState } from "react";
+import { FormProvider } from "react-hook-form";
+import Fetcher from "../../components/fetch/Fetcher";
+import Input from "../../components/form/Input";
 import { IConnectedUser } from "../../interfaces/user/user";
-import FetcherDiv from "../../components/fetch/FetcherDiv";
+import { TLoginData } from "../../zod";
+import useLoginForm from "../methods/useLoginForm";
 
 export default function LoginForm(): JSX.Element {
   const [body, setBody] = useState("");
@@ -40,14 +40,15 @@ export default function LoginForm(): JSX.Element {
   };
 
   return (
-    <FetcherDiv
-      method="POST"
-      nbFetchs={nbFetchs}
-      route="/api/auth/login"
-      body={body}
-      handleOk={handleOk}
-      setIsLoading={setIsLoading}
-    >
+    <>
+      <Fetcher
+        method="POST"
+        nbFetchs={nbFetchs}
+        route="/api/auth/login"
+        body={body}
+        handleOk={handleOk}
+        setIsLoading={setIsLoading}
+      />
       <FormProvider {...methods}>
         <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={methods.handleSubmit(onSubmit)}>
           <Input
@@ -74,6 +75,6 @@ export default function LoginForm(): JSX.Element {
           </div>
         </form>
       </FormProvider>
-    </FetcherDiv>
+    </>
   );
 }

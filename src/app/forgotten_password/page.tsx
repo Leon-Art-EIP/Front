@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import Fetcher from "../../components/fetch/Fetcher";
 import Gallery from "../../components/gallery";
 import Form from "./form";
-import FetcherDiv from "../../components/fetch/FetcherDiv";
 
 interface IBaseFormValues {
   email: string;
@@ -48,14 +48,15 @@ export default function Page(): JSX.Element {
   };
 
   return (
-    <FetcherDiv
-      method="POST"
-      nbFetchs={nbFetchs}
-      route="/api/auth/request-reset"
-      successStr="Un email de réinitialisation vous a été envoyé."
-      body={body}
-      setIsLoading={setIsLoading}
-    >
+    <>
+      <Fetcher
+        method="POST"
+        nbFetchs={nbFetchs}
+        route="/api/auth/request-reset"
+        successStr="Un email de réinitialisation vous a été envoyé."
+        body={body}
+        setIsLoading={setIsLoading}
+      />
       <div className="flex h-screen">
         <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col items-center justify-center fixed">
           <label className="xl:hidden block text-6xl font-bold">
@@ -80,6 +81,6 @@ export default function Page(): JSX.Element {
           <Gallery redirectUrl={"/login"} redirectText={"S'identifier"}></Gallery>
         </div>
       </div>
-    </FetcherDiv>
+    </>
   );
 }
