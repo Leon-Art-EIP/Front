@@ -31,6 +31,7 @@ export default function RegisterForm(): JSX.Element {
         username: formData.username,
         email: formData.email,
         password: formData.password,
+        is_artist: true,
       })
     );
     setNbFetchs(nbFetchs + 1);

@@ -1,17 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import UsersSlider from "../../components/explorer/UsersSlider";
+import Fetcher from "../../components/fetch/Fetcher";
+import Gallery4x4 from "../../components/gallery/Gallery4x4";
 import PassingArts from "../../components/home/passingArt/PassingArts";
+import { IArtPublication } from "../../interfaces/artPublication/artPublication";
+import { IUser, IUsers } from "../../interfaces/explorer/users";
+import { IArtPublications } from "../../interfaces/gallery/artPublications";
 import { IArticle } from "../../interfaces/home/article";
 import { IPassingArt } from "../../interfaces/home/passingArt";
 import { passingArts as fakePassingArts } from "./../../components/home/passingArt/passingArtsDummyData";
-import { IArtPublication } from "../../interfaces/artPublication/artPublication";
-import Gallery4x4 from "../../components/gallery/Gallery4x4";
-import { IArtPublications } from "../../interfaces/gallery/artPublications";
-import UsersSlider from "../../components/explorer/UsersSlider";
-import { IUser, IUsers } from "../../interfaces/explorer/users";
-import { imageApi } from "../../tools/variables";
-import Fetcher from "../../components/fetch/Fetcher";
 
 export default function HomeWrapper(): JSX.Element {
   const [passingArts, setPassingArts] = useState<IPassingArt[]>([]);
