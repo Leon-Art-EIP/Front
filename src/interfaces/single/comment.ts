@@ -17,5 +17,7 @@ export interface IDisplayComment {
 
 export interface IAddComment {
   msg: string;
-  comment: IComment;
+  comment: Omit<IComment, "_id"> & {
+    id: string;
+  };
 }

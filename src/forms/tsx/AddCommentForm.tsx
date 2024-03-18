@@ -42,7 +42,7 @@ export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element
 
       props.setLocalComments([
         {
-          id: json.comment._id,
+          id: json.comment.id,
           profilePicture: `${imageApi}/${author.profilePicture}`,
           username: author.username,
           text: json.comment.text,

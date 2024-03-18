@@ -1,6 +1,6 @@
 import { Delete } from "@mui/icons-material";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IComment, IDisplayComment } from "../../../interfaces/single/comment";
 import { IProfileUser } from "../../../interfaces/user/profileUser";
 import { stringToFrenchDate } from "../../../tools/date";
@@ -14,6 +14,7 @@ interface ICommentsListProps {
   id: string;
   connectedUserId: string;
   localComments: IDisplayComment[];
+  setLocalComments: Dispatch<SetStateAction<IDisplayComment[]>>;
 }
 
 export default function CommentsList(props: ICommentsListProps): JSX.Element {
@@ -74,6 +75,7 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
   };
 
   const handleOk = () => {
+    props.setLocalComments(props.localComments.filter((comment) => comment.id !== deleteIdComment));
     setDisplayComments(displayComments.filter((comment) => comment.id !== deleteIdComment));
     setDeleteIdComment("");
   };

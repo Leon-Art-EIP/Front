@@ -1,11 +1,11 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { ITab } from "../../interfaces";
-import Header from "../header";
-import { IConnectedUser } from "../../interfaces/user/user";
-import LoadingPage from "../loading/LoadingPage";
 import { useEffect, useState } from "react";
+import { ITab } from "../../interfaces";
+import { IConnectedUser } from "../../interfaces/user/user";
+import Header from "../header";
+import LoadingPage from "../loading/LoadingPage";
 
 export interface ISessionProps {
   tabs: ITab[];
@@ -36,7 +36,7 @@ export default function Session(props: ISessionProps): JSX.Element | null {
     if (correspondingTab?.loggedIn !== false && (user === null || (user && !user.token))) {
       router.replace("/login");
     }
-  }, [user, router]);
+  }, [user, router, correspondingTab?.loggedIn]);
 
   if ((user && user.token) || ((!user || !user.token) && correspondingTab?.loggedIn === false)) {
     return (

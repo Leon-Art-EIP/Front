@@ -44,10 +44,17 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
     <div className="flex flex-col gap-8 bg-blue-50 border border-neutral-300 rounded px-4 py-2">
       <h1 className="font-semibold text-xl">Commentaires</h1>
       <div className="flex flex-wrap gap-2 items-center">
-        <Image src={connectedUser.profilePicture} alt="profile" width={44} height={44} className="rounded-3xl" />
+        {connectedUser.profilePicture && (
+          <Image src={connectedUser.profilePicture} alt="profile" width={44} height={44} className="rounded-3xl" />
+        )}
         <AddCommentForm id={props.id} localComments={localComments} setLocalComments={setLocalComments} />
       </div>
-      <CommentsList id={props.id} connectedUserId={props.connectedUserId} localComments={localComments} />
+      <CommentsList
+        id={props.id}
+        connectedUserId={props.connectedUserId}
+        localComments={localComments}
+        setLocalComments={setLocalComments}
+      />
     </div>
   );
 }
