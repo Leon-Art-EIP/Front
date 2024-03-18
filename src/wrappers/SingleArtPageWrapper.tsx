@@ -115,6 +115,7 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       link={Link}
       paymentSuccessful={props.success}
       paymentCanceled={props.cancel}
+      connectedUserId={user.id}
     />
   );
 }

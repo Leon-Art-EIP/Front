@@ -30,6 +30,7 @@ export interface ISingleArtPageProps {
   link: ElementType<{ children: JSX.Element; href: string }>; // Car Storybook ne supporte pas le Link de Next
   paymentSuccessful: boolean;
   paymentCanceled: boolean;
+  connectedUserId: string;
 }
 
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
@@ -122,7 +123,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
             heartOnClick={heartOnClick}
             link={props.link}
           />
-          <SingleArtPageComments />
+          <SingleArtPageComments id={props.artId} connectedUserId={props.connectedUserId} />
         </div>
 
         <div className="flex flex-col gap-4 w-1/4">

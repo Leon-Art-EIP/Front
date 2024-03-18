@@ -1,9 +1,8 @@
+import { Settings } from "@mui/icons-material";
 import { ElementType } from "react";
 import { ITab } from "../../interfaces";
-import TextLogo from "../text-logo/TextLogo";
-import profilePicture from "../../assets/profilePicture.png";
 import ProfilePicture from "../profile/profilePicture/ProfilePicture";
-import { Settings } from "@mui/icons-material";
+import TextLogo from "../text-logo/TextLogo";
 
 export interface INavbarProps {
   tabs: ITab[];
