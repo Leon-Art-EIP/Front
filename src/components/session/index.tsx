@@ -36,7 +36,8 @@ export default function Session(props: ISessionProps): JSX.Element | null {
     if (correspondingTab?.loggedIn !== false && (user === null || (user && !user.token))) {
       router.replace("/login");
     }
-  }, [user, router, correspondingTab?.loggedIn]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, router]);
 
   if ((user && user.token) || ((!user || !user.token) && correspondingTab?.loggedIn === false)) {
     return (

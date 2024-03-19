@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import NotFound from "../app/not-found";
 import Link from "../components/link/Link";
 import LoadingPage from "../components/loading/LoadingPage";
 import SingleArtPage from "../components/single-art-page/SingleArtPage";
@@ -21,6 +22,7 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
   const [artPublication, setArtPublication] = useState<IArtPublication>();
   const [artist, setArtist] = useState<IProfileUser>();
   const [collectionsArtsExtended, setCollectionsArtsExtended] = useState<ICollectionArtsExtended[]>([]);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -81,6 +83,7 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       } catch (error) {
         console.error(error);
       }
+      setHasLoaded(true);
     };
     getData();
   }, [props.id]);
@@ -88,6 +91,9 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
   const user: IUser | undefined = JSON.parse(localStorage.getItem("user") || "").user;
 
   if (!user || !artPublication || !artist) {
+    if (hasLoaded) {
+      return <NotFound />;
+    }
     return <LoadingPage />;
   }
 

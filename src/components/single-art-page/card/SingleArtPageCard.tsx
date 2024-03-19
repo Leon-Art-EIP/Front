@@ -13,6 +13,7 @@ export interface ISingleArtPageCardProps {
   belongingCommands: boolean;
   paymentSuccessful: boolean;
   paymentCanceled: boolean;
+  canBuy: boolean;
 }
 
 /* c8 ignore start */
@@ -63,13 +64,15 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
         {props.price ? (
           <div className="flex items-end justify-center">
             <div className="flex gap-8 flex-wrap">
-              <Button
-                id="add-to-commands-button"
-                disabled={belongingCommands}
-                backgroundColor="primaryRed"
-                title={"Acheter"}
-                onClick={onBuyOrder}
-              />
+              {props.canBuy && (
+                <Button
+                  id="add-to-commands-button"
+                  disabled={belongingCommands}
+                  backgroundColor="primaryRed"
+                  title={"Acheter"}
+                  onClick={onBuyOrder}
+                />
+              )}
               {notificationToast && props.paymentSuccessful && (
                 <NotificationToast message="Oeuvre ajoutée aux commandes" type="success" />
               )}

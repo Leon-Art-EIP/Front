@@ -40,6 +40,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   const [selectedCollections, setSelectedCollections] = useState<string[]>(props.belongingCollectionsIds);
   const [currentUser, setCurrentUser] = useState<IConnectedUser>();
   const [nbFetchs, setNbFetchs] = useState(0);
+  const [deleteFetchs, setDeleteFetchs] = useState(0);
 
   useEffect(() => {
     async function getCurrentUser() {
@@ -77,6 +78,14 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
     setNbFetchs(nbFetchs + 1);
   };
 
+  const deleteOnClick = () => {
+    setDeleteFetchs(deleteFetchs + 1);
+  };
+
+  const handleSuccessDelete = () => {
+    router.push(`/profile/${props.connectedUserId}`);
+  };
+
   async function onSendMessage() {
     const response = await myFetch({
       route: `/api/conversations/create`,
@@ -100,6 +109,12 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
         nbFetchs={nbFetchs}
         handleOk={handleOk}
       />
+      <Fetcher
+        route={`/api/art-publication/${props.artId}`}
+        method="DELETE"
+        nbFetchs={deleteFetchs}
+        handleOk={handleSuccessDelete}
+      />
       <Modal isOpen={isModalOpen} handleClose={closeModal}>
         <SaveGallery
           collections={props.collections}
@@ -116,11 +131,13 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
             profile={props.profile}
             artisteName={props.artistName}
             artistId={props.artistId}
+            connectedUserId={props.connectedUserId}
             title={props.title}
             liked={isLiked}
             nbrLikes={nbrLikes}
             bookmarkOnClick={bookmarkOnClick}
             heartOnClick={heartOnClick}
+            deleteOnClick={deleteOnClick}
             link={props.link}
           />
           <SingleArtPageComments id={props.artId} connectedUserId={props.connectedUserId} />
@@ -136,6 +153,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
             belongingCommands={props.belongingCommands}
             paymentSuccessful={props.paymentSuccessful}
             paymentCanceled={props.paymentCanceled}
+            canBuy={!!props.price && currentUser?.user.id !== props.artistId}
           />
           <Button color="primary" type="button" onClick={onSendMessage}>
             Envoyer un message

@@ -1,7 +1,7 @@
 import { SvgIconProps } from "@mui/material";
 import { cn } from "../../../tools/cn";
 
-type TTailwindCustomColor = "grey" | "black" | "white" | "transparent";
+type TTailwindCustomColor = "grey" | "black" | "white" | "transparent" | "red";
 
 interface IconButtonProps {
   text?: string;
@@ -22,6 +22,8 @@ export default function IconButton({ icon: Icon, ...props }: IconButtonProps): J
     backgroundColor = "#3E3E3E";
   } else if (props.backgroundColor === "transparent") {
     backgroundColor = "transparent";
+  } else if (props.backgroundColor === "red") {
+    backgroundColor = "#FF0000";
   }
 
   return (
