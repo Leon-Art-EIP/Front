@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import AddCommentForm from "../../../forms/tsx/AddCommentForm";
 import { IDisplayComment } from "../../../interfaces/single/comment";
@@ -45,7 +44,7 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
       <h1 className="font-semibold text-xl">Commentaires</h1>
       <div className="flex flex-wrap gap-2 items-center">
         {connectedUser.profilePicture && (
-          <Image src={connectedUser.profilePicture} alt="profile" width={44} height={44} className="rounded-3xl" />
+          <img src={connectedUser.profilePicture} alt="profile" width={44} height={44} className="rounded-3xl" />
         )}
         <AddCommentForm id={props.id} localComments={localComments} setLocalComments={setLocalComments} />
       </div>

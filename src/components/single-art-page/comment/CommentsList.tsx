@@ -1,5 +1,5 @@
 import { Delete } from "@mui/icons-material";
-import Image from "next/image";
+import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IComment, IDisplayComment } from "../../../interfaces/single/comment";
 import { IProfileUser } from "../../../interfaces/user/profileUser";
@@ -106,13 +106,15 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
       <div className="flex flex-col gap-4">
         {[...props.localComments, ...displayComments].map((comment, index) => (
           <div key={`${index}-${comment.username}`} className="flex gap-4 items-center">
-            <Image
-              src={comment.profilePicture}
-              alt="profile"
-              width={44}
-              height={44}
-              className="rounded-3xl w-11 h-11"
-            />
+            <Link href={`/profile/${comment.authorId}`}>
+              <img
+                src={comment.profilePicture}
+                alt="profile"
+                width={44}
+                height={44}
+                className="rounded-3xl w-11 h-11"
+              />
+            </Link>
             <div>
               <div className="flex gap-2">
                 <p className="font-semibold">{comment.username}</p>
