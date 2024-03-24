@@ -14,6 +14,8 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import InfoIcon from '@mui/icons-material/Info';
 import { useRouter } from "next/navigation";
+import { getMessaging, onMessage } from 'firebase/messaging';
+import firebaseApp from '../../../tools/firebase';
 
 export default function Notifications() {
   const router = useRouter();
@@ -24,8 +26,39 @@ export default function Notifications() {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      console.log('Service worker available');
+      const messaging = getMessaging(firebaseApp);
+      onMessage(messaging, (payload) => {
+        console.log('Foreground push notification received:', payload);
+        // Handle the received push notification while the app is in the foreground
+        // You can display a notification or update the UI based on the payload
+        fetchNotifications();
+        fetchUnreadNotificationCount();
+      });
+    }
+  }, []);
+
   function toggleDropdown() {
     setIsOpen(!isOpen);
+  }
+
+  async function fetchNotifications() {
+    const response = await myFetch({
+      route: `/api/notifications?limit=${notificationListLimit}&page=${notificationListPage}`,
+      method: "GET",
+    });
+    if (response.ok) {
+      const notifs = response.json as INotification[];
+      setNotifications(notifs);
+    }
+  }
+  async function fetchUnreadNotificationCount() {
+    const response = await myFetch({ route: `/api/notifications/count`, method: "GET" });
+    if (response.ok) {
+      setNbrNewNotifications(response.json.unreadCount);
+    }
   }
 
   async function onMarkAsRead(notificationId: string) {
@@ -41,23 +74,6 @@ export default function Notifications() {
   }
 
   useEffect(() => {
-    async function fetchNotifications() {
-      const response = await myFetch({
-        route: `/api/notifications?limit=${notificationListLimit}&page=${notificationListPage}`,
-        method: "GET",
-      });
-      if (response.ok) {
-        const notifs = response.json as INotification[];
-        setNotifications(notifs);
-      }
-    }
-    async function fetchUnreadNotificationCount() {
-      const response = await myFetch({ route: `/api/notifications/count`, method: "GET" });
-      if (response.ok) {
-        setNbrNewNotifications(response.json.unreadCount);
-      }
-    }
-
     fetchNotifications();
     fetchUnreadNotificationCount();
   }, []);
