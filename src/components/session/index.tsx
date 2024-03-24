@@ -18,7 +18,6 @@ export interface ISessionProps {
 
 export default function Session(props: ISessionProps): JSX.Element | null {
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
-  fcmToken && console.log('FCM token:', fcmToken);
   const [user, setUser] = useState<IConnectedUser | null | undefined>(undefined);
   const pathname = usePathname();
   const router = useRouter();
@@ -34,7 +33,6 @@ export default function Session(props: ISessionProps): JSX.Element | null {
       const loggedInUser = JSON.parse(local);
       setUser(loggedInUser);
 
-      console.log("user", fcmToken)
   
       if (loggedInUser && loggedInUser.token && fcmToken) {
         updateFcmTokenForUser(fcmToken);
@@ -66,9 +64,7 @@ export default function Session(props: ISessionProps): JSX.Element | null {
       method: "PUT",
       body: JSON.stringify({ fcmToken }),
     });
-    if (res.ok) {
-      console.log("FCM token updated");
-    } else {
+    if (!res.ok) {
       console.error("FCM token not updated");
     }
   };

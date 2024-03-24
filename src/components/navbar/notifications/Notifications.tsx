@@ -28,10 +28,8 @@ export default function Notifications() {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      console.log('Service worker available');
       const messaging = getMessaging(firebaseApp);
       onMessage(messaging, (payload) => {
-        console.log('Foreground push notification received:', payload);
         // Handle the received push notification while the app is in the foreground
         // You can display a notification or update the UI based on the payload
         fetchNotifications();
@@ -101,7 +99,7 @@ export default function Notifications() {
         return <PaidIcon className="w-8 fill-green-600" />;
       case "order_processing":
         return <AutorenewIcon className="w-8 fill-blue-600" />;
-      case "order_cancelled":
+      case "order_cancelled_seller" || "order_cancelled_buyer":
         return <CancelIcon className="w-8 fill-red-600" />;
       case "order_completed":
         return <CheckCircleIcon className="w-8 fill-green-600" />;
@@ -115,23 +113,25 @@ export default function Notifications() {
   function notificationContent(type: string, content: string) {
     switch (type) {
       case "like":
-        return "a aimé votre publication";
+        return `${content} a aimé votre publication`;
       case "comment":
         return "Nouveau commentaire sur une de vos publications";
       case "follow":
-        return "vous suit";
-        case "payment_success":
-          return "Paiement effectué";
-        case "order_processing":
-          return "Commande en cours de traitement";
-        case "order_cancelled":
-          return "Commande annulée";
-        case "order_completed":
-          return "Commande complétée";
-        case "order_shipping":
-          return "Commande en cours de livraison";
-        default:
-          return content;
+        return "${content} vous suit";
+      case "payment_success":
+        return "Une personne viens d'acheter une de vos oeuvres !";
+      case "order_processing":
+        return "Votre payment a bien été reçu, nous traitons votre commande";
+      case "order_cancelled_seller":
+        return "Une de vos commandes a été annulée";
+      case "order_cancelled_buyer":
+        return "Vous avez annulé une commande";
+      case "order_completed":
+        return "Une de vos commandes a été complétée";
+      case "order_shipping":
+        return "Votre commande est en cours de livraison";
+      default:
+        return content;
     }
   }
   
@@ -143,7 +143,8 @@ export default function Notifications() {
     } else if (
       type === "payment_success" ||
       type === "order_processing" ||
-      type === "order_cancelled" ||
+      type === "order_cancelled_seller" ||
+      type === "order_cancelled_buyer" ||
       type === "order_completed" ||
       type === "order_shipping"
     ) {

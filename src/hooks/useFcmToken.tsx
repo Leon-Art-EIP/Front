@@ -32,6 +32,9 @@ const useFcmToken = () => {
               );
             }
           }
+          else {
+            console.log('Permission to receive notifications was denied. If you want to recieve realtime notifications, please enable them in your browser settings.');
+          }
         }
       } catch (error) {
         console.log('An error occurred while retrieving token:', error);
