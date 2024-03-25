@@ -18,8 +18,6 @@ export interface ISingleArtPageCardProps {
   isOwner: boolean;
 }
 
-/* c8 ignore start */
-
 export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPageCardProps): JSX.Element {
   const [notificationToast, setNotificationToast] = useState(false);
   const belongingCommands = props.belongingCommands || (notificationToast && props.paymentSuccessful);
@@ -103,5 +101,3 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
     </>
   );
 }
-
-/* c8 ignore stop */

@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Chat sender 0 snapshot 1`] = `
+<div
+  className="flex flex-row justify-end items-center px-6"
+>
+  <div
+    className="rounded-2xl p-4 max-w-xl break-words bg-primary text-white"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <p
+      className="mb-1"
+    >
+      content
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Chat sender 1 snapshot 1`] = `
+<div
+  className="flex flex-row justify-start items-center px-6"
+>
+  <div
+    className="rounded-2xl p-4 max-w-xl break-words bg-background-hl text-tertiary"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <p
+      className="mb-1"
+    >
+      content
+    </p>
+  </div>
+</div>
+`;

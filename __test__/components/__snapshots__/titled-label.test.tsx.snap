@@ -1,0 +1,46 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`IconLabel capitalize snapshot 1`] = `
+<div
+  className="flex flex-col gap-4 font-semibold text-lg text-tertiary"
+>
+  <div>
+    test
+  </div>
+  <div
+    className="px-4 text-secondary-tertiary font-normal capitalize"
+  >
+    test
+  </div>
+</div>
+`;
+
+exports[`IconLabel snapshot 1`] = `
+<div
+  className="flex flex-col gap-4 font-semibold text-lg text-tertiary"
+>
+  <div>
+    test
+  </div>
+  <div
+    className="px-4 text-secondary-tertiary font-normal"
+  >
+    test
+  </div>
+</div>
+`;
+
+exports[`IconLabel underline snapshot 1`] = `
+<div
+  className="flex flex-col gap-4 font-semibold text-lg text-tertiary"
+>
+  <div>
+    test
+  </div>
+  <div
+    className="px-4 text-secondary-tertiary font-normal underline"
+  >
+    test
+  </div>
+</div>
+`;

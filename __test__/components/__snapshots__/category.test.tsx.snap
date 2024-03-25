@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Category snapshot 1`] = `
+<button
+  className="inline-flex py-0.5 px-5 text-center justify-center text-xs rounded-2xl border-none self-center text-[#4A4A4A] font-semibold bg-white"
+  onClick={[Function]}
+>
+  Acrylique
+</button>
+`;

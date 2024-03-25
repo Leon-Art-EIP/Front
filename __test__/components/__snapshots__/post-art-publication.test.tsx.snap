@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Post deleteLoading snapshot 1`] = `
+<a
+  href="/single/1"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onTouchStart={[Function]}
+>
+  <img
+    alt="art"
+    className="h-32 rounded-2xl object-cover w-full"
+    src="undefined/api/image.jpg"
+  />
+</a>
+`;

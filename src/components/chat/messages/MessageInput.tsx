@@ -5,9 +5,6 @@ export interface MessageInputProps {
   handleSendMsg: (msg: string) => void;
 }
 export function MessageInput(props: MessageInputProps): JSX.Element {
-  {
-    /* c8 ignore start */
-  }
   const [messageToSend, setMessageToSend] = useState("");
 
   function onSendMessage(e: React.FormEvent) {
@@ -40,7 +37,4 @@ export function MessageInput(props: MessageInputProps): JSX.Element {
       </button>
     </form>
   );
-  {
-    /* c8 ignore stop */
-  }
 }

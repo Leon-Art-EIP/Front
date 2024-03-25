@@ -1,0 +1,42 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ArticleWrapper snapshot 1`] = `
+<div
+  className="flex flex-col bg-background"
+>
+  <div
+    className="h-64 w-screen bg-secondary"
+  >
+    <img
+      alt="articleBanner"
+      className="w-full h-full object-cover object-center"
+      src="undefined/api/undefined"
+    />
+  </div>
+  <div
+    className="flex w-full"
+  >
+    <div
+      className="w-40 p-4"
+    />
+    <div
+      className="flex-1 bg-background p-4"
+    >
+      <div
+        className="mt-6 mb-10 text-4xl font-semibold truncate cursor-pointer text-tertiary text-center"
+      />
+      <div
+        className="mt-4 text-tertiary rich-text-content"
+        dangerouslySetInnerHTML={
+          {
+            "__html": "",
+          }
+        }
+      />
+    </div>
+    <div
+      className="w-40 p-4"
+    />
+  </div>
+</div>
+`;

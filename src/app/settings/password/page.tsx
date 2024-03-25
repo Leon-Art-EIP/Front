@@ -1,4 +1,4 @@
-import GoBackButton from "../../../components/buttons/GoBackButtons";
+import GoBackButton from "../../../components/buttons/GoBackButton";
 import SettingsPasswordWrapper from "../../../wrappers/settings/password/SettingsPasswordWrapper";
 
 export default function Page() {
@@ -9,7 +9,7 @@ export default function Page() {
           <GoBackButton href="/settings" />
           <h1 className="text-tertiary">Mot de passe et sécurité</h1>
         </div>
-      <SettingsPasswordWrapper />
+        <SettingsPasswordWrapper />
       </div>
     </div>
   );

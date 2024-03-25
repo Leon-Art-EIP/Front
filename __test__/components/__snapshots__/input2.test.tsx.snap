@@ -1,0 +1,88 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Input snapshot - Basic usage 1`] = `
+<label
+  className="undefined flex flex-col gap-2 text-tertiary font-regular text-md"
+>
+  <span>
+    Text Input
+     
+  </span>
+  <input
+    className="text-md rounded-xl p-3 bg-gray-700 border-gray-600 placeholder-[#8F8F8F] text-white disabled:cursor-not-allowed disabled:text-gray"
+    placeholder="Enter text"
+    type="text"
+    value="Test value"
+  />
+</label>
+`;
+
+exports[`Input snapshot - Custom className 1`] = `
+<label
+  className="custom-class flex flex-col gap-2 text-tertiary font-regular text-md"
+>
+  <span>
+    Number Input
+     
+  </span>
+  <input
+    className="text-md rounded-xl p-3 bg-gray-700 border-gray-600 placeholder-[#8F8F8F] text-white disabled:cursor-not-allowed disabled:text-gray custom-class"
+    type="number"
+    value={123}
+  />
+</label>
+`;
+
+exports[`Input snapshot - Disabled input 1`] = `
+<label
+  className="undefined flex flex-col gap-2 text-tertiary font-regular text-md"
+>
+  <span>
+    Disabled Input
+     
+  </span>
+  <input
+    className="text-md rounded-xl p-3 bg-gray-700 border-gray-600 placeholder-[#8F8F8F] text-white disabled:cursor-not-allowed disabled:text-gray"
+    disabled={true}
+    type="text"
+    value="Disabled"
+  />
+</label>
+`;
+
+exports[`Input snapshot - Required input 1`] = `
+<label
+  className="undefined flex flex-col gap-2 text-tertiary font-regular text-md"
+>
+  <span>
+    Email
+     
+    <span
+      className="text-primary"
+    >
+      *
+    </span>
+  </span>
+  <input
+    className="text-md rounded-xl p-3 bg-gray-700 border-gray-600 placeholder-[#8F8F8F] text-white disabled:cursor-not-allowed disabled:text-gray"
+    required={true}
+    type="email"
+  />
+</label>
+`;
+
+exports[`Input snapshot - Without label 1`] = `
+<label
+  className="undefined flex flex-col gap-2 text-tertiary font-regular text-md"
+>
+  <span>
+     
+  </span>
+  <input
+    className="text-md rounded-xl p-3 bg-gray-700 border-gray-600 placeholder-[#8F8F8F] text-white disabled:cursor-not-allowed disabled:text-gray"
+    placeholder="Placeholder only"
+    type="text"
+    value="No label"
+  />
+</label>
+`;

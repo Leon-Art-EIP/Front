@@ -1,4 +1,4 @@
-import GoBackButton from "../../../components/buttons/GoBackButtons";
+import GoBackButton from "../../../components/buttons/GoBackButton";
 import SettingsMeWrapper from "../../../wrappers/settings/me/SettingsMeWrapper";
 
 export default function Page() {

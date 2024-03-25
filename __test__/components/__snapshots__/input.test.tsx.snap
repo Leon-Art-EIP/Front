@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Input snapshot 1`] = `
+<div
+  className="flex flex-col gap-2 sm:min-w-min min-w-0 relative"
+>
+  <div
+    className="relative"
+  >
+    <input
+      autoComplete="off"
+      className="sm:min-w-min min-w-0 px-6 py-4 w-full rounded placeholder:text-tertiary-hover pr-10"
+      id="input"
+      name="input"
+      onChange={[Function]}
+      placeholder="Saisissez"
+      type="text"
+    />
+  </div>
+</div>
+`;

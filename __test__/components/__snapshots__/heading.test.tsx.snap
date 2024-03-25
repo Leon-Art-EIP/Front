@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Heading snapshot 1`] = `
+<div
+  className="shrink-0 relative h-64"
+>
+  <div
+    className="z-10 flex items-center lg:justify-end justify-center lg:mx-28 h-full"
+  >
+    <img
+      alt="profilePicture"
+      className="rounded-full border-4 z-10 w-48 h-48 object-contain bg-black"
+      height={192}
+      src="/public/leonart_logo.png"
+      width={192}
+    />
+  </div>
+  <img
+    alt="profileBanner"
+    className="absolute inset-0 h-64 z-0 w-screen object-contain bg-secondary"
+    height={256}
+    src="/public/leonart_logo.png"
+  />
+</div>
+`;

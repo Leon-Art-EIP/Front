@@ -11,8 +11,6 @@ export interface FollowerCardProps {
   // currentUser: IConnectedUser | undefined;
 }
 
-/* c8 ignore start */
-
 export function FollowerCard(props: FollowerCardProps): JSX.Element {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<IConnectedUser>();
@@ -65,7 +63,4 @@ export function FollowerCard(props: FollowerCardProps): JSX.Element {
       </div>
     </div>
   );
-  {
-    /* c8 ignore stop */
-  }
 }

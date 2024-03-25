@@ -11,8 +11,6 @@ export interface InputProps {
   disabled?: boolean;
 }
 
-/* c8 ignore start */
-
 export default function Input(props: InputProps): JSX.Element {
   return (
     <label className={`${props.className} flex flex-col gap-2 text-tertiary font-regular text-md`}>
@@ -34,5 +32,3 @@ export default function Input(props: InputProps): JSX.Element {
     </label>
   );
 }
-
-/* c8 ignore stop */

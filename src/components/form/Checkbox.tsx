@@ -23,7 +23,7 @@ export default function Checkbox(props: ICheckboxProps): JSX.Element {
           className={cn("sm:min-w-min min-w-0 h-4 w-4", props.className)}
           onChange={onChange}
           value={value}
-          />
+        />
         {props.title && <label className="text-xl">{props.title}</label>}
       </div>
       {error && <div className="text-primary">{error.message}</div>}

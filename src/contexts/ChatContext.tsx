@@ -1,5 +1,4 @@
 "use client";
-/* c8 ignore start */
 
 import { useRouter } from "next/navigation";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
@@ -175,4 +174,3 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     </ChatContext.Provider>
   );
 };
-/* c8 ignore stop */

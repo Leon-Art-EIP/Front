@@ -16,8 +16,6 @@ interface ICreateCollectionFormProps {
   setNewCollectionFetchs: Dispatch<SetStateAction<number>>;
 }
 
-/* c8 ignore start */
-
 export default function CreateCollectionForm(props: ICreateCollectionFormProps): JSX.Element {
   const methods = useCreateCollectionForm();
 
@@ -67,5 +65,3 @@ export default function CreateCollectionForm(props: ICreateCollectionFormProps):
     </FormProvider>
   );
 }
-
-/* c8 ignore stop */

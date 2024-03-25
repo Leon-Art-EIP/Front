@@ -4,10 +4,7 @@ import { ChatUserBanner } from "./ChatUserBanner";
 import { MessageInput } from "./MessageInput";
 
 export default function Messages(): JSX.Element {
-  {
-    /* c8 ignore start */
-  }
-  const { currentUser, currentChat, setCurrentChat, sendMessage } = useChat() || {};
+  const { currentUser, currentChat, sendMessage } = useChat() || {};
 
   function getOtherUser() {
     if (currentChat?.UserOneId === currentUser?.user.id) {
@@ -35,7 +32,4 @@ export default function Messages(): JSX.Element {
       </div>
     </div>
   );
-  {
-    /* c8 ignore stop */
-  }
 }

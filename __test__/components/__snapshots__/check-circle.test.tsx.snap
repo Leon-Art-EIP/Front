@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CheckCircle snapshot 1`] = `
+<svg
+  className="checkmark"
+  viewBox="0 0 52 52"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle
+    className="checkmark__circle"
+    cx="26"
+    cy="26"
+    fill="none"
+    r="25"
+  />
+  <path
+    className="checkmark__check"
+    d="M14.1 27.2l7.1 7.2 16.7-16.8"
+    fill="none"
+  />
+</svg>
+`;

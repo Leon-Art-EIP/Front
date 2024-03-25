@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Select snapshot 1`] = `
+<div
+  className="flex flex-col gap-2"
+>
+  <select
+    className="border-none focus:outline-none p-2 rounded hover:cursor-pointer"
+    id="options"
+    name="options"
+    onChange={[Function]}
+  >
+    <option
+      disabled={true}
+      value=""
+    />
+    <option
+      value="option1"
+    >
+      Option 1
+    </option>
+    <option
+      value="option2"
+    >
+      Option 2
+    </option>
+  </select>
+</div>
+`;

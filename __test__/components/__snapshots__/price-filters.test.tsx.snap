@@ -1,0 +1,85 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PriceFilters snapshot 1`] = `
+<div
+  className="flex flex-row gap-4"
+>
+  <button
+    className="py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary "
+    onClick={[Function]}
+    type="button"
+  >
+    0€ - 20€
+  </button>
+  <button
+    className="py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary "
+    onClick={[Function]}
+    type="button"
+  >
+    20€ - 50€
+  </button>
+  <button
+    className="py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary "
+    onClick={[Function]}
+    type="button"
+  >
+    50€ - 100€
+  </button>
+  <button
+    className="py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary "
+    onClick={[Function]}
+    type="button"
+  >
+    100€ - 500€
+  </button>
+  <button
+    className="py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary "
+    onClick={[Function]}
+    type="button"
+  >
+    + 500€
+  </button>
+</div>
+`;
+
+exports[`PriceFilters unavailableToBuy snapshot 1`] = `
+<div
+  className="flex flex-row gap-4"
+>
+  <button
+    className="py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary "
+    onClick={[Function]}
+    type="button"
+  >
+    0€ - 20€
+  </button>
+  <button
+    className="py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary "
+    onClick={[Function]}
+    type="button"
+  >
+    20€ - 50€
+  </button>
+  <button
+    className="py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary "
+    onClick={[Function]}
+    type="button"
+  >
+    50€ - 100€
+  </button>
+  <button
+    className="py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary "
+    onClick={[Function]}
+    type="button"
+  >
+    100€ - 500€
+  </button>
+  <button
+    className="py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary "
+    onClick={[Function]}
+    type="button"
+  >
+    + 500€
+  </button>
+</div>
+`;

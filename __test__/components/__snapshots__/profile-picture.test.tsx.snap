@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProfilePicture snapshot 1`] = `
+<img
+  alt="profilePicture"
+  className="rounded-full border-4"
+  src="/public/leonart_logo.png"
+/>
+`;

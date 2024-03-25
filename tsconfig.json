@@ -28,10 +28,11 @@
       {
         "name": "next"
       }
-    ]
+    ],
   },
   "include": [
     "src",
+    "__test__",
     "**/*.ts",
     "webpack.config.js",
     ".next/types/**/*.ts"
