@@ -19,7 +19,7 @@ export interface IButtonProps {
 const colorClasses: Record<ButtonColor, string> = {
   primary: "text-white bg-[#E03915] hover:bg-[#ca3313] disabled:bg-[#eb9785]",
   secondary: "text-[#2d142c] bg-[#EEEEEE] hover:bg-[#e2e2e2] disabled:text-[#c7c2c7]",
-  danger: "bg-red-600 text-white hover:bg-red-700 disabled:bg-red-400",
+  danger: "bg-primary text-[#EEEEEE] hover:bg-primary-hover disabled:bg-primary-disabled",
   success: "bg-gray-200 text-purple-800 hover:bg-gray-300 disabled:bg-gray-400",
   info: "bg-purple-800 text-white hover:bg-purple-900 disabled:bg-purple-400",
 };
