@@ -69,22 +69,8 @@ html body *{
 		--color-primaryPressed: #e03a15d6;
 		--color-primaryDisabled: #e03a1580;
 
-		--color-secondary: #333333;
-		--color-secondaryHover: #555555;
-		--color-secondaryPressed: #777777;
-		--color-secondaryDisabled: #666666;
-		
-		--color-tertiary: #eeeeee;
-		--color-background: #1a202c;
-	}
-	:root[data-theme="dark"] {
-		--color-primary: #e03915;
-		--color-primaryHover: #e03a15d6;
-		--color-primaryPressed: #e03a15d6;
-		--color-primaryDisabled: #e03a1580;
-
-		--color-secondary: #333333;
-		--color-secondaryHover: #555555;
+		--color-secondary: #6e6e6e;
+		--color-secondaryHover: #b3b3b3;
 		--color-secondaryPressed: #777777;
 		--color-secondaryDisabled: #666666;
 		
