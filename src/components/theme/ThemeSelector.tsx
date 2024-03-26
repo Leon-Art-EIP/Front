@@ -1,34 +1,64 @@
-"use client";
+import { useEffect, useState } from "react";
 
-import React from "react";
-import Themes, { ITheme } from "./Themes";
+const ThemeSelector = () => {
+  const [selectedTheme, setSelectedTheme] = useState("");
 
-interface ThemeSelectorProps {
-  onSelectColor: (color: string) => void;
-  selectedColor: string;
-  onThemeSelect: (theme: string) => void; // Ajoutez une fonction pour la sélection de thème
-}
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const themes = [
+    {
+      name: "light",
+      primary: {
+        DEFAULT: "#ffffff",
+        hover: "#f0f0f0",
+      },
+    },
+    {
+      name: "dark",
+      primary: {
+        DEFAULT: "#333333",
+        hover: "#555555",
+      },
+    },
+    {
+      name: "dark-purple",
+      primary: {
+        DEFAULT: "#9c27b0",
+        hover: "#aa00ff",
+      },
+    },
+    // Ajoutez d'autres thèmes au besoin
+  ];
 
-const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onSelectColor, selectedColor, onThemeSelect }) => {
-  const themeNames = Object.keys(Themes); // Récupérez les noms des thèmes
+  useEffect(() => {
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme && themes.find((theme) => theme.name === currentTheme)) {
+      setSelectedTheme(currentTheme);
+    } else {
+      const prefersDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setSelectedTheme(prefersDarkMode ? "dark" : "light");
+    }
+  }, [themes]);
 
-  const handleColorChange = (color: string) => {
-    onSelectColor(color); // Mettre à jour la couleur sélectionnée
+  const toggleTheme = (theme) => {
+    setSelectedTheme(theme);
+    localStorage.setItem("theme", theme);
+    document.documentElement.setAttribute("data-theme", theme);
   };
 
   return (
-    <div className="p-4 flex items-center">
-      {themeNames.map((themeName, index) => {
-        const theme: ITheme = Themes[themeName]; // Obtenez le thème correspondant au nom du thème
-        return (
-          <button
-            key={index}
-            className="w-10 h-10 mr-2 bg-gray-200 rounded"
-            onClick={() => onThemeSelect(themeName)} // Appel de la fonction onThemeSelect avec le nom du thème sélectionné
-            style={{ backgroundColor: theme.primary }} // Utilisez une couleur du thème comme couleur de fond du bouton
-          ></button>
-        );
-      })}
+    <div className="flex">
+      {themes.map((theme, index) => (
+        <button
+          key={index}
+          className={`rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none ${
+            selectedTheme === theme.name ? "border border-primary" : ""
+          }`}
+          style={{ backgroundColor: theme.primary.DEFAULT }}
+          onClick={() => toggleTheme(theme.name)}
+        >
+          {selectedTheme === theme.name && <div className="w-4 h-4 rounded-full bg-primary"></div>}
+        </button>
+      ))}
     </div>
   );
 };

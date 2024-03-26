@@ -2,7 +2,6 @@
 
 import { AccountCircle, Contrast, Description, Security } from "@mui/icons-material";
 import Link from "next/link";
-import { useState } from "react";
 import DisconnectButton from "../../components/buttons/DisconnectButton";
 import IconLabel from "../../components/label/IconLabel";
 import ThemeSelector from "../../components/theme/ThemeSelector";
@@ -15,12 +14,6 @@ interface ISettingTab {
 }
 
 export default function Page(): JSX.Element {
-  const [selectedColor, setSelectedColor] = useState(""); // État pour suivre la couleur sélectionnée
-
-  const handleColorChange = (color: string) => {
-    setSelectedColor(color);
-  };
-
   const tabs: ISettingTab[] = [
     {
       icon: AccountCircle,
@@ -62,7 +55,7 @@ export default function Page(): JSX.Element {
                 <div className="mr-16">
                   <IconLabel icon={tab.icon} text={tab.text} color="tertiary" />
                 </div>
-                <ThemeSelector onSelectColor={handleColorChange} selectedColor={selectedColor} />
+                <ThemeSelector />
               </div>
             )}
           </div>

@@ -47,7 +47,7 @@ html body *{
 		--color-tertiary: #000000;
 		--color-background: #ffffff;
 	}
-	@media (prefers-color-scheme:dark) {
+	/* @media (prefers-color-scheme:dark) {
     :root {
 			--color-primary: #e03915;
 			--color-primaryHover: #e03a15d6;
@@ -61,6 +61,48 @@ html body *{
 			
 			--color-tertiary: #eeeeee;
 			--color-background: #1a202c;
+		}
+	} */
+	:root[data-theme="dark"] {
+		--color-primary: #e03915;
+		--color-primaryHover: #e03a15d6;
+		--color-primaryPressed: #e03a15d6;
+		--color-primaryDisabled: #e03a1580;
+
+		--color-secondary: #333333;
+		--color-secondaryHover: #555555;
+		--color-secondaryPressed: #777777;
+		--color-secondaryDisabled: #666666;
+		
+		--color-tertiary: #eeeeee;
+		--color-background: #1a202c;
 	}
+	:root[data-theme="dark"] {
+		--color-primary: #e03915;
+		--color-primaryHover: #e03a15d6;
+		--color-primaryPressed: #e03a15d6;
+		--color-primaryDisabled: #e03a1580;
+
+		--color-secondary: #333333;
+		--color-secondaryHover: #555555;
+		--color-secondaryPressed: #777777;
+		--color-secondaryDisabled: #666666;
+		
+		--color-tertiary: #eeeeee;
+		--color-background: #1a202c;
 	}
+	:root[data-theme="dark-purple"] {
+    --color-primary: #9c27b0; /* Purple */
+    --color-primaryHover: #aa00ff; /* Darker purple */
+    --color-primaryPressed: #7b1fa2; /* Lighter purple */
+    --color-primaryDisabled: #9c27b080; /* Purple with reduced opacity */
+
+    --color-secondary: #333333;
+    --color-secondaryHover: #555555;
+    --color-secondaryPressed: #777777;
+    --color-secondaryDisabled: #666666;
+
+    --color-tertiary: #eeeeee;
+    --color-background: #1a202c;
+}
 }
