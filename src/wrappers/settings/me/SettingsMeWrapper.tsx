@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import TitledLabel from "../../../components/label/TitledLabel";
-import { IConnectedUser } from "../../../interfaces/user/user";
 import LoadingPage from "../../../components/loading/LoadingPage";
+import { IConnectedUser } from "../../../interfaces/user/user";
 
 export default function SettingsMeWrapper(): JSX.Element {
   const user: IConnectedUser = JSON.parse(localStorage.getItem("user") ?? "{}");
@@ -18,7 +18,9 @@ export default function SettingsMeWrapper(): JSX.Element {
         <TitledLabel title="Type de compte" text={user.user.subscription} capitalize />
         {user.user.subscription === "standard" && (
           <div className="flex flex-col gap-2">
-            <div className="font-semibold text-xs">Vous êtes un utilisateur sans type pour l&apos;instant</div>
+            <div className="font-semibold text-xs text-tertiary">
+              Vous êtes un utilisateur sans type pour l&apos;instant
+            </div>
             <Link
               href="/quizz"
               className="self-start rounded-lg py-1 px-5 text-base font-semibold cursor-pointer transition-colors duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700"

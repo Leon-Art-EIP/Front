@@ -33,7 +33,7 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
         )}
       </div>
       <div className="items-center justify-end flex px-2">
-        <div className="flex gap-2 align-middle items-center">
+        <div className="flex gap-2 align-middle items-center text-tertiary">
           <Link href={`/settings`}>
             <Settings />
           </Link>

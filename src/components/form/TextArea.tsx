@@ -16,7 +16,7 @@ export default function TextArea(props: ITextAreaProps): JSX.Element {
 
   return (
     <div className={cn("flex flex-col gap-2 sm:min-w-min min-w-0", props.className)}>
-      {props.title && <div className="text-lg">{props.title}</div>}
+      {props.title && <div className="text-lg text-tertiary">{props.title}</div>}
       <textarea
         name={props.name}
         id={props.name}
@@ -25,7 +25,7 @@ export default function TextArea(props: ITextAreaProps): JSX.Element {
         placeholder={props.placeholder}
         className="bg-secondaryGrey p-2 rounded flex-1 sm:min-w-min min-w-0"
       />
-      {error && <div className="text-red-600">{error.message}</div>}
+      {error && <div className="text-primary">{error.message}</div>}
     </div>
   );
 }

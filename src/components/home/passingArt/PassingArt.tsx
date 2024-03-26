@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { IPassingArt } from "../../../interfaces/home/passingArt";
 import PointsPosition from "./PointsPosition";
 

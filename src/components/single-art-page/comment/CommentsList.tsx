@@ -105,7 +105,7 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
       </Modal>
       <div className="flex flex-col gap-4">
         {[...props.localComments, ...displayComments].map((comment, index) => (
-          <div key={`${index}-${comment.username}`} className="flex gap-4 items-center">
+          <div key={`${index}-${comment.username}`} className="flex gap-4 items-center text-tertiary">
             <Link href={`/profile/${comment.authorId}`}>
               <img
                 src={comment.profilePicture}

@@ -18,7 +18,10 @@ module.exports = {
           disabled: "var(--color-secondaryDisabled)",
         },
         tertiary: "var(--color-tertiary)",
-        background: "var(--color-background)",
+        background: {
+          DEFAULT: "var(--color-background)",
+          hl: "var(--color-backgroundHighlight)",
+        },
         // black: {
         //   DEFAULT: "#2d142c",
         //   hover: "#2d142c",

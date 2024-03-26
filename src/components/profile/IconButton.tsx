@@ -18,7 +18,7 @@ export default function IconButton({ icon: Icon, ...props }: IIconButtonProps): 
       onClick={props.onClick}
       className={cn(
         "inline-flex py-0.5 px-5 text-center justify-center text-xs rounded-2xl border-none gap-2 items-center",
-        props.className ?? "bg-white text-black"
+        props.className ?? "bg-background-hl text-tertiary"
       )}
       disabled={props.disabled}
     >

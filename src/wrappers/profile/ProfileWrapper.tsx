@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import banner from "../../assets/profileBanner.png";
 import Link from "../../components/link/Link";
+import LoadingPage from "../../components/loading/LoadingPage";
 import { TCategory } from "../../components/profile/category/Category";
+import Heading from "../../components/profile/heading/Heading";
 import Infos from "../../components/profile/infos/Infos";
+import ProfileHeadingForm from "../../forms/tsx/ProfileHeadingForm";
 import { IArtPublication } from "../../interfaces/artPublication/artPublication";
 import { IArtist } from "../../interfaces/home/artist";
 import { IProfileArt, IProfileCollection } from "../../interfaces/profile/profileCollection";
 import { IUserCollection } from "../../interfaces/profile/userCollection";
+import { IConnectedUser } from "../../interfaces/user/user";
 import { myFetch } from "../../tools/myFetch";
 import { imageApi } from "../../tools/variables";
 import TabsWrapper from "./TabsWrapper";
-import LoadingPage from "../../components/loading/LoadingPage";
-import banner from "../../assets/profileBanner.png";
-import { IConnectedUser } from "../../interfaces/user/user";
-import ProfileHeadingForm from "../../forms/tsx/ProfileHeadingForm";
-import Heading from "../../components/profile/heading/Heading";
 
 interface IProfileWrapperProps {
   id: string;
@@ -96,7 +96,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         profilePicture={`${imageApi}/${artist.profilePicture}`}
         banner={artist.bannerPicture.includes("default") ? banner : `${imageApi}/${artist.bannerPicture}`}
       />
-      <div className="grid grid-cols-4 bg-white">
+      <div className="grid grid-cols-4 bg-background">
         <div className="flex flex-col col-span-3 gap-2 p-4">
           <TabsWrapper
             aboutTitle={data.aboutTitle} // TODO: ask backend to send this
