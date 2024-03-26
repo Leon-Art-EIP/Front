@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import About, { IAboutProps } from "../../components/profile/about/About";
 import Fetcher from "../../components/fetch/Fetcher";
+import About from "../../components/profile/about/About";
 
 interface IAboutWrapperProps {
   title: string;

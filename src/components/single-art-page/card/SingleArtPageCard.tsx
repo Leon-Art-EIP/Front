@@ -57,7 +57,7 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
         nbFetchs={nbFetchs}
         handleOk={handleOk}
       />
-      <div className="p-8 w-full flex flex-col rounded-2xl bg-cardBackground gap-10 h-fit">
+      <div className="p-8 w-full flex flex-col rounded-2xl bg-background-hl text-tertiary gap-10 h-fit">
         <Label title="Description" text={props.description} />
         <Label title="Caractéristiques" text={props.caracteristics} />
         {props.price !== undefined && <Label title="Prix" text={`${props.price.toString()} €`} />}

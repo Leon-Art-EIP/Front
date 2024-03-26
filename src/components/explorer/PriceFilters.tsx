@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { IFilters } from "../../interfaces/explorer/filters";
-import CheckIcon from "@mui/icons-material/Check";
 import { IPriceRangeFilter, priceRangeFilters } from "../../configs/explorer/priceRanges";
+import { IFilters } from "../../interfaces/explorer/filters";
 
 interface PriceFiltersProps {
   handleFilters: (filters: IFilters) => void;
@@ -27,7 +26,11 @@ export default function PriceFilters(props: PriceFiltersProps): JSX.Element {
     if (!clearPriceRange) {
       setIsNotForSale(false);
     }
-    props.handleFilters({ ...props.filters, isForSale: false, priceRange: clearPriceRange ? "" : priceRangeToggled.priceRangeValue });
+    props.handleFilters({
+      ...props.filters,
+      isForSale: false,
+      priceRange: clearPriceRange ? "" : priceRangeToggled.priceRangeValue,
+    });
   }
 
   function handleSelectIsForSale(isForSale: boolean) {
@@ -41,19 +44,19 @@ export default function PriceFilters(props: PriceFiltersProps): JSX.Element {
   return (
     <div className="flex flex-row gap-4">
       <button
-          type="button"
-          className={`py-2 w-full whitespace-nowrap border-gray-400 border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-gray-200 hover:shadow-lg duration-300 ease-in-out ${
-            isNotForSale ? "bg-gray-200" : ""
-          }`}
-          onClick={() => handleSelectIsForSale(!isNotForSale)}
-        >
-          {"Indisponible à la vente"}
-        </button>
+        type="button"
+        className={`py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary ${
+          isNotForSale ? "bg-secondary" : ""
+        }`}
+        onClick={() => handleSelectIsForSale(!isNotForSale)}
+      >
+        {"Indisponible à la vente"}
+      </button>
       {priceRanges.map((priceRange, index) => (
         <button
           key={index}
           type="button"
-          className={`py-2 w-full whitespace-nowrap border-gray-400 border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-gray-200 hover:shadow-lg duration-300 ease-in-out ${
+          className={`py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary ${
             priceRange.selected ? "bg-gray-200" : ""
           }`}
           onClick={() => handleSelectPriceRange(priceRange)}

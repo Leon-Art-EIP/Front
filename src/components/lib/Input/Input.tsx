@@ -15,9 +15,9 @@ export interface InputProps {
 
 export default function Input(props: InputProps): JSX.Element {
   return (
-    <label className={`${props.className} flex flex-col gap-2 text-black font-regular text-md`}>
+    <label className={`${props.className} flex flex-col gap-2 text-tertiary font-regular text-md`}>
       <span>
-        {props.label} {props.required && <span className="text-red-500">*</span>}
+        {props.label} {props.required && <span className="text-primary">*</span>}
       </span>
       <input
         type={props.type}

@@ -1,10 +1,9 @@
 "use client";
 
-import { ChangeEvent, DragEvent } from "react";
-import { useRef, useState } from "react";
-import { cn } from "../../tools/cn";
-import { useController } from "react-hook-form";
 import { AddSharp } from "@mui/icons-material";
+import { ChangeEvent, DragEvent, useRef, useState } from "react";
+import { useController } from "react-hook-form";
+import { cn } from "../../tools/cn";
 
 interface IUploadButtonProps {
   name: string;
@@ -70,7 +69,7 @@ export default function FileInput(props: IUploadButtonProps): JSX.Element {
         onDragLeave={handleDragLeave}
         onClick={handleClick}
         className={cn(
-          "hover:cursor-pointer bg-secondaryGrey rounded flex justify-center items-center text-gray-400 h-full",
+          "hover:cursor-pointer bg-secondary rounded flex justify-center items-center text-tertiary h-full",
           isDragging && "cursor-grab"
         )}
       >
@@ -94,7 +93,7 @@ export default function FileInput(props: IUploadButtonProps): JSX.Element {
         className="hidden"
         id={props.name}
       />
-      {error && <div className="text-red-600">{error.message}</div>}
+      {error && <div className="text-primary">{error.message}</div>}
     </div>
   );
 }

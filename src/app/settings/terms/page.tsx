@@ -3,7 +3,7 @@ import TermsWrapper from "../../../wrappers/terms/TermsWrapper";
 
 export default async function Page(): Promise<JSX.Element> {
   return (
-    <div className="flex flex-col py-5 gap-4">
+    <div className="bg-background text-tertiary flex flex-col py-5 gap-4">
       <div className="flex items-center align-middle">
         <div>
           <GoBackButton href="/settings" />

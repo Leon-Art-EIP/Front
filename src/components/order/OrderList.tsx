@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useEffect, useState } from "react";
 import { Order } from "../../interfaces/order/orders";
 
 export interface OrderListProps {
@@ -21,8 +21,7 @@ export default function OrderList(props: OrderListProps): JSX.Element {
 
   useEffect(() => {
     setOrderToShow(props.buyOrders);
-  }
-  , [props.buyOrders]);
+  }, [props.buyOrders]);
 
   function handlePendingOrdersCollapse() {
     setPendingOrdersCollapsed(!pendingOrdersCollapsed);
@@ -46,15 +45,31 @@ export default function OrderList(props: OrderListProps): JSX.Element {
   }
 
   return (
-    <div className="flex flex-col h-full bg-gray-100 shadow-[3px_0_3px_0px_rgba(170,170,170)] py-10 px-6 gap-6">
+    <div className="text-tertiary flex flex-col h-full bg-background-hl shadow-[3px_0_3px_0px_rgba(170,170,170)] py-10 px-6 gap-6">
       <div className="flex flex-col items-center justify-between gap-4">
         <span className="text-3xl font-medium">Type de commande</span>
         <div className="flex flex-row w-full justify-around text-2xl font-medium">
           <button onClick={() => onOrderTypeChange("buy")}>
-            <span className={`${props.orderType === "sell" ? "text-black" : "text-gray-600 underline underline-offset-4 decoration-[#e11c0a]"}`}>Achat</span>
+            <span
+              className={`${
+                props.orderType === "sell"
+                  ? "text-tertiary"
+                  : "text-primary underline underline-offset-4 decoration-primary"
+              }`}
+            >
+              Achat
+            </span>
           </button>
           <button onClick={() => onOrderTypeChange("sell")}>
-            <span className={`${props.orderType === "buy" ? "text-black" : "text-gray-600 underline underline-offset-4 decoration-[#e11c0a]"}`}>Vente</span>
+            <span
+              className={`${
+                props.orderType === "buy"
+                  ? "text-tertiary"
+                  : "text-primary underline underline-offset-4 decoration-primary"
+              }`}
+            >
+              Vente
+            </span>
           </button>
         </div>
       </div>
@@ -62,26 +77,32 @@ export default function OrderList(props: OrderListProps): JSX.Element {
         <span className="text-2xl font-medium">En cours</span>
         {pendingOrdersCollapsed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </button>
-      {(pendingOrdersCollapsed && orderToShow && orderToShow.length > 0) && (
+      {pendingOrdersCollapsed && orderToShow && orderToShow.length > 0 && (
         <div className="flex flex-col gap-3">
           {orderToShow.map((order, index) => (
             <>
               {(order.orderState === "pending" || order.orderState === "paid" || order.orderState === "shipping") && (
                 <button
                   className={`relative overflow-hidden flex flex-row gap-4 items-center px-5 py-3 rounded-xl ${
-                    order.orderId === props.selectedOrderId ? "bg-gray-200" : ""
-                  } hover:bg-gray-200 hover:shadow-lg transition duration-300 ease-in-out`}
+                    order.orderId === props.selectedOrderId ? "bg-secondary" : ""
+                  } hover:bg-secondary hover:shadow-lg transition duration-300 ease-in-out`}
                   onClick={() => onOrderChange(order.orderId)}
                 >
                   {order.orderId === props.selectedOrderId && (
-                    <span className="absolute top-0 left-0 h-full w-[5px] bg-[#e11c0a]"></span>
+                    <span className="absolute top-0 left-0 h-full w-[5px] bg-primary"></span>
                   )}
                   <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
-                    <img src={`${NEXT_PUBLIC_BACKEND_URL}/api/${order.artPublicationImage}`} alt="order" className="w-full h-full object-cover object-center" />
+                    <img
+                      src={`${NEXT_PUBLIC_BACKEND_URL}/api/${order.artPublicationImage}`}
+                      alt="order"
+                      className="w-full h-full object-cover object-center"
+                    />
                   </div>
                   <div className="flex flex-col items-start justify-between h-full">
                     <span className="text-xl font-medium">{order.artPublicationName}</span>
-                    <span className="text-lg font-normal text-start line-clamp-1">{order.artPublicationDescription}</span>
+                    <span className="text-lg font-normal text-start line-clamp-1">
+                      {order.artPublicationDescription}
+                    </span>
                   </div>
                   <span className="text-xl font-medium">{order.orderPrice}€</span>
                 </button>
@@ -94,23 +115,29 @@ export default function OrderList(props: OrderListProps): JSX.Element {
         <span className="text-2xl font-medium">Passées</span>
         {passedOrdersCollapsed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </button>
-      {(passedOrdersCollapsed && orderToShow && orderToShow.length > 0) && (
+      {passedOrdersCollapsed && orderToShow && orderToShow.length > 0 && (
         <div className="flex flex-col gap-3">
           {orderToShow.map((order, index) => (
             <>
               {(order.orderState === "completed" || order.orderState === "cancelled") && (
                 <button
                   className={`flex flex-row gap-4 items-center px-3 py-3 rounded-xl ${
-                    order.orderId === props.selectedOrderId ? "bg-gray-200" : ""
-                  } hover:bg-gray-200 hover:shadow-lg transition duration-300 ease-in-out`}
+                    order.orderId === props.selectedOrderId ? "bg-secondary" : ""
+                  } hover:bg-secondary hover:shadow-lg transition duration-300 ease-in-out`}
                   onClick={() => onOrderChange(order.orderId)}
                 >
                   <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
-                    <img src={`${NEXT_PUBLIC_BACKEND_URL}/api/${order.artPublicationImage}`} alt="order" className="w-full h-full object-cover object-center" />
+                    <img
+                      src={`${NEXT_PUBLIC_BACKEND_URL}/api/${order.artPublicationImage}`}
+                      alt="order"
+                      className="w-full h-full object-cover object-center"
+                    />
                   </div>
                   <div className="flex flex-col items-start justify-between h-full">
-                    <span className="text-xl font-medium">{order.artPublicationName}</span>
-                    <span className="text-lg font-normal text-start line-clamp-1">{order.artPublicationDescription}</span>
+                    <span className="text-tertiary text-xl font-medium">{order.artPublicationName}</span>
+                    <span className="text-tertiary text-lg font-normal text-start line-clamp-1">
+                      {order.artPublicationDescription}
+                    </span>
                   </div>
                   <span className="text-xl font-medium">{order.orderPrice}€</span>
                 </button>

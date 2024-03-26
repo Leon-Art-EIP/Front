@@ -1,7 +1,3 @@
-import CloseIcon from "@mui/icons-material/Close";
-import emojiConfettis from "../../../assets/icons/emoji-conffetis.png";
-import Image from "next/image";
-
 /* c8 ignore start */
 export interface OrderProps {
   closeOrder: () => void;
@@ -16,7 +12,7 @@ export function Order(props: OrderProps): JSX.Element {
 
   return (
     <div
-      className={`flex flex-grow overflow-y-auto items-center p-6 flex-col gap-4 bg-[#F3F3F3] rounded-2xl w-full relative`}
+      className={`flex flex-grow overflow-y-auto items-center p-6 flex-col gap-4 bg-background rounded-2xl w-full relative`}
     >
       {/* <button className="absolute top-4 right-4" onClick={props.closeOrder}>
         <CloseIcon className="fill-[#8F8F8F]" />

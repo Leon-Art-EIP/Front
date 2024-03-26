@@ -124,7 +124,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
           artId={props.artId}
         />
       </Modal>
-      <div className="flex px-20 py-10 gap-8 flex-wrap lg:flex-nowrap">
+      <div className="bg-background flex px-20 py-10 gap-8 flex-wrap lg:flex-nowrap">
         <div className="w-3/4 flex flex-col gap-8 justify-center">
           <SingleArtPageArtwork
             art={props.art}

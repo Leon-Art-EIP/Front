@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { Chat } from "./Chat";
 import { IMessages } from "../../../interfaces/chat/messages";
 import { IConnectedUser } from "../../../interfaces/user/user";
+import { Chat } from "./Chat";
 
 export interface ChatBoxProps {
   messages: IMessages;
@@ -53,8 +53,8 @@ export function ChatBox(props: ChatBoxProps): JSX.Element {
           <div key={index} className="flex flex-col">
             {showFullDate && (
               <>
-                <span className="self-center mt-3 h-1 w-1/3 bg-[#c1c1c1] rounded-full" />
-                <span className="text-lg text-center p-2 text-[#858585]">{formatDate(message.dateTime)}</span>
+                <span className="self-center mt-3 h-1 w-1/3 bg-background-hl rounded-full" />
+                <span className="text-lg text-center p-2 text-background-hl">{formatDate(message.dateTime)}</span>
               </>
             )}
             <Chat

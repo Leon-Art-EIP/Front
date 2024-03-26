@@ -40,9 +40,9 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
   }, [props.connectedUserId]);
 
   return (
-    <div className="flex flex-col gap-8 bg-blue-50 border border-neutral-300 rounded px-4 py-2">
-      <h1 className="font-semibold text-xl">Commentaires</h1>
-      <div className="flex flex-wrap gap-2 items-center">
+    <div className="flex flex-col gap-8 bg-background-hl rounded px-4 py-2">
+      <h1 className="font-semibold text-xl text-tertiary">Commentaires</h1>
+      <div className="flex flex-wrap gap-2 items-center text-tertiary">
         {connectedUser.profilePicture && (
           <img src={connectedUser.profilePicture} alt="profile" width={44} height={44} className="rounded-3xl" />
         )}

@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import OrderList from "../../components/order/OrderList";
-import OrderInfo from "../../components/order/OrderInfo";
-import { Order } from "../../interfaces/order/orders";
-import Modal from "../../components/lib/Modal/Modal";
-import { orderDeliveryHelpText } from "../../configs/order/orderDeliveryHelp";
 import CloseIcon from "@mui/icons-material/Close";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
-import { myFetch } from "../../tools/myFetch";
-import { IConnectedUser } from "../../interfaces/user/user";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Modal from "../../components/lib/Modal/Modal";
+import OrderInfo from "../../components/order/OrderInfo";
+import OrderList from "../../components/order/OrderList";
+import { orderDeliveryHelpText } from "../../configs/order/orderDeliveryHelp";
+import { Order } from "../../interfaces/order/orders";
+import { IConnectedUser } from "../../interfaces/user/user";
+import { myFetch } from "../../tools/myFetch";
 
 interface OrderWrapperProps {
   orderId: string | undefined;
@@ -63,7 +63,7 @@ export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
   }
 
   return (
-    <div className="flex flex-row page-content-non-scrollable">
+    <div className="bg-background flex flex-row page-content-non-scrollable">
       <div className="w-1/3 min-w-[350px] max-w-[500px] flex-shrink-0">
         <OrderList
           buyOrders={buyOrders}

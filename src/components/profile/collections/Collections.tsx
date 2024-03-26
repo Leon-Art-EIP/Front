@@ -1,10 +1,9 @@
 "use client";
 
 import { ChevronRight, ExpandMore } from "@mui/icons-material";
-import IconButton from "../IconButton";
 import { ElementType, useState } from "react";
-import Image from "next/image";
 import { IProfileCollection } from "../../../interfaces/profile/profileCollection";
+import IconButton from "../IconButton";
 import Publications from "../publications/Publications";
 
 export interface ICollectionsProps {
@@ -32,7 +31,7 @@ export default function Collections(props: ICollectionsProps): JSX.Element {
       {props.collections.map((collection) => (
         <div className="flex flex-col gap-2" key={`collection-profile-${collection.id}`}>
           <div className="flex">
-            <div className="font-medium text-xl">{collection.title}</div>
+            <div className="font-medium text-x text-tertiary">{collection.title}</div>
             <IconButton
               text=""
               icon={openCollections.includes(collection.id) ? ChevronRight : ExpandMore}

@@ -3,8 +3,8 @@
 import { ElementType, useState } from "react";
 import AvailableForCommandsButton from "../../../wrappers/profile/AvailableForCommandsButton";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
-import Category, { TCategory } from "../category/Category";
 import LinkButton from "../../lib/Button/LinkButton";
+import Category, { TCategory } from "../category/Category";
 
 export interface IInfosProps {
   availability: "available" | "unavailable";
@@ -34,20 +34,20 @@ export default function Infos(props: IInfosProps): JSX.Element {
       : numberOfFollowers;
 
   return (
-    <div className="flex items-start w-3/4 h-full bg-gradient-to-b from-secondaryGrey">
+    <div className="flex items-start w-3/4 h-full bg-gradient-to-b from-background-hl">
       <div className="p-4 inline-flex flex-col gap-3 justify-center">
-        <div className="font-medium text-2xl text-center">{props.artistName}</div>
+        <div className="font-medium text-2xl text-center text-tertiary">{props.artistName}</div>
         <div className="inline-flex justify-center">
-          <div className="bg-[#4E4E4E] rounded-2xl font-semibold px-4 py-1 text-sm text-center text-white">
+          <div className="bg-secondary rounded-2xl font-semibold px-4 py-1 text-sm text-center text-white">
             {props.artType}
           </div>
         </div>
         <div className="flex gap-4">
-          <div className="flex-col flex flex-1 text-center gap-2">
+          <div className="flex-col flex flex-1 text-center gap-2 text-tertiary">
             <div className="font-medium text-xl">{kfollowers}</div>
             <div>{`follower${numberOfFollowers > 1 ? "s" : ""}`}</div>
           </div>
-          <div className="flex flex-col flex-1 text-center gap-2">
+          <div className="flex flex-col flex-1 text-center gap-2 text-tertiary">
             <div className="font-medium text-xl">{props.numberOfPosts}</div>
             <div>posts</div>
           </div>

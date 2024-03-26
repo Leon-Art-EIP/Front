@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Searchbar from "../../components/explorer/Searchbar";
 import Filters from "../../components/explorer/Filters";
 import PriceFilters from "../../components/explorer/PriceFilters";
+import Searchbar from "../../components/explorer/Searchbar";
+import UsersSlider from "../../components/explorer/UsersSlider";
 import Gallery4x4 from "../../components/gallery/Gallery4x4";
-import { myFetch } from "../../tools/myFetch";
-import { IArtPublications } from "../../interfaces/gallery/artPublications";
 import { IFilters } from "../../interfaces/explorer/filters";
 import { IUsers } from "../../interfaces/explorer/users";
-import UsersSlider from "../../components/explorer/UsersSlider";
+import { IArtPublications } from "../../interfaces/gallery/artPublications";
+import { myFetch } from "../../tools/myFetch";
 
 export default function ExplorerWrapper(): JSX.Element {
   const [artPubs, setArtPubs] = useState<IArtPublications>({ artPublications: [] });
@@ -68,21 +68,21 @@ export default function ExplorerWrapper(): JSX.Element {
   }
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center bg-background">
       <div className="flex flex-col max-w-[1500px] w-full items-center gap-4 lg:py-8 py-4 lg:px-10 px-6">
         <div className="flex flex-row w-full gap-4">
           <Searchbar handleSearchTerm={handleSearchTerm} />
           <Filters handleFilters={handleFilters} filters={filters} />
         </div>
         <PriceFilters handleFilters={handleFilters} filters={filters} />
-        <span className="w-2/3 h-1 bg-gray-200 rounded-full"></span>
+        <span className="w-2/3 h-1 bg-secondary rounded-full"></span>
         <div className="flex flex-col self-start gap-4 w-full">
-          <span className="text-3xl font-bold">Artistes</span>
+          <span className="text-3xl font-bold text-tertiary">Artistes</span>
           <UsersSlider users={filteredUsers} />
         </div>
-        <span className="w-2/3 h-1 bg-gray-200 rounded-full"></span>
+        <span className="w-2/3 h-1 bg-secondary rounded-full"></span>
         <div className="flex flex-col self-start gap-4 w-full">
-          <span className="text-3xl font-bold">Publication d{"'"}arts</span>
+          <span className="text-3xl font-bold text-tertiary">Publication d{"'"}arts</span>
           <Gallery4x4 artPublications={filteredArtPubs} />
         </div>
       </div>

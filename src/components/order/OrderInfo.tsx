@@ -1,10 +1,10 @@
-import { Order } from "../../interfaces/order/orders";
-import Button from "../lib/Button/Button";
-import { useRouter } from "next/navigation";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { myFetch } from "../../tools/myFetch";
+import { Order } from "../../interfaces/order/orders";
 import { IConnectedUser } from "../../interfaces/user/user";
+import { myFetch } from "../../tools/myFetch";
+import Button from "../lib/Button/Button";
 
 interface OrderInfoProps {
   selectedOrderId: string | undefined;
@@ -89,7 +89,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
       method: "POST",
     });
     if (res.ok) {
-      router.push("/order")
+      router.push("/order");
     }
   }
 

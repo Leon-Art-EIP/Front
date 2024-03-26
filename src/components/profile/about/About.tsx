@@ -60,12 +60,12 @@ export default function About(props: IAboutProps): JSX.Element {
           <Button color="danger" type="button" className="self-center" onClick={handleOnModify}>
             Valider
           </Button>
-          {error && <div className="text-red-500 text-center">{error}</div>}
+          {error && <div className="text-primary text-center">{error}</div>}
         </div>
       </Modal>
       <div className="flex flex-col gap-2">
-        <div className="font-semibold text-xl text-justify">{props.title}</div>
-        <div className="text-justify">{description ?? "Pas de biographie"}</div>
+        <div className="font-semibold text-xl text-tertiary text-justify">{props.title}</div>
+        <div className="text-tertiary text-justify">{description ?? "Pas de biographie"}</div>
         {props.myProfile && (
           <Button
             color="danger"

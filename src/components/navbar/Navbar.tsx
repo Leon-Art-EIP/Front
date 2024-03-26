@@ -14,7 +14,7 @@ export interface INavbarProps {
 
 export default function Navbar({ link: Link, ...props }: INavbarProps) {
   return (
-    <div className="flex h-24 p-2 bg-white w-full gap-4 border-b border-b-secondaryGrey">
+    <div className="flex h-24 p-2 bg-background w-full gap-4 border-b border-b-secondary">
       <div className="items-center justify-start md:flex hidden px-2 h-full font-bold text-4xl">
         <Link href="/">
           <TextLogo />
@@ -25,13 +25,15 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
           (tab) =>
             tab.navbar && (
               <Link key={`${tab.name}-${tab.href}`} href={tab.href}>
-                <div style={{ color: `${props.selectedTabHref === tab.href ? "red" : "black"}` }}>{tab.name}</div>
+                <div className={`${props.selectedTabHref === tab.href ? "text-primary" : "text-tertiary"}`}>
+                  {tab.name}
+                </div>
               </Link>
             )
         )}
       </div>
       <div className="items-center justify-end flex px-2">
-        <div className="flex gap-2 align-middle items-center">
+        <div className="flex gap-2 align-middle items-center text-tertiary">
           <Link href={`/settings`}>
             <Settings />
           </Link>

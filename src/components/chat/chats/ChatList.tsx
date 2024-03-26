@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { SearchBar } from "../../searchBar/SearchBar";
-import { ChatUserCard } from "./ChatUserCard";
 import { IChat, IChats } from "../../../interfaces/chat/chats";
 import { IConnectedUser } from "../../../interfaces/user/user";
+import { SearchBar } from "../../searchBar/SearchBar";
+import { ChatUserCard } from "./ChatUserCard";
 
 export interface ChatListProps {
   chats: IChats;
@@ -24,7 +24,7 @@ export default function ChatList(props: ChatListProps): JSX.Element {
   }
 
   return (
-    <div className="flex flex-col h-full bg-gray-100 shadow-[3px_0_3px_0px_rgba(170,170,170)]">
+    <div className="bg-background-hl flex flex-col h-full shadow-[2px_0_3px_0px_rgba(170,170,170)]">
       <div className="m-6 sm:m-10">
         <SearchBar onSearch={handleSearch} />
       </div>

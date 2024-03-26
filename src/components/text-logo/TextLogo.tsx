@@ -1,8 +1,8 @@
 export default function TextLogo() {
   return (
     <>
-      <span className="text-[#E11C0A]">Leon</span>
-      <span className="text-[#000000]">&apos;Art</span>
+      <span className="text-primary">Leon</span>
+      <span className="text-tertiary">&apos;Art</span>
     </>
   );
 }
