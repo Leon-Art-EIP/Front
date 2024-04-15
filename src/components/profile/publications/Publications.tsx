@@ -1,6 +1,5 @@
 import { ElementType } from "react";
 import { IProfileArt } from "../../../interfaces/profile/profileCollection";
-import Image from "next/image";
 
 interface IPublicationsProps {
   profileArts: IProfileArt[];
