@@ -10,7 +10,6 @@ import { IUser, IUsers } from "../../interfaces/explorer/users";
 import { IArtPublications } from "../../interfaces/gallery/artPublications";
 import { IArticle } from "../../interfaces/home/article";
 import { IPassingArt } from "../../interfaces/home/passingArt";
-import { passingArts as fakePassingArts } from "./../../components/home/passingArt/passingArtsDummyData";
 
 export default function HomeWrapper(): JSX.Element {
   const [passingArts, setPassingArts] = useState<IPassingArt[]>([]);
@@ -22,7 +21,7 @@ export default function HomeWrapper(): JSX.Element {
     const passingArts: IPassingArt[] = data.map((article, index) => ({
       ...article,
       author: { username: article.author.username },
-      mainImage: fakePassingArts[index % fakePassingArts.length].mainImage.src, // `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${article.mainImage}`,
+      mainImage: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${article.mainImage}`,
       position: index,
     }));
     setPassingArts(passingArts);

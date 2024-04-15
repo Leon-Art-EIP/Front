@@ -1,6 +1,6 @@
 export interface IPassingArt {
   title: string;
-  mainImage: any;
+  mainImage: string;
   content: string;
   author: {
     username: string;
