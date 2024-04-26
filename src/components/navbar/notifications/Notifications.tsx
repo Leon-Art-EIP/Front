@@ -117,7 +117,7 @@ export default function Notifications() {
       case "comment":
         return "Nouveau commentaire sur une de vos publications";
       case "follow":
-        return "${content} vous suit";
+        return `${content} vous suit`;
       case "payment_success":
         return "Une personne viens d'acheter une de vos oeuvres !";
       case "order_processing":
