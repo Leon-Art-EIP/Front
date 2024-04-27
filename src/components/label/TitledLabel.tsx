@@ -9,9 +9,11 @@ interface ITitledLabelProps {
 
 export default function TitledLabel(props: ITitledLabelProps): JSX.Element {
   return (
-    <div className="flex flex-col gap-4 font-semibold text-lg">
+    <div className="flex flex-col gap-4 font-semibold text-lg text-tertiary">
       <div>{props.title}</div>
-      <div className={cn("px-4 text-gray-500", props.underline && "underline", props.capitalize && "capitalize")}>
+      <div
+        className={cn("px-4 text-secondary-tertiary", props.underline && "underline", props.capitalize && "capitalize")}
+      >
         {props.text}
       </div>
     </div>

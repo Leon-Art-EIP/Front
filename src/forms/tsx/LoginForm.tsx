@@ -50,23 +50,26 @@ export default function LoginForm(): JSX.Element {
         setIsLoading={setIsLoading}
       />
       <FormProvider {...methods}>
-        <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={methods.handleSubmit(onSubmit)}>
+        <form
+          className="text-tertiary flex flex-col gap-4 w-full mt-6 xl:mt-24"
+          onSubmit={methods.handleSubmit(onSubmit)}
+        >
           <Input
             type="text"
             name="email"
-            className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
+            className="rounded-[30px] shadow-lg bg-background text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-secondary"
             placeholder="Adresse email"
           />
           <Input
             type="password"
             name="password"
-            className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
+            className="rounded-[30px] shadow-lg bg-background text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-secondary"
             placeholder="Mot de passe"
           />
           <div className="flex flex-col justify-center mt-5 gap-2">
             <button
               type="submit"
-              className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white w-full hover:bg-[#c51708] disabled:bg-gray-300"
+              className="py-3 rounded-[30px] shadow-lg bg-primary text-white w-full hover:bg-primary-hover disabled:bg-primary-disabled"
               disabled={isLoading}
               name="login"
             >

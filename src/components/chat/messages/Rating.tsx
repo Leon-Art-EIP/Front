@@ -1,6 +1,3 @@
-import CloseIcon from "@mui/icons-material/Close";
-import StarRoundedIcon from "@mui/icons-material/StarRounded";
-
 /* c8 ignore start */
 export interface RatingProps {
   closeRating: () => void;
@@ -12,7 +9,7 @@ export function Rating(props: RatingProps): JSX.Element {
   // }
 
   return (
-    <div className="flex flex-col p-6 gap-4 h-fit bg-[#F3F3F3] rounded-2xl w-full relative">
+    <div className="flex flex-col p-6 gap-4 h-fit bg-background rounded-2xl w-full relative">
       {/* <button className="absolute top-4 right-4" onClick={props.closeRating}>
         <CloseIcon className="fill-[#8F8F8F]" />
       </button>

@@ -18,10 +18,10 @@ const nextConfig = {
       "https://back-dev",
       "https://front-dev.leonart-dev.ovh",
       "https://front-dev.leonart-dev",
-      "https://front-dev"
+      "https://front-dev",
     ],
   },
-  output: 'standalone'
+  output: "standalone",
 };
 
 module.exports = nextConfig;
