@@ -1,5 +1,6 @@
 "use client";
 
+import { Google } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
@@ -74,6 +75,15 @@ export default function LoginForm(): JSX.Element {
               name="login"
             >
               Se connecter
+            </button>
+            <button
+              type="submit"
+              className="py-3 rounded-[30px] shadow-lg bg-secondary text-teritary w-full hover:bg-secondary-hover disabled:bg-secondary-disabled"
+              disabled={isLoading}
+              name="login"
+            >
+              <Google className="mr-2" style={{ marginTop: "-4px" }} />
+              Se connecter avec Google
             </button>
           </div>
         </form>

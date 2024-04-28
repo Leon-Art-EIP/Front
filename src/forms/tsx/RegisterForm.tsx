@@ -1,5 +1,6 @@
 "use client";
 
+import { Google } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
@@ -80,7 +81,7 @@ export default function RegisterForm(): JSX.Element {
               <a className="font-semibold text-[#E11C0A] cursor-pointer"> notre Politique de confidentialité</a>
             </label>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 justify-center mt-5 ">
             <button
               type="submit"
               className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white w-full hover:bg-[#c51708] disabled:bg-gray-300"
@@ -88,6 +89,14 @@ export default function RegisterForm(): JSX.Element {
               name="reset"
             >
               S{"'"}inscrire
+            </button>
+            <button
+              type="submit"
+              className="py-3 rounded-[30px] shadow-lg bg-secondary text-teritary w-full hover:bg-secondary-hover disabled:bg-secondary-disabled"
+              disabled={isLoading}
+              name="reset"
+            >
+              <Google className="mr-2" style={{ marginTop: "-4px" }} />S{"'"}inscrire avec Google
             </button>
           </div>
         </form>
