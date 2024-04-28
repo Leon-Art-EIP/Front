@@ -21,6 +21,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
   const [quizzPath, setQuizzPath] = useState(-1);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState(props.questionsCommon);
+  const [location, setLocation] = useState<string>("");
 
   function handleNextQuestion() {
     if (questionIndex < questions.length - 1) {
@@ -77,7 +78,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
       objective: quizzPath === 0 ? "discover" : quizzPath === 1 ? "sell" : "both",
       artInterestType: [],
       artSellingType: [],
-      location: "",
+      location: location,
       customCommands: "",
       budget: "",
       discoveryMethod: "",
@@ -88,31 +89,31 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
       if (question.question === "Quel type d’art vous intéresse ?") {
         for (const answer of question.answers) {
           if (answer.selected) {
-            result.artInterestType.push(answer.text);
+            result.artInterestType.push(answer.value);
           }
         }
       } else if (question.question === "Que comptez-vous vendre ?") {
         for (const answer of question.answers) {
           if (answer.selected) {
-            result.artSellingType.push(answer.text);
+            result.artSellingType.push(answer.value);
           }
         }
       } else if (question.question === "Comment avez-vous découvert l’application ?") {
         for (const answer of question.answers) {
           if (answer.selected) {
-            result.discoveryMethod = answer.text;
+            result.discoveryMethod = answer.value;
           }
         }
       } else if (question.question === "Souhaitez-vous proposer des créations personnalisées ?") {
         for (const answer of question.answers) {
           if (answer.selected) {
-            result.customCommands = answer.text;
+            result.customCommands = answer.value;
           }
         }
       } else if (question.question === "Quel est votre budget ?") {
         for (const answer of question.answers) {
           if (answer.selected) {
-            result.budget = answer.text;
+            result.budget = answer.value;
           }
         }
       }
@@ -123,6 +124,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
 
   async function onSendResult() {
     const result = fillDTOResult(questions);
+    console.log(result)
     const res = await myFetch({
       route: "/api/quizz/submit",
       method: "POST",
@@ -137,7 +139,7 @@ export default function QuizzWrapper(props: QuizzWrapperProps): JSX.Element {
         <QuizzStarter onSelectAnswerQuizzStarter={onSelectAnswerQuizzStarter} />
       ) : (
         <>
-          <QuizzQuestion question={questions[questionIndex]} onSelectAnswer={onSelectAnswer} />
+          <QuizzQuestion question={questions[questionIndex]} onSelectAnswer={onSelectAnswer} setLocation={setLocation} location={location} />
           <QuizzNavigation
             questionIndex={questionIndex}
             questionsLength={questions.length}

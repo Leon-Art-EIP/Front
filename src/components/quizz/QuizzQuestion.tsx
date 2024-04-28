@@ -11,11 +11,13 @@ export interface QuizzQuestionProps {
     }[];
   };
   onSelectAnswer: (index: number) => void;
+  location: string;
+  setLocation: (location: string) => void;
 }
 
 export default function QuizzQuestion(props: QuizzQuestionProps): JSX.Element {
+  const askLocation = false; // Used to show the location switch
   const [isGeolocationEnabled, setGeolocationEnabled] = useState(false);
-  const [location, setLocation] = useState<string>("");
 
   const handleGeolocationSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
@@ -24,7 +26,7 @@ export default function QuizzQuestion(props: QuizzQuestionProps): JSX.Element {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            setLocation(`${position.coords.latitude}, ${position.coords.longitude}`);
+            props.setLocation(`${position.coords.latitude}, ${position.coords.longitude}`);
           },
           (error) => {
             console.error("Error getting location: ", error);
@@ -35,7 +37,7 @@ export default function QuizzQuestion(props: QuizzQuestionProps): JSX.Element {
         alert("La géolocalisation n'est pas supportée par ce navigateur.");
       }
     } else {
-      setLocation("");
+      props.setLocation("");
     }
   };
 
@@ -59,12 +61,14 @@ export default function QuizzQuestion(props: QuizzQuestionProps): JSX.Element {
           ))}
           {/* c8 ignore stop */}
         </div>
-        <FormGroup className="px-6 lg:px-0">
-          <FormControlLabel
-            control={<Switch checked={isGeolocationEnabled} onChange={handleGeolocationSwitch} />}
-            label="Localiser ma position et optimiser mon référencement sur l’application"
-          />
-        </FormGroup>
+        {askLocation && (
+          <FormGroup className="px-6 lg:px-0">
+            <FormControlLabel
+              control={<Switch checked={isGeolocationEnabled} onChange={handleGeolocationSwitch} />}
+              label="Localiser ma position et optimiser mon référencement sur l’application"
+            />
+          </FormGroup>
+        )}
       </div>
     </div>
   );
