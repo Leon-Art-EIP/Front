@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import QuizzQuestion from "../../components/quizz/QuizzQuestion";
-import QuizzNavigation from "../../components/quizz/QuizzNavigation";
-import QuizzStarter from "../../components/quizz/QuizzStarter";
 import { QuizzResultDTO } from "../../DTOs/quizz/DTO";
+import QuizzNavigation from "../../components/quizz/QuizzNavigation";
+import QuizzQuestion from "../../components/quizz/QuizzQuestion";
+import QuizzStarter from "../../components/quizz/QuizzStarter";
 import { Question } from "../../configs/quizz/questions";
 import { myFetch } from "../../tools/myFetch";
 

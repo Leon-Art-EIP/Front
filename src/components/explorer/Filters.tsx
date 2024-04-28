@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import CheckIcon from "@mui/icons-material/Check";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SortIcon from "@mui/icons-material/Sort";
-import CheckIcon from "@mui/icons-material/Check";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { artTypeFilters, ArtTypeFilter } from "../../configs/explorer/artTypes";
+import React, { useEffect, useRef, useState } from "react";
+import { ArtTypeFilter, artTypeFilters } from "../../configs/explorer/artTypes";
 import { IFilters } from "../../interfaces/explorer/filters";
 
 interface FiltersProps {
@@ -93,11 +93,11 @@ export default function Filters(props: FiltersProps): JSX.Element {
         <button
           type="button"
           ref={filterButtonRef}
-          className="py-3 px-4 flex flex-row gap-2 items-center rounded-xl transition hover:bg-gray-200 hover:shadow-lg duration-300 ease-in-out"
+          className="py-3 px-4 flex flex-row gap-2 items-center rounded-xl transition hover:bg-secondary hover:shadow-lg duration-300 ease-in-out"
           onClick={(event) => onCollapseFilter(event)}
         >
-          <span className="text-lg font-medium">Filtres</span>
-          <FilterAltIcon />
+          <span className="text-lg font-medium text-tertiary">Filtres</span>
+          <FilterAltIcon className={`text-tertiary`} />
         </button>
         {collapseFilters && (
           <div
@@ -142,11 +142,11 @@ export default function Filters(props: FiltersProps): JSX.Element {
         <button
           type="button"
           id="sortButton"
-          className="py-3 px-4 flex flex-row gap-2 items-center rounded-xl transition hover:bg-gray-200 hover:shadow-lg duration-300 ease-in-out"
+          className="py-3 px-4 flex flex-row gap-2 items-center rounded-xl transition hover:bg-secondary hover:shadow-lg duration-300 ease-in-out"
           onClick={(event) => onCollapseSort(event)}
         >
-          <span className="text-lg font-medium">Trier</span>
-          <SortIcon />
+          <span className="text-lg font-medium text-tertiary">Trier</span>
+          <SortIcon className={`text-tertiary`} />
         </button>
         {collapseSort && (
           <div

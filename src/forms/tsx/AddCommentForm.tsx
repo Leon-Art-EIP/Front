@@ -67,7 +67,7 @@ export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element
       />
       <FormProvider {...methods}>
         <form className="flex gap-2 p-2 flex-1 flex-wrap" onSubmit={methods.handleSubmit((data) => onSubmit(data))}>
-          <div className="flex-1">
+          <div className="flex-1 text-black">
             <Input
               name="comment"
               placeholder="Ajouter un commentaire..."

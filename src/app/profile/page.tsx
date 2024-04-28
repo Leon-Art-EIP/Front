@@ -13,7 +13,7 @@ export default function Page(): JSX.Element {
   return (
     <div>
       <div>Page de profil</div>
-      <button className="p-2 bg-red-600 text-white rounded-full" onClick={handleOnClick}>
+      <button className="p-2 bg-primary text-white rounded-full" onClick={handleOnClick}>
         Se déconnecter
       </button>
     </div>

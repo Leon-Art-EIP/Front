@@ -12,19 +12,31 @@ export function ChatUserBanner(props: ChatUserBannerProps): JSX.Element {
     /* c8 ignore start */
   }
   return (
-    <div className="flex flex-row h-24 p-4 items-center gap-4 shadow-[0px_6px_7px_0px_rgba(170,170,170)] z-10">
-      {(props.currentChat.UserOneId !== props.currentUser?.user.id ? props.currentChat.UserOnePicture : props.currentChat.UserTwoPicture) ? (
+    <div className="flex flex-row h-24 p-4 items-center gap-4 shadow-[0px_2px_7px_0px_rgba(170,170,170)] z-10 text-tertiary">
+      {(
+        props.currentChat.UserOneId !== props.currentUser?.user.id
+          ? props.currentChat.UserOnePicture
+          : props.currentChat.UserTwoPicture
+      ) ? (
         /* TODO: use <Image> next component */
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
-          src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.currentChat.UserOneId !== props.currentUser?.user.id ? props.currentChat.UserOnePicture : props.currentChat.UserTwoPicture}`}
+          src={`${NEXT_PUBLIC_BACKEND_URL}/api/${
+            props.currentChat.UserOneId !== props.currentUser?.user.id
+              ? props.currentChat.UserOnePicture
+              : props.currentChat.UserTwoPicture
+          }`}
           alt="profilePicture"
-          className="w-16 h-16 rounded-full bg-gray-500 flex-shrink-0"
+          className="w-16 h-16 rounded-full bg-secondary flex-shrink-0"
         />
       ) : (
-        <span className="w-16 h-16 rounded-full bg-gray-400 flex-shrink-0"></span>
+        <span className="w-16 h-16 rounded-full bg-secondary flex-shrink-0"></span>
       )}
-      <span className="text-2xl">{props.currentChat.UserOneId !== props.currentUser?.user.id ? props.currentChat.UserOneName : props.currentChat.UserTwoName}</span>
+      <span className="text-2xl">
+        {props.currentChat.UserOneId !== props.currentUser?.user.id
+          ? props.currentChat.UserOneName
+          : props.currentChat.UserTwoName}
+      </span>
     </div>
   );
   {

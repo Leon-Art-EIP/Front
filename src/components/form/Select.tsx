@@ -18,7 +18,7 @@ export default function Select(props: ISelectProps): JSX.Element {
 
   return (
     <div className={cn("flex flex-col gap-2", props.className)}>
-      {props.title && <div className="text-lg">{props.title}</div>}
+      {props.title && <div className="text-lg text-tertiary">{props.title}</div>}
       <select
         name={props.name}
         id={props.name}
@@ -35,7 +35,7 @@ export default function Select(props: ISelectProps): JSX.Element {
           </option>
         ))}
       </select>
-      {error && <div className="text-red-600">{error.message}</div>}
+      {error && <div className="text-primary">{error.message}</div>}
     </div>
   );
 }
