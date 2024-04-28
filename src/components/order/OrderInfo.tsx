@@ -213,7 +213,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
           <div className="flex flex-col gap-4">
             {props.orderType === "sell" && selectedOrder.orderState === "paid" && (
               <Button color="primary" type="button" className="w-full" onClick={onConfirmReception}>
-                Confirmer l{"'"}envoie de la commande
+                Confirmer l{"'"}envoi de la commande
               </Button>
             )}
             {props.orderType === "sell" && selectedOrder.orderState === "paid" && (
