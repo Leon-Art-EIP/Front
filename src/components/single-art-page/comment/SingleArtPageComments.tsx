@@ -44,7 +44,7 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
       <h1 className="font-semibold text-xl text-tertiary">Commentaires</h1>
       <div className="flex flex-wrap gap-2 items-center text-tertiary">
         {connectedUser.profilePicture && (
-          <img src={connectedUser.profilePicture} alt="profile" width={44} height={44} className="rounded-3xl" />
+          <img src={connectedUser.profilePicture} alt="profile" className="rounded-3xl w-11 h-11" />
         )}
         <AddCommentForm id={props.id} localComments={localComments} setLocalComments={setLocalComments} />
       </div>

@@ -110,8 +110,6 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
               <img
                 src={comment.profilePicture}
                 alt="profile"
-                width={44}
-                height={44}
                 className="rounded-3xl w-11 h-11"
               />
             </Link>

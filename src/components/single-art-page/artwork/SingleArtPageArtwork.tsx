@@ -126,7 +126,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
             className="text-tertiary inline-flex items-center gap-5 hover:bg-secondaryGrey rounded-3xl px-4 py-2 cursor-pointer"
           >
             <>
-              <img src={props.profile} alt="profile" width={40} height={44} className="rounded-3xl" />
+              <img src={props.profile} alt="profile" className="rounded-3xl w-11 h-11" />
               {props.artisteName}
             </>
           </Link>
