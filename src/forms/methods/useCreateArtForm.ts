@@ -9,7 +9,6 @@ export default function useCreateArtForm(): UseFormReturn<TCreateArtData> {
       artType: "",
       name: "",
       description: "",
-      dimensions: "",
       isForSale: false,
       price: 0,
       location: undefined,

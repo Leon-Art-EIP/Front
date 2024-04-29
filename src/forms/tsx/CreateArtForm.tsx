@@ -79,13 +79,6 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
                 <Checkbox name="isForSale" title="A vendre" />
                 {isForSale && <NumberInput title="Prix (€)" name="price" className="bg-secondaryGrey p-2 rounded" />}
               </div>
-              <Input
-                title="Dimensions (cm)"
-                name="dimensions"
-                placeholder="70cm x 50cm x 10cm"
-                type="text"
-                className="bg-secondaryGrey p-2 rounded"
-              />
             </div>
           </div>
           <Button color="danger" type="submit" className="self-end">
