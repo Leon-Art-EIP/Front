@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider } from "react-hook-form";
 import Fetcher from "../../components/fetch/Fetcher";
 import Checkbox from "../../components/form/Checkbox";
@@ -26,6 +26,8 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   const router = useRouter();
   const [nbFetchs, setNbFetchs] = useState(0);
   const [body, setBody] = useState<FormData>();
+  const [nbFetchsStripeAccountAlreadyLinked, setNbFetchsStripeAccountAlreadyLinked] = useState(0);
+  const [stripeAccountAlreadyLinked, setStripeAccountAlreadyLinked] = useState(false);
 
   const handleSubmit = async (zodData: TCreateArtData): Promise<void> => {
     const formData = new FormData();
@@ -49,9 +51,36 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
     }
   };
 
+  function isStripeAccountAlreadyLinked() {
+    setNbFetchsStripeAccountAlreadyLinked(nbFetchsStripeAccountAlreadyLinked + 1);
+  }
+
+  function handleStipeAccountAlreadyLinked(json: any) {
+    const data = json;
+
+    if (data.linked) {
+      setStripeAccountAlreadyLinked(data.linked);
+    }
+  }
+
+  useEffect(() => {
+    isStripeAccountAlreadyLinked();
+  }, []);
+
+  function goToPersonalInformation() {
+    // Redirect to the personal information page
+    router.push("/settings/me");
+  }
+
   return (
     <>
       <Fetcher method="POST" route="/api/art-publication" nbFetchs={nbFetchs} body={body} handleOk={handleOk} />
+      <Fetcher
+        route={"/api/stripe/account-link-status"}
+        method="GET"
+        nbFetchs={nbFetchsStripeAccountAlreadyLinked}
+        handleOk={handleStipeAccountAlreadyLinked}
+      />
       <FormProvider {...methods}>
         <form
           className="flex flex-col gap-8 py-12 px-16 border-x-2 border-x-gray-400 bg-white h-full"
@@ -77,7 +106,22 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
             <div className="flex flex-col gap-4">
               <div className="flex flex-wrap gap-8 items-center">
                 <Checkbox name="isForSale" title="A vendre" />
-                {isForSale && <NumberInput title="Prix (€)" name="price" className="bg-secondaryGrey p-2 rounded" />}
+                {isForSale &&
+                  (stripeAccountAlreadyLinked ? (
+                    <NumberInput title="Prix (€)" name="price" className="bg-secondaryGrey p-2 rounded" />
+                  ) : (
+                    <div className="flex flex-col gap-4">
+                      <span className="font-semibold text-lg text-tertiary">
+                        Vous devez lier votre compte Stripe pour vendre une œuvre d'art.
+                      </span>
+                      <span className="font-normal text-lg text-tertiary">
+                        Pour cela, cliquez sur le bouton ci-dessous.
+                      </span>
+                      <Button color="primary" type="button" className="w-fit" onClick={goToPersonalInformation}>
+                        Aller à mes informations personnelles
+                      </Button>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
