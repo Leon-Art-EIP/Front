@@ -31,6 +31,8 @@ export interface ISingleArtPageProps {
   paymentSuccessful: boolean;
   paymentCanceled: boolean;
   connectedUserId: string;
+  isForSale: boolean;
+  isSold: boolean;
 }
 
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
@@ -85,6 +87,15 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   const handleSuccessDelete = () => {
     router.push(`/profile/${props.connectedUserId}`);
   };
+
+  function isArtPublicationBuyable() {
+    console.log(currentUser?.user.id, props.artistId, props.price, props);
+    var isBuyable = true;
+    if (props.price === 0 || !props.isForSale || currentUser?.user.id === props.artistId || props.isSold) {
+      isBuyable = false;
+    }
+    return isBuyable;
+  }
 
   async function onSendMessage() {
     const response = await myFetch({
@@ -153,11 +164,15 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
             belongingCommands={props.belongingCommands}
             paymentSuccessful={props.paymentSuccessful}
             paymentCanceled={props.paymentCanceled}
-            canBuy={!!props.price && currentUser?.user.id !== props.artistId}
+            canBuy={isArtPublicationBuyable()}
+            isSold={props.isSold}
+            isOwner={currentUser?.user.id === props.artistId}
           />
-          <Button color="primary" type="button" onClick={onSendMessage}>
-            Envoyer un message
-          </Button>
+          {currentUser?.user.id !== props.artistId && (
+            <Button color="primary" type="button" onClick={onSendMessage}>
+              Envoyer un message
+            </Button>
+          )}
         </div>
       </div>
     </>
