@@ -14,6 +14,8 @@ export interface ISingleArtPageCardProps {
   paymentSuccessful: boolean;
   paymentCanceled: boolean;
   canBuy: boolean;
+  isSold: boolean;
+  isOwner: boolean;
 }
 
 /* c8 ignore start */
@@ -60,32 +62,42 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
       <div className="p-8 w-full flex flex-col rounded-2xl bg-background-hl text-tertiary gap-10 h-fit">
         <Label title="Description" text={props.description} />
         <Label title="Caractéristiques" text={props.caracteristics} />
-        {props.price !== undefined && <Label title="Prix" text={`${props.price.toString()} €`} />}
-        {props.price ? (
-          <div className="flex items-end justify-center">
-            <div className="flex gap-8 flex-wrap">
-              {props.canBuy && (
-                <Button
-                  id="add-to-commands-button"
-                  disabled={belongingCommands}
-                  backgroundColor="primaryRed"
-                  title={"Acheter"}
-                  onClick={onBuyOrder}
-                />
-              )}
-              {notificationToast && props.paymentSuccessful && (
-                <NotificationToast message="Oeuvre ajoutée aux commandes" type="success" />
-              )}
-              {notificationToast && props.paymentCanceled && (
-                <NotificationToast
-                  message="Une erreur est survenue lors de l'achat de l'oeuvre, veuillez réessayer plus tard"
-                  type="error"
-                />
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="italic font-semibold">Cette oeuvre n&apos;est pas à vendre</div>
+        {(props.canBuy || props.isOwner) && <Label title="Prix" text={`${props.price?.toString()} €`} />}
+        {!props.isOwner && (
+          <>
+            {props.canBuy && !props.isSold ? (
+              <div className="flex items-end justify-center">
+                <div className="flex gap-8 flex-wrap">
+                  {props.canBuy && (
+                    <Button
+                      id="add-to-commands-button"
+                      disabled={belongingCommands}
+                      backgroundColor="primaryRed"
+                      title={"Acheter"}
+                      onClick={onBuyOrder}
+                    />
+                  )}
+                  {notificationToast && props.paymentSuccessful && (
+                    <NotificationToast message="Oeuvre ajoutée aux commandes" type="success" />
+                  )}
+                  {notificationToast && props.paymentCanceled && (
+                    <NotificationToast
+                      message="Une erreur est survenue lors de l'achat de l'oeuvre, veuillez réessayer plus tard"
+                      type="error"
+                    />
+                  )}
+                </div>
+              </div>
+            ) : (
+              <>
+                {props.isSold ? (
+                  <div className="italic font-semibold">Cette oeuvre a déjà été vendue</div>
+                ) : (
+                  <div className="italic font-semibold">Cette oeuvre n&apos;est pas à vendre</div>
+                )}
+              </>
+            )}
+          </>
         )}
       </div>
     </>
