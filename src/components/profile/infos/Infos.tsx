@@ -1,9 +1,11 @@
-import { Close } from "@mui/icons-material";
+import { Close, DeleteOutline } from "@mui/icons-material";
 import { Tab, Tabs } from "@mui/material";
 import { ElementType, useState } from "react";
 import { IInfoUser } from "../../../interfaces/user/user";
+import { myFetch } from "../../../tools/myFetch";
 import AvailableForCommandsButton from "../../../wrappers/profile/AvailableForCommandsButton";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
+import Fetcher from "../../fetch/Fetcher";
 import LinkButton from "../../lib/Button/LinkButton";
 import Category, { TCategory } from "../category/Category";
 import { FollowerCard } from "./FollowerCard";
@@ -41,10 +43,15 @@ export default function Infos(props: IInfosProps): JSX.Element {
 
   const openFollowerModal = () => {
     setIsFollowerModalOpen(true);
-    // console.log(`followed: ${props.followed}`);
   };
 
   const closeFollowerModal = () => {
+    setIsFollowerModalOpen(false);
+  };
+
+  const handleUnfollow = (id: string) => {
+    <Fetcher route={`/api/follow/${props.id}`} method="POST" nbFetchs={2} />; // TODO: Revoir le fonctionnement exact de ce component
+    const response = myFetch({ route: `/api/follow/${id}`, method: "POST" });
     setIsFollowerModalOpen(false);
   };
 
@@ -123,7 +130,21 @@ export default function Infos(props: IInfosProps): JSX.Element {
                 {tabIndex === 1 && (
                   <div>
                     {props.followed.subscriptions.map((subscriber, index) => (
-                      <FollowerCard key={index} id={subscriber._id} name={subscriber.username} index={index} />
+                      <div key={index} className="flex-col gap-2">
+                        <div className="flex justify items-center">
+                          <div className="flex" style={{ minWidth: "200px" }}>
+                            {" "}
+                            {/* Ajout de cette div avec une largeur minimale */}
+                            <FollowerCard key={index} id={subscriber._id} name={subscriber.username} index={index} />
+                          </div>
+                          <button
+                            className="bg-primary text-secondary px-2 py-1 rounded-full ml-auto"
+                            onClick={() => handleUnfollow(subscriber._id)}
+                          >
+                            <DeleteOutline className="" style={{ marginTop: "-3px" }} />
+                          </button>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}
