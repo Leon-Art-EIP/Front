@@ -1,7 +1,7 @@
 "use client";
 
 import ForumIcon from "@mui/icons-material/Forum";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Socket, io } from "socket.io-client";
 import ChatList from "../../components/chat/chats/ChatList";
@@ -16,6 +16,8 @@ interface IChatWrapperProps {
 
 export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const otherUserId = searchParams.get("userId");
   const socket = useRef<Socket | null>(null);
   const [chats, setChats] = useState<IChats>({ chats: [] });
   const [currentChat, setCurrentChat] = useState<IChat>();
@@ -57,20 +59,35 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
         }
       }
     }
-
     fetchConversationDetails();
     fetchChats();
   }, [currentUser, props.convId]);
 
-  // useEffect(() => {
-  //   if (chats.chats.length > 0) {
-  //     setCurrentChat(chats.chats[0]);
-  //   }
-  // }, [chats]);
-
   const handleChatChange = (chat: IChat) => {
     setCurrentChat(chat);
   };
+
+  useEffect(() => {
+    async function selectConversation() {
+      //TODO: rendre dynamique, je n'ai pas encore trouvé ce qui empêche de récupérer le convId
+      if (currentUser && otherUserId && chats) {
+        // const conversation = chats.chats.find(
+        //   (chat) =>
+        //     (chat.UserOneId === currentUser.user.id && chat.UserTwoId === otherUserId) ||
+        //     (chat.UserOneId === otherUserId && chat.UserTwoId === currentUser.user.id)
+        // );
+        // const conversation = chats.chats.find((chat) => chat._id === "65d22a48bb7903b65bdd2bf8");
+        // console.log(`current: ${currentUser.user.id}`);
+        // console.log(`other: ${otherUserId}`);
+        // console.log(`conv: ${conversation._id}`);
+        const res = await myFetch({ route: `/api/conversations/single/65d22a48bb7903b65bdd2bf8`, method: "GET" });
+        const data = res.json;
+        handleChatChange(data.chat);
+      }
+    }
+
+    selectConversation();
+  }, [currentUser, currentChat]);
 
   return (
     <div className="bg-background flex flex-row page-content-non-scrollable">

@@ -20,8 +20,8 @@ export function FollowerCard(props: FollowerCardProps): JSX.Element {
 
   function handleContact() {
     // Ajoutez votre logique pour gérer le contact ici
-    console.log(`Contacter ${props.name}`);
-    router.push(`/chat`);
+    console.log(`Contacter ${props.id}`);
+    router.push(`/chat?userId=${props.id}`);
   }
 
   return (
@@ -30,7 +30,6 @@ export function FollowerCard(props: FollowerCardProps): JSX.Element {
         className={`relative flex flex-row items-center justify-between flex-grow-0 w-full p-2 cursor-pointer rounded-l-full hover:bg-secondary`}
       >
         <div className="flex flex-col justify-center flex-grow ml-4 text-tertiary">
-          {/* Nom du follower avec redirection vers son profil */}
           <span className="text-2xl tracking-wide truncate w-4/5" onClick={redirectToProfile}>
             {props.name}
           </span>

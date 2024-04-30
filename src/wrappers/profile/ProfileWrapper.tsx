@@ -30,6 +30,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   const [collectionsArtsExtended, setCollectionsArtsExtended] = useState<ICollectionArtsExtended[]>([]);
   const [publications, setPublications] = useState<IProfileArt[]>([]);
   const [followers, setFollowers] = useState<IUser[]>([]);
+  const [followed, setFollowed] = useState<IUser[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -107,8 +108,11 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
 
       async function fetchFollowers(): Promise<IUser[]> {
         const response = await myFetch({ route: `/api/follow/followers`, method: "GET" });
-        const users = response.json as IUser[];
-        console.log(`response : ${response}`);
+        return response.json as IUser[];
+      }
+
+      async function fetchFollowed(): Promise<IUser[]> {
+        const response = await myFetch({ route: `/api/follow/following`, method: "GET" });
         return response.json as IUser[];
       }
 
@@ -120,6 +124,8 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
       setCollectionsArtsExtended(collectionsArtsExtended);
       const followers: IUser[] = await fetchFollowers();
       setFollowers(followers);
+      const followed: IUser[] = await fetchFollowed();
+      setFollowed(followed);
     };
     fetchData();
   }, [props.id]);
@@ -162,6 +168,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             categories={data.categories} // TODO: ask backend to send this
             numberOfFollowers={artist.subscribersCount}
             followers={followers}
+            followed={followed}
             numberOfPosts={publications.length}
             myProfile={myProfile}
             following={Object.keys(user).length > 0 && artist.subscribers.includes(user.user.id)}

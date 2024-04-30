@@ -1,4 +1,5 @@
 import { Close } from "@mui/icons-material";
+import { Tab, Tabs } from "@mui/material";
 import { ElementType, useState } from "react";
 import { IInfoUser } from "../../../interfaces/user/user";
 import AvailableForCommandsButton from "../../../wrappers/profile/AvailableForCommandsButton";
@@ -13,6 +14,7 @@ export interface IInfosProps {
   artType: string;
   numberOfFollowers: number;
   followers: IInfoUser[];
+  followed: IInfoUser[];
   numberOfPosts: number;
   categories: TCategory[];
   myProfile: boolean;
@@ -25,6 +27,7 @@ export interface IInfosProps {
 /* c8 ignore start */
 
 export default function Infos(props: IInfosProps): JSX.Element {
+  const [tabIndex, setTabIndex] = useState(0);
   const [following, setFollowing] = useState<boolean>(props.following);
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
   const numberOfFollowers =
@@ -38,6 +41,7 @@ export default function Infos(props: IInfosProps): JSX.Element {
 
   const openFollowerModal = () => {
     setIsFollowerModalOpen(true);
+    // console.log(`followed: ${props.followed}`);
   };
 
   const closeFollowerModal = () => {
@@ -92,29 +96,37 @@ export default function Infos(props: IInfosProps): JSX.Element {
         )}
         {isFollowerModalOpen && (
           <div className="fixed inset-0 z-10 overflow-y-auto">
-            <div className="flex items-center justify-center min-h-screen">
-              <div className="bg-secondary rounded-lg shadow-lg p-6 max-w-sm mx-auto relative text-tertiary">
+            <div className="flex items-center justify-center h-full">
+              {" "}
+              {/* Définissez la hauteur de la modal */}
+              <div
+                className="bg-secondary rounded-lg shadow-lg p-6 max-w-sm mx-auto relative text-tertiary"
+                style={{ width: "400px" }}
+              >
                 <div className="flex items-center justify-between mb-4">
-                  <div className="text-xl font-medium justify-center">Followers</div>
                   <div className="absolute top-1 right-1 cursor-pointer" onClick={closeFollowerModal}>
                     <Close style={{ fontSize: 24, color: "tertiary" }} />
                   </div>
                 </div>
-                <div className="w-full h-px bg-tertiary my-2" />
-                <div className="flex flex-col gap-2">
-                  {props.followers.subscribers.map((subscriber, index) => (
-                    // <div key={subscriber._id}>{subscriber.username}</div>
-                    <FollowerCard
-                      key={index}
-                      id={subscriber._id}
-                      name={subscriber.username}
-                      // currentUser={props.currentUser}
-                      // handleSelectChat={changeCurrentChat}
-                      // currentSelected={currentSelected}
-                      index={index}
-                    />
-                  ))}
-                </div>
+                {/* <div className="w-full h-px bg-tertiary my-2" /> */}
+                <Tabs value={tabIndex} onChange={(event, newValue) => setTabIndex(newValue)}>
+                  <Tab label="Followers" />
+                  <Tab label="Suivis" />
+                </Tabs>
+                {tabIndex === 0 && (
+                  <div className="flex flex-col gap-2">
+                    {props.followers.subscribers.map((subscriber, index) => (
+                      <FollowerCard key={index} id={subscriber._id} name={subscriber.username} index={index} />
+                    ))}
+                  </div>
+                )}
+                {tabIndex === 1 && (
+                  <div>
+                    {props.followed.subscriptions.map((subscriber, index) => (
+                      <FollowerCard key={index} id={subscriber._id} name={subscriber.username} index={index} />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
