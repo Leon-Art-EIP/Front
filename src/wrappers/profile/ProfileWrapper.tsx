@@ -12,7 +12,7 @@ import { IArtPublication } from "../../interfaces/artPublication/artPublication"
 import { IArtist } from "../../interfaces/home/artist";
 import { IProfileArt, IProfileCollection } from "../../interfaces/profile/profileCollection";
 import { ICollection, ICollectionArtsExtended } from "../../interfaces/single/collection";
-import { IConnectedUser } from "../../interfaces/user/user";
+import { IConnectedUser, IUser } from "../../interfaces/user/user";
 import { myFetch } from "../../tools/myFetch";
 import { imageApi } from "../../tools/variables";
 import TabsWrapper from "./TabsWrapper";
@@ -29,6 +29,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   const [profileCollections, setProfileCollections] = useState<IProfileCollection[]>([]);
   const [collectionsArtsExtended, setCollectionsArtsExtended] = useState<ICollectionArtsExtended[]>([]);
   const [publications, setPublications] = useState<IProfileArt[]>([]);
+  const [followers, setFollowers] = useState<IUser[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,7 +79,6 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
       }
 
       async function fetchCollectionsArtsExtended(collections: ICollection[]): Promise<ICollectionArtsExtended[]> {
-        console.log("collections: ", collections);
         const collectionsArtsExtended = await Promise.all(
           collections.map(async (collection) => {
             const artPromises: Promise<IArtPublication | null>[] = collection.artPublications.map(async (artId) => {
@@ -105,12 +105,21 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         return collectionsArtsExtended;
       }
 
+      async function fetchFollowers(): Promise<IUser[]> {
+        const response = await myFetch({ route: `/api/follow/followers`, method: "GET" });
+        const users = response.json as IUser[];
+        console.log(`response : ${response}`);
+        return response.json as IUser[];
+      }
+
       const { profileCollections, collections } = await fetchCollectionsWithPublications();
       setProfileCollections(profileCollections);
       const publications: IProfileArt[] = await fetchPublications();
       setPublications(publications);
       const collectionsArtsExtended = await fetchCollectionsArtsExtended(collections);
       setCollectionsArtsExtended(collectionsArtsExtended);
+      const followers: IUser[] = await fetchFollowers();
+      setFollowers(followers);
     };
     fetchData();
   }, [props.id]);
@@ -152,6 +161,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             artistName={artist.username}
             categories={data.categories} // TODO: ask backend to send this
             numberOfFollowers={artist.subscribersCount}
+            followers={followers}
             numberOfPosts={publications.length}
             myProfile={myProfile}
             following={Object.keys(user).length > 0 && artist.subscribers.includes(user.user.id)}

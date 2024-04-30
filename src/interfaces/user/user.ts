@@ -9,6 +9,6 @@ export interface IUser {
 }
 
 export interface IConnectedUser {
-	token: string;
-	user: IUser;
+  token: string;
+  user: IUser;
 }
