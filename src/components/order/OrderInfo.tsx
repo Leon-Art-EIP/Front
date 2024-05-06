@@ -32,7 +32,9 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
   }
 
   useEffect(() => {
-    fetchOrderInfos();
+    if (props.selectedOrderId) {
+      fetchOrderInfos();
+    }
   }, [props.selectedOrderId]);
 
   function onGoToUserProviderProfile() {

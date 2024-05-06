@@ -21,7 +21,7 @@ export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
   const [orderType, setOrderType] = useState<"sell" | "buy">("buy");
   const [buyOrders, setBuyOrders] = useState<Order[]>([]);
   const [sellOrders, setSellOrders] = useState<Order[]>([]);
-  const [selectedOrderId, setSelectedOrderId] = useState<string>();
+  const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>(props.orderId); // select the order if there is a orderId in the url
   const [currentUser, setCurrentUser] = useState<IConnectedUser>();
 
   const [deliveryHelpModal, setDeliveryHelpModal] = useState<boolean>(false);
