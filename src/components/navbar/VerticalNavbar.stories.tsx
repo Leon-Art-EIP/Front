@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import VerticalNavbar from "./VerticalNavbar";
-import { INavbarProps } from "./Navbar";
 import tabs from "../../app/tabs";
+import { INavbarProps } from "./Navbar";
+import VerticalNavbar from "./VerticalNavbar";
 
 export default {
   title: "Components/VerticalNavbar",

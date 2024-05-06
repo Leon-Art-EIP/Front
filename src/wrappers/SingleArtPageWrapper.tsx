@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import NotFound from "../app/not-found";
 import Link from "../components/link/Link";
+import LoadingPage from "../components/loading/LoadingPage";
 import SingleArtPage from "../components/single-art-page/SingleArtPage";
+import { IArtPublication } from "../interfaces/artPublication/artPublication";
+import { ICollection, ICollectionArtsExtended } from "../interfaces/single/collection";
+import { IProfileUser } from "../interfaces/user/profileUser";
 import { IUser } from "../interfaces/user/user";
 import { IMyFetchResponse, myFetch } from "../tools/myFetch";
-import { IArtPublication } from "../interfaces/artPublication/artPublication";
-import { IProfileUser } from "../interfaces/user/profileUser";
-import LoadingPage from "../components/loading/LoadingPage";
 import { imageApi } from "../tools/variables";
-import { ICollection, ICollectionArtsExtended } from "../interfaces/single/collection";
 
 interface SingleArtPageWrapperProps {
   id: string;
@@ -21,6 +22,7 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
   const [artPublication, setArtPublication] = useState<IArtPublication>();
   const [artist, setArtist] = useState<IProfileUser>();
   const [collectionsArtsExtended, setCollectionsArtsExtended] = useState<ICollectionArtsExtended[]>([]);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -81,6 +83,7 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       } catch (error) {
         console.error(error);
       }
+      setHasLoaded(true);
     };
     getData();
   }, [props.id]);
@@ -88,6 +91,9 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
   const user: IUser | undefined = JSON.parse(localStorage.getItem("user") || "").user;
 
   if (!user || !artPublication || !artist) {
+    if (hasLoaded) {
+      return <NotFound />;
+    }
     return <LoadingPage />;
   }
 
@@ -115,6 +121,9 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       link={Link}
       paymentSuccessful={props.success}
       paymentCanceled={props.cancel}
+      connectedUserId={user.id}
+      isForSale={artPublication.isForSale}
+      isSold={artPublication.isSold}
     />
   );
 }

@@ -51,7 +51,7 @@ export const settingsPasswordSchema = z
 
 export const createArtSchema = z.object({
   image: z.preprocess((arg) => {
-    if (typeof File !== 'undefined' && arg instanceof File) {
+    if (typeof File !== "undefined" && arg instanceof File) {
       return arg;
     }
     return new Error("Veuillez sélectionner une image");
@@ -59,7 +59,6 @@ export const createArtSchema = z.object({
   artType: nonEmptyString,
   name: nonEmptyString,
   description: nonEmptyString,
-  dimensions: nonEmptyString,
   isForSale: z.boolean(),
   price: z.number().min(0).optional(),
   location: nonEmptyString.optional(),
@@ -74,6 +73,10 @@ export const profileHeadingSchema = z.object({
   profilePicture: z.instanceof(File).optional(),
 });
 
+export const addCommentSchema = z.object({
+  comment: nonEmptyString,
+});
+
 /* c8 ignore stop */
 
 export type TLoginData = z.infer<typeof loginSchema>;
@@ -82,3 +85,4 @@ export type TSettingsPasswordData = z.infer<typeof settingsPasswordSchema>;
 export type TCreateArtData = z.infer<typeof createArtSchema>;
 export type TCreateCollectionData = z.infer<typeof createCollectionSchema>;
 export type TProfileHeadingData = z.infer<typeof profileHeadingSchema>;
+export type TAddCommentData = z.infer<typeof addCommentSchema>;

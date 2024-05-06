@@ -1,11 +1,11 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { ITab } from "../../interfaces";
-import Header from "../header";
-import { IConnectedUser } from "../../interfaces/user/user";
-import LoadingPage from "../loading/LoadingPage";
 import { useEffect, useState } from "react";
+import { ITab } from "../../interfaces";
+import { IConnectedUser } from "../../interfaces/user/user";
+import Header from "../header";
+import LoadingPage from "../loading/LoadingPage";
 import useFcmToken from "../../hooks/useFcmToken";
 import { myFetch } from "../../tools/myFetch";
 import { getMessaging, onMessage } from 'firebase/messaging';
@@ -47,6 +47,7 @@ export default function Session(props: ISessionProps): JSX.Element | null {
     if (correspondingTab?.loggedIn !== false && (user === null || (user && !user.token))) {
       router.replace("/login");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, router]);
 
   if ((user && user.token) || ((!user || !user.token) && correspondingTab?.loggedIn === false)) {

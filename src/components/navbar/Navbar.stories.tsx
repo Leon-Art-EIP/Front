@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Navbar, { INavbarProps } from "./Navbar";
 import tabs from "../../app/tabs";
+import Navbar, { INavbarProps } from "./Navbar";
 
 export default {
   title: "Components/Navbar",
   component: Navbar,
   decorators: [
     (Story, { args }) => (
-      <div className="w-full p-4 flex justify-center bg-secondaryGrey">
+      <div className="w-full p-4 flex justify-center bg-secondary">
         <Story args={args} />
       </div>
     ),

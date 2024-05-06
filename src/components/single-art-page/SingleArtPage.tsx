@@ -1,15 +1,16 @@
 "use client";
 
-import { ElementType, useState, useEffect } from "react";
-import SingleArtPageArtwork from "./artwork/SingleArtPageArtwork";
-import SingleArtPageCard from "./card/SingleArtPageCard";
-import { Button, Modal } from "../lib";
-import SaveGallery from "./artwork/SaveGallery";
-import { myFetch } from "../../tools/myFetch";
+import { useRouter } from "next/navigation";
+import { ElementType, useEffect, useState } from "react";
 import { ICollectionArtsExtended } from "../../interfaces/single/collection";
 import { IConnectedUser } from "../../interfaces/user/user";
-import { useRouter } from "next/navigation";
+import { myFetch } from "../../tools/myFetch";
 import Fetcher from "../fetch/Fetcher";
+import { Button, Modal } from "../lib";
+import SaveGallery from "./artwork/SaveGallery";
+import SingleArtPageArtwork from "./artwork/SingleArtPageArtwork";
+import SingleArtPageCard from "./card/SingleArtPageCard";
+import SingleArtPageComments from "./comment/SingleArtPageComments";
 
 export interface ISingleArtPageProps {
   description: string;
@@ -29,6 +30,9 @@ export interface ISingleArtPageProps {
   link: ElementType<{ children: JSX.Element; href: string }>; // Car Storybook ne supporte pas le Link de Next
   paymentSuccessful: boolean;
   paymentCanceled: boolean;
+  connectedUserId: string;
+  isForSale: boolean;
+  isSold: boolean;
 }
 
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
@@ -38,6 +42,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   const [selectedCollections, setSelectedCollections] = useState<string[]>(props.belongingCollectionsIds);
   const [currentUser, setCurrentUser] = useState<IConnectedUser>();
   const [nbFetchs, setNbFetchs] = useState(0);
+  const [deleteFetchs, setDeleteFetchs] = useState(0);
 
   useEffect(() => {
     async function getCurrentUser() {
@@ -75,6 +80,23 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
     setNbFetchs(nbFetchs + 1);
   };
 
+  const deleteOnClick = () => {
+    setDeleteFetchs(deleteFetchs + 1);
+  };
+
+  const handleSuccessDelete = () => {
+    router.push(`/profile/${props.connectedUserId}`);
+  };
+
+  function isArtPublicationBuyable() {
+    console.log(currentUser?.user.id, props.artistId, props.price, props);
+    var isBuyable = true;
+    if (props.price === 0 || !props.isForSale || currentUser?.user.id === props.artistId || props.isSold) {
+      isBuyable = false;
+    }
+    return isBuyable;
+  }
+
   async function onSendMessage() {
     const response = await myFetch({
       route: `/api/conversations/create`,
@@ -98,6 +120,12 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
         nbFetchs={nbFetchs}
         handleOk={handleOk}
       />
+      <Fetcher
+        route={`/api/art-publication/${props.artId}`}
+        method="DELETE"
+        nbFetchs={deleteFetchs}
+        handleOk={handleSuccessDelete}
+      />
       <Modal isOpen={isModalOpen} handleClose={closeModal}>
         <SaveGallery
           collections={props.collections}
@@ -107,19 +135,25 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
           artId={props.artId}
         />
       </Modal>
-      <div className="flex px-20 py-10 gap-8 flex-wrap lg:flex-nowrap">
-        <SingleArtPageArtwork
-          art={props.art}
-          profile={props.profile}
-          artisteName={props.artistName}
-          artistId={props.artistId}
-          title={props.title}
-          liked={isLiked}
-          nbrLikes={nbrLikes}
-          bookmarkOnClick={bookmarkOnClick}
-          heartOnClick={heartOnClick}
-          link={props.link}
-        />
+      <div className="bg-background flex px-20 py-10 gap-8 flex-wrap lg:flex-nowrap">
+        <div className="w-3/4 flex flex-col gap-8 justify-center">
+          <SingleArtPageArtwork
+            art={props.art}
+            profile={props.profile}
+            artisteName={props.artistName}
+            artistId={props.artistId}
+            connectedUserId={props.connectedUserId}
+            title={props.title}
+            liked={isLiked}
+            nbrLikes={nbrLikes}
+            bookmarkOnClick={bookmarkOnClick}
+            heartOnClick={heartOnClick}
+            deleteOnClick={deleteOnClick}
+            link={props.link}
+          />
+          <SingleArtPageComments id={props.artId} connectedUserId={props.connectedUserId} />
+        </div>
+
         <div className="flex flex-col gap-4 w-1/4">
           <SingleArtPageCard
             artPublicationId={props.artId}
@@ -130,10 +164,15 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
             belongingCommands={props.belongingCommands}
             paymentSuccessful={props.paymentSuccessful}
             paymentCanceled={props.paymentCanceled}
+            canBuy={isArtPublicationBuyable()}
+            isSold={props.isSold}
+            isOwner={currentUser?.user.id === props.artistId}
           />
-          <Button color="primary" type="button" onClick={onSendMessage}>
-            Envoyer un message
-          </Button>
+          {currentUser?.user.id !== props.artistId && (
+            <Button color="primary" type="button" onClick={onSendMessage}>
+              Envoyer un message
+            </Button>
+          )}
         </div>
       </div>
     </>

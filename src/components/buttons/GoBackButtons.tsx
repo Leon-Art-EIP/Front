@@ -1,8 +1,8 @@
 "use client";
 
+import { KeyboardArrowLeft } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import IconButton from "../single-art-page/artwork/IconButton";
-import { KeyboardArrowLeft } from "@mui/icons-material";
 
 interface IGoBackButtonProps {
   href?: string;
@@ -19,5 +19,7 @@ export default function GoBackButton(props: IGoBackButtonProps): JSX.Element {
     }
   };
 
-  return <IconButton onClick={handleOnClick} icon={KeyboardArrowLeft} backgroundColor="white" color="grey" />;
+  return (
+    <IconButton onClick={handleOnClick} icon={KeyboardArrowLeft} backgroundColor="bg-background-hl" color="secondary" />
+  );
 }

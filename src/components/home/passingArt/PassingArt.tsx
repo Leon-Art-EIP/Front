@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { IPassingArt } from "../../../interfaces/home/passingArt";
 import PointsPosition from "./PointsPosition";
 
@@ -12,11 +11,11 @@ export interface IPassingArtProps {
 export default function PassingArt(props: IPassingArtProps): JSX.Element {
   return (
     <div className="flex h-72 relative cursor-pointer" onClick={props.increasePosition}>
-      <div className="absolute inset-0 z-0 w-full max-h-72">
+      <div className="absolute inset-0 z-0 w-full max-h-72 bg-black">
         <img
-          src={props.passingArt.mainImage.src}
+          src={props.passingArt.mainImage}
           alt={`mainImage-${props.passingArt.position}`}
-          className="w-full max-h-72 object-cover"
+          className="w-full max-h-72 object-contain"
         />
       </div>
       <div className="flex flex-col px-16 pt-16 pb-2 relative z-10 w-full">

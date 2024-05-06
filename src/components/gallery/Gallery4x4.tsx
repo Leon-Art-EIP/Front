@@ -1,6 +1,5 @@
-import React from "react";
-import { IArtPublications } from "../../interfaces/gallery/artPublications";
 import { useRouter } from "next/navigation";
+import { IArtPublications } from "../../interfaces/gallery/artPublications";
 
 interface Gallery4x4Props {
   artPublications: IArtPublications;
@@ -31,7 +30,7 @@ export default function Gallery4x4(props: Gallery4x4Props): JSX.Element {
           <div className="absolute bottom-0 left-0 w-full h-32 opacity-0 group-hover:opacity-100">
             <div className="w-full h-full bg-gradient-to-t from-black opacity-80"></div>
             <div className="absolute bottom-0 left-0 p-2 w-full text-white">
-              <p className="text-lg font-semibold">{artPublication.name}</p>
+              <p className="text-lg font-semibold text-tertiary">{artPublication.name}</p>
             </div>
           </div>
         </div>

@@ -13,13 +13,15 @@ export interface IButtonProps {
   loading?: boolean;
   id?: string;
   name?: string;
+  disabled?: boolean;
 }
 
 const colorClasses: Record<ButtonColor, string> = {
-  primary: "text-white bg-[#E03915] hover:bg-[#ca3313] disabled:bg-[#eb9785]",
-  secondary: "text-[#2d142c] bg-[#EEEEEE] hover:bg-[#e2e2e2] disabled:text-[#c7c2c7]",
-  danger: "bg-red-600 text-white hover:bg-red-700 disabled:bg-red-400",
-  success: "bg-gray-200 text-purple-800 hover:bg-gray-300 disabled:bg-gray-400",
+  primary: "text-white bg-primary hover:bg-primary-hover disabled:bg-primary-disabled",
+  secondary:
+    "text-tertiary bg-secondary hover:bg-secondary-hover disabled:bg-secondary-disabled disabled: text-secondary",
+  danger: "bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled",
+  success: "bg-secondary text-white hover:bg-secondary-hover disabled:bg-secondary-disabled",
   info: "bg-purple-800 text-white hover:bg-purple-900 disabled:bg-purple-400",
 };
 
@@ -33,6 +35,7 @@ export default function Button(props: IButtonProps): JSX.Element {
         props.className
       }`}
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       {props.loading ? <CircularProgress size={20} thickness={4} color="primary" /> : props.children}
     </button>

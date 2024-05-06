@@ -1,11 +1,11 @@
 "use client";
 
+import { Dispatch, SetStateAction, useState } from "react";
 import CreateCollectionForm from "../../../forms/tsx/CreateCollectionForm";
 import { ICollectionArtsExtended } from "../../../interfaces/single/collection";
 import { myFetch } from "../../../tools/myFetch";
 import { Button } from "../../lib";
 import Collection from "./Collection";
-import { Dispatch, SetStateAction, useState } from "react";
 
 interface ISaveGalleryProps {
   handleClose(): void;

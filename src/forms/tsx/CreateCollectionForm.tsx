@@ -1,11 +1,11 @@
 "use client";
 
-import { FormProvider } from "react-hook-form";
-import useCreateCollectionForm from "../methods/useCreateCollectionForm";
-import { TCreateCollectionData } from "../../zod";
-import Input from "../../components/form/Input";
 import { useState } from "react";
-import FetcherDiv from "../../components/fetch/FetcherDiv";
+import { FormProvider } from "react-hook-form";
+import Fetcher from "../../components/fetch/Fetcher";
+import Input from "../../components/form/Input";
+import { TCreateCollectionData } from "../../zod";
+import useCreateCollectionForm from "../methods/useCreateCollectionForm";
 
 interface ICreateCollectionFormProps {
   handleClose: () => void;
@@ -43,14 +43,15 @@ export default function CreateCollectionForm(props: ICreateCollectionFormProps):
   };
 
   return (
-    <FetcherDiv
-      method="POST"
-      route="/api/collection"
-      body={body}
-      handleOk={handleOk}
-      nbFetchs={nbFetchs}
-      setIsLoading={setLoading}
-    >
+    <>
+      <Fetcher
+        method="POST"
+        route="/api/collection"
+        body={body}
+        handleOk={handleOk}
+        nbFetchs={nbFetchs}
+        setIsLoading={setLoading}
+      />
       <FormProvider {...methods}>
         <form
           className="flex flex-col sm:flex-row gap-4 justify-between self-center rounded-full p-4 bg-gray-100 items-center"
@@ -76,7 +77,7 @@ export default function CreateCollectionForm(props: ICreateCollectionFormProps):
           {error && <div className="text-red-600">{error}</div>}
         </form>
       </FormProvider>
-    </FetcherDiv>
+    </>
   );
 }
 

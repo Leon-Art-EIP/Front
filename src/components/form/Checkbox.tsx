@@ -26,7 +26,7 @@ export default function Checkbox(props: ICheckboxProps): JSX.Element {
           value={value}
         />
       </div>
-      {error && <div className="text-red-600">{error.message}</div>}
+      {error && <div className="text-primary">{error.message}</div>}
     </div>
   );
 }

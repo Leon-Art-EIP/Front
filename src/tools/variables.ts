@@ -45,7 +45,9 @@ export type TErrorMessages =
   | "Password is required"
   | "Password must be at least 8 characters long"
   | "is_artist must be a boolean value"
-  | "Invalid User ID";
+  | "Invalid User ID"
+  | "Comment added"
+  | "Cannot delete publication with unfinished orders";
 
 export const errors: Record<TErrorMessages, string> = {
   "Incorrect password": "Mot de passe incorrect",
@@ -90,4 +92,7 @@ export const errors: Record<TErrorMessages, string> = {
   "Username is required": "Le nom d'utilisateur est requis",
   "is_artist must be a boolean value": "is_artist doit être une valeur booléenne",
   "Invalid User ID": "ID utilisateur invalide",
+  "Comment added": "Commentaire ajouté",
+  "Cannot delete publication with unfinished orders":
+    "Impossible de supprimer une publication avec des commandes non terminées",
 };

@@ -1,20 +1,20 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FormProvider } from "react-hook-form";
-import { TCreateArtData } from "../../zod";
-import useCreateArtForm from "../methods/useCreateArtForm";
+import Fetcher from "../../components/fetch/Fetcher";
+import Checkbox from "../../components/form/Checkbox";
 import FileInput from "../../components/form/FileInput";
-import Select from "../../components/form/Select";
 import Input from "../../components/form/Input";
+import NumberInput from "../../components/form/NumberInput";
+import Select from "../../components/form/Select";
 import TextArea from "../../components/form/TextArea";
 import { Button } from "../../components/lib";
 import { IError, IOption } from "../../interfaces";
-import NumberInput from "../../components/form/NumberInput";
-import Checkbox from "../../components/form/Checkbox";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { appendFormData } from "../../tools/formData";
-import FetcherDiv from "../../components/fetch/FetcherDiv";
+import { TCreateArtData } from "../../zod";
+import useCreateArtForm from "../methods/useCreateArtForm";
 
 export interface ICreateArtFormProps {
   artTypes: IOption<string>[];
@@ -50,7 +50,8 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   };
 
   return (
-    <FetcherDiv method="POST" route="/api/art-publication" nbFetchs={nbFetchs} body={body} handleOk={handleOk}>
+    <>
+      <Fetcher method="POST" route="/api/art-publication" nbFetchs={nbFetchs} body={body} handleOk={handleOk} />
       <FormProvider {...methods}>
         <form
           className="flex flex-col gap-8 py-12 px-16 border-x-2 border-x-gray-400 bg-white h-full"
@@ -78,13 +79,6 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
                 <Checkbox name="isForSale" title="A vendre" />
                 {isForSale && <NumberInput title="Prix (€)" name="price" className="bg-secondaryGrey p-2 rounded" />}
               </div>
-              <Input
-                title="Dimensions (cm)"
-                name="dimensions"
-                placeholder="70cm x 50cm x 10cm"
-                type="text"
-                className="bg-secondaryGrey p-2 rounded"
-              />
             </div>
           </div>
           <Button color="danger" type="submit" className="self-end">
@@ -92,6 +86,6 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
           </Button>
         </form>
       </FormProvider>
-    </FetcherDiv>
+    </>
   );
 }

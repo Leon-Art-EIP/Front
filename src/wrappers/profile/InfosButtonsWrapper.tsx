@@ -1,10 +1,9 @@
 "use client";
 
-import { Dispatch, ElementType, SetStateAction, useState } from "react";
-import Button from "../../components/profile/Button";
 import { useRouter } from "next/navigation";
-import FetcherDiv from "../../components/fetch/FetcherDiv";
+import { Dispatch, ElementType, SetStateAction, useState } from "react";
 import Fetcher from "../../components/fetch/Fetcher";
+import Button from "../../components/profile/Button";
 
 interface IInfosButtonsWrapperProps {
   link: ElementType<{ children: JSX.Element; href: string }>;
@@ -42,7 +41,8 @@ export default function InfosButtonsWrapper({ link: Link, ...props }: IInfosButt
   }
 
   return (
-    <FetcherDiv route={`/api/follow/${props.id}`} method="POST" nbFetchs={nbFetchsFollow} handleOk={handleOkFollow}>
+    <>
+      <Fetcher route={`/api/follow/${props.id}`} method="POST" nbFetchs={nbFetchsFollow} handleOk={handleOkFollow} />
       <Fetcher
         route="/api/conversations/create"
         method="PUT"
@@ -61,7 +61,7 @@ export default function InfosButtonsWrapper({ link: Link, ...props }: IInfosButt
           <Button onClick={handleFollow} text="Suivre" className="text-white bg-primaryRed" />
         )}
       </div>
-    </FetcherDiv>
+    </>
   );
 }
 

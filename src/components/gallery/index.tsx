@@ -63,22 +63,22 @@ function Gallery(props: IGalleryProps | { title?: boolean }) {
     <div>
       <div className="flex justify-center">
         <label className="text-6xl font-extrabold mt-7">
-          <span className="text-[#E11C0A]">Leon</span>
-          <span className="text-[#000000]">{"'"}Art</span>
+          <span className="text-primary cursor-default">Leon</span>
+          <span className="text-tertiary cursor-default">{"'"}Art</span>
         </label>
         {"redirectUrl" in props && (
           <a href={props.redirectUrl}>
-            <button className="absolute mt-9 right-7 rounded-[30px] shadow-md px-4 py-3 border border-[#b6b6b6] text-xl font-extrabold text-[#E11C0A] cursor-pointer hover:bg-[#fcfcfc] hover:scale-105 transition-transform ease-out">
+            <button className="absolute mt-9 right-7 rounded-[30px] shadow-md px-4 py-3 border border-secondary text-xl font-extrabold text-primary cursor-pointer hover:bg-secondary-hover hover:scale-105 transition-transform ease-out">
               {props.redirectText}
             </button>
           </a>
         )}
       </div>
       <div className="flex justify-evenly mt-10">
-        <label className="text-4xl font-bold">Artistes</label>
-        <label className="text-4xl font-bold">Catégories</label>
-        <label className="text-4xl font-bold">Support</label>
-        <label className="text-4xl font-bold">Couleurs</label>
+        <label className="text-4xl font-bold text-tertiary">Artistes</label>
+        <label className="text-4xl font-bold text-tertiary">Catégories</label>
+        <label className="text-4xl font-bold text-tertiary">Support</label>
+        <label className="text-4xl font-bold text-tertiary">Couleurs</label>
       </div>
       <div className="flex justify-center pb-10">
         <Pictures pictures={pictures} />

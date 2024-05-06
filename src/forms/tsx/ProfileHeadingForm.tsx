@@ -1,16 +1,16 @@
 "use client";
 
-import ProfilePicture from "../../components/profile/profilePicture/ProfilePicture";
-import useProfileHeadingForm from "../methods/useProfileHeadingForm";
-import { FormProvider } from "react-hook-form";
-import { TProfileHeadingData } from "../../zod";
-import FileInput from "../../components/form/FileInput";
-import ModifiableImage from "../../components/single-art-page/ModifiableImage";
 import { useState } from "react";
+import { FormProvider } from "react-hook-form";
+import FileInput from "../../components/form/FileInput";
 import { Button, Modal, NotificationToast } from "../../components/lib";
+import ProfilePicture from "../../components/profile/profilePicture/ProfilePicture";
+import ModifiableImage from "../../components/single-art-page/ModifiableImage";
 import { IProfileUser } from "../../interfaces/user/profileUser";
 import { myFetch } from "../../tools/myFetch";
 import { imageApi } from "../../tools/variables";
+import { TProfileHeadingData } from "../../zod";
+import useProfileHeadingForm from "../methods/useProfileHeadingForm";
 
 interface IHeadingProps {
   profilePicture: string;

@@ -26,7 +26,7 @@ export default function NumberInput(props: Omit<IInputProps, "type">): JSX.Eleme
 
   return (
     <div className="flex flex-col gap-2 sm:min-w-min min-w-0">
-      {props.title && <div className="text-lg">{props.title}</div>}
+      {props.title && <div className="text-lg text-tertiary">{props.title}</div>}
       <input
         type="number"
         {...register(props.name, {
@@ -39,7 +39,7 @@ export default function NumberInput(props: Omit<IInputProps, "type">): JSX.Eleme
         onChange={handleInputOnChange}
         value={value}
       />
-      {error && <div className="text-red-600">{error.message}</div>}
+      {error && <div className="text-primary">{error.message}</div>}
     </div>
   );
 }

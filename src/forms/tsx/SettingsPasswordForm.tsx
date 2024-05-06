@@ -1,14 +1,14 @@
 "use client";
 
-import { FormProvider } from "react-hook-form";
-import Input from "../../components/form/Input";
-import useSettingsPasswordForm from "../methods/useSettingsPasswordForm";
-import { Button } from "../../components/lib";
-import { TSettingsPasswordData } from "../../zod";
 import { useState } from "react";
+import { FormProvider } from "react-hook-form";
+import Fetcher from "../../components/fetch/Fetcher";
+import Input from "../../components/form/Input";
+import { Button } from "../../components/lib";
 import LoadingPage from "../../components/loading/LoadingPage";
 import { IConnectedUser } from "../../interfaces/user/user";
-import FetcherDiv from "../../components/fetch/FetcherDiv";
+import { TSettingsPasswordData } from "../../zod";
+import useSettingsPasswordForm from "../methods/useSettingsPasswordForm";
 
 interface ISettingsPasswordInputs {
   name: string;
@@ -61,21 +61,25 @@ export default function SettingsPasswordForm(): JSX.Element {
   };
 
   return (
-    <FetcherDiv
-      route="/api/auth/change-password"
-      method="POST"
-      body={body}
-      nbFetchs={nbFetchs}
-      successStr="Mot de passe modifié avec succès"
-      setIsLoading={setLoading}
-      handleOk={handleOk}
-    >
+    <>
+      <Fetcher
+        route="/api/auth/change-password"
+        method="POST"
+        body={body}
+        nbFetchs={nbFetchs}
+        successStr="Mot de passe modifié avec succès"
+        setIsLoading={setLoading}
+        handleOk={handleOk}
+      />
       <FormProvider {...methods}>
-        <form className="flex flex-col p-2 gap-3" onSubmit={methods.handleSubmit((data) => onSubmit(data))}>
+        <form
+          className="text-tertiary flex flex-col p-2 gap-3"
+          onSubmit={methods.handleSubmit((data) => onSubmit(data))}
+        >
           {inputs.map((input) => (
             <Input
               key={`settings-password-${input.name}`}
-              className="bg-secondaryGrey rounded p-2 truncate max-w-sm"
+              className="bg-secondary rounded p-2 truncate max-w-sm"
               name={input.name}
               placeholder={input.placeholder}
               type="password"
@@ -88,6 +92,6 @@ export default function SettingsPasswordForm(): JSX.Element {
           </div>
         </form>
       </FormProvider>
-    </FetcherDiv>
+    </>
   );
 }

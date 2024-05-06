@@ -52,17 +52,19 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
       body: props.body,
     });
 
-    if (response.status === 401) {
-      resetCredentials();
-      const error: IUnauthorized = await response.json();
-      const serverErrorMsg = errors[error.msg as TErrorMessages];
-      message = error.msg ? serverErrorMsg ?? error.msg : "Vous n'êtes pas autorisé à effectuer cette action";
-    } else if (response.status === 422) {
+    if (response.status === 422) {
       const error: IError = await response.json();
       const serverErrorMsg = (error.errors.length > 0 ? error.errors[0].msg : undefined) as TErrorMessages | undefined;
       message = serverErrorMsg ? errors[serverErrorMsg] ?? serverErrorMsg : "Une erreur est survenue";
-    } else if (response.status === 404) {
-      message = "404 Ressource non disponible";
+    } else if (response.status >= 400 && response.status < 500) {
+      const error: IUnauthorized = await response.json();
+      const serverErrorMsg = errors[error.msg as TErrorMessages];
+      if (response.status === 401) {
+        message = error.msg ? serverErrorMsg ?? error.msg : "Vous n'êtes pas autorisé à effectuer cette action";
+        resetCredentials();
+      } else {
+        message = error.msg ? serverErrorMsg ?? error.msg : "Une erreur est survenue";
+      }
     } else if (response.status === 500) {
       message = "Cette requête est actuellement indisponible";
     } else if (!response.ok) {

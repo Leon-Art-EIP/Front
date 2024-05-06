@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
-import { IConnectedUser } from "../../interfaces/user/user";
-import { Socket, io } from "socket.io-client";
-import { myFetch } from "../../tools/myFetch";
-import ChatList from "../../components/chat/chats/ChatList";
-import { IChat, IChats } from "../../interfaces/chat/chats";
-import Messages from "../../components/chat/messages/Messages";
 import ForumIcon from "@mui/icons-material/Forum";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { Socket, io } from "socket.io-client";
+import ChatList from "../../components/chat/chats/ChatList";
+import Messages from "../../components/chat/messages/Messages";
+import { IChat, IChats } from "../../interfaces/chat/chats";
+import { IConnectedUser } from "../../interfaces/user/user";
+import { myFetch } from "../../tools/myFetch";
 
 interface IChatWrapperProps {
   convId: string | undefined;
@@ -73,7 +73,7 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
   };
 
   return (
-    <div className="flex flex-row page-content-non-scrollable">
+    <div className="bg-background flex flex-row page-content-non-scrollable">
       <div className="lg:w-1/3 lg:min-w-[350px] lg:max-w-[500px]">
         <ChatList chats={chats} changeChat={handleChatChange} currentUser={currentUser} />
       </div>
