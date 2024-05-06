@@ -57,6 +57,7 @@ export default function SettingsMeWrapper(): JSX.Element {
       <Fetcher
         route={"/api/stripe/account-link"}
         method="POST"
+        body={JSON.stringify({ source: "web" })}
         nbFetchs={nbFetchsStripeAccountLink}
         handleOk={handleCreateStipeAccount}
       />
