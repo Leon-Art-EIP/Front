@@ -11,7 +11,7 @@ export default function VerticalNavbar({ link: Link, ...props }: Omit<INavbarPro
       <div className="flex justify-start items-center h-24 bg-white w-full border-b border-b-secondaryGrey">
         <IconButton
           backgroundColor="white"
-          color="black"
+          iconColor="black"
           icon={Menu}
           onClick={() => {
             setOpen(!open);
