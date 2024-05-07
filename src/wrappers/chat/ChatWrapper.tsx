@@ -1,83 +1,49 @@
 "use client";
 
-import ForumIcon from "@mui/icons-material/Forum";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { Socket, io } from "socket.io-client";
+import { useEffect } from "react";
 import ChatList from "../../components/chat/chats/ChatList";
+import { useChat } from "../../contexts/ChatContext";
+
+import ForumIcon from "@mui/icons-material/Forum";
 import Messages from "../../components/chat/messages/Messages";
-import { IChat, IChats } from "../../interfaces/chat/chats";
-import { IConnectedUser } from "../../interfaces/user/user";
-import { myFetch } from "../../tools/myFetch";
 
 interface IChatWrapperProps {
   convId: string | undefined;
 }
 
 export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
-  const router = useRouter();
-  const socket = useRef<Socket | null>(null);
-  const [chats, setChats] = useState<IChats>({ chats: [] });
-  const [currentChat, setCurrentChat] = useState<IChat>();
-  const [currentUser, setCurrentUser] = useState<IConnectedUser>();
-
-  useEffect(() => {
-    async function getCurrentUser() {
-      if (!localStorage.getItem("user")) {
-        router.push("/login");
-      } else {
-        setCurrentUser(await JSON.parse(localStorage.getItem("user") || "{}"));
-      }
-    }
-    getCurrentUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { chats, currentChat, currentUser, setCurrentChat, refreshChats, fetchMessages } = useChat();
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io(process.env.NEXT_PUBLIC_BACKEND_URL || "http://back-dev.leonart-dev.ovh");
-      socket.current.emit("add-user", currentUser.user.id);
+      refreshChats();
     }
   }, [currentUser]);
 
   useEffect(() => {
-    async function fetchChats() {
-      if (currentUser) {
-        const res = await myFetch({ route: `/api/conversations/${currentUser.user.id}`, method: "GET" });
-        const data: IChats = res.json;
-        setChats(data);
+    if (props.convId && chats.length > 0) {
+      console.log("chats", chats);
+      const selectedChat = chats.find((chat) => chat._id === props.convId);
+      console.log("selectedChat", selectedChat);
+      if (selectedChat) {
+        setCurrentChat(selectedChat);
+        fetchMessages();
       }
     }
-    async function fetchConversationDetails() {
-      if (currentUser) {
-        if (props.convId !== undefined) {
-          const res = await myFetch({ route: `/api/conversations/single/${props.convId}`, method: "GET" });
-          const data = res.json;
-          handleChatChange(data.chat);
-        }
-      }
+  }, [props.convId, chats]);
+
+  useEffect(() => {
+    if (currentChat) {
+      fetchMessages();
     }
-
-    fetchConversationDetails();
-    fetchChats();
-  }, [currentUser, props.convId]);
-
-  // useEffect(() => {
-  //   if (chats.chats.length > 0) {
-  //     setCurrentChat(chats.chats[0]);
-  //   }
-  // }, [chats]);
-
-  const handleChatChange = (chat: IChat) => {
-    setCurrentChat(chat);
-  };
+  }, [currentChat]);
 
   return (
     <div className="bg-background flex flex-row page-content-non-scrollable">
       <div className="lg:w-1/3 lg:min-w-[350px] lg:max-w-[500px]">
-        <ChatList chats={chats} changeChat={handleChatChange} currentUser={currentUser} />
+        <ChatList />
       </div>
-      {props.convId === undefined && currentChat === undefined ? (
+      {!currentChat ? (
         <div className="flex flex-col items-center justify-center w-full h-full gap-4 text-gray-400">
           <ForumIcon sx={{ fontSize: 200 }} />
           <span className="text-2xl font-bold">Bienvenue sur votre messagerie</span>
@@ -86,7 +52,7 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
               Pour envoyer un message à un utilisateur, cliquez sur {'"aller à la conversation"'} depuis une commande
               dans l{"'"}onglet Commande
             </span>
-            {chats.chats.length > 0 && (
+            {chats.length > 0 && (
               <span className="text-xl font-medium">
                 Pour séléctionner une conversation existante, rien de plus simple, cliquez sur celle-ci dans la liste de
                 gauche
@@ -95,11 +61,7 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
           </div>
         </div>
       ) : (
-        <>
-          {currentChat !== undefined && (
-            <Messages currentChat={currentChat} currentUser={currentUser} socket={socket} />
-          )}
-        </>
+        <Messages />
       )}
     </div>
   );

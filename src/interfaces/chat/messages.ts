@@ -1,7 +1,3 @@
-export interface IMessages {
-  messages: IMessage[];
-}
-
 export interface IMessage {
   id: number;
   senderId: string;

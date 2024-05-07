@@ -1,17 +1,13 @@
 import { useEffect, useRef } from "react";
-import { IMessages } from "../../../interfaces/chat/messages";
-import { IConnectedUser } from "../../../interfaces/user/user";
+import { useChat } from "../../../contexts/ChatContext";
 import { Chat } from "./Chat";
 
-export interface ChatBoxProps {
-  messages: IMessages;
-  currentUser: IConnectedUser | undefined;
-}
-
-export function ChatBox(props: ChatBoxProps): JSX.Element {
+export function ChatBox(): JSX.Element {
   {
     /* c8 ignore start */
   }
+  const { messages, currentUser } = useChat() || {};
+
   const chatBoxRef = useRef<HTMLDivElement>(null);
   let prevDateTime: Date | null = null;
 
@@ -19,7 +15,7 @@ export function ChatBox(props: ChatBoxProps): JSX.Element {
     if (chatBoxRef.current) {
       chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
     }
-  }, [props.messages]);
+  }, [messages]);
 
   const formatDate = (string: string) => {
     const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
@@ -32,7 +28,7 @@ export function ChatBox(props: ChatBoxProps): JSX.Element {
 
   return (
     <div ref={chatBoxRef} dir="btt" className="flex flex-col h-full w-full overflow-y-auto gap-4">
-      {props.messages.messages.map((message, index) => {
+      {messages.map((message, index) => {
         const currentDateTime = new Date(message.dateTime);
         let showFullDate = false;
         let showTimeOnly = false;
@@ -61,7 +57,7 @@ export function ChatBox(props: ChatBoxProps): JSX.Element {
               dateTime={showTimeOnly ? formatTime(message.dateTime) : ""}
               key={message.id}
               content={message.content}
-              sender={message.senderId === props.currentUser?.user.id ? 0 : 1}
+              sender={message.senderId === currentUser?.user.id ? 0 : 1}
             />
           </div>
         );

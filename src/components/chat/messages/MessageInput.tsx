@@ -1,4 +1,3 @@
-import AttachmentIcon from "@mui/icons-material/Attachment";
 import SendIcon from "@mui/icons-material/Send";
 import { useState } from "react";
 
@@ -34,8 +33,8 @@ export function MessageInput(props: MessageInputProps): JSX.Element {
           placeholder="Votre message..."
           className="text-tertiary w-full bg-inherit outline-none placeholder:text-secondary rounded-full pl-6"
         />
-        <button type="submit" className="bg-secondary-hover p-3 rounded-full h-full text-center">
-          <SendIcon className="h-7 w-7 fill-background" />
+        <button type="submit" className="bg-quaternary-hover p-3 rounded-full h-full text-center">
+          <SendIcon className="h-7 w-7 fill-quaternary" />
         </button>
       </form>
     </div>
