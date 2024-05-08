@@ -100,7 +100,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
                 icon={DeleteOutline}
                 backgroundColor="bg-background-hl"
                 onClick={openModal}
-                color="tertiary"
+                iconColor="tertiary"
               />
             )}
             <IconButton

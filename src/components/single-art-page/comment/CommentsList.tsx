@@ -107,11 +107,7 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
         {[...props.localComments, ...displayComments].map((comment, index) => (
           <div key={`${index}-${comment.username}`} className="flex gap-4 items-center text-tertiary">
             <Link href={`/profile/${comment.authorId}`}>
-              <img
-                src={comment.profilePicture}
-                alt="profile"
-                className="rounded-3xl w-11 h-11"
-              />
+              <img src={comment.profilePicture} alt="profile" className="rounded-3xl w-11 h-11" />
             </Link>
             <div>
               <div className="flex gap-2">
@@ -124,7 +120,7 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
               <IconButton
                 icon={Delete}
                 backgroundColor="transparent"
-                color="red"
+                iconColor="red"
                 onClick={() => {
                   openModal(comment.id);
                 }}

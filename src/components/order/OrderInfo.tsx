@@ -35,6 +35,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
     if (props.selectedOrderId) {
       fetchOrderInfos();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.selectedOrderId]);
 
   function onGoToUserProviderProfile() {

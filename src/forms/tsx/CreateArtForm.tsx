@@ -51,10 +51,6 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
     }
   };
 
-  function isStripeAccountAlreadyLinked() {
-    setNbFetchsStripeAccountAlreadyLinked(nbFetchsStripeAccountAlreadyLinked + 1);
-  }
-
   function handleStipeAccountAlreadyLinked(json: any) {
     const data = json;
 
@@ -63,8 +59,13 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
     }
   }
 
+  function isStripeAccountAlreadyLinked() {
+    setNbFetchsStripeAccountAlreadyLinked(nbFetchsStripeAccountAlreadyLinked + 1);
+  }
+
   useEffect(() => {
     isStripeAccountAlreadyLinked();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function goToPersonalInformation() {
@@ -112,7 +113,7 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
                   ) : (
                     <div className="flex flex-col gap-4">
                       <span className="font-semibold text-lg text-tertiary">
-                        Vous devez lier votre compte Stripe pour vendre une œuvre d'art.
+                        Vous devez lier votre compte Stripe pour vendre une œuvre d&apos;art.
                       </span>
                       <span className="font-normal text-lg text-tertiary">
                         Pour cela, cliquez sur le bouton ci-dessous.

@@ -48,6 +48,7 @@ export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
     getCurrentUser();
     fetchBuyOrders();
     fetchSellOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleOrderChange(orderId: string) {

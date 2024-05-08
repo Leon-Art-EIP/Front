@@ -35,7 +35,7 @@ const ThemeSelector = () => {
     setSelectedTheme("");
   }, [themes]);
 
-  const toggleTheme = (theme) => {
+  const toggleTheme = (theme: string) => {
     setSelectedTheme(theme);
     localStorage.setItem("theme", theme);
     document.documentElement.setAttribute("data-theme", theme);

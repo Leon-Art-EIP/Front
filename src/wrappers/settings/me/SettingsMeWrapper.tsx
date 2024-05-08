@@ -42,6 +42,7 @@ export default function SettingsMeWrapper(): JSX.Element {
 
   useEffect(() => {
     isStripeAccountAlreadyLinked();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function goToQuizz() {
