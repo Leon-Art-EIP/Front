@@ -25,13 +25,17 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
       route: `/api/order/${props.orderType === "buy" ? "buy" : "sell"}/${props.selectedOrderId}`,
       method: "GET",
     });
-    const data: Order = await res.json();
-    console.log(data);
-    setSelectedOrder(data);
+    if (res.ok) {
+      const data = res.json as Order;
+      setSelectedOrder(data);
+    }
   }
 
   useEffect(() => {
-    fetchOrderInfos();
+    if (props.selectedOrderId) {
+      fetchOrderInfos();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.selectedOrderId]);
 
   function onGoToUserProviderProfile() {
@@ -110,19 +114,19 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
   return (
     <>
       {selectedOrder && (
-        <div className="flex flex-col p-10 h-full overflow-auto">
+        <div className="flex flex-col p-10 h-full overflow-auto w-full">
           <div className="flex xl:flex-row flex-col gap-10">
-            <div className="relative flex flex-col gap-4 max-w-2xl h-fit max-h-[450px] flex-shrink-0">
+            <div className="relative flex flex-col gap-4 w-full">
               <img
                 src={`${NEXT_PUBLIC_BACKEND_URL}/api/${selectedOrder.artPublicationImage}`}
                 alt="order"
-                className="w-full h-full max-h-[450px] object-cover object-center rounded-xl"
+                className="w-full cursor-zoom-in"
               />
               <Button color="primary" type="button" onClick={onGoToChat} className="absolute top-[105%] w-full">
                 Aller à la conversation
               </Button>
             </div>
-            <div className="flex flex-col justify-start items-start gap-12 xl:pt-0 pt-12">
+            <div className="flex flex-col justify-start items-start gap-12 xl:pt-0 pt-12 w-1/3">
               <span className="text-2xl font-semibold">{selectedOrder.artPublicationName}</span>
               <span className="text-lg line-clamp-5">{selectedOrder.artPublicationDescription}</span>
               <div className="flex flex-row w-full justify-between">
@@ -135,7 +139,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-start items-center gap-4 pt-24">
+          <div className="flex flex-row justify-start items-center gap-4 pt-32">
             <span className="text-2xl">Livraison</span>
             <button onClick={onOpenDeliveryHelpModal}>
               <HelpOutlineIcon />
@@ -213,7 +217,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
           <div className="flex flex-col gap-4">
             {props.orderType === "sell" && selectedOrder.orderState === "paid" && (
               <Button color="primary" type="button" className="w-full" onClick={onConfirmReception}>
-                Confirmer l{"'"}envoie de la commande
+                Confirmer l{"'"}envoi de la commande
               </Button>
             )}
             {props.orderType === "sell" && selectedOrder.orderState === "paid" && (

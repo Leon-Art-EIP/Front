@@ -6,6 +6,10 @@ import { ITab } from "../../interfaces";
 import { IConnectedUser } from "../../interfaces/user/user";
 import Header from "../header";
 import LoadingPage from "../loading/LoadingPage";
+import useFcmToken from "../../hooks/useFcmToken";
+import { myFetch } from "../../tools/myFetch";
+import { getMessaging, onMessage } from 'firebase/messaging';
+import firebaseApp from '../../tools/firebase';
 
 export interface ISessionProps {
   tabs: ITab[];
@@ -13,6 +17,7 @@ export interface ISessionProps {
 }
 
 export default function Session(props: ISessionProps): JSX.Element | null {
+  const { fcmToken, notificationPermissionStatus } = useFcmToken();
   const [user, setUser] = useState<IConnectedUser | null | undefined>(undefined);
   const pathname = usePathname();
   const router = useRouter();
@@ -25,11 +30,17 @@ export default function Session(props: ISessionProps): JSX.Element | null {
     // no choice to use useEffect for localStorage
     const local = localStorage.getItem("user");
     if (local) {
-      setUser(JSON.parse(local));
+      const loggedInUser = JSON.parse(local);
+      setUser(loggedInUser);
+
+  
+      if (loggedInUser && loggedInUser.token && fcmToken) {
+        updateFcmTokenForUser(fcmToken);
+      }
     } else {
       setUser(null);
     }
-  }, [pathname]);
+  }, [pathname, fcmToken]);
 
   useEffect(() => {
     // Redirect only after the initial render
@@ -47,6 +58,17 @@ export default function Session(props: ISessionProps): JSX.Element | null {
       </>
     );
   }
+
+  async function updateFcmTokenForUser(fcmToken: string) {
+    const res = await myFetch({
+      route: `/api/notifications/update-fcm-token`,
+      method: "PUT",
+      body: JSON.stringify({ fcmToken }),
+    });
+    if (!res.ok) {
+      console.error("FCM token not updated");
+    }
+  };
 
   return <LoadingPage />;
 }

@@ -1,7 +1,3 @@
-export interface IChats {
-  chats: IChat[];
-}
-
 export interface IChat {
   _id: string;
   lastMessage: string;

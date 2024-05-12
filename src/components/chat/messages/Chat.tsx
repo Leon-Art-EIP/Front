@@ -12,12 +12,12 @@ export function Chat(props: ChatProps): JSX.Element {
     <div className={`flex flex-col ${props.sender ? "items-start" : "items-end"} justify-center px-6`}>
       <div
         className={`rounded-2xl p-4 max-w-xl ${
-          props.sender ? "bg-background text-tertiary" : "bg-background-hl text-tertiary"
+          props.sender ? "bg-background-hl text-tertiary" : "bg-primary text-white"
         }`}
       >
         {props.content}
       </div>
-      {props.dateTime && <span className="text-md px-2 py-1 text-primary">{props.dateTime}</span>}
+      {props.dateTime && <span className="text-sm px-2 py-1 text-tertiary">{props.dateTime}</span>}
     </div>
   );
   {

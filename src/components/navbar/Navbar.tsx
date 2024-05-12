@@ -2,6 +2,7 @@ import { Settings } from "@mui/icons-material";
 import { ElementType } from "react";
 import { ITab } from "../../interfaces";
 import ProfilePicture from "../profile/profilePicture/ProfilePicture";
+import Notifications from "./notifications/Notifications";
 import TextLogo from "../text-logo/TextLogo";
 
 export interface INavbarProps {
@@ -34,6 +35,7 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
       </div>
       <div className="items-center justify-end flex px-2">
         <div className="flex gap-2 align-middle items-center text-tertiary">
+          <Notifications />
           <Link href={`/settings`}>
             <Settings />
           </Link>

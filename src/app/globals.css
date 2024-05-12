@@ -45,6 +45,8 @@ html body *{
 		--color-secondaryDisabled: #eeeeee8b;
 		
 		--color-tertiary: #000000;
+		--color-quaternary: #6db1e3;
+		--color-quaternaryHover: #e3f3ff;
 		--color-background: #ffffff;
 		--color-backgroundHighlight: #dfdfdf;
 	}

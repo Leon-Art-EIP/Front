@@ -21,6 +21,8 @@ const data: Omit<ISingleArtPageProps, "link"> = {
   paymentSuccessful: false,
   paymentCanceled: false,
   connectedUserId: "1",
+  isForSale: true,
+  isSold: false,
 };
 
 export default data;

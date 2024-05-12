@@ -9,6 +9,7 @@ export interface IArtPublication {
   description: string;
   dimension: string;
   isForSale: boolean;
+  isSold: boolean;
   price: number;
   location: string;
   likes: IArtist[];

@@ -16,7 +16,7 @@ export function SearchBar({ onSearch }: SearchBarProps): JSX.Element {
           placeholder="Rechercher ..."
           onChange={(e) => onSearch(e.target.value)}
         />
-        <div className="grid place-items-center h-full w-12 text-tertiary">
+        <div className="grid place-items-center h-full w-12 text-tertiary cursor-pointer">
           <SearchIcon></SearchIcon>
         </div>
       </div>

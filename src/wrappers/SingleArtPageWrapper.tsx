@@ -122,6 +122,8 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       paymentSuccessful={props.success}
       paymentCanceled={props.cancel}
       connectedUserId={user.id}
+      isForSale={artPublication.isForSale}
+      isSold={artPublication.isSold}
     />
   );
 }

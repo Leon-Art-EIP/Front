@@ -47,7 +47,7 @@ export default function Page(): JSX.Element {
         {tabs.map((tab, index) => (
           <div key={index} className="p-4 hover:bg-secondary-hover rounded-full">
             {tab.type === "link" ? (
-              <Link href={tab.href}>
+              <Link href={tab.href!}>
                 <IconLabel icon={tab.icon} text={tab.text} color="tertiary" />
               </Link>
             ) : (
