@@ -1,4 +1,4 @@
-export interface Order {
+export interface IOrder {
   orderId: string; // ID de la commande
   buyerId: string; // ID de l'acheteur
   buyerName: string; // Nom de l'acheteur
