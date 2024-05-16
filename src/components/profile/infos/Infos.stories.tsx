@@ -11,9 +11,7 @@ type Story = StoryObj<IInfosProps>;
 export const AvailableForCommands: Story = {
   args: {
     availability: "available",
-    artType: "Designer graphique",
     artistName: "Lena H",
-    categories: ["Photographie numérique", "Photographe couleur", "Art vestimentaire", "Acrylique", "Broderie"],
     numberOfFollowers: 1300,
     numberOfPosts: 64,
     link: "a",
