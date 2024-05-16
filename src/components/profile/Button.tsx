@@ -1,4 +1,3 @@
-import { SvgIconProps } from "@mui/material";
 import { cn } from "../../tools/cn";
 
 interface IButtonProps {

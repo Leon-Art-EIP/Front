@@ -1,4 +1,4 @@
-type TTailwindCustomColor = "primaryBlack" | "primaryRed";
+type TTailwindCustomColor = "primaryBlack" | "primary";
 
 interface IButtonProps {
   title: string;

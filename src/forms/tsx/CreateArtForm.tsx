@@ -99,7 +99,7 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
             />
           </div>
           <div className="flex gap-12 [&>*]:flex-1 sm:flex-wrap sm:flex-row flex-col">
-            <Input name="name" placeholder="Titre" type="text" className="bg-secondaryGrey p-2 rounded" />
+            <Input name="name" placeholder="Titre" type="text" className="bg-secondary p-2 rounded" />
             <div className="border border-gray-400 h-0" />
           </div>
           <div className="flex gap-12 [&>*]:flex-1 sm:flex-wrap sm:flex-row flex-col flex-1">
@@ -109,7 +109,7 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
                 <Checkbox name="isForSale" title="A vendre" />
                 {isForSale &&
                   (stripeAccountAlreadyLinked ? (
-                    <NumberInput title="Prix (€)" name="price" className="bg-secondaryGrey p-2 rounded" />
+                    <NumberInput title="Prix (€)" name="price" className="bg-secondary p-2 rounded" />
                   ) : (
                     <div className="flex flex-col gap-4">
                       <span className="font-semibold text-lg text-tertiary">

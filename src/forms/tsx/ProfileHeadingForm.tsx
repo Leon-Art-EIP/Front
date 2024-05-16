@@ -14,13 +14,14 @@ import useProfileHeadingForm from "../methods/useProfileHeadingForm";
 
 interface IHeadingProps {
   profilePicture: string;
-  banner: string;
+  banner: string | { src: string };
 }
 
 export default function ProfileHeadingForm(props: IHeadingProps): JSX.Element {
+  const src = typeof props.banner === "string" ? props.banner : props.banner.src;
   const [notificationToast, setNotificationToast] = useState(false);
   const [currentProfilePicture, setCurrentProfilePicture] = useState<string>(props.profilePicture);
-  const [currentBannerPicture, setCurrentBannerPicture] = useState<string>(props.banner);
+  const [currentBannerPicture, setCurrentBannerPicture] = useState<string>(src);
 
   const [isProfilePictureModalOpen, setProfilePictureModalOpen] = useState(false);
   const [isBannerPictureModalOpen, setBannerPictureModalOpen] = useState(false);
@@ -92,7 +93,7 @@ export default function ProfileHeadingForm(props: IHeadingProps): JSX.Element {
 
   return (
     <FormProvider {...methods}>
-      <form className="grid grid-cols-4 justify-end relative h-64" onSubmit={methods.handleSubmit(onSubmit)}>
+      <form className="relative h-64" onSubmit={methods.handleSubmit(onSubmit)}>
         {notificationToast && <NotificationToast message="Modification réussie" type="success" />}
         <Modal isOpen={isProfilePictureModalOpen || isBannerPictureModalOpen} handleClose={handleModalOnClose}>
           <div className="flex flex-col gap-4 items-center">
@@ -110,19 +111,19 @@ export default function ProfileHeadingForm(props: IHeadingProps): JSX.Element {
         <ModifiableImage
           src={currentBannerPicture}
           alt="profileBanner"
-          className="absolute h-64 w-full"
-          imageClassName="h-64 overflow-hidden"
+          className="absolute h-64 w-screen"
+          imageClassName="h-64 w-screen object-contain bg-secondary"
           onClick={handleBannerPictureOnClick}
           height={256}
           width={2048}
         />
-        <div className="col-span-3" />
-        <div className="h-full flex items-center justify-center p-5">
+        <div className="flex items-center lg:justify-end justify-center lg:mx-28 mt-10">
           <ProfilePicture
             src={currentProfilePicture}
             width={200}
             height={200}
-            className="z-10 h-full relative"
+            className="relative"
+            imageClassName="w-48 h-48 object-contain bg-black"
             modifiable
             onClick={handleProfilePictureOnClick}
           />

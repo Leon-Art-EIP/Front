@@ -23,7 +23,7 @@ export default function TextArea(props: ITextAreaProps): JSX.Element {
         onChange={onChange}
         value={value}
         placeholder={props.placeholder}
-        className="bg-secondaryGrey p-2 rounded flex-1 sm:min-w-min min-w-0"
+        className="bg-secondary p-2 rounded flex-1 sm:min-w-min min-w-0"
       />
       {error && <div className="text-primary">{error.message}</div>}
     </div>

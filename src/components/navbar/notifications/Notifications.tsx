@@ -1,21 +1,21 @@
-import { useState, useEffect, useRef } from "react";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CommentIcon from "@mui/icons-material/Comment";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import InfoIcon from "@mui/icons-material/Info";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { INotification } from "../../../interfaces/notifications/notifications";
-import { myFetch } from "../../../tools/myFetch";
+import PaidIcon from "@mui/icons-material/Paid";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import CommentIcon from "@mui/icons-material/Comment";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import PaidIcon from '@mui/icons-material/Paid';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import InfoIcon from '@mui/icons-material/Info';
+import { getMessaging, onMessage } from "firebase/messaging";
 import { useRouter } from "next/navigation";
-import { getMessaging, onMessage } from 'firebase/messaging';
-import firebaseApp from '../../../tools/firebase';
+import { useEffect, useRef, useState } from "react";
+import { INotification } from "../../../interfaces/notifications/notifications";
+import firebaseApp from "../../../tools/firebase";
+import { myFetch } from "../../../tools/myFetch";
 
 export default function Notifications() {
   const router = useRouter();
@@ -27,7 +27,7 @@ export default function Notifications() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
       const messaging = getMessaging(firebaseApp);
       onMessage(messaging, (payload) => {
         // Handle the received push notification while the app is in the foreground
@@ -90,7 +90,7 @@ export default function Notifications() {
   function notificationIcon(type: string) {
     switch (type) {
       case "like":
-        return <FavoriteIcon className="w-8 fill-primaryRed" />;
+        return <FavoriteIcon className="w-8 fill-primary" />;
       case "comment":
         return <CommentIcon className="w-8 fill-cyan-600" />;
       case "follow":
@@ -134,7 +134,7 @@ export default function Notifications() {
         return content;
     }
   }
-  
+
   function onGoToNotificationContent(type: string, referenceId: string) {
     if (type === "like" || type === "comment") {
       router.push(`/single/${referenceId}`);

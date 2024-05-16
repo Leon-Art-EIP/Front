@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import banner from "../../assets/profileBanner.png";
 import Link from "../../components/link/Link";
 import LoadingPage from "../../components/loading/LoadingPage";
-import { TCategory } from "../../components/profile/category/Category";
 import Heading from "../../components/profile/heading/Heading";
 import Infos from "../../components/profile/infos/Infos";
 import ProfileHeadingForm from "../../forms/tsx/ProfileHeadingForm";
@@ -78,7 +77,6 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
       }
 
       async function fetchCollectionsArtsExtended(collections: ICollection[]): Promise<ICollectionArtsExtended[]> {
-        console.log("collections: ", collections);
         const collectionsArtsExtended = await Promise.all(
           collections.map(async (collection) => {
             const artPromises: Promise<IArtPublication | null>[] = collection.artPublications.map(async (artId) => {
@@ -115,16 +113,6 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
     fetchData();
   }, [props.id]);
 
-  const data: {
-    aboutTitle: string;
-    artType: string;
-    categories: TCategory[];
-  } = {
-    aboutTitle: "Bienvenue dans mon espace créatif",
-    artType: "Designer graphique",
-    categories: ["Huile", "Aquarelle", "Acrylique", "Gouache", "Tempéra", "Fresque", "Crayon"],
-  };
-
   if (!artist) return <LoadingPage />;
 
   return (
@@ -133,10 +121,10 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         profilePicture={`${imageApi}/${artist.profilePicture}`}
         banner={artist.bannerPicture.includes("default") ? banner : `${imageApi}/${artist.bannerPicture}`}
       />
-      <div className="grid grid-cols-4 bg-background">
-        <div className="flex flex-col col-span-3 gap-2 p-4">
+      <div className="flex lg:flex-row flex-col-reverse bg-background">
+        <div className="flex-1 flex flex-col gap-2 p-4">
           <TabsWrapper
-            aboutTitle={data.aboutTitle} // TODO: ask backend to send this
+            aboutTitle="Bienvenue dans mon espace créatif"
             aboutDescription={artist.biography}
             collections={profileCollections}
             collectionsArtsExtended={collectionsArtsExtended}
@@ -148,9 +136,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         <div className="flex justify-center">
           <Infos
             availability={artist.availability}
-            artType={data.artType} // TODO: ask backend to send this
             artistName={artist.username}
-            categories={data.categories} // TODO: ask backend to send this
             numberOfFollowers={artist.subscribersCount}
             numberOfPosts={publications.length}
             myProfile={myProfile}

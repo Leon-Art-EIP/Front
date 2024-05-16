@@ -57,10 +57,10 @@ export default function NotificationToast(props: NotificationToastProps): JSX.El
       }`}
     >
       <div
-        className={`m-6 p-4 w-1/3 rounded-md text-white flex flex-col gap-4 bg-white border border-secondary shadow-lg`}
+        className={`m-6 p-4 w-1/3 rounded-md text-white flex flex-col gap-4 bg-secondary border border-secondary shadow-lg`}
       >
         {props.type === "success" ? <CheckCircle /> : <CrossCircle />}
-        <p className="text-xl text-center text-secondary font-bold">{props.message}</p>
+        <p className="text-xl text-center text-black font-bold">{props.message}</p>
         <Button id="close-toast" color="primary" type="button" className="self-end" onClick={handleOnClick}>
           Ok
         </Button>

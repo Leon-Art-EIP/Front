@@ -1,6 +1,6 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { TCreateArtData, createArtSchema } from "../../zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function useCreateArtForm(): UseFormReturn<TCreateArtData> {
   const methods = useForm<TCreateArtData>({
@@ -10,7 +10,7 @@ export default function useCreateArtForm(): UseFormReturn<TCreateArtData> {
       name: "",
       description: "",
       isForSale: false,
-      price: 0,
+      price: "",
       location: undefined,
     },
     resolver: zodResolver(createArtSchema),

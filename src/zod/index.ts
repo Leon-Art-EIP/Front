@@ -60,7 +60,27 @@ export const createArtSchema = z.object({
   name: nonEmptyString,
   description: nonEmptyString,
   isForSale: z.boolean(),
-  price: z.number().min(0).optional(),
+  price: z
+    .string()
+    .refine(
+      (val) => {
+        const num = parseFloat(val);
+        return !Number.isNaN(num);
+      },
+      {
+        message: "Remplissez ici ou décochez 'à vendre'",
+      }
+    )
+    .refine(
+      (val) => {
+        const num = parseFloat(val);
+        return num >= 0;
+      },
+      {
+        message: "Le prix ne peut pas être négatif",
+      }
+    )
+    .optional(),
   location: nonEmptyString.optional(),
 });
 

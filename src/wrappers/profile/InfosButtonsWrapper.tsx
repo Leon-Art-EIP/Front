@@ -58,7 +58,7 @@ export default function InfosButtonsWrapper({ link: Link, ...props }: IInfosButt
         {props.following ? (
           <Button onClick={handleFollow} text="Ne plus suivre" className="text-black bg-gray-300" />
         ) : (
-          <Button onClick={handleFollow} text="Suivre" className="text-white bg-primaryRed" />
+          <Button onClick={handleFollow} text="Suivre" className="text-white bg-primary" />
         )}
       </div>
     </>

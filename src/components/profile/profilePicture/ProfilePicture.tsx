@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { cn } from "../../../tools/cn";
 import ModifiableImage from "../../single-art-page/ModifiableImage";
 
@@ -7,6 +6,7 @@ export interface IProfilePictureProps {
   width?: number;
   height?: number;
   className?: string;
+  imageClassName?: string;
   onClick?: () => void;
   modifiable?: boolean;
   style?: React.CSSProperties;
@@ -18,8 +18,8 @@ export default function ProfilePicture(props: IProfilePictureProps): JSX.Element
   if (props.modifiable) {
     return (
       <ModifiableImage
-        className={cn("h-full rounded-full border-white border-4 bg-white", props.className)}
-        imageClassName="h-full rounded-full"
+        className={cn("rounded-full border-4", props.className)}
+        imageClassName={cn("rounded-full", props.imageClassName)}
         hoverClassName="rounded-full"
         alt="profilePicture"
         src={props.src}
@@ -32,7 +32,7 @@ export default function ProfilePicture(props: IProfilePictureProps): JSX.Element
 
   return (
     <img
-      className={cn("h-full rounded-full border-white border-4 bg-white", props.className)}
+      className={cn("rounded-full border-4", props.imageClassName)}
       alt="profilePicture"
       src={props.src}
       width={props.width}
