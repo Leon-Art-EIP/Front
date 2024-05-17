@@ -1,5 +1,6 @@
 import { z } from "zod";
 import zxcvbn from "zxcvbn";
+import { getValueOrUndefined } from "./utils";
 
 /* c8 ignore start */
 
@@ -60,27 +61,7 @@ export const createArtSchema = z.object({
   name: nonEmptyString,
   description: nonEmptyString,
   isForSale: z.boolean(),
-  price: z
-    .string()
-    .refine(
-      (val) => {
-        const num = parseFloat(val);
-        return !Number.isNaN(num);
-      },
-      {
-        message: "Remplissez ici ou décochez 'à vendre'",
-      }
-    )
-    .refine(
-      (val) => {
-        const num = parseFloat(val);
-        return num >= 0;
-      },
-      {
-        message: "Le prix ne peut pas être négatif",
-      }
-    )
-    .optional(),
+  price: z.preprocess(getValueOrUndefined, z.string().optional()),
   location: nonEmptyString.optional(),
 });
 

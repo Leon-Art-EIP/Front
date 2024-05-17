@@ -39,7 +39,18 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   };
 
   const onSubmit = async (data: TCreateArtData): Promise<void> => {
+    if (data.isForSale && !data.price) {
+      methods.setError("price", { type: "manual", message: "Remplissez un prix ou décochez 'à vendre'" });
+      return;
+    }
     data.price = data.isForSale ? data.price : undefined;
+    if (data.price) {
+      const price = parseFloat(data.price);
+      if (price < 0) {
+        methods.setError("price", { type: "manual", message: "Le prix doit être positif" });
+        return;
+      }
+    }
     await handleSubmit(data);
   };
 

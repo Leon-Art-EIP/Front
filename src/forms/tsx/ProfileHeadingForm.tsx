@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
-import FileInput from "../../components/form/FileInput";
-import { Button, Modal, NotificationToast } from "../../components/lib";
+import ImageCropper from "../../components/image/ImageCropper";
+import { Modal, NotificationToast } from "../../components/lib";
 import ProfilePicture from "../../components/profile/profilePicture/ProfilePicture";
 import ModifiableImage from "../../components/single-art-page/ModifiableImage";
 import { IProfileUser } from "../../interfaces/user/profileUser";
@@ -91,22 +91,20 @@ export default function ProfileHeadingForm(props: IHeadingProps): JSX.Element {
     }
   };
 
+  const updateImage = (dataUrl: string): void => {
+    console.log(dataUrl);
+  };
+
   return (
     <FormProvider {...methods}>
       <form className="relative h-64" onSubmit={methods.handleSubmit(onSubmit)}>
         {notificationToast && <NotificationToast message="Modification réussie" type="success" />}
         <Modal isOpen={isProfilePictureModalOpen || isBannerPictureModalOpen} handleClose={handleModalOnClose}>
-          <div className="flex flex-col gap-4 items-center">
-            <h1 className="text-2xl font-semibold">
-              Importer une nouvelle {isProfilePictureModalOpen ? "photo de profil" : "bannière"}
-            </h1>
-            <FileInput name={isProfilePictureModalOpen ? "profilePicture" : "bannerPicture"} className="w-96 h-48" />
-            {(profilePicture || bannerPicture) && (
-              <Button color="danger" type="submit">
-                Valider
-              </Button>
-            )}
-          </div>
+          <ImageCropper
+            closeModal={() => handleModalOnClose}
+            updateImage={updateImage}
+            type={isProfilePictureModalOpen ? "profilePicture" : "banner"}
+          />
         </Modal>
         <ModifiableImage
           src={currentBannerPicture}

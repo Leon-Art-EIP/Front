@@ -41,7 +41,12 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
           </Link>
           <Link href={`/profile/${props.userId}`}>
             <div className="h-16 w-16">
-              <ProfilePicture src={props.image} width={64} height={64} imageClassName="h-16 w-16" />
+              <ProfilePicture
+                src={props.image}
+                width={64}
+                height={64}
+                imageClassName="h-16 w-16 object-contain bg-black"
+              />
             </div>
           </Link>
         </div>
