@@ -1,27 +1,34 @@
 import { useRef, useState } from "react";
 import ReactCrop, { PercentCrop, centerCrop, convertToPixelCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import { TProfileHeadingData } from "../../zod";
+import { Button } from "../lib";
 import { setCanvasPreview } from "./priv/setCanvasPreview";
 
-const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
 
 interface IImageCropperProps {
+  name: keyof TProfileHeadingData;
   closeModal: () => void;
-  updateImage: (dataUrl: string) => void;
-  type: "profilePicture" | "banner";
+  changeProfile: (file: File) => Promise<void>;
+  type: "profilePicture" | "bannerPicture";
 }
 
 export default function ImageCropper(props: IImageCropperProps) {
+  const aspectRatio = props.type === "profilePicture" ? 1 : window.innerWidth / 256;
   const imgRef = useRef<HTMLImageElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const [imgSrc, setImgSrc] = useState("");
   const [crop, setCrop] = useState<PercentCrop | undefined>();
   const [error, setError] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [initialFile, setInitialFile] = useState<File | null>(null);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    setInitialFile(file);
 
     const reader = new FileReader();
     reader.addEventListener("load", () => {
@@ -51,7 +58,7 @@ export default function ImageCropper(props: IImageCropperProps) {
         unit: "%",
         width: cropWidthInPercent,
       },
-      ASPECT_RATIO,
+      aspectRatio,
       width,
       height
     );
@@ -59,22 +66,50 @@ export default function ImageCropper(props: IImageCropperProps) {
     setCrop(centeredCrop);
   };
 
-  const onClick = () => {
+  const canvasToFile = (canvas: HTMLCanvasElement) => {
+    return new Promise((resolve, reject) => {
+      if (initialFile) {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const file = new File([blob], initialFile.name, { type: initialFile.type });
+            resolve(file);
+          } else {
+            reject(new Error("Canvas is empty"));
+          }
+        }, initialFile.type);
+      } else {
+        reject(new Error("No file to convert"));
+      }
+    });
+  };
+
+  const onClick = async () => {
     if (imgRef.current && previewCanvasRef.current && crop) {
       setCanvasPreview(
         imgRef.current,
         previewCanvasRef.current,
         convertToPixelCrop(crop, imgRef.current.width, imgRef.current.height)
       );
+      const canvas = previewCanvasRef.current;
+      if (canvas) {
+        try {
+          const file = (await canvasToFile(canvas)) as File;
+          setFile(file);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    }
+  };
 
-      const dataUrl = previewCanvasRef.current.toDataURL();
-      props.updateImage(dataUrl);
-      props.closeModal();
+  const onValidate = async () => {
+    if (file) {
+      props.changeProfile(file);
     }
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <label className="block mb-3 w-fit">
         <input
           type="file"
@@ -89,33 +124,37 @@ export default function ImageCropper(props: IImageCropperProps) {
           <ReactCrop
             crop={crop}
             onChange={(pixelCrop, percentCrop) => setCrop(percentCrop)}
-            circularCrop
+            circularCrop={props.type === "profilePicture"}
             keepSelection
-            aspect={ASPECT_RATIO}
+            aspect={aspectRatio}
             minWidth={MIN_DIMENSION}
           >
             <img ref={imgRef} src={imgSrc} alt="Upload" style={{ maxHeight: "70vh" }} onLoad={onImageLoad} />
           </ReactCrop>
           <button
-            className="text-white font-mono text-xs py-2 px-4 rounded-2xl mt-4 bg-sky-500 hover:bg-sky-600"
+            className="text-white text-center font-mono text-xs py-2 px-4 rounded-2xl mt-2 bg-sky-500 hover:bg-sky-600"
             onClick={onClick}
           >
-            Crop Image
+            Sélectionner
           </button>
         </div>
       )}
       {crop && (
-        <canvas
-          ref={previewCanvasRef}
-          className="mt-4"
-          style={{
-            display: "none",
-            border: "1px solid black",
-            objectFit: "contain",
-            width: 150,
-            height: 150,
-          }}
-        />
+        <div className="w-full flex flex-col gap-4 items-center bg-neutral-300 rounded p-4 border border-black">
+          <canvas
+            ref={previewCanvasRef}
+            className="bg-neutral-400"
+            style={{
+              border: "1px solid black",
+              objectFit: "contain",
+              width: props.type === "profilePicture" ? 150 : 436,
+              height: props.type === "profilePicture" ? 150 : 450 / aspectRatio,
+            }}
+          />
+          <Button onClick={onValidate} type="button" color="primary" disabled={file === null}>
+            Valider
+          </Button>
+        </div>
       )}
     </div>
   );

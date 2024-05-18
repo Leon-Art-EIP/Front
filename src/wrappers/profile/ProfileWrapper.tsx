@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import banner from "../../assets/profileBanner.png";
 import Link from "../../components/link/Link";
@@ -28,10 +29,15 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   const [profileCollections, setProfileCollections] = useState<IProfileCollection[]>([]);
   const [collectionsArtsExtended, setCollectionsArtsExtended] = useState<ICollectionArtsExtended[]>([]);
   const [publications, setPublications] = useState<IProfileArt[]>([]);
+  const router = useRouter();
+
+  const handleUnauthorized = () => {
+    router.push("/login");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await myFetch({ route: `/api/user/profile/${props.id}`, method: "GET" });
+      const response = await myFetch({ route: `/api/user/profile/${props.id}`, method: "GET", handleUnauthorized });
       const artist = response.json as IArtist;
       setArtist(artist);
 
