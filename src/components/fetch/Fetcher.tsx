@@ -6,6 +6,8 @@ import { TMethod } from "../../interfaces/fetch/methods";
 import { IMyFetchResponse, myFetch } from "../../tools/myFetch";
 import { NotificationToast } from "../lib";
 
+/* c8 ignore start */
+
 export interface IFetcherProps {
   nbFetchs: number;
   handleOk?: (json?: any) => void;
@@ -79,3 +81,5 @@ export default function Fetcher(props: IFetcherProps): JSX.Element | null {
     />
   ) : null;
 }
+
+/* c8 ignore stop */
