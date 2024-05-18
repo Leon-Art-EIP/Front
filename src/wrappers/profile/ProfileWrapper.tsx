@@ -31,11 +31,11 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   const [publications, setPublications] = useState<IProfileArt[]>([]);
   const router = useRouter();
 
-  const handleUnauthorized = () => {
-    router.push("/login");
-  };
-
   useEffect(() => {
+    const handleUnauthorized = () => {
+      router.push("/login");
+    };
+
     const fetchData = async () => {
       const response = await myFetch({ route: `/api/user/profile/${props.id}`, method: "GET", handleUnauthorized });
       const artist = response.json as IArtist;
@@ -117,7 +117,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
       setCollectionsArtsExtended(collectionsArtsExtended);
     };
     fetchData();
-  }, [props.id]);
+  }, [props.id, router]);
 
   if (!artist) return <LoadingPage />;
 
