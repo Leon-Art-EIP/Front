@@ -47,7 +47,8 @@ export type TErrorMessages =
   | "is_artist must be a boolean value"
   | "Invalid User ID"
   | "Comment added"
-  | "Cannot delete publication with unfinished orders";
+  | "Cannot delete publication with unfinished orders"
+  | "Error: Images Only!";
 
 export const errors: Record<TErrorMessages, string> = {
   "Incorrect password": "Mot de passe incorrect",
@@ -95,4 +96,5 @@ export const errors: Record<TErrorMessages, string> = {
   "Comment added": "Commentaire ajouté",
   "Cannot delete publication with unfinished orders":
     "Impossible de supprimer une publication avec des commandes non terminées",
+  "Error: Images Only!": "Erreur: Images uniquement",
 };

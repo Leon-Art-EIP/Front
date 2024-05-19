@@ -1,5 +1,6 @@
 import { z } from "zod";
 import zxcvbn from "zxcvbn";
+import { getValueOrUndefined } from "./utils";
 
 /* c8 ignore start */
 
@@ -60,7 +61,7 @@ export const createArtSchema = z.object({
   name: nonEmptyString,
   description: nonEmptyString,
   isForSale: z.boolean(),
-  price: z.number().min(0).optional(),
+  price: z.preprocess(getValueOrUndefined, z.string().optional()),
   location: nonEmptyString.optional(),
 });
 

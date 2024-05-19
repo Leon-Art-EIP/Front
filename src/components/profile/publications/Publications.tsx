@@ -12,8 +12,8 @@ export default function Publications({ link: Link, ...props }: IPublicationsProp
   }
 
   return (
-    <div className="w-full flex justify-center bg-background-hl p-4 rounded">
-      <div className="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 mx-auto">
+    <div className="w-full flex bg-background-hl p-4 rounded">
+      <div className="flex flex-wrap gap-4">
         {props.profileArts.map((picture) => (
           <Link
             key={`art-${picture.id}`}

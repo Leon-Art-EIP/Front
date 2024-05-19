@@ -59,4 +59,5 @@ module.exports = {
     },
   },
   plugins: [],
+  safelist: ["bg-primary", "bg-secondary"],
 };

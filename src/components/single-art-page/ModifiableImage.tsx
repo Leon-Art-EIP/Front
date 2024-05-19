@@ -2,7 +2,6 @@
 
 import { Edit } from "@mui/icons-material";
 import { useState } from "react";
-import Image from "next/image";
 import { cn } from "../../tools/cn";
 
 interface IModifiableImageProps {

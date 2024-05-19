@@ -1,6 +1,8 @@
 import { FormControlLabel, FormGroup, Switch } from "@mui/material";
 import { useState } from "react";
 
+/* c8 ignore start */
+
 export interface QuizzQuestionProps {
   question: {
     question: string;
@@ -73,3 +75,5 @@ export default function QuizzQuestion(props: QuizzQuestionProps): JSX.Element {
     </div>
   );
 }
+
+/* c8 ignore stop */

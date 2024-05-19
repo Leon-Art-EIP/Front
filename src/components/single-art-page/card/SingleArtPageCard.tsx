@@ -62,7 +62,7 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
       <div className="p-8 w-full flex flex-col rounded-2xl bg-background-hl text-tertiary gap-10 h-fit">
         <Label title="Description" text={props.description} />
         <Label title="Caractéristiques" text={props.caracteristics} />
-        {(props.canBuy && !props.isOwner) && <Label title="Prix" text={`${props.price?.toString()} €`} />}
+        {props.price !== undefined && <Label title="Prix" text={`${props.price?.toString()} €`} />}
         {!props.isOwner && (
           <>
             {props.canBuy && !props.isSold ? (
@@ -72,7 +72,7 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
                     <Button
                       id="add-to-commands-button"
                       disabled={belongingCommands}
-                      backgroundColor="primaryRed"
+                      backgroundColor="primary"
                       title={"Acheter"}
                       onClick={onBuyOrder}
                     />

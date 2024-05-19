@@ -40,7 +40,7 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
   }, [props.connectedUserId]);
 
   return (
-    <div className="flex flex-col gap-8 bg-background-hl rounded px-4 py-2">
+    <div className="flex flex-col gap-8 bg-secondary rounded px-4 py-2">
       <h1 className="font-semibold text-xl text-tertiary">Commentaires</h1>
       <div className="flex flex-wrap gap-2 items-center text-tertiary">
         {connectedUser.profilePicture && (

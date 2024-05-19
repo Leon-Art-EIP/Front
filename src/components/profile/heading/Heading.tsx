@@ -1,19 +1,29 @@
-import Image from "next/image";
 import ProfilePicture from "../profilePicture/ProfilePicture";
 
 interface IHeadingProps {
   profilePicture: string;
-  banner: string;
+  banner: string | { src: string };
 }
 
 export default function Heading(props: IHeadingProps): JSX.Element {
+  const src = typeof props.banner === "string" ? props.banner : props.banner.src;
+
   return (
-    <div className="grid grid-cols-4 relative h-64">
-      <img src={props.banner} alt="profileBanner" className="absolute h-64 z-0" height={256} width={2048} />
-      <div className="col-span-3" />
-      <div className="z-10 h-full flex items-center justify-center p-5">
-        <ProfilePicture src={props.profilePicture} width={200} height={200} />
+    <div className="relative h-64">
+      <div className="z-10 flex items-center lg:justify-end justify-center lg:mx-28 h-full">
+        <ProfilePicture
+          src={props.profilePicture}
+          width={192}
+          height={192}
+          imageClassName="z-10 w-48 h-48 object-contain bg-black"
+        />
       </div>
+      <img
+        src={src}
+        alt="profileBanner"
+        className="absolute inset-0 h-64 z-0 w-screen object-contain bg-secondary"
+        height={256}
+      />
     </div>
   );
 }

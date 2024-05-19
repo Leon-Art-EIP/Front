@@ -101,7 +101,7 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
               type="button"
               color="danger"
               id="save-button"
-              className="bg-primaryRed rounded-lg px-4 py-2 font-semibold text-xl text-white"
+              className="bg-primary rounded-lg px-4 py-2 font-semibold text-xl text-white"
               onClick={handleSave}
             >
               Enregistrer

@@ -13,12 +13,10 @@ import { FollowerCard } from "./FollowerCard";
 export interface IInfosProps {
   availability: "available" | "unavailable";
   artistName: string;
-  artType: string;
   numberOfFollowers: number;
   followers: IInfoUser[];
   followed: IInfoUser[];
   numberOfPosts: number;
-  categories: TCategory[];
   myProfile: boolean;
   following: boolean;
   id: string;
@@ -56,10 +54,10 @@ export default function Infos(props: IInfosProps): JSX.Element {
   };
 
   return (
-    <div className="flex items-start w-3/4 h-full bg-gradient-to-b from-background-hl">
+    <div className="flex flex-col bg-gradient-to-b from-background-hl pt-4 w-72 mx-16">
       <div className="p-4 inline-flex flex-col gap-3 justify-center">
         <div className="font-medium text-2xl text-center text-tertiary">{props.artistName}</div>
-        <div className="inline-flex justify-center">
+        <div className="in line-flex justify-center">
           <div className="bg-secondary rounded-2xl font-semibold px-4 py-1 text-sm text-center text-tertiary">
             {props.artType}
           </div>
@@ -91,11 +89,6 @@ export default function Infos(props: IInfosProps): JSX.Element {
         )}
         <AvailableForCommandsButton isAvailable={props.availability === "available"} disabled={!props.myProfile} />
         <div className="h-0.5 w-full bg-black" />
-        <div className="flex flex-wrap justify-center gap-2">
-          {props.categories.map((category) => (
-            <Category category={category} key={`buttonCategory-${category}`} />
-          ))}
-        </div>
         {props.myProfile && (
           <LinkButton link={props.link} href={`/single/new`} color="danger" type="button" className="w-fit self-center">
             Nouvelle publication
