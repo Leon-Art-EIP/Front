@@ -29,7 +29,7 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
         />
       </div>
       <div className="flex flex-col px-16 pt-16 pb-2 relative z-10 w-full">
-        <div className="flex flex-col gap-2 text-secondary max-w-lg truncate h-40">
+        <div className="flex flex-col gap-2 text-secondary max-w-l truncate h-40">
           <div className="max-w-full whitespace-normal truncate">
             <div
               className="text-3xl font-semibold truncate cursor-pointer"
