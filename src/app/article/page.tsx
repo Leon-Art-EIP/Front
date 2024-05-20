@@ -1,5 +1,5 @@
-import ExplorerWrapper from "../../wrappers/explorer/ExplorerWrapper";
+import ArticleWrapper from "../../wrappers/article/ArticleWrapper";
 
-export default function Page(): JSX.Element {
-  return <ExplorerWrapper />;
+export default async function Page(): Promise<JSX.Element> {
+  return <ArticleWrapper id={"undefined"} />;
 }

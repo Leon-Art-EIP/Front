@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IPassingArt } from "../../../interfaces/home/passingArt";
 import PassingArt from "./PassingArt";
@@ -9,6 +10,7 @@ export interface IPassingArtsProps {
 }
 
 export default function PassingArts(props: IPassingArtsProps): JSX.Element {
+  const router = useRouter();
   const [position, setPosition] = useState(1);
 
   if (props.passingArts.length === 0) {
@@ -23,17 +25,12 @@ export default function PassingArts(props: IPassingArtsProps): JSX.Element {
     }
   };
 
-  const handleClick = () => {
-    // history.push(`/article/${id}`); // Navigate to the article detail page
-  };
-
   return (
     <PassingArt
       passingArt={props.passingArts[position - 1]}
       nbrPoints={props.passingArts.length}
       position={position}
       increasePosition={increasePosition}
-      handleClick={handleClick}
     />
   );
 }

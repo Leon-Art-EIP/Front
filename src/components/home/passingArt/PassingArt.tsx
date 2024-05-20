@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { IPassingArt } from "../../../interfaces/home/passingArt";
 import PointsPosition from "./PointsPosition";
 
@@ -6,13 +9,16 @@ export interface IPassingArtProps {
   nbrPoints: number;
   position: number;
   increasePosition: () => void;
-  handleClick: () => void;
 }
 
 export default function PassingArt(props: IPassingArtProps): JSX.Element {
-  const handleClick = () => {
-    props.handleClick();
+  const router = useRouter();
+
+  const handleClick = (id: string) => {
+    // router.push(`/article/${props.users.users[index]._id}`);
+    router.push(`/article/${id}`);
   };
+
   return (
     <div className="flex h-72 relative cursor-pointer" onClick={props.increasePosition}>
       <div className="absolute inset-0 z-0 w-full max-h-72 bg-black">
@@ -29,7 +35,7 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
               className="text-3xl font-semibold truncate cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation(); // Prevent triggering the parent click event
-                handleClick();
+                handleClick(props.passingArt._id);
               }}
             >
               {props.passingArt.title}
