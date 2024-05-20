@@ -10,7 +10,7 @@ export interface ChatUserCardProps {
 }
 
 export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
-
+  /* c8 ignore start */
   function onSelectChat() {
     props.handleSelectChat(props.chat);
   }
@@ -59,7 +59,5 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
       </div>
     </div>
   );
-  {
-    /* c8 ignore stop */
-  }
 }
+/* c8 ignore stop */

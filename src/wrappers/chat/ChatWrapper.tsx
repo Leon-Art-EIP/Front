@@ -21,13 +21,10 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
   }, [currentUser]);
 
   useEffect(() => {
-    if (props.convId && chats.length > 0) {
-      console.log("chats", chats);
+    if (props.convId && chats.length > 0 && !currentChat) {
       const selectedChat = chats.find((chat) => chat._id === props.convId);
-      console.log("selectedChat", selectedChat);
       if (selectedChat) {
         setCurrentChat(selectedChat);
-        fetchMessages();
       }
     }
   }, [props.convId, chats]);

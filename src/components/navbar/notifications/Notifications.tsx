@@ -121,7 +121,7 @@ export default function Notifications() {
       case "payment_success":
         return "Une personne viens d'acheter une de vos oeuvres !";
       case "order_processing":
-        return "Votre payment a bien été reçu, nous traitons votre commande";
+        return "Votre payment a bien été reçu, le vendeur va traiter votre commande";
       case "order_cancelled_seller":
         return "Une de vos commandes a été annulée";
       case "order_cancelled_buyer":
@@ -142,13 +142,15 @@ export default function Notifications() {
       router.push(`/profile/${referenceId}`);
     } else if (
       type === "payment_success" ||
-      type === "order_processing" ||
       type === "order_cancelled_seller" ||
-      type === "order_cancelled_buyer" ||
-      type === "order_completed" ||
-      type === "order_shipping"
+      type === "order_completed"
     ) {
-      router.push(`/order/${referenceId}`);
+      router.push(`/order?type=sell&orderId=${referenceId}`);
+    }
+    else if (type === "order_processing" ||
+      type === "order_cancelled_buyer" ||
+      type === "order_shipping") {
+      router.push(`/order?type=buy&orderId=${referenceId}`);
     }
   }
 
