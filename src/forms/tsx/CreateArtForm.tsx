@@ -39,7 +39,18 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   };
 
   const onSubmit = async (data: TCreateArtData): Promise<void> => {
+    if (data.isForSale && !data.price) {
+      methods.setError("price", { type: "manual", message: "Remplissez un prix ou décochez 'à vendre'" });
+      return;
+    }
     data.price = data.isForSale ? data.price : undefined;
+    if (data.price) {
+      const price = parseFloat(data.price);
+      if (price < 0) {
+        methods.setError("price", { type: "manual", message: "Le prix doit être positif" });
+        return;
+      }
+    }
     await handleSubmit(data);
   };
 
@@ -99,7 +110,7 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
             />
           </div>
           <div className="flex gap-12 [&>*]:flex-1 sm:flex-wrap sm:flex-row flex-col">
-            <Input name="name" placeholder="Titre" type="text" className="bg-secondaryGrey p-2 rounded" />
+            <Input name="name" placeholder="Titre" type="text" className="bg-secondary p-2 rounded" />
             <div className="border border-gray-400 h-0" />
           </div>
           <div className="flex gap-12 [&>*]:flex-1 sm:flex-wrap sm:flex-row flex-col flex-1">
@@ -109,7 +120,7 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
                 <Checkbox name="isForSale" title="A vendre" />
                 {isForSale &&
                   (stripeAccountAlreadyLinked ? (
-                    <NumberInput title="Prix (€)" name="price" className="bg-secondaryGrey p-2 rounded" />
+                    <NumberInput title="Prix (€)" name="price" className="bg-secondary p-2 rounded" />
                   ) : (
                     <div className="flex flex-col gap-4">
                       <span className="font-semibold text-lg text-tertiary">

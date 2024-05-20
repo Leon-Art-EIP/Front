@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 const ThemeSelector = () => {
@@ -46,7 +48,7 @@ const ThemeSelector = () => {
       {themes.map((theme, index) => (
         <button
           key={index}
-          className={`rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none border border-grey border-2 ${
+          className={`rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none border-gray-400 border-2 ${
             selectedTheme === theme.name ? "border-2" : ""
           }`}
           style={{ backgroundColor: theme.primary.DEFAULT }}

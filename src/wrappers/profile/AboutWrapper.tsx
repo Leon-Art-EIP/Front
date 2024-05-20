@@ -32,7 +32,7 @@ export default function AboutWrapper(props: IAboutWrapperProps): JSX.Element {
         method="POST"
         route="/api/user/profile/bio"
         successStr="La description a été modifiée avec succès"
-        body={JSON.stringify({ description: inputValue })}
+        body={JSON.stringify({ biography: inputValue })}
       ></Fetcher>
       <About
         title={props.title}

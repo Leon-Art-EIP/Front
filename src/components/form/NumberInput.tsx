@@ -19,9 +19,7 @@ export default function NumberInput(props: Omit<IInputProps, "type">): JSX.Eleme
   } = useController({ name: props.name });
 
   const handleInputOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    if (e.target.value) {
-      onChange(parseFloat(e.target.value));
-    }
+    onChange(e.target.value);
   };
 
   return (
@@ -29,9 +27,6 @@ export default function NumberInput(props: Omit<IInputProps, "type">): JSX.Eleme
       {props.title && <div className="text-lg text-tertiary">{props.title}</div>}
       <input
         type="number"
-        {...register(props.name, {
-          valueAsNumber: true,
-        })}
         name={props.name}
         id={props.name}
         className={cn("sm:min-w-min min-w-0", props.className)}

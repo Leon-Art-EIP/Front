@@ -1,5 +1,3 @@
-"use client";
-
 import { AccountCircle, Contrast, Description, Security } from "@mui/icons-material";
 import Link from "next/link";
 import DisconnectButton from "../../components/buttons/DisconnectButton";

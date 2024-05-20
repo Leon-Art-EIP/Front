@@ -2,8 +2,8 @@ import { Settings } from "@mui/icons-material";
 import { ElementType } from "react";
 import { ITab } from "../../interfaces";
 import ProfilePicture from "../profile/profilePicture/ProfilePicture";
-import Notifications from "./notifications/Notifications";
 import TextLogo from "../text-logo/TextLogo";
+import Notifications from "./notifications/Notifications";
 
 export interface INavbarProps {
   tabs: ITab[];
@@ -41,7 +41,12 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
           </Link>
           <Link href={`/profile/${props.userId}`}>
             <div className="h-16 w-16">
-              <ProfilePicture src={props.image} width={64} height={64} />
+              <ProfilePicture
+                src={props.image}
+                width={64}
+                height={64}
+                imageClassName="h-16 w-16 object-contain bg-black"
+              />
             </div>
           </Link>
         </div>

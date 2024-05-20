@@ -71,7 +71,7 @@ export default function CreateCollectionForm(props: ICreateCollectionFormProps):
             className="border-none focus:outline-none p-2 rounded-full text-center"
             errorClassName="text-center"
           />
-          <button className="rounded-full bg-primaryRed hover:bg-red-700 p-2 text-white w-20" disabled={loading}>
+          <button className="rounded-full bg-primary hover:bg-red-700 p-2 text-white w-20" disabled={loading}>
             Créer
           </button>
           {error && <div className="text-red-600">{error}</div>}
