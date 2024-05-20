@@ -2,80 +2,102 @@
 
 import CloseIcon from "@mui/icons-material/Close";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Modal from "../../components/lib/Modal/Modal";
 import OrderInfo from "../../components/order/OrderInfo";
 import OrderList from "../../components/order/OrderList";
 import { orderDeliveryHelpText } from "../../configs/order/orderDeliveryHelp";
-import { Order } from "../../interfaces/order/orders";
-import { IConnectedUser } from "../../interfaces/user/user";
-import { myFetch } from "../../tools/myFetch";
+import { useOrder } from "../../contexts/OrderContext";
 
-interface OrderWrapperProps {
-  orderId: string | undefined;
-}
+export default function OrderWrapper(): JSX.Element {
+  const { currentUser, selectedOrderId, refreshBuyOrders, refreshSellOrders, handleSelectOrder, clearSelectedOrder } = useOrder();
 
-export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
-  const router = useRouter();
-  const [orderType, setOrderType] = useState<"sell" | "buy">("buy");
-  const [buyOrders, setBuyOrders] = useState<Order[]>([]);
-  const [sellOrders, setSellOrders] = useState<Order[]>([]);
-  const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>(props.orderId); // select the order if there is a orderId in the url
-  const [currentUser, setCurrentUser] = useState<IConnectedUser>();
+  const searchParams = useSearchParams();
 
+  const [orderType, setOrderType] = useState<"buy" | "sell">(getOrderType());
+  const orderIdSelectedParams = searchParams.get("orderId") || undefined;
   const [deliveryHelpModal, setDeliveryHelpModal] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchBuyOrders() {
-      const res = await myFetch({ route: `/api/order/latest-buy-orders`, method: "GET" });
-      const data: Order[] = res.json;
-      setBuyOrders(data);
-    }
-    async function fetchSellOrders() {
-      const res = await myFetch({ route: `/api/order/latest-sell-orders`, method: "GET" });
-      const data: Order[] = res.json;
-      setSellOrders(data);
-    }
-    async function getCurrentUser() {
-      if (!localStorage.getItem("user")) {
-        router.push("/login");
-      } else {
-        setCurrentUser(await JSON.parse(localStorage.getItem("user") || "{}"));
-      }
-    }
-
-    getCurrentUser();
-    fetchBuyOrders();
-    fetchSellOrders();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function handleOrderChange(orderId: string) {
-    setSelectedOrderId(orderId);
+  function getOrderType(): "buy" | "sell" {
+    const type = searchParams.get("type");
+    return type === "sell" ? "sell" : "buy";
   }
+
+  useEffect(() => {
+    if (orderIdSelectedParams) {
+      handleSelectOrder(orderIdSelectedParams);
+    }
+  }, [orderIdSelectedParams]);
+
+  useEffect(() => {
+    const newOrderType = getOrderType();
+    if (newOrderType !== orderType) {
+      setOrderType(newOrderType);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (currentUser) {
+      refreshBuyOrders();
+      refreshSellOrders();
+    }
+  }, [currentUser]);
+
+  function handleOrderTypeChange(orderType: "buy" | "sell") {
+    clearSelectedOrder();
+    setOrderType(orderType);
+  }
+
+  // const [orderType, setOrderType] = useState<"sell" | "buy">("buy");
+  // const [buyOrders, setBuyOrders] = useState<Order[]>([]);
+  // const [sellOrders, setSellOrders] = useState<Order[]>([]);
+  // const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>(props.orderId); // select the order if there is a orderId in the url
+  // const [currentUser, setCurrentUser] = useState<IConnectedUser>();
+
+  // useEffect(() => {
+  //   async function fetchBuyOrders() {
+  //     const res = await myFetch({ route: `/api/order/latest-buy-orders`, method: "GET" });
+  //     const data: Order[] = res.json;
+  //     setBuyOrders(data);
+  //   }
+  //   async function fetchSellOrders() {
+  //     const res = await myFetch({ route: `/api/order/latest-sell-orders`, method: "GET" });
+  //     const data: Order[] = res.json;
+  //     setSellOrders(data);
+  //   }
+  //   async function getCurrentUser() {
+  //     if (!localStorage.getItem("user")) {
+  //       router.push("/login");
+  //     } else {
+  //       setCurrentUser(await JSON.parse(localStorage.getItem("user") || "{}"));
+  //     }
+  //   }
+
+  //   getCurrentUser();
+  //   fetchBuyOrders();
+  //   fetchSellOrders();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  // function handleOrderChange(orderId: string) {
+  //   setSelectedOrderId(orderId);
+  // }
+
+  // function handleOrderTypeChange(type: "sell" | "buy") {
+  //   setOrderType(type);
+  // }
 
   function handleToggleDeliveryHelpModal() {
     setDeliveryHelpModal(!deliveryHelpModal);
   }
 
-  function handleOrderTypeChange(type: "sell" | "buy") {
-    setOrderType(type);
-  }
-
   return (
     <div className="bg-background flex flex-row page-content-non-scrollable">
       <div className="w-1/3 min-w-[350px] max-w-[500px] flex-shrink-0">
-        <OrderList
-          buyOrders={buyOrders}
-          sellOrders={sellOrders}
-          selectedOrderId={selectedOrderId}
-          handleOrderChange={handleOrderChange}
-          orderType={orderType}
-          handleOrderTypeChange={handleOrderTypeChange}
-        />
+        <OrderList orderType={orderType} handleOrderTypeChange={handleOrderTypeChange} />
       </div>
-      {props.orderId === undefined && selectedOrderId === undefined ? (
+      {orderIdSelectedParams === undefined && selectedOrderId === undefined ? (
         <div className="flex flex-col items-center justify-center w-full h-full gap-4 text-gray-400">
           <LocalGroceryStoreIcon sx={{ fontSize: 200 }} />
           <span className="text-2xl font-bold">Bienvenue sur votre espace d{"'"}achat et vente</span>
@@ -91,11 +113,9 @@ export default function OrderWrapper(props: OrderWrapperProps): JSX.Element {
         </div>
       ) : (
         <OrderInfo
-          selectedOrderId={selectedOrderId}
           orderType={orderType}
           deliveryHelpModal={deliveryHelpModal}
           openDeliveryHelpModal={handleToggleDeliveryHelpModal}
-          currentUser={currentUser}
         />
       )}
       {deliveryHelpModal && (

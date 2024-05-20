@@ -3,9 +3,7 @@ import { useChat } from "../../../contexts/ChatContext";
 import { Chat } from "./Chat";
 
 export function ChatBox(): JSX.Element {
-  {
-    /* c8 ignore start */
-  }
+  /* c8 ignore start */
   const { messages, currentUser } = useChat() || {};
 
   const chatBoxRef = useRef<HTMLDivElement>(null);
@@ -64,7 +62,5 @@ export function ChatBox(): JSX.Element {
       })}
     </div>
   );
-  {
-    /* c8 ignore stop */
-  }
 }
+/* c8 ignore stop */

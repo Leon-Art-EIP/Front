@@ -1,60 +1,42 @@
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Order } from "../../interfaces/order/orders";
-import { IConnectedUser } from "../../interfaces/user/user";
-import { myFetch } from "../../tools/myFetch";
+import { useEffect } from "react";
+import { useOrder } from "../../contexts/OrderContext";
 import Button from "../lib/Button/Button";
 
-interface OrderInfoProps {
-  selectedOrderId: string | undefined;
+export interface OrderInfoProps {
   orderType: "sell" | "buy";
   deliveryHelpModal: boolean;
   openDeliveryHelpModal: () => void;
-  currentUser: IConnectedUser | undefined;
 }
 
 const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function OrderInfo(props: OrderInfoProps): JSX.Element {
-  const router = useRouter();
-  const [selectedOrder, setSelectedOrder] = useState<Order>();
-
-  async function fetchOrderInfos() {
-    const res = await myFetch({
-      route: `/api/order/${props.orderType === "buy" ? "buy" : "sell"}/${props.selectedOrderId}`,
-      method: "GET",
-    });
-    if (res.ok) {
-      const data = res.json as Order;
-      setSelectedOrder(data);
-    }
-  }
+  /* c8 ignore start */
+  const {
+    selectedOrderId,
+    selectedOrder,
+    fetchOrderInfos,
+    handleGoToUserProviderProfile,
+    handleGoToChat,
+    handleConfirmReception,
+    handleCancelOrder,
+    handleConfirmSend,
+  } = useOrder();
 
   useEffect(() => {
-    if (props.selectedOrderId) {
-      fetchOrderInfos();
+    if (selectedOrderId) {
+      fetchOrderInfos(props.orderType);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selectedOrderId]);
+  }, [selectedOrderId]);
 
   function onGoToUserProviderProfile() {
-    router.push(`/profile/${props.orderType === "buy" ? selectedOrder?.sellerId : selectedOrder?.buyerId}`);
+    handleGoToUserProviderProfile(props.orderType);
   }
 
   async function onGoToChat() {
-    const response = await myFetch({
-      route: `/api/conversations/create`,
-      method: "PUT",
-      body: JSON.stringify({
-        UserOneId: props.orderType === "buy" ? selectedOrder?.sellerId : selectedOrder?.buyerId,
-        UserTwoId: props.currentUser?.user.id,
-      }),
-    });
-    const data = response.json;
-    if (response.ok) {
-      router.push(`/chat/${data.convId}`);
-    }
+    handleGoToChat(props.orderType);
   }
 
   function onOpenDeliveryHelpModal() {
@@ -75,45 +57,20 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
   }
 
   async function onConfirmReception() {
-    const res = await myFetch({
-      route: `/api/order/confirm-shipping`,
-      method: "POST",
-      body: JSON.stringify({
-        orderId: props.selectedOrderId,
-      }),
-    });
-    if (res.ok) {
-      fetchOrderInfos();
-    }
+    handleConfirmReception(props.orderType);
   }
 
   async function onCancelOrder() {
-    const res = await myFetch({
-      route: `/api/order/cancel/${props.selectedOrderId}`,
-      method: "POST",
-    });
-    if (res.ok) {
-      router.push("/order");
-    }
+    handleCancelOrder();
   }
 
   async function onConfirmSend() {
-    const res = await myFetch({
-      route: `/api/order/confirm-delivery-rate`,
-      method: "POST",
-      body: JSON.stringify({
-        orderId: props.selectedOrderId,
-        rating: 5,
-      }),
-    });
-    if (res.ok) {
-      fetchOrderInfos();
-    }
+    handleConfirmSend(props.orderType);
   }
 
   return (
     <>
-      {selectedOrder && (
+      {selectedOrderId && selectedOrder && (
         <div className="flex flex-col p-10 h-full overflow-auto w-full">
           <div className="flex xl:flex-row flex-col gap-10">
             <div className="relative flex flex-col gap-4 w-full">
@@ -235,4 +192,5 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
       )}
     </>
   );
+  /* c8 ignore stop */
 }

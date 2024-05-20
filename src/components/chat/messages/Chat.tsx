@@ -5,9 +5,7 @@ export interface ChatProps {
 }
 
 export function Chat(props: ChatProps): JSX.Element {
-  {
-    /* c8 ignore start */
-  }
+  /* c8 ignore start */
   return (
     <div className={`flex flex-col ${props.sender ? "items-start" : "items-end"} justify-center px-6`}>
       <div
@@ -20,7 +18,5 @@ export function Chat(props: ChatProps): JSX.Element {
       {props.dateTime && <span className="text-sm px-2 py-1 text-tertiary">{props.dateTime}</span>}
     </div>
   );
-  {
-    /* c8 ignore stop */
-  }
 }
+/* c8 ignore stop */
