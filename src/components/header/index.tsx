@@ -1,13 +1,13 @@
 "use client";
 
-import { ITab } from "../../../src/interfaces";
-import Navbar from "../navbar/Navbar";
-import Link from "../link/Link";
 import { useEffect, useState } from "react";
-import VerticalNavbar from "../navbar/VerticalNavbar";
-import { myFetch } from "../../tools/myFetch";
+import { ITab } from "../../../src/interfaces";
 import { IArtist } from "../../interfaces/home/artist";
+import { myFetch } from "../../tools/myFetch";
 import { imageApi } from "../../tools/variables";
+import Link from "../link/Link";
+import Navbar from "../navbar/Navbar";
+import VerticalNavbar from "../navbar/VerticalNavbar";
 
 interface IHeaderProps {
   tabs: ITab[];

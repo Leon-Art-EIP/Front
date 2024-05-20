@@ -31,6 +31,13 @@ html body *{
 	background-color: #a09c9c;
 }
 
+footer {
+	background-color: var(--color-background);
+	color: var(--color-backgroundHighlight);
+	padding: 60px;
+	text-align: center;
+}
+
 @layer base {
 	/* Light theme (default) */
 	:root {
@@ -95,6 +102,5 @@ html body *{
     --color-tertiary: #eeeeee;
     --color-background: #1a202c;
 		--color-backgroundHighlight:#48395f;
-
-}
+	}
 }

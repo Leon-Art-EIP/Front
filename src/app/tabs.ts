@@ -96,7 +96,15 @@ const tabs: ITab[] = [
     navbar: false,
     verticalNavbar: false,
     header: false,
-  }
+  },
+  {
+    name: "Article",
+    href: "/article",
+    loggedIn: true,
+    navbar: false,
+    verticalNavbar: true,
+    header: true,
+  },
 ];
 
 export default tabs;

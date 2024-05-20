@@ -171,6 +171,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
           />
         </div>
       </div>
+      <footer></footer>
     </div>
   );
 }

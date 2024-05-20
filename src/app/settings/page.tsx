@@ -3,6 +3,7 @@ import Link from "next/link";
 import DisconnectButton from "../../components/buttons/DisconnectButton";
 import IconLabel from "../../components/label/IconLabel";
 import ThemeSelector from "../../components/theme/ThemeSelector";
+import "../globals.css";
 
 interface ISettingTab {
   icon: any;
@@ -62,6 +63,7 @@ export default function Page(): JSX.Element {
       <div className="self-center py-4">
         <DisconnectButton />
       </div>
+      <footer></footer>
     </div>
   );
 }
