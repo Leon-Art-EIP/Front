@@ -1,7 +1,7 @@
 import { Close, DeleteOutline } from "@mui/icons-material";
 import { Tab, Tabs } from "@mui/material";
 import { ElementType, useState } from "react";
-import { IInfoUser } from "../../../interfaces/user/user";
+import { IUser } from "../../../interfaces/user/user";
 import { myFetch } from "../../../tools/myFetch";
 import AvailableForCommandsButton from "../../../wrappers/profile/AvailableForCommandsButton";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
@@ -14,8 +14,8 @@ export interface IInfosProps {
   availability: "available" | "unavailable";
   artistName: string;
   numberOfFollowers: number;
-  followers: IInfoUser[];
-  followed: IInfoUser[];
+  followers: IUser[];
+  followed: IUser[];
   numberOfPosts: number;
   myProfile: boolean;
   following: boolean;
@@ -58,9 +58,9 @@ export default function Infos(props: IInfosProps): JSX.Element {
       <div className="p-4 inline-flex flex-col gap-3 justify-center">
         <div className="font-medium text-2xl text-center text-tertiary">{props.artistName}</div>
         <div className="in line-flex justify-center">
-          <div className="bg-secondary rounded-2xl font-semibold px-4 py-1 text-sm text-center text-tertiary">
+          {/* <div className="bg-secondary rounded-2xl font-semibold px-4 py-1 text-sm text-center text-tertiary">
             {props.artType}
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-center gap-4">
           <div className="flex flex-col items-center gap-2">
@@ -113,22 +113,23 @@ export default function Infos(props: IInfosProps): JSX.Element {
                   <Tab label="Followers" />
                   <Tab label="Suivis" />
                 </Tabs>
-                {tabIndex === 0 && (
+                {/*{tabIndex === 0 && (
                   <div className="flex flex-col gap-2">
                     {props.followers.subscribers.map((subscriber, index) => (
                       <FollowerCard key={index} id={subscriber._id} name={subscriber.username} index={index} />
                     ))}
                   </div>
                 )}
-                {tabIndex === 1 && (
+                */}
+                {/* {tabIndex === 1 && (
                   <div>
                     {props.followed.subscriptions.map((subscriber, index) => (
                       <div key={index} className="flex-col gap-2">
                         <div className="flex justify items-center">
                           <div className="flex" style={{ minWidth: "200px" }}>
-                            {" "}
+                            {" "} */}
                             {/* Ajout de cette div avec une largeur minimale */}
-                            <FollowerCard key={index} id={subscriber._id} name={subscriber.username} index={index} />
+                            {/* <FollowerCard key={index} id={subscriber._id} name={subscriber.username} index={index} />
                           </div>
                           <button
                             className="bg-primary text-secondary px-2 py-1 rounded-full ml-auto"
@@ -140,7 +141,7 @@ export default function Infos(props: IInfosProps): JSX.Element {
                       </div>
                     ))}
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>
