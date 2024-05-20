@@ -72,7 +72,10 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
       socketRef.current.on("msg-receive", (message: IMessage) => {
         console.log("senderId", message.senderId);
         console.log("currentChatRef", currentChatRef.current);
-        if (message.senderId === currentChatRef.current?.UserOneId || message.senderId === currentChatRef.current?.UserTwoId) {
+        if (
+          message.senderId === currentChatRef.current?.UserOneId ||
+          message.senderId === currentChatRef.current?.UserTwoId
+        ) {
           setMessages((prevMessages) => [...prevMessages, message]);
         } else {
           refreshChats();
@@ -123,13 +126,13 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   function markChatAsReadIfOpened() {
     if (currentChat) {
-      const updatedChats = chats.map(chat => {
+      const updatedChats = chats.map((chat) => {
         if (chat._id === currentChat._id) {
           return { ...chat, unreadMessages: false };
         }
         return chat;
       });
-    
+
       setChats(updatedChats);
     }
   }

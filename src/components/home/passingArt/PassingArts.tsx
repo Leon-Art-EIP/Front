@@ -23,12 +23,17 @@ export default function PassingArts(props: IPassingArtsProps): JSX.Element {
     }
   };
 
+  const handleClick = () => {
+    // history.push(`/article/${id}`); // Navigate to the article detail page
+  };
+
   return (
     <PassingArt
       passingArt={props.passingArts[position - 1]}
       nbrPoints={props.passingArts.length}
       position={position}
       increasePosition={increasePosition}
+      handleClick={handleClick}
     />
   );
 }

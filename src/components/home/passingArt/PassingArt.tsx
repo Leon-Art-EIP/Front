@@ -6,9 +6,13 @@ export interface IPassingArtProps {
   nbrPoints: number;
   position: number;
   increasePosition: () => void;
+  handleClick: () => void;
 }
 
 export default function PassingArt(props: IPassingArtProps): JSX.Element {
+  const handleClick = () => {
+    props.handleClick();
+  };
   return (
     <div className="flex h-72 relative cursor-pointer" onClick={props.increasePosition}>
       <div className="absolute inset-0 z-0 w-full max-h-72 bg-black">
@@ -21,9 +25,18 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
       <div className="flex flex-col px-16 pt-16 pb-2 relative z-10 w-full">
         <div className="flex flex-col gap-2 text-white max-w-lg truncate h-40">
           <div className="max-w-full whitespace-normal truncate">
-            <div className="text-3xl font-semibold truncate">{props.passingArt.title}</div>
+            <div
+              className="text-3xl font-semibold truncate cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent triggering the parent click event
+                handleClick();
+              }}
+            >
+              {props.passingArt.title}
+            </div>
           </div>
-          <div className="whitespace-normal truncate text-sm max-w-full">{props.passingArt.content}</div>
+          {/* TODO: Replace with the converted rich text */}
+          {/* <div className="whitespace-normal truncate text-sm max-w-full">{props.passingArt.content}</div> */}
         </div>
         <div className="flex flex-1 items-end justify-center">
           <PointsPosition nbrPoints={props.nbrPoints} position={props.position} />

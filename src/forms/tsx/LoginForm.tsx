@@ -23,6 +23,7 @@ export default function LoginForm(): JSX.Element {
     if ("token" in data) {
       localStorage.setItem("user", JSON.stringify(data));
       router.push("/");
+      // console.log("Token: " + JSON.stringify(data.token));
     }
   };
 
