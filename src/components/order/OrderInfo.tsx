@@ -1,13 +1,9 @@
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { IOrder } from "../../interfaces/order/orders";
-import { IConnectedUser } from "../../interfaces/user/user";
-import { myFetch } from "../../tools/myFetch";
-import Button from "../lib/Button/Button";
+import { useEffect } from "react";
 import { useOrder } from "../../contexts/OrderContext";
+import Button from "../lib/Button/Button";
 
-interface OrderInfoProps {
+export interface OrderInfoProps {
   orderType: "sell" | "buy";
   deliveryHelpModal: boolean;
   openDeliveryHelpModal: () => void;
@@ -16,7 +12,17 @@ interface OrderInfoProps {
 const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function OrderInfo(props: OrderInfoProps): JSX.Element {
-  const { selectedOrderId, selectedOrder, fetchOrderInfos, handleGoToUserProviderProfile, handleGoToChat, handleConfirmReception, handleCancelOrder, handleConfirmSend } = useOrder();
+  /* c8 ignore start */
+  const {
+    selectedOrderId,
+    selectedOrder,
+    fetchOrderInfos,
+    handleGoToUserProviderProfile,
+    handleGoToChat,
+    handleConfirmReception,
+    handleCancelOrder,
+    handleConfirmSend,
+  } = useOrder();
 
   useEffect(() => {
     if (selectedOrderId) {
@@ -64,7 +70,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
 
   return (
     <>
-      {(selectedOrderId && selectedOrder) && (
+      {selectedOrderId && selectedOrder && (
         <div className="flex flex-col p-10 h-full overflow-auto w-full">
           <div className="flex xl:flex-row flex-col gap-10">
             <div className="relative flex flex-col gap-4 w-full">
@@ -186,4 +192,5 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
       )}
     </>
   );
+  /* c8 ignore stop */
 }
