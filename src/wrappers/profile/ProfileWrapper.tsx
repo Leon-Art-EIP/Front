@@ -75,6 +75,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
 
       async function fetchPublications(): Promise<IProfileArt[]> {
         const response = await myFetch({ route: `/api/art-publication/user/${props.id}`, method: "GET" });
+        if (!response.ok) return [];
         const arts = response.json as IArtPublication[];
 
         const publications = arts.map((art) => ({
