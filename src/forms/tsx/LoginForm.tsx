@@ -1,11 +1,13 @@
 "use client";
 
 import { Google } from "@mui/icons-material";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
 import Fetcher from "../../components/fetch/Fetcher";
 import Input from "../../components/form/Input";
+import { auth } from "../../configs/firebase/firebase.config";
 import { IConnectedUser } from "../../interfaces/user/user";
 import { TLoginData } from "../../zod";
 import useLoginForm from "../methods/useLoginForm";
@@ -23,7 +25,7 @@ export default function LoginForm(): JSX.Element {
     if ("token" in data) {
       localStorage.setItem("user", JSON.stringify(data));
       router.push("/");
-      console.log("Token: " + JSON.stringify(data.token));
+      // console.log("Token: " + JSON.stringify(data.token));
     }
   };
 
@@ -39,6 +41,11 @@ export default function LoginForm(): JSX.Element {
 
   const onSubmit = async (data: TLoginData): Promise<void> => {
     await handleSubmit(data);
+  };
+
+  const handleGoogle = (e) => {
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(auth, provider);
   };
 
   return (
@@ -82,6 +89,7 @@ export default function LoginForm(): JSX.Element {
               className="py-3 rounded-[30px] shadow-lg bg-secondary text-teritary w-full hover:bg-secondary-hover disabled:bg-secondary-disabled"
               disabled={isLoading}
               name="login"
+              onClick={handleGoogle}
             >
               <Google className="mr-2" style={{ marginTop: "-4px" }} />
               Se connecter avec Google
