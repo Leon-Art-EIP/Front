@@ -43,7 +43,7 @@ export default function LoginForm(): JSX.Element {
     await handleSubmit(data);
   };
 
-  const handleGoogle = (e) => {
+  const handleGoogle = () => {
     const provider = new GoogleAuthProvider();
     return signInWithPopup(auth, provider);
   };

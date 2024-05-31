@@ -32,6 +32,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   const [followers, setFollowers] = useState<IUser[]>([]);
   const [followed, setFollowed] = useState<IUser[]>([]);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleUnauthorized = () => {
@@ -75,13 +76,16 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
 
       async function fetchPublications(): Promise<IProfileArt[]> {
         const response = await myFetch({ route: `/api/art-publication/user/${props.id}`, method: "GET" });
-        const arts = response.json as IArtPublication[];
+        if (response.ok) {
+          const arts = response.json as IArtPublication[];
 
-        const publications = arts.map((art) => ({
-          id: art._id,
-          src: `${imageApi}/${art.image}`,
-        }));
-        return publications;
+          const publications = arts.map((art) => ({
+            id: art._id,
+            src: `${imageApi}/${art.image}`,
+          }));
+          return publications;
+        }
+        return [];
       }
 
       async function fetchCollectionsArtsExtended(collections: ICollection[]): Promise<ICollectionArtsExtended[]> {
@@ -113,29 +117,37 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
 
       async function fetchFollowers(): Promise<IUser[]> {
         const response = await myFetch({ route: `/api/follow/followers`, method: "GET" });
-        return response.json as IUser[];
+        if (response.ok) {
+          const data = response.json;
+          return data.subscribers as IUser[];
+        }
+        return [];
       }
 
       async function fetchFollowed(): Promise<IUser[]> {
         const response = await myFetch({ route: `/api/follow/following`, method: "GET" });
-        return response.json as IUser[];
+        if (response.ok) {
+          const data = response.json;
+          return data.subscriptions as IUser[];
+        }
+        return [];
       }
-
+      const fetchedFollowers: IUser[] = await fetchFollowers();
+      setFollowers(fetchedFollowers);
+      const fetchedFollowed: IUser[] = await fetchFollowed();
+      setFollowed(fetchedFollowed);
       const { profileCollections, collections } = await fetchCollectionsWithPublications();
       setProfileCollections(profileCollections);
       const publications: IProfileArt[] = await fetchPublications();
       setPublications(publications);
       const collectionsArtsExtended = await fetchCollectionsArtsExtended(collections);
       setCollectionsArtsExtended(collectionsArtsExtended);
-      const followers: IUser[] = await fetchFollowers();
-      setFollowers(followers);
-      const followed: IUser[] = await fetchFollowed();
-      setFollowed(followed);
+      setLoading(false);
     };
     fetchData();
   }, [props.id, router]);
 
-  if (!artist) return <LoadingPage />;
+  if (!artist || loading) return <LoadingPage />;
 
   return (
     <div className="flex flex-col">

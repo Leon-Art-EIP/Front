@@ -5,9 +5,7 @@ import { IUser } from "../../../interfaces/user/user";
 import { myFetch } from "../../../tools/myFetch";
 import AvailableForCommandsButton from "../../../wrappers/profile/AvailableForCommandsButton";
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
-import Fetcher from "../../fetch/Fetcher";
 import LinkButton from "../../lib/Button/LinkButton";
-import Category, { TCategory } from "../category/Category";
 import { FollowerCard } from "./FollowerCard";
 
 export interface IInfosProps {
@@ -48,7 +46,7 @@ export default function Infos(props: IInfosProps): JSX.Element {
   };
 
   const handleUnfollow = (id: string) => {
-    <Fetcher route={`/api/follow/${props.id}`} method="POST" nbFetchs={2} />; // TODO: Revoir le fonctionnement exact de ce component
+    // <Fetcher route={`/api/follow/${props.id}`} method="POST" nbFetchs={2} />;
     const response = myFetch({ route: `/api/follow/${id}`, method: "POST" });
     setIsFollowerModalOpen(false);
   };
@@ -108,32 +106,30 @@ export default function Infos(props: IInfosProps): JSX.Element {
                     <Close style={{ fontSize: 24, color: "tertiary" }} />
                   </div>
                 </div>
-                {/* <div className="w-full h-px bg-tertiary my-2" /> */}
+                <div className="w-full h-px bg-tertiary my-2" />
                 <Tabs value={tabIndex} onChange={(event, newValue) => setTabIndex(newValue)}>
                   <Tab label="Followers" />
                   <Tab label="Suivis" />
                 </Tabs>
-                {/*{tabIndex === 0 && (
+                {tabIndex === 0 && (
                   <div className="flex flex-col gap-2">
-                    {props.followers.subscribers.map((subscriber, index) => (
-                      <FollowerCard key={index} id={subscriber._id} name={subscriber.username} index={index} />
+                    {/* <div> {props.followers.length} </div> */}
+                    {props.followers.map((subscriber, index) => (
+                      <FollowerCard key={index} id={subscriber.id} name={subscriber.username} index={index} />
                     ))}
                   </div>
                 )}
-                */}
-                {/* {tabIndex === 1 && (
-                  <div>
-                    {props.followed.subscriptions.map((subscriber, index) => (
+                {tabIndex === 1 && (
+                  <div className="flex flex-col gap-2">
+                    {props.followed.map((subscribed, index) => (
                       <div key={index} className="flex-col gap-2">
                         <div className="flex justify items-center">
                           <div className="flex" style={{ minWidth: "200px" }}>
-                            {" "} */}
-                            {/* Ajout de cette div avec une largeur minimale */}
-                            {/* <FollowerCard key={index} id={subscriber._id} name={subscriber.username} index={index} />
+                            <FollowerCard key={index} id={subscribed.id} name={subscribed.username} index={index} />
                           </div>
                           <button
                             className="bg-primary text-secondary px-2 py-1 rounded-full ml-auto"
-                            onClick={() => handleUnfollow(subscriber._id)}
+                            onClick={() => handleUnfollow(subscribed.id)}
                           >
                             <DeleteOutline className="" style={{ marginTop: "-3px" }} />
                           </button>
@@ -141,7 +137,7 @@ export default function Infos(props: IInfosProps): JSX.Element {
                       </div>
                     ))}
                   </div>
-                )} */}
+                )}
               </div>
             </div>
           </div>
