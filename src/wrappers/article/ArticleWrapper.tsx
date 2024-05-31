@@ -28,12 +28,10 @@ export default function ArticleWrapper(props: IArticleWrapperProps): JSX.Element
     <div className="flex flex-col bg-background">
       <div className="h-64 w-screen object-contain bg-secondary">
         <img
-          className="absolute h-64 w-screen"
+          className="w-full h-full object-cover object-center"
           alt="articleBanner"
           // src={article?.mainImage}
           src={`${imageApi}/${article?.mainImage}`}
-          width={2048}
-          height={256}
           // sizes={props.sizes}
           // style={props.style}
         />
