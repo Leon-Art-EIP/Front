@@ -2,14 +2,12 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import useFcmToken from "../../hooks/useFcmToken";
 import { ITab } from "../../interfaces";
 import { IConnectedUser } from "../../interfaces/user/user";
+import { myFetch } from "../../tools/myFetch";
 import Header from "../header";
 import LoadingPage from "../loading/LoadingPage";
-import useFcmToken from "../../hooks/useFcmToken";
-import { myFetch } from "../../tools/myFetch";
-import { getMessaging, onMessage } from 'firebase/messaging';
-import firebaseApp from '../../tools/firebase';
 
 export interface ISessionProps {
   tabs: ITab[];
@@ -33,7 +31,6 @@ export default function Session(props: ISessionProps): JSX.Element | null {
       const loggedInUser = JSON.parse(local);
       setUser(loggedInUser);
 
-  
       if (loggedInUser && loggedInUser.token && fcmToken) {
         updateFcmTokenForUser(fcmToken);
       }
@@ -68,7 +65,7 @@ export default function Session(props: ISessionProps): JSX.Element | null {
     if (!res.ok) {
       console.error("FCM token not updated");
     }
-  };
+  }
 
   return <LoadingPage />;
 }

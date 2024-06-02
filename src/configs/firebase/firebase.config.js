@@ -8,7 +8,7 @@ const firebaseConfig = {
   storageBucket: "leon-art.appspot.com",
   messagingSenderId: "30560177674",
   appId: "1:30560177674:web:35496df6e8c90714e919f3",
-  measurementId: "G-ZHZZFGZ31C"
+  measurementId: "G-ZHZZFGZ31C",
 };
 
 const app = initializeApp(firebaseConfig);

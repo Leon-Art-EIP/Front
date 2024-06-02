@@ -1,9 +1,9 @@
 "use client";
 
 import { Google } from "@mui/icons-material";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider } from "react-hook-form";
 import Fetcher from "../../components/fetch/Fetcher";
 import Input from "../../components/form/Input";
@@ -25,7 +25,6 @@ export default function LoginForm(): JSX.Element {
     if ("token" in data) {
       localStorage.setItem("user", JSON.stringify(data));
       router.push("/");
-      // console.log("Token: " + JSON.stringify(data.token));
     }
   };
 
@@ -43,10 +42,48 @@ export default function LoginForm(): JSX.Element {
     await handleSubmit(data);
   };
 
-  const handleGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+  const handleGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+
+      const formData = {
+        email: "vivant.garrigues@gmail.com", // EMAIL PAR DEFAUT
+        password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
+      };
+      await handleSubmit(formData);
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+    }
   };
+
+  // const handleGoogle = () => {
+  //   const provider = new GoogleAuthProvider();
+  //   return signInWithPopup(auth, provider);
+  // };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (data) => {
+      //   if (data) {
+      //     const idToken = await data.getIdToken();
+      //     const user: IUser = {
+      //       id: data.uid,
+      //       username: data.displayName || "",
+      //       email: data.email || "",
+      //       is_artist: false,
+      //       availability: "",
+      //       subscription: "",
+      //       collections: [],
+      //     };
+      //     const connectedUser: IConnectedUser = {
+      //       token: idToken,
+      //       user: user,
+      //     };
+      //     localStorage.setItem("user", JSON.stringify(connectedUser));
+      //     // router.push("/");
+      //   }
+    });
+  }, [router]);
 
   return (
     <>
@@ -85,7 +122,7 @@ export default function LoginForm(): JSX.Element {
               Se connecter
             </button>
             <button
-              type="submit"
+              type="button"
               className="py-3 rounded-[30px] shadow-lg bg-secondary text-teritary w-full hover:bg-secondary-hover disabled:bg-secondary-disabled"
               disabled={isLoading}
               name="login"
