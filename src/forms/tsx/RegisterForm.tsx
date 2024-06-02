@@ -1,11 +1,13 @@
 "use client";
 
 import { Google } from "@mui/icons-material";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
 import Fetcher from "../../components/fetch/Fetcher";
 import Input from "../../components/form/Input";
+import { auth } from "../../configs/firebase/firebase.config";
 import { IConnectedUser } from "../../interfaces/user/user";
 import { TRegisterData } from "../../zod";
 import useRegisterForm from "../methods/useRegisterForm";
@@ -40,6 +42,23 @@ export default function RegisterForm(): JSX.Element {
 
   const onSubmit = async (data: TRegisterData): Promise<void> => {
     await handleSubmit(data);
+  };
+
+  const handleGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+
+      const formData = {
+        username: "Vivant", // NOM PAR DEFAUT
+        email: "vivant.garrigues@gmail.com", // EMAIL PAR DEFAUT
+        password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
+        conscent: true,
+      };
+      await handleSubmit(formData);
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+    }
   };
 
   return (
@@ -95,6 +114,7 @@ export default function RegisterForm(): JSX.Element {
               className="py-3 rounded-[30px] shadow-lg bg-secondary text-teritary w-full hover:bg-secondary-hover disabled:bg-secondary-disabled"
               disabled={isLoading}
               name="reset"
+              onClick={handleGoogle}
             >
               <Google className="mr-2" style={{ marginTop: "-4px" }} />S{"'"}inscrire avec Google
             </button>
