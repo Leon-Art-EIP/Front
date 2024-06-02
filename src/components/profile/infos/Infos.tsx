@@ -48,6 +48,10 @@ export default function Infos(props: IInfosProps): JSX.Element {
   const handleUnfollow = (id: string) => {
     // <Fetcher route={`/api/follow/${props.id}`} method="POST" nbFetchs={2} />;
     const response = myFetch({ route: `/api/follow/${id}`, method: "POST" });
+    console.log("Unfollow : " + `/api/follow/${id}`);
+    console.log("ID : " + id);
+    console.log(props.followed);
+    console.log(props.followers);
     setIsFollowerModalOpen(false);
   };
 

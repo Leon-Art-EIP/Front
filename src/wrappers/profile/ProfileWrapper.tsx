@@ -119,7 +119,16 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         const response = await myFetch({ route: `/api/follow/followers`, method: "GET" });
         if (response.ok) {
           const data = response.json;
-          return data.subscribers as IUser[];
+          // Transform the data to match IUser interface
+          return data.subscribers.map((follower: any) => ({
+            id: follower._id,
+            username: follower.username,
+            email: follower.email,
+            is_artist: follower.is_artist,
+            availability: follower.availability,
+            subscription: follower.subscription,
+            collections: follower.collections,
+          })) as IUser[];
         }
         return [];
       }
@@ -128,7 +137,16 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         const response = await myFetch({ route: `/api/follow/following`, method: "GET" });
         if (response.ok) {
           const data = response.json;
-          return data.subscriptions as IUser[];
+          // Transform the data to match IUser interface
+          return data.subscriptions.map((followed: any) => ({
+            id: followed._id,
+            username: followed.username,
+            email: followed.email,
+            is_artist: followed.is_artist,
+            availability: followed.availability,
+            subscription: followed.subscription,
+            collections: followed.collections,
+          })) as IUser[];
         }
         return [];
       }
