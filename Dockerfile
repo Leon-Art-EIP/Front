@@ -1,12 +1,10 @@
 # Stage 1: Dependencies
-
 FROM node:alpine AS dependencies
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-COPY  package.json yarn.lock ./
+COPY package.json yarn.lock ./
 RUN yarn install --production=true --frozen-lockfile --omit=dev
 RUN yarn add @types/zxcvbn
-
 
 # Stage 2: Build
 FROM node:alpine AS builder
@@ -35,6 +33,7 @@ RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 USER 1001
 
