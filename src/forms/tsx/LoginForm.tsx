@@ -97,33 +97,45 @@ export default function LoginForm(): JSX.Element {
       />
       <FormProvider {...methods}>
         <form
-          className="text-tertiary flex flex-col gap-4 w-full mt-6 xl:mt-24"
+          className="text-tertiary flex flex-col gap-2 w-full mt-6 xl:mt-24"
           onSubmit={methods.handleSubmit(onSubmit)}
         >
           <Input
             type="text"
             name="email"
-            className="rounded-[30px] shadow-lg bg-background text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-secondary"
+            className="mb-4 rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
             placeholder="Adresse email"
           />
           <Input
             type="password"
             name="password"
-            className="rounded-[30px] shadow-lg bg-background text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-secondary"
+            className="rounded-[30px] shadow-lg bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
             placeholder="Mot de passe"
           />
-          <div className="flex flex-col justify-center mt-5 gap-2">
+          <a
+              className="text-tertiary font-medium text-sm self-end underline"
+              title="forgotten_password"
+              href="/forgotten_password"
+            >
+              Mot de passe oublié ?
+            </a>
+          <div className="flex flex-col justify-center mt-5 gap-4">
             <button
               type="submit"
-              className="py-3 rounded-[30px] shadow-lg bg-primary text-white w-full hover:bg-primary-hover disabled:bg-primary-disabled"
+              className="py-3 rounded-[30px]  font-bold shadow-lg bg-primary text-white w-full hover:bg-primary-hover disabled:bg-primary-disabled"
               disabled={isLoading}
               name="login"
             >
               Se connecter
             </button>
+            <div className="flex flex-row items-center">
+              <span className="bg-tertiary w-full rounded-full h-[2px]"/>
+              <span className="text-tertiary font-semibold px-6">Ou</span>
+              <span className="bg-tertiary w-full rounded-full h-[2px]"/>
+            </div>
             <button
               type="button"
-              className="py-3 rounded-[30px] shadow-lg bg-secondary text-teritary w-full hover:bg-secondary-hover disabled:bg-secondary-disabled"
+              className="py-3 rounded-[30px] font-semibold shadow-lg bg-secondary text-teritary w-full hover:bg-secondary-hover disabled:bg-secondary-disabled"
               disabled={isLoading}
               name="login"
               onClick={handleGoogle}
