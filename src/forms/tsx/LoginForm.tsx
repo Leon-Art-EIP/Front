@@ -109,7 +109,7 @@ export default function LoginForm(): JSX.Element {
           <Input
             type="password"
             name="password"
-            className="rounded-[30px] shadow-lg bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
+            className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
             placeholder="Mot de passe"
           />
           <a

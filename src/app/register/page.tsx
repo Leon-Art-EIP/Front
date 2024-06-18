@@ -14,11 +14,17 @@ export default function Page(): JSX.Element {
             S&apos;enregistrer
           </label>
           <RegisterForm />
-          <label className="flex flex-col justify-center items-center font-normal pt-2">
-            Vous avez déjà un compte ?
-            <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="login" href="/login">
-              Se connecter
-            </a>
+          <label className="flex justify-center text-tertiary text-sm font-normal pt-5">
+            <span className="whitespace-nowrap">
+              Vous avez déjà un compte ?
+              <a
+                className="ms-1 font-extrabold text-primary cursor-pointer hover:underline"
+                title="login"
+                href="/login"
+              >
+                Se connecter
+              </a>
+            </span>
           </label>
         </div>
       </div>
