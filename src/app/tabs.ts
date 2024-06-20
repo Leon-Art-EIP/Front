@@ -34,6 +34,14 @@ const tabs: ITab[] = [
     header: true,
   },
   {
+    name: "Posts",
+    href: "/posts/latest",
+    loggedIn: true,
+    navbar: true,
+    verticalNavbar: true,
+    header: true,
+  },
+  {
     name: "Profil",
     href: "/profile",
     loggedIn: true,
