@@ -4,6 +4,7 @@ import { useState } from "react";
 import UsersSlider from "../../components/explorer/UsersSlider";
 import Fetcher from "../../components/fetch/Fetcher";
 import Gallery4x4 from "../../components/gallery/Gallery4x4";
+import Articles from "../../components/home/Articles";
 import PassingArts from "../../components/home/passingArt/PassingArts";
 import { IArtPublication } from "../../interfaces/artPublication/artPublication";
 import { IUser, IUsers } from "../../interfaces/explorer/users";
@@ -55,6 +56,9 @@ export default function HomeWrapper(): JSX.Element {
             <span className="text-3xl font-bold text-tertiary">Pour vous</span>
             <Gallery4x4 artPublications={arts} />
           </div>
+          <footer className="w-full flex justify-center py-8 bg-secondary">
+            <Articles />
+          </footer>
         </div>
       </div>
     </>

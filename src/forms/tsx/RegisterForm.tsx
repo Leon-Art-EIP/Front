@@ -50,8 +50,8 @@ export default function RegisterForm(): JSX.Element {
       await signInWithPopup(auth, provider);
 
       const formData = {
-        username: "Vivant", // NOM PAR DEFAUT
-        email: "vivant.garrigues@gmail.com", // EMAIL PAR DEFAUT
+        username: "Joachim", // NOM PAR DEFAUT
+        email: "joachim.garrigues@gmail.com", // EMAIL PAR DEFAUT
         password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
         conscent: true,
       };
