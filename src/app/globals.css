@@ -2,8 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-html body *{
-  font-family: 'Manrope', sans-serif !important;
+html body {
+  font-family: "Oxygen", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1 {
+	font-family: "Rufina", serif !important;
+  font-weight: 700;
+	font-size: 48px;
+}
+
+h2 {
+	font-family: "Rufina", serif !important;
+  font-weight: 400;
+	font-size: 36px;
 }
 
 .page-content-non-scrollable {
@@ -59,22 +73,6 @@ footer {
 		--color-backgroundHighlight: #dfdfdf;
 		--color-backgroundInputField: #f5f5f5;
 	}
-	/* @media (prefers-color-scheme:dark) {
-    :root {
-			--color-primary: #e03915;
-			--color-primaryHover: #e03a15d6;
-			--color-primaryPressed: #e03a15d6;
-			--color-primaryDisabled: #e03a1580;
-
-			--color-secondary: #333333;
-			--color-secondaryHover: #555555;
-			--color-secondaryPressed: #777777;
-			--color-secondaryDisabled: #666666;
-			
-			--color-tertiary: #eeeeee;
-			--color-background: #1a202c;
-		}
-	} */
 	:root[data-theme="dark"] {
 		--color-primary: #e03915;
 		--color-primaryHover: #e03a15d6;

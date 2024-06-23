@@ -69,20 +69,20 @@ export default function ExplorerWrapper(): JSX.Element {
 
   return (
     <div className="flex justify-center bg-background">
-      <div className="flex flex-col max-w-[1500px] w-full items-center gap-4 lg:py-8 py-4 lg:px-10 px-6">
+      <div className="flex flex-col max-w-[1500px] w-full items-center gap-12 lg:py-8 py-4 lg:px-10 px-6">
         <div className="flex flex-row w-full gap-4">
           <Searchbar handleSearchTerm={handleSearchTerm} />
           <Filters handleFilters={handleFilters} filters={filters} />
         </div>
         <PriceFilters handleFilters={handleFilters} filters={filters} />
-        <span className="w-2/3 h-1 bg-secondary rounded-full"></span>
-        <div className="flex flex-col self-start gap-4 w-full">
-          <span className="text-3xl font-bold text-tertiary">Artistes</span>
+        {/* <span className="w-2/3 h-1 bg-secondary rounded-full"></span> */}
+        <div className="flex flex-col self-start gap-6 w-full">
+          <h1 className="text-tertiary">Artistes</h1>
           <UsersSlider users={filteredUsers} />
         </div>
-        <span className="w-2/3 h-1 bg-secondary rounded-full"></span>
-        <div className="flex flex-col self-start gap-4 w-full">
-          <span className="text-3xl font-bold text-tertiary">Publication d{"'"}arts</span>
+        {/* <span className="w-2/3 h-1 bg-secondary rounded-full"></span> */}
+        <div className="flex flex-col self-start gap-6 w-full">
+          <h1 className="text-tertiary">Publication d{"'"}arts</h1>
           <Gallery4x4 artPublications={filteredArtPubs} />
         </div>
       </div>

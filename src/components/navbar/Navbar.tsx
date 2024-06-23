@@ -15,20 +15,31 @@ export interface INavbarProps {
 
 export default function Navbar({ link: Link, ...props }: INavbarProps) {
   return (
-    <div className="flex h-24 p-2 bg-background w-full gap-4 border-b border-b-secondary">
+    <div className="flex h-24 flex-shrink-0 p-2 bg-background w-full gap-4 border-b border-b-secondary">
       <div className="items-center justify-start md:flex hidden px-2 h-full font-bold text-4xl">
         <Link href="/">
           <TextLogo />
         </Link>
       </div>
-      <div className="flex flex-1 justify-around items-center align-middle gap-2 px-2">
+      <div className="flex flex-1 flex-start gap-14 items-center align-middle px-8">
         {props.tabs.map(
           (tab) =>
             tab.navbar && (
-              <Link key={`${tab.name}-${tab.href}`} href={tab.href}>
-                <div className={`${props.selectedTabHref === tab.href ? "text-primary" : "text-tertiary"}`}>
+              <Link key={`${tab.name}-${tab.href}`} href={tab.href} className="group transition duration-300">
+                <span
+                  className={`${
+                    props.selectedTabHref === tab.href
+                      ? "text-primary font-semibold"
+                      : "text-tertiary font-normal hover:text-tertiary-hover hover:transition-all hover:duration-300"
+                  } `}
+                >
                   {tab.name}
-                </div>
+                  {props.selectedTabHref === tab.href ? (
+                    <span className="block w-full h-0.5 bg-primary"></span>
+                  ) : (
+                    <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary"></span>
+                  )}
+                </span>
               </Link>
             )
         )}
