@@ -63,6 +63,22 @@ footer {
 	text-align: center;
 }
 
+.cyan-color {
+  fill: #0891b2 !important;
+}
+
+.green-color {
+  fill: #16a34a !important;
+}
+
+.blue-color {
+  fill: #2563eb !important;
+}
+
+.gray-color {
+  fill: #4b5563 !important;
+}
+
 @layer base {
 	/* Light theme (default) */
 	:root {

@@ -18,6 +18,8 @@ export default function ExplorerWrapper(): JSX.Element {
   const [users, setUsers] = useState<IUsers>({ users: [] });
   const [filteredUsers, setFilteredUsers] = useState<IUsers>({ users: [] });
 
+  const [unavailableToBuy, setUnavailableToBuy] = useState<boolean>(false);
+
   const [filters, setFilters] = useState<IFilters>({
     searchTerm: "",
     artType: "",
@@ -34,8 +36,9 @@ export default function ExplorerWrapper(): JSX.Element {
     return `?${filters.searchTerm ? `searchTerm=${filters.searchTerm}&` : ""}${
       filters.artType ? `artType=${filters.artType}&` : ""
     }${filters.priceRange ? `priceRange=${filters.priceRange}&` : ""}${
-      filters.isForSale ? `isForSale=${filters.isForSale}&` : ""
-    }${filters.sort ? `sort=${filters.sort}&` : ""}${filters.artPage ? `artPage=${filters.artPage}&` : ""}${
+      filters.isForSale ? `isForSale=${filters.isForSale}&` : ``
+    }${unavailableToBuy ? `isForSale=false&` : ``}
+    ${filters.sort ? `sort=${filters.sort}&` : ""}${filters.artPage ? `artPage=${filters.artPage}&` : ""}${
       filters.artLimit ? `artLimit=${filters.artLimit}&` : ""
     }${filters.artistPage ? `artistPage=${filters.artistPage}&` : ""}${
       filters.artistLimit ? `artistLimit=${filters.artistLimit}` : ""
@@ -56,7 +59,7 @@ export default function ExplorerWrapper(): JSX.Element {
     }
 
     fetchArtPub();
-  }, [filters]);
+  }, [filters, unavailableToBuy]);
 
   function handleSearchTerm(searchTerm: string) {
     setFilters({ ...filters, searchTerm: searchTerm });
@@ -64,7 +67,6 @@ export default function ExplorerWrapper(): JSX.Element {
 
   function handleFilters(filters: IFilters) {
     setFilters({ ...filters });
-    console.log("filters", filters);
   }
 
   return (
@@ -74,7 +76,12 @@ export default function ExplorerWrapper(): JSX.Element {
           <Searchbar handleSearchTerm={handleSearchTerm} />
           <Filters handleFilters={handleFilters} filters={filters} />
         </div>
-        <PriceFilters handleFilters={handleFilters} filters={filters} />
+        <PriceFilters
+          handleFilters={handleFilters}
+          filters={filters}
+          unavailableToBuy={unavailableToBuy}
+          setUnavailableToBuy={setUnavailableToBuy}
+        />
         {/* <span className="w-2/3 h-1 bg-secondary rounded-full"></span> */}
         <div className="flex flex-col self-start gap-6 w-full">
           <h1 className="text-tertiary">Artistes</h1>
