@@ -139,6 +139,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
         <div className="w-3/4 flex flex-col gap-8 justify-center">
           <SingleArtPageArtwork
             art={props.art}
+            artId={props.artId}
             profile={props.profile}
             artisteName={props.artistName}
             artistId={props.artistId}
