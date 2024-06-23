@@ -24,6 +24,7 @@ export default function HomeWrapper(): JSX.Element {
       author: { username: article.author.username },
       mainImage: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${article.mainImage}`,
       position: index,
+      numbered: true,
     }));
     setPassingArts(passingArts);
   };

@@ -5,6 +5,8 @@ import { IPassingArt } from "../../../interfaces/home/passingArt";
 import PointsPosition from "./PointsPosition";
 
 export interface IPassingArtProps {
+  numbered: boolean;
+  archived: boolean;
   passingArt: IPassingArt;
   nbrPoints: number;
   position: number;
@@ -42,9 +44,16 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
             </div>
           </div>
         </div>
-        <div className="flex flex-1 items-end justify-center">
-          <PointsPosition nbrPoints={props.nbrPoints} position={props.position} />
-        </div>
+        {props.numbered && (
+          <div className="flex flex-1 items-end justify-center">
+            <PointsPosition nbrPoints={props.nbrPoints} position={props.position} />
+          </div>
+        )}
+        {props.archived && (
+          <div className="absolute bottom-4 right-10 bg-primary text-secondary px-2 py-1 text-sm font-bold">
+            Archivé
+          </div>
+        )}
       </div>
     </div>
   );

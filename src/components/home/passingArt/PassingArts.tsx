@@ -27,6 +27,8 @@ export default function PassingArts(props: IPassingArtsProps): JSX.Element {
 
   return (
     <PassingArt
+      numbered={true}
+      archived={false}
       passingArt={props.passingArts[position - 1]}
       nbrPoints={props.passingArts.length}
       position={position}
