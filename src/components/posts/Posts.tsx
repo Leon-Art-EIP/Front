@@ -8,9 +8,11 @@ interface IPostsProps {
 }
 
 export default function Posts(props: IPostsProps): JSX.Element {
+  const src = Cameleon as unknown as { src: string };
+
   return (
-    <div className="w-screen h-full bg-white flex">
-      <div className="flex-1 flex items-center justify-center">
+    <div className="w-screen h-full bg-white flex justify-center">
+      <div className="flex-1 xl:flex items-center justify-center hidden">
         <PostDescription activeTab={props.activeTab} src={props.src.src} />
       </div>
       <div className="flex flex-col">
@@ -21,8 +23,8 @@ export default function Posts(props: IPostsProps): JSX.Element {
           <PostTab href="/posts/myposts" title="Mes posts" isActive={props.activeTab === "myposts"} />
         </div>
       </div>
-      <div className="flex-1 flex items-center justify-center">
-        <img src={Cameleon.src} alt="cameleon" />
+      <div className="flex-1 xl:flex items-center justify-center hidden">
+        <img src={src.src} alt="cameleon" />
       </div>
     </div>
   );
