@@ -68,7 +68,7 @@ export default function SettingsMeWrapper(): JSX.Element {
         nbFetchs={nbFetchsStripeAccountAlreadyLinked}
         handleOk={handleStipeAccountAlreadyLinked}
       />
-      <div className="px-24 flex flex-col gap-8">
+      <div className="flex flex-col gap-8">
         <TitledLabel title="Adresse mail" text={user.user.email} underline />
         <div className="flex flex-col gap-4">
           <TitledLabel

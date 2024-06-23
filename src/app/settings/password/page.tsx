@@ -3,18 +3,14 @@ import SettingsPasswordWrapper from "../../../wrappers/settings/password/Setting
 
 export default function Page() {
   return (
-    <div className="bg-background text-tertiary flex flex-col py-5 gap-4">
-      <div className="flex items-center align-middle">
-        <div>
+    <div className="flex justify-center">
+      <div className="flex flex-col max-w-[1500px] w-full gap-12 lg:py-8 py-4 lg:px-10 px-6">
+        <div className="flex items-center gap-8">
           <GoBackButton href="/settings" />
+          <h1 className="text-tertiary">Mot de passe et sécurité</h1>
         </div>
-        <div className="text-2xl font-bold px-3 py-4 flex gap-4">
-          <div>Paramètres</div>
-          <div>{">"}</div>
-          <div>Mot de passe et sécurité</div>
-        </div>
-      </div>
       <SettingsPasswordWrapper />
+      </div>
     </div>
   );
 }
