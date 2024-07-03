@@ -21,7 +21,7 @@ const colorClasses: Record<ButtonColor, string> = {
   secondary:
     "text-tertiary bg-secondary hover:bg-secondary-hover disabled:bg-secondary-disabled disabled: text-secondary",
   danger: "bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled",
-  success: "bg-secondary text-white hover:bg-secondary-hover disabled:bg-secondary-disabled",
+  success: "bg-tertiary text-white hover:bg-tertiary-hover disabled:bg-tertiary-disabled",
   info: "bg-purple-800 text-white hover:bg-purple-900 disabled:bg-purple-400",
 };
 
