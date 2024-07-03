@@ -7,6 +7,7 @@ import { Button, Modal } from "../../lib";
 import { FormProvider } from "react-hook-form";
 import { useState } from "react";
 import Fetcher from "../../fetch/Fetcher";
+import TextArea from "../../form/TextArea";
 
 interface IShareModalProps {
   closeModal(): void;
@@ -24,12 +25,13 @@ export default function ShareModal(props: IShareModalProps): JSX.Element {
     console.log("data", data);
     setBody(
       JSON.stringify({
-        id: data.id,
-        message: data.message,
+        text: data.message,
+        artPublicationId: data.id,
       })
     );
     setNbFetchs(nbFetchs + 1);
     props.closeModal();
+    methods.reset();
   };
 
   return (
@@ -37,7 +39,7 @@ export default function ShareModal(props: IShareModalProps): JSX.Element {
       <Fetcher
         method="POST"
         nbFetchs={nbFetchs}
-        route="/api/post/new"
+        route="/api/posts"
         successStr="Publication réussie"
         body={body}
         setIsLoading={setIsLoading}
@@ -46,10 +48,9 @@ export default function ShareModal(props: IShareModalProps): JSX.Element {
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-4">
-              <Input
+              <TextArea
                 name="message"
                 placeholder="Je vous partage cette oeuvre car..."
-                type="text"
                 className="h-32 w-96 p-2 rounded focus:outline-none"
               />
               <div className="self-end">
