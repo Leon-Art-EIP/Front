@@ -1,6 +1,8 @@
 import PostDescription from "./PostDescription";
 import PostTab from "./PostTab";
 import Cameleon from "../../assets/cameleon.png";
+import { Button } from "../lib";
+import NewPostModalWrapper from "../../wrappers/posts/NewPostModalWrapper";
 
 interface IPostsProps {
   activeTab: "latest" | "trends" | "myposts";
@@ -23,7 +25,8 @@ export default function Posts(props: IPostsProps): JSX.Element {
           <PostTab href="/posts/myposts" title="Mes posts" isActive={props.activeTab === "myposts"} />
         </div>
       </div>
-      <div className="flex-1 xl:flex items-center justify-center hidden">
+      <div className="flex-1 xl:flex xl:flex-col gap-2 items-center justify-center hidden">
+        <NewPostModalWrapper />
         <img src={src.src} alt="cameleon" />
       </div>
     </div>
