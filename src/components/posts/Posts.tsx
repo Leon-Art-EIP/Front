@@ -17,6 +17,7 @@ export default function Posts(props: IPostsProps): JSX.Element {
       <div className="flex-1 xl:flex items-center justify-center hidden">
         <PostDescription activeTab={props.activeTab} src={props.src.src} />
       </div>
+      <div className="flex-1 xl:hidden" />
       <div className="flex flex-col">
         <div className="flex-1 bg-secondary"></div>
         <div className="flex">
@@ -26,8 +27,11 @@ export default function Posts(props: IPostsProps): JSX.Element {
         </div>
       </div>
       <div className="flex-1 xl:flex xl:flex-col gap-2 items-center justify-center hidden">
-        <NewPostModalWrapper />
         <img src={src.src} alt="cameleon" />
+        <NewPostModalWrapper />
+      </div>
+      <div className="xl:hidden flex items-center justify-center flex-1">
+        <NewPostModalWrapper icon />
       </div>
     </div>
   );
