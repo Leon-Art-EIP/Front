@@ -3,6 +3,7 @@ import PostTab from "./PostTab";
 import Cameleon from "../../assets/cameleon.png";
 import { Button } from "../lib";
 import NewPostModalWrapper from "../../wrappers/posts/NewPostModalWrapper";
+import UserPosts from "./UserPosts";
 
 interface IPostsProps {
   activeTab: "latest" | "trends" | "myposts";
@@ -18,8 +19,10 @@ export default function Posts(props: IPostsProps): JSX.Element {
         <PostDescription activeTab={props.activeTab} src={props.src.src} />
       </div>
       <div className="flex-1 xl:hidden" />
-      <div className="flex flex-col">
-        <div className="flex-1 bg-secondary"></div>
+      <div className="flex flex-col border border-black">
+        <div className="flex-1 bg-secondary">
+          <UserPosts />
+        </div>
         <div className="flex">
           <PostTab href="/posts/latest" title="Les plus récents" isActive={props.activeTab === "latest"} />
           <PostTab href="/posts/trends" title="Tendances" isActive={props.activeTab === "trends"} />
