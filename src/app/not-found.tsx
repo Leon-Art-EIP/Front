@@ -13,7 +13,7 @@ export default function NotFound(): JSX.Element {
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl font-bold text-center">404 - Page introuvable</h1>
           <div className="text-2xl text-cyan-600 rounded text-center">
-            Oh oh... Il semble que la page à laquelle vous essayez d'accéder n'existe pas
+            Oh oh... Il semble que la page à laquelle vous essayez d&apos;accéder n&apos;existe pas
           </div>
           <div className="text-2xl text-cyan-600 rounded text-center">
             Mais pas de panique, vous pouvez revenir en lieu sûr
