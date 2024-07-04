@@ -4,7 +4,7 @@ export interface INewPost {
     userId: string;
     text: string;
     artPublicationId: string;
-    likes: number[];
+    likes: string[];
     _id: string;
     createdAt: string;
     __v: number;
@@ -23,7 +23,16 @@ export interface IPost {
     _id: string;
     name: string;
   };
-  likes: number[];
+  likes: string[];
   createdAt: string;
   __v: number;
+}
+
+export interface ILikePost {
+  msg: string;
+  likeStatus: {
+    postId: string;
+    isLiked: boolean;
+    totalLikes: number;
+  };
 }
