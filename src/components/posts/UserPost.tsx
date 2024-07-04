@@ -6,15 +6,15 @@ import { stringToFrenchDate } from "../../tools/date";
 import { NEXT_PUBLIC_BACKEND_URL } from "../../tools/myFetch";
 import Link from "../link/Link";
 import PostText from "./PostText";
-import { useState } from "react";
+import LikePost from "./LikePost";
 
 interface IUserPostProps {
   post: IPost;
+  connectedUserId: string | undefined;
+  onLike: (postId: string, isLiked: boolean) => void;
 }
 
 export default function UserPost(props: IUserPostProps): JSX.Element {
-  const [isLiked, setIsLiked] = useState(false);
-
   return (
     <div className="p-2 flex flex-col gap-2 max-w-3xl">
       <div className="flex gap-2 items-center">
@@ -38,11 +38,12 @@ export default function UserPost(props: IUserPostProps): JSX.Element {
             "Soyez la première personne à aimer ce post"
           )}
         </h3>
-        {isLiked ? (
-          <button className="text-sm text-blue-200">Je n'aime plus</button>
-        ) : (
-          <button className="text-sm text-blue-400">J'aime</button>
-        )}
+        <LikePost
+          connectedUserId={props.connectedUserId}
+          likes={props.post.likes}
+          postId={props.post._id}
+          onLike={props.onLike}
+        />
       </div>
       {props.post.artPublicationId && (
         <Link
