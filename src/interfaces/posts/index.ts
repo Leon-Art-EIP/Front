@@ -10,3 +10,20 @@ export interface INewPost {
     __v: number;
   };
 }
+
+export interface IPost {
+  _id: string;
+  userId: {
+    _id: string;
+    username: string;
+    profilePicture: string;
+  };
+  text: string;
+  artPublicationId?: {
+    _id: string;
+    name: string;
+  };
+  likes: number[];
+  createdAt: string;
+  __v: number;
+}

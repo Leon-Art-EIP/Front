@@ -86,7 +86,7 @@ footer {
 	/* Light theme (default) */
 	:root {
 		--color-primary: #e03915;
-		--color-primaryHover: #e03a15d6;
+		--color-primaryHover: #b83012d6;
 		--color-primaryPressed:	#e03a15d6;
 		--color-primaryDisabled: #e03a1580;
 
