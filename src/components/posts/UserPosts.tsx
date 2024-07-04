@@ -6,8 +6,20 @@ import { IPost } from "../../interfaces/posts";
 import UserPost from "./UserPost";
 import { IConnectedUser } from "../../interfaces/user/user";
 
-export default function UserPosts(): JSX.Element {
+interface IUserPostsProps {
+  filter: "recent" | "popular" | "user";
+}
+
+export default function UserPosts(props: IUserPostsProps): JSX.Element {
   const [posts, setPosts] = useState<IPost[]>([]);
+  let route = "/api/posts?filter=recent";
+
+  if (props.filter === "popular") {
+    route = "/api/posts?filter=popular&timeframe=24h";
+  }
+  if (props.filter === "user") {
+    route = "/api/posts?filter=user";
+  }
 
   let user: IConnectedUser | undefined;
 
@@ -40,7 +52,7 @@ export default function UserPosts(): JSX.Element {
     const fetchData = async () => {
       const reponse = await myFetch({
         method: "GET",
-        route: "/api/posts?filter=recent",
+        route,
       });
 
       if (reponse.ok) {
@@ -53,7 +65,10 @@ export default function UserPosts(): JSX.Element {
   }, []);
 
   return (
-    <div className="flex flex-col overflow-y-auto h-full divide-y divide-black">
+    <div
+      className="flex flex-col overflow-y-auto divide-y divide-black h-[calc(100vh-132px)]"
+      style={{ scrollbarWidth: "none" }}
+    >
       {posts.map((post) => (
         <UserPost key={post._id} post={post} connectedUserId={user?.user.id} onLike={onLike} />
       ))}
