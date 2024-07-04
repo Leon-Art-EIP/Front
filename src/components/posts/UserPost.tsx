@@ -16,7 +16,7 @@ interface IUserPostProps {
 
 export default function UserPost(props: IUserPostProps): JSX.Element {
   return (
-    <div className="p-2 flex flex-col gap-2 max-w-3xl">
+    <div className="p-8 flex flex-col gap-2 max-w-3xl">
       <div className="flex gap-2 items-center">
         <img
           src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.post.userId.profilePicture}`}
@@ -46,13 +46,19 @@ export default function UserPost(props: IUserPostProps): JSX.Element {
         />
       </div>
       {props.post.artPublicationId && (
-        <Link
-          href={`/single/${props.post.artPublicationId._id}`}
-          className="py-2 px-4 rounded bg-primary text-white flex justify-between hover:bg-primary-hover"
-        >
-          {props.post.artPublicationId.name}
-          <ArrowRight />
-        </Link>
+        <div className="flex gap-2 items-center">
+          <div>
+            La publication <span className="font-semibold">{props.post.artPublicationId.name}</span> est attaché à ce
+            post
+          </div>
+          <Link
+            href={`/single/${props.post.artPublicationId._id}`}
+            className="py-2 px-4 rounded bg-primary text-white flex gap-2 hover:bg-primary-hover self-start m-2"
+          >
+            Voir publication
+            <ArrowRight />
+          </Link>
+        </div>
       )}
     </div>
   );

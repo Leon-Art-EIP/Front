@@ -34,7 +34,7 @@ export default function PostText(props: IPostTextProps) {
 
   return (
     <div>
-      <p ref={textRef} className={`text-justify ${showFullText ? "" : "max-h-[74px] overflow-y-hidden"}`}>
+      <p ref={textRef} className={`break-words text-justify ${showFullText ? "" : "max-h-[74px] overflow-y-hidden"}`}>
         {props.text}
       </p>
       {isOverflowing && (
