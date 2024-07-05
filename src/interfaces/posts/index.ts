@@ -9,6 +9,10 @@ export interface INewPost {
     createdAt: string;
     __v: number;
   };
+  user: {
+    username: string;
+    profilePicture: string;
+  };
 }
 
 export interface IPost {

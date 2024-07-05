@@ -1,26 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, Dispatch, SetStateAction } from "react";
 import { myFetch } from "../../tools/myFetch";
 import { IPost } from "../../interfaces/posts";
 import UserPost from "./UserPost";
 import { IConnectedUser } from "../../interfaces/user/user";
 
 interface IUserPostsProps {
-  filter: "recent" | "popular" | "user";
+  route: string;
+  posts: IPost[];
+  setPosts: Dispatch<SetStateAction<IPost[]>>;
 }
 
 export default function UserPosts(props: IUserPostsProps): JSX.Element {
-  const [posts, setPosts] = useState<IPost[]>([]);
-  let route = "/api/posts?filter=recent";
-
-  if (props.filter === "popular") {
-    route = "/api/posts?filter=popular&timeframe=24h";
-  }
-  if (props.filter === "user") {
-    route = "/api/posts?filter=user";
-  }
-
   let user: IConnectedUser | undefined;
 
   const local = localStorage.getItem("user");
@@ -34,7 +26,7 @@ export default function UserPosts(props: IUserPostsProps): JSX.Element {
       return;
     }
 
-    const newPosts = posts.map((post) => {
+    const newPosts = props.posts.map((post) => {
       if (post._id !== postId) {
         return post;
       }
@@ -45,20 +37,20 @@ export default function UserPosts(props: IUserPostsProps): JSX.Element {
       };
     });
 
-    setPosts(newPosts);
+    props.setPosts(newPosts);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const reponse = await myFetch({
         method: "GET",
-        route,
+        route: props.route,
       });
 
       if (reponse.ok) {
         const data = reponse.json;
 
-        setPosts(data);
+        props.setPosts(data);
       }
     };
     fetchData();
@@ -69,7 +61,7 @@ export default function UserPosts(props: IUserPostsProps): JSX.Element {
       className="flex flex-col overflow-y-auto divide-y divide-black h-[calc(100vh-132px)]"
       style={{ scrollbarWidth: "none" }}
     >
-      {posts.map((post) => (
+      {props.posts.map((post) => (
         <UserPost key={post._id} post={post} connectedUserId={user?.user.id} onLike={onLike} />
       ))}
     </div>

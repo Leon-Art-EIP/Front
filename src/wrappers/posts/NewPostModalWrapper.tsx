@@ -7,10 +7,11 @@ import { TNewPostData } from "../../zod";
 import { INewPost } from "../../interfaces/posts";
 import Fetcher from "../../components/fetch/Fetcher";
 import IconButton from "../../components/single-art-page/artwork/IconButton";
-import { Add, Create, PlusOne } from "@mui/icons-material";
+import { Create } from "@mui/icons-material";
 
 interface INewPostModalWrapperProps {
   icon?: boolean;
+  onAddPost: (post: INewPost) => void;
 }
 
 export default function NewPostModalWrapper(props: INewPostModalWrapperProps): JSX.Element {
@@ -37,8 +38,7 @@ export default function NewPostModalWrapper(props: INewPostModalWrapperProps): J
   };
 
   const handleOk = async (json: INewPost) => {
-    // TODO: locally update posts
-    console.log(json);
+    props.onAddPost(json);
   };
 
   return (
