@@ -10,17 +10,11 @@ interface IUserPostsProps {
   route: string;
   posts: IPost[];
   setPosts: Dispatch<SetStateAction<IPost[]>>;
+  onDeletePost: (postId: string) => void;
+  user: IConnectedUser | undefined;
 }
 
-export default function UserPosts(props: IUserPostsProps): JSX.Element {
-  let user: IConnectedUser | undefined;
-
-  const local = localStorage.getItem("user");
-
-  if (local) {
-    user = JSON.parse(local) as IConnectedUser;
-  }
-
+export default function UserPosts({ user, ...props }: IUserPostsProps): JSX.Element {
   const onLike = (postId: string, isLiked: boolean) => {
     if (!user) {
       return;
@@ -62,7 +56,13 @@ export default function UserPosts(props: IUserPostsProps): JSX.Element {
       style={{ scrollbarWidth: "none" }}
     >
       {props.posts.map((post) => (
-        <UserPost key={post._id} post={post} connectedUserId={user?.user.id} onLike={onLike} />
+        <UserPost
+          key={post._id}
+          post={post}
+          connectedUserId={user?.user.id}
+          onLike={onLike}
+          onDeletePost={props.onDeletePost}
+        />
       ))}
     </div>
   );
