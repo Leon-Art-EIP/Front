@@ -20,12 +20,14 @@ export default function UserPost(props: IUserPostProps): JSX.Element {
   return (
     <div className="p-8 flex flex-col gap-2 max-w-3xl">
       <div className="flex gap-2 items-center">
-        <img
-          src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.post.userId.profilePicture}`}
-          alt="post-profilePicture"
-          className="w-8 h-8 object-cover"
-        />
-        <h3 className="text-primary">{props.post.userId.username}</h3>
+        <Link className="flex gap-2 items-center" href={`/profile/${props.post.userId._id}`}>
+          <img
+            src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.post.userId.profilePicture}`}
+            alt="post-profilePicture"
+            className="w-8 h-8 object-cover"
+          />
+          <h3 className="text-primary">{props.post.userId.username}</h3>
+        </Link>
         <p className="text-neutral-500 italic">le {stringToFrenchDate(props.post.createdAt)}</p>
       </div>
       <PostText text={props.post.text} />
