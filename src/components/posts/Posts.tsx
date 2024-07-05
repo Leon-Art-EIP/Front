@@ -11,6 +11,7 @@ import { Button } from "../lib";
 import Fetcher from "../fetch/Fetcher";
 import IconButton from "../../components/single-art-page/artwork/IconButton";
 import { Refresh } from "@mui/icons-material";
+import { IConnectedUser } from "../../interfaces/user/user";
 
 interface IPostsProps {
   activeTab: "latest" | "trends" | "myposts";
@@ -18,9 +19,19 @@ interface IPostsProps {
 }
 
 export default function Posts(props: IPostsProps): JSX.Element {
+  let user: IConnectedUser | undefined;
+
+  const local = localStorage.getItem("user");
+
+  if (local) {
+    user = JSON.parse(local) as IConnectedUser;
+  }
+
   const [posts, setPosts] = useState<IPost[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [nbFetchs, setNbFetchs] = useState<number>(0);
+  const [nbFetchsDeletePost, setNbFetchsDeletePost] = useState<number>(0);
+  const [postIdToDelete, setPostIdToDelete] = useState<string>("");
 
   const src = Cameleon as unknown as { src: string };
 
@@ -34,20 +45,22 @@ export default function Posts(props: IPostsProps): JSX.Element {
   }
 
   const onAddPost = (post: INewPost) => {
-    const newPost: IPost = {
-      _id: post.post._id,
-      userId: {
-        _id: post.user.username,
-        username: post.user.username,
-        profilePicture: post.user.profilePicture,
-      },
-      text: post.post.text,
-      likes: post.post.likes,
-      createdAt: post.post.createdAt,
-      __v: post.post.__v,
-    };
+    if (user) {
+      const newPost: IPost = {
+        _id: post.post._id,
+        userId: {
+          _id: user?.user.id,
+          username: post.user.username,
+          profilePicture: post.user.profilePicture,
+        },
+        text: post.post.text,
+        likes: post.post.likes,
+        createdAt: post.post.createdAt,
+        __v: post.post.__v,
+      };
 
-    setPosts([newPost, ...posts]);
+      setPosts([newPost, ...posts]);
+    }
   };
 
   const onRefresh = async () => {
@@ -56,6 +69,18 @@ export default function Posts(props: IPostsProps): JSX.Element {
 
   const handleOk = (json: IPost[]) => {
     setPosts(json);
+  };
+
+  const onDeletePost = (postId: string) => {
+    setPostIdToDelete(postId);
+    setNbFetchsDeletePost(nbFetchsDeletePost + 1);
+  };
+
+  const handleOkDeletePost = () => {
+    if (postIdToDelete !== "") {
+      setPosts(posts.filter((post) => post._id !== postIdToDelete));
+      setPostIdToDelete("");
+    }
   };
 
   return (
@@ -67,6 +92,13 @@ export default function Posts(props: IPostsProps): JSX.Element {
         setIsLoading={setIsRefreshing}
         successStr="Posts mis à jour"
         handleOk={handleOk}
+      />
+      <Fetcher
+        method="DELETE"
+        nbFetchs={nbFetchsDeletePost}
+        route={`/api/posts/${postIdToDelete}`}
+        successStr="Post supprimé"
+        handleOk={handleOkDeletePost}
       />
       <div className="w-screen h-full bg-white flex justify-center">
         <div className="flex-1 xl:flex xl:flex-col gap-8 items-center justify-center hidden">
@@ -87,7 +119,7 @@ export default function Posts(props: IPostsProps): JSX.Element {
         </div>
         <div className="flex flex-col border border-black h-[calc(100vh-84px)] overflow-hidden">
           <div className="flex-1 bg-neutral-100">
-            <UserPosts route={route} posts={posts} setPosts={setPosts} />
+            <UserPosts route={route} posts={posts} setPosts={setPosts} onDeletePost={onDeletePost} user={user} />
           </div>
           <div className="flex divide-x divide-black">
             <PostTab href="/posts/latest" title="Les plus récents" isActive={props.activeTab === "latest"} />

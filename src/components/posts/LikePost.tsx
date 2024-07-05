@@ -35,7 +35,7 @@ export default function LikePost(props: ILikePostProps): JSX.Element {
       <div className="flex gap-2 text-sm">
         <span className="italic text-primary">Aimé</span>
         <button className="text-blue-400 disabled:text-neutral-300" onClick={changeLike} disabled={isLoading}>
-          Je n'aime plus
+          Je n&apos;aime plus
         </button>
       </div>
     );
@@ -43,7 +43,7 @@ export default function LikePost(props: ILikePostProps): JSX.Element {
 
   return (
     <button className="text-sm text-blue-400 disabled:text-neutral-300" onClick={changeLike} disabled={isLoading}>
-      J'aime
+      J&apos;aime
     </button>
   );
 }

@@ -7,11 +7,13 @@ import { NEXT_PUBLIC_BACKEND_URL } from "../../tools/myFetch";
 import Link from "../link/Link";
 import PostText from "./PostText";
 import LikePost from "./LikePost";
+import DeletePost from "./DeletePost";
 
 interface IUserPostProps {
   post: IPost;
   connectedUserId: string | undefined;
   onLike: (postId: string, isLiked: boolean) => void;
+  onDeletePost: (postId: string) => void;
 }
 
 export default function UserPost(props: IUserPostProps): JSX.Element {
@@ -44,6 +46,9 @@ export default function UserPost(props: IUserPostProps): JSX.Element {
           postId={props.post._id}
           onLike={props.onLike}
         />
+        {props.connectedUserId === props.post.userId._id && (
+          <DeletePost onDeletePost={props.onDeletePost} postId={props.post._id} />
+        )}
       </div>
       {props.post.artPublicationId && (
         <div className="flex gap-2 items-center">
