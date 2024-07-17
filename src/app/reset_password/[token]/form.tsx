@@ -22,27 +22,27 @@ export default function Form({
   }
 
   return (
-    <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-6 w-full mt-6 xl:mt-24" onSubmit={handleSubmit}>
       <input
         type="password"
         name="newPassword"
-        className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
+        className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
         placeholder="Nouveau mot de passe"
         onChange={handleInputChange}
       />
       <input
         type="password"
         name="confirmNewPassword"
-        className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
+        className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
         placeholder="Confirmer le nouveau mot de passe"
         onChange={handleInputChange}
       />
       <div className="relative">
-        {error && <label className="absolute top-2 text-sm font-normal text-red-500 error-message">{error}</label>}
-        {success && <label className="absolute top-2 text-center text-sm font-normal text-green-500">{success}</label>}
+        {error && <label className="absolute top-0 text-sm font-normal text-red-500 error-message">{error}</label>}
+        {success && <label className="absolute top-0 text-center text-sm font-normal text-green-500">{success}</label>}
         <button
           type="submit"
-          className="py-3 rounded-[30px] flex justify-center shadow-lg bg-[#E11C0A] text-white mt-10 w-full hover:bg-[#c51708] disabled:bg-gray-300"
+          className="py-3 rounded-[30px] flex justify-center shadow-lg bg-primary font-bold text-white mt-6 w-full hover:bg-primary-hover disabled:bg-primary-disabled"
           disabled={error !== ""}
           name="reset"
         >

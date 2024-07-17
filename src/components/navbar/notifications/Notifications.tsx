@@ -92,21 +92,21 @@ export default function Notifications() {
       case "like":
         return <FavoriteIcon className="w-8 fill-primary" />;
       case "comment":
-        return <CommentIcon className="w-8 fill-cyan-600" />;
+        return <CommentIcon className="w-8 blue-color" />;
       case "follow":
-        return <PersonAddIcon className="w-8 fill-green-600" />;
+        return <PersonAddIcon className="w-8 green-color" />;
       case "payment_success":
-        return <PaidIcon className="w-8 fill-green-600" />;
+        return <PaidIcon className="w-8 green-color" />;
       case "order_processing":
-        return <AutorenewIcon className="w-8 fill-blue-600" />;
+        return <AutorenewIcon className="w-8 blue-color" />;
       case "order_cancelled_seller" || "order_cancelled_buyer":
-        return <CancelIcon className="w-8 fill-red-600" />;
+        return <CancelIcon className="w-8 fill-primary" />;
       case "order_completed":
-        return <CheckCircleIcon className="w-8 fill-green-600" />;
+        return <CheckCircleIcon className="w-8 green-color" />;
       case "order_shipping":
-        return <LocalShippingIcon className="w-8 fill-blue-600" />;
+        return <LocalShippingIcon className="w-8 blue-color" />;
       default:
-        return <InfoIcon className="w-8 fill-gray-600" />;
+        return <InfoIcon className="w-8 gray-color" />;
     }
   }
 
