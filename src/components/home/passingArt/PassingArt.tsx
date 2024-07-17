@@ -21,11 +21,11 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
 
   return (
     <div className="flex h-72 relative cursor-pointer" onClick={props.increasePosition}>
-      <div className="absolute inset-0 z-0 w-full max-h-72 bg-black">
+      <div className="absolute inset-0 z-0 w-full h-72 bg-black">
         <img
           src={props.passingArt.mainImage}
           alt={`mainImage-${props.passingArt.position}`}
-          className="w-full max-h-72 object-contain"
+          className="w-full h-72 object-cover"
         />
       </div>
       <div className="flex flex-col px-16 pt-16 pb-2 relative z-10 w-full">

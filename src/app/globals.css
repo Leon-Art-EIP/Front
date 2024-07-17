@@ -2,8 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-html body *{
-  font-family: 'Manrope', sans-serif !important;
+html body {
+  font-family: "Oxygen", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1 {
+	font-family: "Rufina", serif !important;
+  font-weight: 700;
+	font-size: 48px;
+}
+
+h2 {
+	font-family: "Rufina", serif !important;
+  font-weight: 400;
+	font-size: 36px;
 }
 
 .page-content-non-scrollable {
@@ -31,11 +45,38 @@ html body *{
 	background-color: #a09c9c;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.container-hide-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.container-hide-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
 footer {
 	background-color: var(--color-background);
 	color: var(--color-backgroundHighlight);
 	padding: 60px;
 	text-align: center;
+}
+
+.cyan-color {
+  fill: #0891b2 !important;
+}
+
+.green-color {
+  fill: #16a34a !important;
+}
+
+.blue-color {
+  fill: #2563eb !important;
+}
+
+.gray-color {
+  fill: #4b5563 !important;
 }
 
 @layer base {
@@ -52,27 +93,13 @@ footer {
 		--color-secondaryDisabled: #eeeeee8b;
 		
 		--color-tertiary: #000000;
+		--color-tertiaryHover: #676666;
 		--color-quaternary: #6db1e3;
 		--color-quaternaryHover: #e3f3ff;
 		--color-background: #ffffff;
 		--color-backgroundHighlight: #dfdfdf;
+		--color-backgroundInputField: #f5f5f5;
 	}
-	/* @media (prefers-color-scheme:dark) {
-    :root {
-			--color-primary: #e03915;
-			--color-primaryHover: #e03a15d6;
-			--color-primaryPressed: #e03a15d6;
-			--color-primaryDisabled: #e03a1580;
-
-			--color-secondary: #333333;
-			--color-secondaryHover: #555555;
-			--color-secondaryPressed: #777777;
-			--color-secondaryDisabled: #666666;
-			
-			--color-tertiary: #eeeeee;
-			--color-background: #1a202c;
-		}
-	} */
 	:root[data-theme="dark"] {
 		--color-primary: #e03915;
 		--color-primaryHover: #e03a15d6;
@@ -85,6 +112,7 @@ footer {
 		--color-secondaryDisabled: #666666;
 		
 		--color-tertiary: #eeeeee;
+		--color-tertiaryHover: #676666;
 		--color-background: #1a202c;
 		--color-backgroundHighlight: #31394a;
 	}
@@ -100,6 +128,7 @@ footer {
     --color-secondaryDisabled: #666666;
 
     --color-tertiary: #eeeeee;
+		--color-tertiaryHover: #676666;
     --color-background: #1a202c;
 		--color-backgroundHighlight:#48395f;
 	}

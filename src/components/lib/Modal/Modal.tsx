@@ -33,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, children }) => {
           &#8203;
         </span>
         <div className="inline-block align-bottom bg-background-hl text-tertiary rounded-lg text-left overflow-hidden shadow-xl transform transition-all max-w-[95%] sm:my-8 sm:align-middle">
-          <div className="bg-background-hl text-tertiary px-4 pt-5 pb-4 sm:p-6 sm:pb-4">{children}</div>
+          <div className="bg-background text-tertiary px-4 pt-5 pb-4 sm:p-6 sm:pb-4">{children}</div>
         </div>
       </div>
     </div>

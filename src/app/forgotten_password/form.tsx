@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 export interface FormProps {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   error: string;
@@ -27,7 +25,7 @@ export default function Form({
       <input
         type="text"
         name="email"
-        className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
+        className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
         placeholder="Adresse email"
         onChange={handleInputChange}
       />
@@ -36,7 +34,7 @@ export default function Form({
         {success && <label className="absolute top-2 text-center text-sm font-normal text-green-500">{success}</label>}
         <button
           type="submit"
-          className="py-3 rounded-[30px] flex justify-center shadow-lg bg-[#E11C0A] text-white mt-10 w-full hover:bg-[#c51708] disabled:bg-gray-300"
+          className="py-3 rounded-[30px] font-bold flex justify-center shadow-lg bg-primary text-white mt-10 w-full hover:bg-primary-hover disabled:bg-primary-disabled"
           disabled={error !== ""}
           name="reset"
         >
@@ -62,11 +60,13 @@ export default function Form({
           )}
         </button>
       </div>
-      <label className="flex flex-col justify-center items-center font-normal pt-2">
-        Vous vous souvenez du mot de passe ?
-        <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="login" href="/login">
-          {"S'identifier"}
-        </a>
+      <label className="flex justify-center text-tertiary text-sm font-normal pt-5">
+        <span className="whitespace-nowrap">
+          Vous vous souvenez du mot de passe ?
+          <a className="ms-1 font-extrabold text-primary cursor-pointer hover:underline" title="login" href="/login">
+            {"S'identifier"}
+          </a>
+        </span>
       </label>
     </form>
   );

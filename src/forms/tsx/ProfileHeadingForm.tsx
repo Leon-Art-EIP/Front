@@ -88,7 +88,7 @@ export default function ProfileHeadingForm(props: IHeadingProps): JSX.Element {
         src={currentBannerPicture}
         alt="profileBanner"
         className="absolute h-64 w-screen"
-        imageClassName="h-64 w-screen object-contain bg-secondary"
+        imageClassName="h-64 w-screen object-cover bg-secondary"
         onClick={handleBannerPictureOnClick}
         height={256}
         width={2048}

@@ -18,6 +18,8 @@ export default function ExplorerWrapper(): JSX.Element {
   const [users, setUsers] = useState<IUsers>({ users: [] });
   const [filteredUsers, setFilteredUsers] = useState<IUsers>({ users: [] });
 
+  const [unavailableToBuy, setUnavailableToBuy] = useState<boolean>(false);
+
   const [filters, setFilters] = useState<IFilters>({
     searchTerm: "",
     artType: "",
@@ -34,8 +36,9 @@ export default function ExplorerWrapper(): JSX.Element {
     return `?${filters.searchTerm ? `searchTerm=${filters.searchTerm}&` : ""}${
       filters.artType ? `artType=${filters.artType}&` : ""
     }${filters.priceRange ? `priceRange=${filters.priceRange}&` : ""}${
-      filters.isForSale ? `isForSale=${filters.isForSale}&` : ""
-    }${filters.sort ? `sort=${filters.sort}&` : ""}${filters.artPage ? `artPage=${filters.artPage}&` : ""}${
+      filters.isForSale ? `isForSale=${filters.isForSale}&` : ``
+    }${unavailableToBuy ? `isForSale=false&` : ``}
+    ${filters.sort ? `sort=${filters.sort}&` : ""}${filters.artPage ? `artPage=${filters.artPage}&` : ""}${
       filters.artLimit ? `artLimit=${filters.artLimit}&` : ""
     }${filters.artistPage ? `artistPage=${filters.artistPage}&` : ""}${
       filters.artistLimit ? `artistLimit=${filters.artistLimit}` : ""
@@ -56,7 +59,7 @@ export default function ExplorerWrapper(): JSX.Element {
     }
 
     fetchArtPub();
-  }, [filters]);
+  }, [filters, unavailableToBuy]);
 
   function handleSearchTerm(searchTerm: string) {
     setFilters({ ...filters, searchTerm: searchTerm });
@@ -64,25 +67,29 @@ export default function ExplorerWrapper(): JSX.Element {
 
   function handleFilters(filters: IFilters) {
     setFilters({ ...filters });
-    console.log("filters", filters);
   }
 
   return (
     <div className="flex justify-center bg-background">
-      <div className="flex flex-col max-w-[1500px] w-full items-center gap-4 lg:py-8 py-4 lg:px-10 px-6">
+      <div className="flex flex-col max-w-[1500px] w-full items-center gap-12 lg:py-8 py-4 lg:px-10 px-6">
         <div className="flex flex-row w-full gap-4">
           <Searchbar handleSearchTerm={handleSearchTerm} />
           <Filters handleFilters={handleFilters} filters={filters} />
         </div>
-        <PriceFilters handleFilters={handleFilters} filters={filters} />
-        <span className="w-2/3 h-1 bg-secondary rounded-full"></span>
-        <div className="flex flex-col self-start gap-4 w-full">
-          <span className="text-3xl font-bold text-tertiary">Artistes</span>
+        <PriceFilters
+          handleFilters={handleFilters}
+          filters={filters}
+          unavailableToBuy={unavailableToBuy}
+          setUnavailableToBuy={setUnavailableToBuy}
+        />
+        {/* <span className="w-2/3 h-1 bg-secondary rounded-full"></span> */}
+        <div className="flex flex-col self-start gap-6 w-full">
+          <h1 className="text-tertiary">Artistes</h1>
           <UsersSlider users={filteredUsers} />
         </div>
-        <span className="w-2/3 h-1 bg-secondary rounded-full"></span>
-        <div className="flex flex-col self-start gap-4 w-full">
-          <span className="text-3xl font-bold text-tertiary">Publication d{"'"}arts</span>
+        {/* <span className="w-2/3 h-1 bg-secondary rounded-full"></span> */}
+        <div className="flex flex-col self-start gap-6 w-full">
+          <h1 className="text-tertiary">Publication d{"'"}arts</h1>
           <Gallery4x4 artPublications={filteredArtPubs} />
         </div>
       </div>

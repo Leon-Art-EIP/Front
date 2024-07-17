@@ -17,7 +17,10 @@ module.exports = {
           pressed: "var(--color-secondaryPressed)",
           disabled: "var(--color-secondaryDisabled)",
         },
-        tertiary: "var(--color-tertiary)",
+        tertiary: {
+          DEFAULT: "var(--color-tertiary)",
+          hover: "var(--color-tertiaryHover)",
+        },
         quaternary: {
           DEFAULT: "var(--color-quaternary)",
           hover: "var(--color-quaternaryHover)",
@@ -25,6 +28,7 @@ module.exports = {
         background: {
           DEFAULT: "var(--color-background)",
           hl: "var(--color-backgroundHighlight)",
+          inputfield: "var(--color-backgroundInputField)",
         },
         // black: {
         //   DEFAULT: "#2d142c",

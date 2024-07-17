@@ -26,7 +26,7 @@ export default function ArticleWrapper(props: IArticleWrapperProps): JSX.Element
   }, [props.id]);
   return (
     <div className="flex flex-col bg-background">
-      <div className="h-64 w-screen object-contain bg-secondary">
+      <div className="h-64 w-screen bg-secondary">
         <img
           className="w-full h-full object-cover object-center"
           alt="articleBanner"
