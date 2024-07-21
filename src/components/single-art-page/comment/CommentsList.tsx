@@ -1,14 +1,11 @@
-import { Delete } from "@mui/icons-material";
-import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IComment, IDisplayComment } from "../../../interfaces/single/comment";
 import { IProfileUser } from "../../../interfaces/user/profileUser";
-import { stringToFrenchDate } from "../../../tools/date";
 import { myFetch } from "../../../tools/myFetch";
 import { imageApi } from "../../../tools/variables";
 import Fetcher from "../../fetch/Fetcher";
 import { Button, Modal } from "../../lib";
-import IconButton from "../artwork/IconButton";
+import Comment from "./Comment";
 
 interface ICommentsListProps {
   id: string;
@@ -105,30 +102,7 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
       </Modal>
       <div className="flex flex-col gap-4">
         {[...props.localComments, ...displayComments].map((comment, index) => (
-          <div key={`${index}-${comment.username}`} className="flex gap-4 items-center text-tertiary">
-            <Link href={`/profile/${comment.authorId}`}>
-              <img src={comment.profilePicture} alt="profile" className="rounded-3xl w-11 h-11" />
-            </Link>
-            <div>
-              <div className="flex gap-2">
-                <p className="font-semibold">{comment.username}</p>
-                <p className="text-neutral-400">{stringToFrenchDate(comment.createdAt)}</p>
-              </div>
-              <p>{comment.text}</p>
-            </div>
-            {comment.authorId === props.connectedUserId && (
-              <IconButton
-                icon={Delete}
-                backgroundColor="transparent"
-                iconColor="red"
-                onClick={() => {
-                  openModal(comment.id);
-                }}
-                className="border hover:border-neutral-400"
-                disabled={isLoading}
-              />
-            )}
-          </div>
+          <Comment key={`${index}-${comment.username}`} comment={comment} connectedUserId={props.connectedUserId} isLoading={isLoading} openModal={openModal} />
         ))}
       </div>
     </>
