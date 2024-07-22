@@ -1,18 +1,11 @@
-import GoBackButton from "../../../components/buttons/GoBackButtons";
 import CreateSingleArtWrapper from "../../../wrappers/single/create/CreateSingleArtWrapper";
 
 export default function Page(): JSX.Element {
   return (
-    <div className="flex w-full h-full">
-      <div className="w-32 bg-secondary flex justify-center p-8">
-        <div className="h-32">
-          <GoBackButton />
-        </div>
-      </div>
-      <div className="flex-1 h-full">
+    <div className="flex justify-center bg-background">
+      <div className="flex flex-col max-w-[1500px] w-full items-center gap-4 lg:py-8 py-4 lg:px-10 px-6">
         <CreateSingleArtWrapper />
       </div>
-      <div className="w-32 bg-secondary" />
     </div>
   );
 }

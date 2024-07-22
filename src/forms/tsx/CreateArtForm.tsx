@@ -26,8 +26,8 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   const router = useRouter();
   const [nbFetchs, setNbFetchs] = useState(0);
   const [body, setBody] = useState<FormData>();
-  const [nbFetchsStripeAccountAlreadyLinked, setNbFetchsStripeAccountAlreadyLinked] = useState(0);
-  const [stripeAccountAlreadyLinked, setStripeAccountAlreadyLinked] = useState(false);
+  // const [nbFetchsStripeAccountAlreadyLinked, setNbFetchsStripeAccountAlreadyLinked] = useState(0);
+  // const [stripeAccountAlreadyLinked, setStripeAccountAlreadyLinked] = useState(false);
 
   const handleSubmit = async (zodData: TCreateArtData): Promise<void> => {
     const formData = new FormData();
@@ -54,39 +54,48 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
     await handleSubmit(data);
   };
 
-  const handleOk = (json: any) => {
-    const data = json as { msg: string; artPublication: { id: string } } | IError;
+  // const handleOk = (json: any) => {
+  //   const data = json as { msg: string; artPublication: { id: string } } | IError;
 
-    if ("artPublication" in data) {
-      router.push(`/single/${data.artPublication.id}`);
-    }
-  };
+  //   if ("artPublication" in data) {
+  //     router.push(`/single/${data.artPublication.id}`);
+  //   }
+  // };
 
-  function handleStipeAccountAlreadyLinked(json: any) {
-    const data = json;
+  // function handleStipeAccountAlreadyLinked(json: any) {
+  //   const data = json;
 
-    if (data.linked) {
-      setStripeAccountAlreadyLinked(data.linked);
-    }
-  }
+  //   if (data.linked) {
+  //     setStripeAccountAlreadyLinked(data.linked);
+  //   }
+  // }
 
-  function isStripeAccountAlreadyLinked() {
-    setNbFetchsStripeAccountAlreadyLinked(nbFetchsStripeAccountAlreadyLinked + 1);
-  }
+  // function isStripeAccountAlreadyLinked() {
+  //   setNbFetchsStripeAccountAlreadyLinked(nbFetchsStripeAccountAlreadyLinked + 1);
+  // }
 
-  useEffect(() => {
-    isStripeAccountAlreadyLinked();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   isStripeAccountAlreadyLinked();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-  function goToPersonalInformation() {
-    // Redirect to the personal information page
-    router.push("/settings/me");
-  }
+  // function goToPersonalInformation() {
+  //   // Redirect to the personal information page
+  //   router.push("/settings/me");
+  // }
 
   return (
-    <>
-      <Fetcher method="POST" route="/api/art-publication" nbFetchs={nbFetchs} body={body} handleOk={handleOk} />
+    <FormProvider {...methods}>
+      <form className="flex flex-col w-full gap-4" onSubmit={methods.handleSubmit(onSubmit)}>
+        <h1>Syne Publier une nouvelle oeuvre d{"'"}art</h1>
+        <h2>1<sup>ère</sup> étape: Séléctionner une image</h2>
+        <label>La taille de l{"'"}image ne doit pas dépasser les 5MB.</label>
+        <span className="w-full h-[400px] bg-black rounded-2xl"></span>
+        <h2>2<sup>ème</sup> étape: Donner des détails sur l{"'"}oeuvre</h2>
+        <h2>3<sup>ème</sup> étape: Mise en vente potentiel</h2>
+        <Checkbox name="isForSale" title="À vendre" />
+        {isForSale && <div className="flex flex-col gap-4"></div>}
+        {/* <Fetcher method="POST" route="/api/art-publication" nbFetchs={nbFetchs} body={body} handleOk={handleOk} />
       <Fetcher
         route={"/api/stripe/account-link-status"}
         method="GET"
@@ -141,7 +150,8 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
             Publier
           </Button>
         </form>
-      </FormProvider>
-    </>
+      </FormProvider> */}
+      </form>
+    </FormProvider>
   );
 }
