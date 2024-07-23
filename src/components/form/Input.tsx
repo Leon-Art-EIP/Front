@@ -29,7 +29,7 @@ export default function Input(props: IInputProps): JSX.Element {
         type={props.type}
         name={props.name}
         id={props.name}
-        className={cn("sm:min-w-min min-w-0", props.className)}
+        className={cn("sm:min-w-min min-w-0 px-6 py-4 rounded placeholder:text-tertiary-hover", props.className)}
         placeholder={props.placeholder}
         onChange={onChange}
         value={value}

@@ -4,6 +4,7 @@ import { AddSharp } from "@mui/icons-material";
 import { ChangeEvent, DragEvent, useRef, useState } from "react";
 import { useController } from "react-hook-form";
 import { cn } from "../../tools/cn";
+import { Button } from "../lib";
 
 interface IUploadButtonProps {
   name: string;
@@ -76,11 +77,13 @@ export default function FileInput(props: IUploadButtonProps): JSX.Element {
         {props.children ?? <AddSharp style={{ fontSize: 50 }} />}
       </button>
       {value && (
-        <div className="flex gap-2">
-          {value.name}
-          <button className="border px-2" type="button" onClick={cancel}>
+        <div className="flex items-center gap-4">
+          <label className="text-tertiary text-lg">
+            <span className="underline">Image séléctionnée :</span> {value.name}
+          </label>
+          <Button className="px-4 rounded" color="secondary" type="button" onClick={cancel}>
             Annuler
-          </button>
+          </Button>
         </div>
       )}
       <input

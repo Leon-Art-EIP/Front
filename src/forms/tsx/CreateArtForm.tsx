@@ -11,23 +11,25 @@ import NumberInput from "../../components/form/NumberInput";
 import Select from "../../components/form/Select";
 import TextArea from "../../components/form/TextArea";
 import { Button } from "../../components/lib";
-import { IError, IOption } from "../../interfaces";
+import { IError, IOption, IOptionSubOptions } from "../../interfaces";
 import { appendFormData } from "../../tools/formData";
 import { TCreateArtData } from "../../zod";
 import useCreateArtForm from "../methods/useCreateArtForm";
+import SelectSubOptions from "../../components/form/SelectSubOptions";
 
 export interface ICreateArtFormProps {
-  artTypes: IOption<string>[];
+  artTypes: IOptionSubOptions<string>[];
+  stripeAccountLinked: boolean;
 }
 
 export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   const methods = useCreateArtForm();
   const isForSale = methods.watch("isForSale");
+  const imageImported = methods.watch("image");
+  const artType = methods.watch("artType");
   const router = useRouter();
   const [nbFetchs, setNbFetchs] = useState(0);
   const [body, setBody] = useState<FormData>();
-  // const [nbFetchsStripeAccountAlreadyLinked, setNbFetchsStripeAccountAlreadyLinked] = useState(0);
-  // const [stripeAccountAlreadyLinked, setStripeAccountAlreadyLinked] = useState(false);
 
   const handleSubmit = async (zodData: TCreateArtData): Promise<void> => {
     const formData = new FormData();
@@ -39,6 +41,10 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   };
 
   const onSubmit = async (data: TCreateArtData): Promise<void> => {
+    if (!data.artType) {
+      methods.setError("artType", { type: "manual", message: "Veuillez sélectionner un type d'art." });
+      return;
+    }
     if (data.isForSale && !data.price) {
       methods.setError("price", { type: "manual", message: "Remplissez un prix ou décochez 'à vendre'" });
       return;
@@ -86,15 +92,39 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
 
   return (
     <FormProvider {...methods}>
-      <form className="flex flex-col w-full gap-4" onSubmit={methods.handleSubmit(onSubmit)}>
-        <h1>Syne Publier une nouvelle oeuvre d{"'"}art</h1>
-        <h2>1<sup>ère</sup> étape: Séléctionner une image</h2>
-        <label>La taille de l{"'"}image ne doit pas dépasser les 5MB.</label>
-        <span className="w-full h-[400px] bg-black rounded-2xl"></span>
-        <h2>2<sup>ème</sup> étape: Donner des détails sur l{"'"}oeuvre</h2>
-        <h2>3<sup>ème</sup> étape: Mise en vente potentiel</h2>
+      <form className="flex flex-col w-full gap-14" onSubmit={methods.handleSubmit(onSubmit)}>
+        <h1>Publier une nouvelle oeuvre d{"'"}art</h1>
+        <div className="flex flex-col gap-4">
+          <h2>
+            1<sup>ère</sup> étape: Sélectionner une image
+          </h2>
+          <label className="text-tertiary-hover px-6">La taille de l{"'"}image ne doit pas dépasser les 5MB.</label>
+          {imageImported && (
+            <img src={URL.createObjectURL(imageImported)} alt="image" className="w-full h-fit object-cover rounded" />
+          )}
+          <FileInput name="image" />
+        </div>
+        <div className="flex flex-col gap-4">
+          <h2>
+            2<sup>ème</sup> étape: Donner des détails sur l{"'"}oeuvre
+          </h2>
+          <Input name="name" placeholder="Titre" type="text" className="bg-secondary rounded" />
+          <TextArea name="description" placeholder="Description" className="bg-secondary rounded" />
+          <SelectSubOptions
+            name="artType"
+            title="Type d'art"
+            options={props.artTypes}
+            placeholder="Sélectionner le type d'œuvre d'art"
+          />
+        </div>
+        <h2>
+          3<sup>ème</sup> étape: Mise en vente potentielle
+        </h2>
         <Checkbox name="isForSale" title="À vendre" />
-        {isForSale && <div className="flex flex-col gap-4"></div>}
+        {isForSale && <Input name="price" placeholder="Prix" type="number" className="bg-secondary rounded" />}
+        <Button color="danger" type="submit" className="self-end">
+          Publier
+        </Button>
         {/* <Fetcher method="POST" route="/api/art-publication" nbFetchs={nbFetchs} body={body} handleOk={handleOk} />
       <Fetcher
         route={"/api/stripe/account-link-status"}
