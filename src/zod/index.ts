@@ -7,6 +7,7 @@ import { getValueOrUndefined } from "./utils";
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const nonEmptyString = z.string().min(1, { message: "Veuillez remplir ce champ" });
+const nonStringSelected = z.string().min(1, { message: "Veuillez séléctionner au moins un champ" });
 const validEmail = nonEmptyString.regex(emailRegex, { message: "Adresse email invalide" });
 
 export const loginSchema = z.object({
@@ -57,7 +58,7 @@ export const createArtSchema = z.object({
     }
     return new Error("Veuillez sélectionner une image");
   }, z.any()),
-  artType: nonEmptyString,
+  artType: nonStringSelected,
   name: nonEmptyString,
   description: nonEmptyString,
   isForSale: z.boolean(),

@@ -82,7 +82,7 @@ export default function SelectSubOptions(props: ISelectSubOptions): JSX.Element 
                 {option.collapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
               </button>
               {option.collapsed && (
-                <div className="flex flex-col gap-3 px-4">
+                <div className="flex flex-col px-4">
                   {option.subOptions.map((subOption) => (
                     <button
                       key={subOption.value}
@@ -100,8 +100,8 @@ export default function SelectSubOptions(props: ISelectSubOptions): JSX.Element 
               )}
             </div>
           ))}
-        {error && <div className="text-primary">{error.message}</div>}
       </div>
+      {error && <div className="text-primary">{error.message}</div>}
     </div>
   );
 }
