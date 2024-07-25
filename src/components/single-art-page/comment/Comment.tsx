@@ -3,7 +3,7 @@
 import { IDisplayAnswerComment, IDisplayComment } from "../../../interfaces/single/comment";
 import IconButton from "../artwork/IconButton";
 import { stringToFrenchDate } from "../../../tools/date";
-import { Delete } from "@mui/icons-material";
+import { Delete, ThumbUp } from "@mui/icons-material";
 import Link from "next/link";
 import AnswersCommentWrapper from "../../../wrappers/profile/AnswersCommentWrapper";
 import { useState } from "react";
@@ -24,10 +24,15 @@ export default function Comment(props: ICommentProps): JSX.Element {
   const [localAnswerComments, setLocalAnswerComments] = useState<IDisplayAnswerComment[]>([]);
   const [isInputVisibile, setIsInputVisible] = useState(false);
   const [displayAnswerComments, setDisplayAnswerComments] = useState(false);
+  const [isThumbUp, setIsThumbUp] = useState(false);
 
   const onClick = () => {
     setIsInputVisible(!isInputVisibile);
     setDisplayAnswerComments(!isInputVisibile);
+  };
+
+  const onThumbClick = () => {
+    setIsThumbUp(!isThumbUp);
   };
 
   return (
@@ -43,6 +48,10 @@ export default function Comment(props: ICommentProps): JSX.Element {
           </div>
           <p>{props.comment.text}</p>
         </div>
+        <button onClick={onThumbClick} className="flex gap-2 items-center">
+          <ThumbUp className={`${isThumbUp ? "text-blue-400" : "text-neutral-300"}`} />
+          {isThumbUp ? "1" : "0"}
+        </button>
         {props.comment.authorId === props.connectedUser._id && (
           <IconButton
             icon={Delete}
