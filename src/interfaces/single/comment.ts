@@ -15,6 +15,10 @@ export interface IDisplayComment {
   createdAt: string;
 }
 
+export interface IDisplayAnswerComment extends IDisplayComment {
+  parentId: string;
+}
+
 export interface IAddComment {
   msg: string;
   comment: Omit<IComment, "_id"> & {

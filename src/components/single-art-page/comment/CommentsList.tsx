@@ -12,6 +12,11 @@ interface ICommentsListProps {
   connectedUserId: string;
   localComments: IDisplayComment[];
   setLocalComments: Dispatch<SetStateAction<IDisplayComment[]>>;
+  connectedUser: {
+    _id: string;
+    profilePicture: string;
+    username: string;
+  };
 }
 
 export default function CommentsList(props: ICommentsListProps): JSX.Element {
@@ -102,7 +107,14 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
       </Modal>
       <div className="flex flex-col gap-4">
         {[...props.localComments, ...displayComments].map((comment, index) => (
-          <Comment key={`${index}-${comment.username}`} comment={comment} connectedUserId={props.connectedUserId} isLoading={isLoading} openModal={openModal} />
+          <Comment
+            key={`${index}-${comment.username}`}
+            comment={comment}
+            isLoading={isLoading}
+            openModal={openModal}
+            displayChildrenComments={true}
+            connectedUser={props.connectedUser}
+          />
         ))}
       </div>
     </>

@@ -16,9 +16,11 @@ interface ISingleArtPageCommentsProps {
 export default function SingleArtPageComments(props: ISingleArtPageCommentsProps): JSX.Element {
   const [localComments, setLocalComments] = useState<IDisplayComment[]>([]);
   const [connectedUser, setConnectedUser] = useState<{
+    _id: string;
     profilePicture: string;
     username: string;
   }>({
+    _id: "",
     profilePicture: "",
     username: "",
   });
@@ -31,6 +33,7 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
         const author = responseAuthor.json as IProfileUser;
 
         setConnectedUser({
+          _id: author._id,
           profilePicture: `${imageApi}/${author.profilePicture}`,
           username: author.username,
         });
@@ -53,6 +56,7 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
         connectedUserId={props.connectedUserId}
         localComments={localComments}
         setLocalComments={setLocalComments}
+        connectedUser={connectedUser}
       />
     </div>
   );
