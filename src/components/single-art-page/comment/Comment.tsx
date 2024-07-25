@@ -23,9 +23,11 @@ interface ICommentProps {
 export default function Comment(props: ICommentProps): JSX.Element {
   const [localAnswerComments, setLocalAnswerComments] = useState<IDisplayAnswerComment[]>([]);
   const [isInputVisibile, setIsInputVisible] = useState(false);
+  const [displayAnswerComments, setDisplayAnswerComments] = useState(false);
 
   const onClick = () => {
     setIsInputVisible(!isInputVisibile);
+    setDisplayAnswerComments(!isInputVisibile);
   };
 
   return (
@@ -67,6 +69,8 @@ export default function Comment(props: ICommentProps): JSX.Element {
         setLocalAnswerComments={setLocalAnswerComments}
         isInputVisibile={isInputVisibile}
         setIsInputVisible={setIsInputVisible}
+        setDisplayAnswerComments={setDisplayAnswerComments}
+        displayAnswerComments={displayAnswerComments}
       />
     </div>
   );

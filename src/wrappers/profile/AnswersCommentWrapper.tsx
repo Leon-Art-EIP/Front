@@ -17,9 +17,15 @@ interface IAnswerCommentWrapperProps {
   setLocalAnswerComments: Dispatch<SetStateAction<IDisplayAnswerComment[]>>;
   isInputVisibile: boolean;
   setIsInputVisible: Dispatch<SetStateAction<boolean>>;
+  setDisplayAnswerComments: Dispatch<SetStateAction<boolean>>;
+  displayAnswerComments: boolean;
 }
 
 export default function AnswersCommentWrapper(props: IAnswerCommentWrapperProps): JSX.Element {
+  const onClick = () => {
+    props.setDisplayAnswerComments(!props.displayAnswerComments);
+  };
+
   return (
     <div className="flex">
       {props.displayChildrenComments && (
@@ -28,7 +34,12 @@ export default function AnswersCommentWrapper(props: IAnswerCommentWrapperProps)
         </div>
       )}
       <div className="flex flex-1 flex-col">
-        {props.displayChildrenComments && (
+        {props.displayChildrenComments && props.localAnswerComments.length > 0 && (
+          <button className="text-blue-400 hover:underline" onClick={onClick}>
+            {props.displayAnswerComments ? "Masquer" : "Afficher"} les réponses
+          </button>
+        )}
+        {props.displayAnswerComments && (
           <AnswerCommentsList
             localAnswerComments={props.localAnswerComments}
             connectedUser={props.connectedUser}
