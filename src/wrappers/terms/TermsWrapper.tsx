@@ -21,7 +21,7 @@ export default function TermsWrapper(): JSX.Element {
   }, []);
 
   return (
-    <div className="px-24 font-semibold whitespace-pre-line">
+    <div className="font-semibold whitespace-pre-line">
       {!terms ? "Conditions Générales de Vente - Leon'Art" : terms.conditions}
     </div>
   );

@@ -48,13 +48,13 @@ export default function HomeWrapper(): JSX.Element {
         <div className="w-full">
           <PassingArts passingArts={passingArts} />
         </div>
-        <div className="flex flex-col max-w-[1500px] w-full items-center gap-8 lg:py-8 py-4 lg:px-10 px-6">
-          <div className="flex flex-col self-start gap-4 w-full">
-            <span className="text-3xl font-bold text-tertiary">Artistes</span>
+        <div className="flex flex-col max-w-[1500px] w-full items-center gap-14 lg:py-8 py-4 lg:px-10 px-6">
+          <div className="flex flex-col self-start gap-6 w-full">
+            <h1 className="text-tertiary">Artistes</h1>
             <UsersSlider users={artists} />
           </div>
-          <div className="flex flex-col self-start gap-4 w-full">
-            <span className="text-3xl font-bold text-tertiary">Pour vous</span>
+          <div className="flex flex-col self-start gap-6 w-full">
+            <h1 className="text-tertiary">Pour vous</h1>
             <Gallery4x4 artPublications={arts} />
           </div>
           <footer className="w-full flex justify-center py-8 bg-secondary">

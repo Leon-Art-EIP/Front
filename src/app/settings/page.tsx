@@ -40,30 +40,32 @@ export default function Page(): JSX.Element {
   ];
 
   return (
-    <div className="bg-background py-5 px-16 flex flex-col">
-      <div className="text-tertiary text-2xl font-bold px-5 py-4">Paramètres</div>
-      <div className="flex flex-col divide-y divide-secondary">
-        {tabs.map((tab, index) => (
-          <div key={index} className="p-4 hover:bg-secondary-hover rounded-full">
-            {tab.type === "link" ? (
-              <Link href={tab.href!}>
-                <IconLabel icon={tab.icon} text={tab.text} color="tertiary" />
-              </Link>
-            ) : (
-              <div className="flex items-center">
-                <div className="mr-16">
+    <div className="flex justify-center">
+      <div className="flex flex-col max-w-[1500px] w-full gap-12 lg:py-8 py-4 lg:px-10 px-6">
+        <h1 className="text-tertiary">Paramètres</h1>
+        <div className="flex flex-col gap-4">
+          {tabs.map((tab, index) => (
+            <div key={index} className="p-4 hover:bg-secondary-hover rounded-lg">
+              {tab.type === "link" ? (
+                <Link href={tab.href!}>
                   <IconLabel icon={tab.icon} text={tab.text} color="tertiary" />
+                </Link>
+              ) : (
+                <div className="flex items-center">
+                  <div className="mr-16">
+                    <IconLabel icon={tab.icon} text={tab.text} color="tertiary" />
+                  </div>
+                  <ThemeSelector />
                 </div>
-                <ThemeSelector />
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="self-center py-4">
+          <DisconnectButton />
+        </div>
+        <footer></footer>
       </div>
-      <div className="self-center py-4">
-        <DisconnectButton />
-      </div>
-      <footer></footer>
     </div>
   );
 }

@@ -78,6 +78,15 @@ export const addCommentSchema = z.object({
   comment: nonEmptyString,
 });
 
+export const shareArtSchema = z.object({
+  message: nonEmptyString,
+  id: nonEmptyString,
+});
+
+export const newPostSchema = z.object({
+  text: nonEmptyString,
+})
+
 /* c8 ignore stop */
 
 export type TLoginData = z.infer<typeof loginSchema>;
@@ -87,3 +96,5 @@ export type TCreateArtData = z.infer<typeof createArtSchema>;
 export type TCreateCollectionData = z.infer<typeof createCollectionSchema>;
 export type TProfileHeadingData = z.infer<typeof profileHeadingSchema>;
 export type TAddCommentData = z.infer<typeof addCommentSchema>;
+export type TShareArtData = z.infer<typeof shareArtSchema>;
+export type TNewPostData = z.infer<typeof newPostSchema>;

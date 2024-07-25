@@ -1,15 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IPriceRangeFilter, priceRangeFilters } from "../../configs/explorer/priceRanges";
 import { IFilters } from "../../interfaces/explorer/filters";
 
 interface PriceFiltersProps {
   handleFilters: (filters: IFilters) => void;
   filters: IFilters;
+  unavailableToBuy: boolean;
+  setUnavailableToBuy: (unavailableToBuy: boolean) => void;
 }
 
 export default function PriceFilters(props: PriceFiltersProps): JSX.Element {
-  const [priceRanges, setPriceRanges] = useState<IPriceRangeFilter[]>(priceRangeFilters);
-  const [isNotForSale, setIsNotForSale] = useState<boolean>(false);
+  const [priceRanges] = useState<IPriceRangeFilter[]>(priceRangeFilters);
+
+  useEffect(() => {
+    priceRanges.forEach((priceRange) => {
+      priceRange.selected = false;
+    });
+  }, []);
 
   function handleSelectPriceRange(priceRangeToggled: IPriceRangeFilter) {
     let clearPriceRange = false;
@@ -23,9 +30,6 @@ export default function PriceFilters(props: PriceFiltersProps): JSX.Element {
       }
     });
 
-    if (!clearPriceRange) {
-      setIsNotForSale(false);
-    }
     props.handleFilters({
       ...props.filters,
       isForSale: false,
@@ -33,25 +37,8 @@ export default function PriceFilters(props: PriceFiltersProps): JSX.Element {
     });
   }
 
-  function handleSelectIsForSale(isForSale: boolean) {
-    setIsNotForSale(isForSale);
-    priceRanges.forEach((priceRange) => {
-      priceRange.selected = false;
-    });
-    props.handleFilters({ ...props.filters, priceRange: "", isForSale: isForSale });
-  }
-
   return (
     <div className="flex flex-row gap-4">
-      <button
-        type="button"
-        className={`py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary ${
-          isNotForSale ? "bg-secondary" : ""
-        }`}
-        onClick={() => handleSelectIsForSale(!isNotForSale)}
-      >
-        {"Indisponible à la vente"}
-      </button>
       {priceRanges.map((priceRange, index) => (
         <button
           key={index}
@@ -64,6 +51,15 @@ export default function PriceFilters(props: PriceFiltersProps): JSX.Element {
           {priceRange.priceRangeTitle}
         </button>
       ))}
+      <button
+        type="button"
+        className={`py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary ${
+          props.unavailableToBuy ? "bg-secondary" : ""
+        }`}
+        onClick={() => props.setUnavailableToBuy(!props.unavailableToBuy)}
+      >
+        {"Indisponible à la vente"}
+      </button>
     </div>
   );
 }

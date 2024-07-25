@@ -93,15 +93,15 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
       />
       {validToken ? (
         <div className="flex h-screen">
-          <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col items-center justify-center fixed">
+          <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center fixed">
             <label className="xl:hidden block text-6xl font-bold">
               <span className="text-[#E11C0A] cursor-default">Leon</span>
               <span className="text-[#000000] cursor-default">&apos;Art</span>
             </label>
             <div className="max-w-xs w-full pt-28 xl:pt-0">
-              <label className="xl:text-5xl text-2xl xl:font-extrabold xl:leading-relaxed font-semibold w-full xl:text-center text-start">
+              <h1 className="text-tertiary text-[50px] text-center">
                 Réinitialiser votre mot de passe
-              </label>
+              </h1>
               <Form
                 handleSubmit={handleSubmit}
                 error={errorMessage}

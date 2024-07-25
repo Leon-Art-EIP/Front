@@ -48,7 +48,9 @@ export type TErrorMessages =
   | "Invalid User ID"
   | "Comment added"
   | "Cannot delete publication with unfinished orders"
-  | "Error: Images Only!";
+  | "Error: Images Only!"
+  | "You can only post once per hour"
+  | "Token is not valid";
 
 export const errors: Record<TErrorMessages, string> = {
   "Incorrect password": "Mot de passe incorrect",
@@ -97,4 +99,6 @@ export const errors: Record<TErrorMessages, string> = {
   "Cannot delete publication with unfinished orders":
     "Impossible de supprimer une publication avec des commandes non terminées",
   "Error: Images Only!": "Erreur: Images uniquement",
+  "You can only post once per hour": "Vous ne pouvez partager qu'un post par heure",
+  "Token is not valid": "Session expirée, veuillez vous reconnecter",
 };

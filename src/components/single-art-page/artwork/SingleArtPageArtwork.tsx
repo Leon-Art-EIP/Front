@@ -1,4 +1,4 @@
-import { BookmarkBorder, DeleteOutline, Favorite, FavoriteBorder } from "@mui/icons-material";
+import { BookmarkBorder, DeleteOutline, Favorite, FavoriteBorder, Share } from "@mui/icons-material";
 import { ElementType, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
@@ -7,9 +7,11 @@ import "yet-another-react-lightbox/styles.css";
 import { imageApi } from "../../../tools/variables";
 import { Button, Modal } from "../../lib";
 import IconButton from "./IconButton";
+import ShareModal from "./ShareModal";
 
 interface ISingleArtPageArtworkProps {
   art: string;
+  artId: string;
   profile: string;
   artisteName: string;
   artistId: string;
@@ -28,6 +30,7 @@ const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleArtPageArtworkProps): JSX.Element {
   const [isImageLightboxOpen, setImageLightboxOpen] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isShareModalOpen, setShareModalOpen] = useState(false);
 
   function onCloseLightbox() {
     setImageLightboxOpen(false);
@@ -50,6 +53,14 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
     closeModal();
   };
 
+  const openShareModal = () => {
+    setShareModalOpen(true);
+  };
+
+  const closeShareModal = () => {
+    setShareModalOpen(false);
+  };
+
   return (
     <>
       <Modal isOpen={isModalOpen} handleClose={closeModal}>
@@ -65,6 +76,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
           </div>
         </div>
       </Modal>
+      <ShareModal closeModal={closeShareModal} id={props.artId} isOpen={isShareModalOpen} />
       <div className="flex flex-col gap-5 w-full">
         <img
           src={`${imageApi}/${props.art}`}
@@ -94,6 +106,13 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
         <div className="flex">
           <div className="text-tertiary flex flex-1 font-bold text-3xl">{props.title}</div>
           <div className="inline-flex gap-4 items-center">
+            <IconButton
+              id="share-button"
+              icon={Share}
+              backgroundColor="bg-background-hl"
+              onClick={openShareModal}
+              iconColor="text-tertiary"
+            />
             {props.artistId === props.connectedUserId && (
               <IconButton
                 id="delete-button"

@@ -15,7 +15,7 @@ export default function UsersSlider(props: UsersSliderProps): JSX.Element {
   }
 
   return (
-    <div className="flex flex-row gap-8 justify-start overflow-x-auto pb-3">
+    <div className="flex flex-row gap-8 justify-start overflow-x-auto container-hide-scrollbar pb-3">
       {props.users.users.map((user, index) => (
         <div
           key={index}
