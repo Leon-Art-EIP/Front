@@ -12,7 +12,9 @@ export interface IArtPublication {
   isSold: boolean;
   price: number;
   location: string;
-  likes: IArtist[];
+  // likes: IArtist[];
+  isLiked: boolean;
+  totalLikes: number;
   comments: string[];
   __v: number;
 }

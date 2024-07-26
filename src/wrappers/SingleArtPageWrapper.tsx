@@ -113,8 +113,10 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       artId={artPublication._id}
       profile={`${imageApi}/${artist.profilePicture}`}
       title={artPublication.name}
-      liked={artPublication.likes.find((like) => like._id === user.id) ? true : false}
-      nbrLikes={artPublication.likes.length}
+      // liked={artPublication.likes.find((like) => like._id === user.id) ? true : false}
+      liked={artPublication.isLiked}
+      // nbrLikes={artPublication.likes.length}
+      nbrLikes={artPublication.totalLikes}
       collections={collectionsArtsExtended}
       belongingCollectionsIds={idsOfCollectionsWithArt}
       belongingCommands={false} // TODO
