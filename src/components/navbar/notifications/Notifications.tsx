@@ -140,16 +140,9 @@ export default function Notifications() {
       router.push(`/single/${referenceId}`);
     } else if (type === "follow") {
       router.push(`/profile/${referenceId}`);
-    } else if (
-      type === "payment_success" ||
-      type === "order_cancelled_seller" ||
-      type === "order_completed"
-    ) {
+    } else if (type === "payment_success" || type === "order_cancelled_seller" || type === "order_completed") {
       router.push(`/order?type=sell&orderId=${referenceId}`);
-    }
-    else if (type === "order_processing" ||
-      type === "order_cancelled_buyer" ||
-      type === "order_shipping") {
+    } else if (type === "order_processing" || type === "order_cancelled_buyer" || type === "order_shipping") {
       router.push(`/order?type=buy&orderId=${referenceId}`);
     }
   }

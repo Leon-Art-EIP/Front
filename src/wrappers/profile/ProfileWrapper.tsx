@@ -46,14 +46,14 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
       setArtist(artist);
 
       async function fetchPublicationsForCollection(collection: ICollection): Promise<IProfileCollection> {
-        const response = await myFetch({ route: `/api/collection/${collection._id}/publications`, method: "GET" });
+        const response = await myFetch({ route: `/api/collection/${collection.id}/publications`, method: "GET" });
         const arts = response.json as IArtPublication[];
         const pictures: IProfileArt[] = arts.map((art) => ({
-          id: art._id,
+          id: art.id,
           src: `${imageApi}/${art.image}`,
         }));
         return {
-          id: collection._id,
+          id: collection.id,
           title: collection.name,
           pictures,
         };
@@ -81,7 +81,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
           const arts = response.json as IArtPublication[];
 
           const publications = arts.map((art) => ({
-            id: art._id,
+            id: art.id,
             src: `${imageApi}/${art.image}`,
           }));
           return publications;
@@ -122,7 +122,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
           const data = response.json;
           // Transform the data to match IUser interface
           return data.subscribers.map((follower: any) => ({
-            id: follower._id,
+            id: follower.id,
             username: follower.username,
             email: follower.email,
             is_artist: follower.is_artist,
@@ -148,7 +148,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
           const data = response.json;
           // Transform the data to match IUser interface
           return data.subscriptions.map((followed: any) => ({
-            id: followed._id,
+            id: followed.id,
             username: followed.username,
             email: followed.email,
             is_artist: followed.is_artist,

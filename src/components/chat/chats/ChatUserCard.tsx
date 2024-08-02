@@ -19,7 +19,7 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
     <div className="pl-6 sm:pl-10">
       <div
         className={`relative flex flex-row flex-grow-0 w-full p-2 cursor-pointer rounded-l-full hover:bg-secondary ${
-          props.chat._id === props.currentSelected?._id ? "bg-secondary-hover" : ""
+          props.chat.id === props.currentSelected?.id ? "bg-secondary-hover" : ""
         }`}
         onClick={onSelectChat}
       >
@@ -48,14 +48,16 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
             {props.chat.UserOneId !== props.currentUser?.user.id ? props.chat.UserOneName : props.chat.UserTwoName}
           </span>
           <div className="grid grid-cols-1">
-            {props.chat._id !== props.currentSelected?._id ? (
+            {props.chat.id !== props.currentSelected?.id ? (
               <span className="text-sm truncate">{props.chat.lastMessage}</span>
             ) : (
               <span className="text-md font-semibold">...</span>
             )}
           </div>
         </div>
-        {props.chat._id === props.currentSelected?._id && <div className="absolute right-0 top-0 w-1 h-full bg-primary" />}
+        {props.chat.id === props.currentSelected?.id && (
+          <div className="absolute right-0 top-0 w-1 h-full bg-primary" />
+        )}
       </div>
     </div>
   );

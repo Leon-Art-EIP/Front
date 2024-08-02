@@ -3,7 +3,7 @@ export interface INewPost {
   post: {
     userId: string;
     text: string;
-    artPublicationId: string;
+    artPublicationId: string | null;
     likes: string[];
     id: string;
     createdAt: string;
@@ -15,19 +15,22 @@ export interface INewPost {
 }
 
 export interface IPost {
+  userId: string;
+  text: string;
+  artPublicationId: string | null;
+  createdAt: {
+    _seconds: number;
+    _nanoseconds: number;
+  };
+  likes: string[];
   id: string;
-  userId: {
-    id: string;
+  user: {
     username: string;
     profilePicture: string;
   };
-  text: string;
-  artPublicationId?: {
-    id: string;
+  artPublication: {
     name: string;
   };
-  likes: string[];
-  createdAt: string;
 }
 
 export interface ILikePost {

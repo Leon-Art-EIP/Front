@@ -21,7 +21,7 @@ export default function UserPosts({ user, ...props }: IUserPostsProps): JSX.Elem
     }
 
     const newPosts = props.posts.map((post) => {
-      if (post._id !== postId) {
+      if (post.id !== postId) {
         return post;
       }
 
@@ -57,7 +57,7 @@ export default function UserPosts({ user, ...props }: IUserPostsProps): JSX.Elem
     >
       {props.posts.map((post) => (
         <UserPost
-          key={post._id}
+          key={post.id}
           post={post}
           connectedUserId={user?.user.id}
           onLike={onLike}

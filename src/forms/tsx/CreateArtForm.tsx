@@ -61,10 +61,10 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   };
 
   const handleOk = (json: any) => {
-    const data = json as { msg: string; artPublication: { _id: string } } | IError;
+    const data = json as { msg: string; artPublication: { id: string } } | IError;
 
     if ("artPublication" in data) {
-      router.push(`/single/${data.artPublication._id}`);
+      router.push(`/single/${data.artPublication.id}`);
     }
   };
 

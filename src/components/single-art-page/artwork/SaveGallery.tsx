@@ -41,7 +41,7 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
     await Promise.all([
       Promise.all(
         newCollections.map(async (collectionId) => {
-          const collectionName = props.collections.find((collection) => collection._id === collectionId)?.name;
+          const collectionName = props.collections.find((collection) => collection.id === collectionId)?.name;
           if (!collectionName) return;
 
           const response = await myFetch({
@@ -110,10 +110,10 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
           <div className="flex flex-wrap gap-6 justify-center">
             {props.collections.map((collection) => (
               <Collection
-                key={collection._id}
+                key={collection.id}
                 collection={collection}
                 handleSelectCollection={handleSelectCollection}
-                selected={selectedCollections.includes(collection._id)}
+                selected={selectedCollections.includes(collection.id)}
               />
             ))}
           </div>

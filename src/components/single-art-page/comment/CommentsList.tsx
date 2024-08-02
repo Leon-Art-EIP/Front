@@ -35,7 +35,7 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
             if (responseAuthor.ok) {
               const author = responseAuthor.json as IProfileUser;
               return {
-                id: comment._id,
+                id: comment.id,
                 profilePicture: `${imageApi}/${author.profilePicture}`,
                 username: author.username,
                 text: comment.text,
@@ -102,7 +102,13 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
       </Modal>
       <div className="flex flex-col gap-4">
         {[...props.localComments, ...displayComments].map((comment, index) => (
-          <Comment key={`${index}-${comment.username}`} comment={comment} connectedUserId={props.connectedUserId} isLoading={isLoading} openModal={openModal} />
+          <Comment
+            key={`${index}-${comment.username}`}
+            comment={comment}
+            connectedUserId={props.connectedUserId}
+            isLoading={isLoading}
+            openModal={openModal}
+          />
         ))}
       </div>
     </>

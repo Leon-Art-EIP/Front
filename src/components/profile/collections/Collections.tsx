@@ -38,7 +38,7 @@ export default function Collections(props: ICollectionsProps): JSX.Element {
       <div className="flex flex-wrap gap-6">
         {props.collectionsArtsExtended.map((collection) => (
           <Collection
-            key={collection._id}
+            key={collection.id}
             collection={collection}
             handleSelectCollection={handleSelectCollection}
             selected={false}

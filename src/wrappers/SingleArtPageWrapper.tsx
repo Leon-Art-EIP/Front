@@ -98,22 +98,22 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
   }
 
   const getCollectionsWithArt = collectionsArtsExtended.filter((collection) =>
-    collection.artPublications.find((art) => art._id === artPublication._id)
+    collection.artPublications.find((art) => art.id === artPublication.id)
   );
-  const idsOfCollectionsWithArt = getCollectionsWithArt.map((collection) => collection._id);
+  const idsOfCollectionsWithArt = getCollectionsWithArt.map((collection) => collection.id);
 
   return (
     <SingleArtPage
       artistName={artist.username}
-      artistId={artist._id}
+      artistId={artist.id}
       description={artPublication.description}
       caracteristics={artPublication.artType}
       price={artPublication.price}
       art={artPublication.image}
-      artId={artPublication._id}
+      artId={artPublication.id}
       profile={`${imageApi}/${artist.profilePicture}`}
       title={artPublication.name}
-      liked={artPublication.likes.find((like) => like._id === user.id) ? true : false}
+      liked={artPublication.likes.find((like) => like.id === user.id) ? true : false}
       nbrLikes={artPublication.likes.length}
       collections={collectionsArtsExtended}
       belongingCollectionsIds={idsOfCollectionsWithArt}

@@ -47,9 +47,9 @@ export default function Posts(props: IPostsProps): JSX.Element {
   const onAddPost = (post: INewPost) => {
     if (user) {
       const newPost: IPost = {
-        _id: post.post._id,
+        id: post.post.id,
         userId: {
-          _id: user?.user.id,
+          id: user?.user.id,
           username: post.user.username,
           profilePicture: post.user.profilePicture,
         },
@@ -78,7 +78,7 @@ export default function Posts(props: IPostsProps): JSX.Element {
 
   const handleOkDeletePost = () => {
     if (postIdToDelete !== "") {
-      setPosts(posts.filter((post) => post._id !== postIdToDelete));
+      setPosts(posts.filter((post) => post.id !== postIdToDelete));
       setPostIdToDelete("");
     }
   };
