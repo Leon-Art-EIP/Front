@@ -1,5 +1,5 @@
 export interface IComment {
-  _id: string;
+  id: string;
   userId: string;
   artPublicationId: string;
   text: string;
@@ -17,7 +17,7 @@ export interface IDisplayComment {
 
 export interface IAddComment {
   msg: string;
-  comment: Omit<IComment, "_id"> & {
+  comment: Omit<IComment, "id"> & {
     id: string;
   };
 }

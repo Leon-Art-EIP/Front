@@ -5,9 +5,8 @@ export interface INewPost {
     text: string;
     artPublicationId: string;
     likes: string[];
-    _id: string;
+    id: string;
     createdAt: string;
-    __v: number;
   };
   user: {
     username: string;
@@ -16,20 +15,19 @@ export interface INewPost {
 }
 
 export interface IPost {
-  _id: string;
+  id: string;
   userId: {
-    _id: string;
+    id: string;
     username: string;
     profilePicture: string;
   };
   text: string;
   artPublicationId?: {
-    _id: string;
+    id: string;
     name: string;
   };
   likes: string[];
   createdAt: string;
-  __v: number;
 }
 
 export interface ILikePost {

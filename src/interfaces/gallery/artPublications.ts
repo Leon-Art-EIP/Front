@@ -3,7 +3,7 @@ export interface IArtPublications {
 }
 
 export interface IArtPublication {
-  _id: string;
+  id: string;
   name: string;
   artType: string;
   image: string;

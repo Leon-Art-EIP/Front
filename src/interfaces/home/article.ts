@@ -1,10 +1,10 @@
 export interface IArticle {
-  _id: string;
+  id: string;
   title: string;
   mainImage: string;
   content: string;
   author: {
-    _id: string;
+    id: string;
     username: string;
   };
   createdAt: string;

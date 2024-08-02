@@ -1,5 +1,5 @@
 export interface IPassingArt {
-  _id: string;
+  id: string;
   title: string;
   mainImage: string;
   content: string;

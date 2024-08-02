@@ -7,10 +7,9 @@ export interface ICreateCollection {
 }
 
 export interface ICollection {
-  _id: string;
+  id: string;
   name: string;
   user: string; // id
-  __v?: number;
   artPublications: string[]; // id
   isPublic: boolean;
 }

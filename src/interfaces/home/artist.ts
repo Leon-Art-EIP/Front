@@ -1,5 +1,5 @@
 export interface IArtist {
-  _id: string;
+  id: string;
   username: string;
   email: string;
   is_artist: boolean;
@@ -13,6 +13,5 @@ export interface IArtist {
   canPostArticles: boolean;
   profilePicture: string;
   bannerPicture: string;
-  __v?: number;
   biography?: string;
 }

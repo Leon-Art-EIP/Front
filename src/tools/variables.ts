@@ -51,7 +51,8 @@ export type TErrorMessages =
   | "Error: Images Only!"
   | "You can only post once per hour"
   | "Token is not valid"
-  | "User has not linked a Stripe account";
+  | "User has not linked a Stripe account"
+  | "Invalid Art Publication ID";
 
 export const errors: Record<TErrorMessages, string> = {
   "Incorrect password": "Mot de passe incorrect",
@@ -103,4 +104,5 @@ export const errors: Record<TErrorMessages, string> = {
   "You can only post once per hour": "Vous ne pouvez partager qu'un post par heure",
   "Token is not valid": "Session expirée, veuillez vous reconnecter",
   "User has not linked a Stripe account": "L'utilisateur n'a pas lié de compte Stripe",
+  "Invalid Art Publication ID": "Une publication avec cette ID n'existe pas",
 };
