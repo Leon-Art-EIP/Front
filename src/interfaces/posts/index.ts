@@ -18,10 +18,7 @@ export interface IPost {
   userId: string;
   text: string;
   artPublicationId: string | null;
-  createdAt: {
-    _seconds: number;
-    _nanoseconds: number;
-  };
+  createdAt: string;
   likes: string[];
   id: string;
   user: {
@@ -30,7 +27,7 @@ export interface IPost {
   };
   artPublication: {
     name: string;
-  };
+  } | null;
 }
 
 export interface ILikePost {

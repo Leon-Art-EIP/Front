@@ -20,13 +20,13 @@ export default function UserPost(props: IUserPostProps): JSX.Element {
   return (
     <div className="p-8 flex flex-col gap-2 max-w-3xl">
       <div className="flex gap-2 items-center">
-        <Link className="flex gap-2 items-center" href={`/profile/${props.post.userId.id}`}>
+        <Link className="flex gap-2 items-center" href={`/profile/${props.post.userId}`}>
           <img
-            src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.post.userId.profilePicture}`}
+            src={`${NEXT_PUBLIC_BACKEND_URL}/api/${props.post.user.profilePicture}`}
             alt="post-profilePicture"
             className="w-8 h-8 object-cover"
           />
-          <h3 className="text-primary">{props.post.userId.username}</h3>
+          <h3 className="text-primary">{props.post.user.username}</h3>
         </Link>
         <p className="text-neutral-500 italic">le {stringToFrenchDate(props.post.createdAt)}</p>
       </div>
@@ -48,18 +48,18 @@ export default function UserPost(props: IUserPostProps): JSX.Element {
           postId={props.post.id}
           onLike={props.onLike}
         />
-        {props.connectedUserId === props.post.userId.id && (
+        {props.connectedUserId === props.post.userId && (
           <DeletePost onDeletePost={props.onDeletePost} postId={props.post.id} />
         )}
       </div>
-      {props.post.artPublicationId && (
+      {props.post.artPublication && (
         <div className="flex gap-2 items-center">
-          <div>
-            La publication <span className="font-semibold">{props.post.artPublicationId.name}</span> est attaché à ce
+          <div> 
+            La publication <span className="font-semibold">{props.post.artPublication.name}</span> est attaché à ce
             post
           </div>
           <Link
-            href={`/single/${props.post.artPublicationId.id}`}
+            href={`/single/${props.post.artPublicationId}`}
             className="py-2 px-4 rounded bg-primary text-white flex gap-2 hover:bg-primary-hover self-start m-2"
           >
             Voir publication

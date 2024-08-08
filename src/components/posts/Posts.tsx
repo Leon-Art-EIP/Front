@@ -47,16 +47,19 @@ export default function Posts(props: IPostsProps): JSX.Element {
   const onAddPost = (post: INewPost) => {
     if (user) {
       const newPost: IPost = {
-        id: post.post.id,
-        userId: {
-          id: user?.user.id,
-          username: post.user.username,
-          profilePicture: post.user.profilePicture,
-        },
+        userId: post.post.userId,
         text: post.post.text,
-        likes: post.post.likes,
+        artPublicationId: post.post.artPublicationId,
         createdAt: post.post.createdAt,
-        __v: post.post.__v,
+        likes: post.post.likes,
+        id: post.post.id,
+        user: {
+          username: post.user.username,
+          profilePicture: post.user.profilePicture
+        },
+        artPublication: {
+          name: 
+        }
       };
 
       setPosts([newPost, ...posts]);
