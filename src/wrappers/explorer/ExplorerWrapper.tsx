@@ -59,6 +59,7 @@ export default function ExplorerWrapper(): JSX.Element {
     }
 
     fetchArtPub();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, unavailableToBuy]);
 
   function handleSearchTerm(searchTerm: string) {

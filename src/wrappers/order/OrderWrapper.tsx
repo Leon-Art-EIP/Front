@@ -28,6 +28,7 @@ export default function OrderWrapper(): JSX.Element {
     if (orderIdSelectedParams) {
       handleSelectOrder(orderIdSelectedParams);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderIdSelectedParams]);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function OrderWrapper(): JSX.Element {
     if (newOrderType !== orderType) {
       setOrderType(newOrderType);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   useEffect(() => {
@@ -42,6 +44,7 @@ export default function OrderWrapper(): JSX.Element {
       refreshBuyOrders();
       refreshSellOrders();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   function handleOrderTypeChange(orderType: "buy" | "sell") {
