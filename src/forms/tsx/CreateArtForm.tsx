@@ -11,23 +11,25 @@ import NumberInput from "../../components/form/NumberInput";
 import Select from "../../components/form/Select";
 import TextArea from "../../components/form/TextArea";
 import { Button } from "../../components/lib";
-import { IError, IOption } from "../../interfaces";
+import { IError, IOption, IOptionSubOptions } from "../../interfaces";
 import { appendFormData } from "../../tools/formData";
 import { TCreateArtData } from "../../zod";
 import useCreateArtForm from "../methods/useCreateArtForm";
+import SelectSubOptions from "../../components/form/SelectSubOptions";
+import Link from "next/link";
 
 export interface ICreateArtFormProps {
-  artTypes: IOption<string>[];
+  artTypes: IOptionSubOptions<string>[];
+  stripeAccountLinked: boolean;
 }
 
 export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   const methods = useCreateArtForm();
   const isForSale = methods.watch("isForSale");
+  const imageImported = methods.watch("image");
   const router = useRouter();
   const [nbFetchs, setNbFetchs] = useState(0);
   const [body, setBody] = useState<FormData>();
-  const [nbFetchsStripeAccountAlreadyLinked, setNbFetchsStripeAccountAlreadyLinked] = useState(0);
-  const [stripeAccountAlreadyLinked, setStripeAccountAlreadyLinked] = useState(false);
 
   const handleSubmit = async (zodData: TCreateArtData): Promise<void> => {
     const formData = new FormData();
@@ -39,6 +41,10 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   };
 
   const onSubmit = async (data: TCreateArtData): Promise<void> => {
+    if (!data.artType) {
+      methods.setError("artType", { type: "manual", message: "Veuillez sélectionner un type d'art." });
+      return;
+    }
     if (data.isForSale && !data.price) {
       methods.setError("price", { type: "manual", message: "Remplissez un prix ou décochez 'à vendre'" });
       return;
@@ -55,38 +61,86 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
   };
 
   const handleOk = (json: any) => {
-    const data = json as { msg: string; artPublication: { id: string } } | IError;
+    const data = json as { msg: string; artPublication: { _id: string } } | IError;
 
     if ("artPublication" in data) {
-      router.push(`/single/${data.artPublication.id}`);
+      router.push(`/single/${data.artPublication._id}`);
     }
   };
 
-  function handleStipeAccountAlreadyLinked(json: any) {
-    const data = json;
-
-    if (data.linked) {
-      setStripeAccountAlreadyLinked(data.linked);
-    }
-  }
-
-  function isStripeAccountAlreadyLinked() {
-    setNbFetchsStripeAccountAlreadyLinked(nbFetchsStripeAccountAlreadyLinked + 1);
-  }
-
-  useEffect(() => {
-    isStripeAccountAlreadyLinked();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function goToPersonalInformation() {
-    // Redirect to the personal information page
-    router.push("/settings/me");
+  function handleCancel() {
+    router.back();
   }
 
   return (
     <>
       <Fetcher method="POST" route="/api/art-publication" nbFetchs={nbFetchs} body={body} handleOk={handleOk} />
+      <FormProvider {...methods}>
+        <form className="flex flex-col w-full gap-14" onSubmit={methods.handleSubmit(onSubmit)}>
+          <h1>Publier une nouvelle oeuvre d{"'"}art</h1>
+          <div className="flex flex-col gap-4">
+            <h2>
+              1<sup>ère</sup> étape: Sélectionner une image
+            </h2>
+            <label className="text-tertiary-hover px-6">La taille de l{"'"}image ne doit pas dépasser les 5MB.</label>
+            {imageImported && (
+              <img src={URL.createObjectURL(imageImported)} alt="image" className="w-full h-fit object-cover rounded" />
+            )}
+            <FileInput name="image" />
+          </div>
+          <div className="flex flex-col gap-4">
+            <h2>
+              2<sup>ème</sup> étape: Donner des détails sur l{"'"}oeuvre
+            </h2>
+            <Input name="name" placeholder="Titre" type="text" className="bg-secondary rounded" />
+            <TextArea name="description" placeholder="Description" className="bg-secondary rounded" />
+            <SelectSubOptions
+              name="artType"
+              title="Type d'art"
+              options={props.artTypes}
+              placeholder="Sélectionner le type d'œuvre d'art"
+            />
+          </div>
+          <div className="flex flex-col gap-6">
+            <h2>
+              3<sup>ème</sup> étape: Mise en vente potentielle
+            </h2>
+            <div className="flex flex-col gap-6">
+              <div className="px-4">
+                <Checkbox name="isForSale" title="À vendre" />
+              </div>
+              {isForSale &&
+                (props.stripeAccountLinked ? (
+                  <div className="flex flex-row items-center">
+                    <Input name="price" placeholder="Prix" type="number" className="bg-secondary rounded" />
+                    <label className="text-tertiary-hover text-xl px-6">€</label>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <label className="text-lg">
+                      Votre compte n’est pas configurérer pour être vendeur pour l’instant<br></br>
+                      Vous pouvez modifier cela en créant ou en connectant votre compte de payement Stripe.
+                    </label>
+                    <Link href="/settings/me" className="text-primary text-lg hover:underline">
+                      Aller à mes informations personnelles
+                    </Link>
+                  </div>
+                ))}
+            </div>
+          </div>
+          <div className="flex flex-row justify-around">
+            <Button color="secondary" type="button" onClick={handleCancel}>
+              Annuler
+            </Button>
+            <Button
+              color="danger"
+              type="submit"
+              disabled={isForSale && !props.stripeAccountLinked}
+            >
+              Publier
+            </Button>
+          </div>
+          {/* <Fetcher method="POST" route="/api/art-publication" nbFetchs={nbFetchs} body={body} handleOk={handleOk} />
       <Fetcher
         route={"/api/stripe/account-link-status"}
         method="GET"
@@ -140,6 +194,8 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
           <Button color="danger" type="submit" className="self-end">
             Publier
           </Button>
+        </form>
+      </FormProvider> */}
         </form>
       </FormProvider>
     </>

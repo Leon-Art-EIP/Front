@@ -7,6 +7,7 @@ import { getValueOrUndefined } from "./utils";
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const nonEmptyString = z.string().min(1, { message: "Veuillez remplir ce champ" });
+const nonStringSelected = z.string().min(1, { message: "Veuillez séléctionner au moins un champ" });
 const validEmail = nonEmptyString.regex(emailRegex, { message: "Adresse email invalide" });
 
 export const loginSchema = z.object({
@@ -51,13 +52,11 @@ export const settingsPasswordSchema = z
   });
 
 export const createArtSchema = z.object({
-  image: z.preprocess((arg) => {
-    if (typeof File !== "undefined" && arg instanceof File) {
-      return arg;
-    }
-    return new Error("Veuillez sélectionner une image");
-  }, z.any()),
-  artType: nonEmptyString,
+  image: z.preprocess((file) => {
+    if (file instanceof File) return file;
+    return undefined;
+  }, z.instanceof(File, { message: "Veuillez sélectionner une image" })),
+  artType: nonStringSelected,
   name: nonEmptyString,
   description: nonEmptyString,
   isForSale: z.boolean(),
