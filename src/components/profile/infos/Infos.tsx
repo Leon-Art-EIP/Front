@@ -7,6 +7,7 @@ import AvailableForCommandsButton from "../../../wrappers/profile/AvailableForCo
 import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
 import LinkButton from "../../lib/Button/LinkButton";
 import { FollowerCard } from "./FollowerCard";
+import { Star } from "@mui/icons-material";
 
 export interface IInfosProps {
   availability: "available" | "unavailable";
@@ -14,6 +15,7 @@ export interface IInfosProps {
   numberOfFollowers: number;
   followers: IUser[];
   followed: IUser[];
+  averageRating: number;
   numberOfPosts: number;
   myProfile: boolean;
   following: boolean;
@@ -69,15 +71,24 @@ export default function Infos(props: IInfosProps): JSX.Element {
             <div className="font-medium text-xl text-tertiary">{kfollowers}</div>
             {props.myProfile && (
               <button onClick={openFollowerModal} className="text-tertiary focus:outline-none">
-                {`follower${numberOfFollowers > 1 ? "s" : ""}`}
+                {`Follower${numberOfFollowers > 1 ? "s" : ""}`}
               </button>
             )}
-            {!props.myProfile && <div>{`follower${numberOfFollowers > 1 ? "s" : ""}`}</div>}
+            {!props.myProfile && <div>{`Follower${numberOfFollowers > 1 ? "s" : ""}`}</div>}
           </div>
           <div className="flex flex-col items-center gap-2">
             <div className="font-medium text-xl text-tertiary">{props.numberOfPosts}</div>
-            <div className="text-tertiary">posts</div>
+            <div className="text-tertiary">Posts</div>
           </div>
+          {props.averageRating > 0 && (
+            <div className="flex flex-col items-center gap-2">
+              <div className="flex items-center gap-1 font-medium text-xl text-tertiary">
+                {props.averageRating}
+                <Star></Star>
+              </div>
+              <div className="text-tertiary">Note</div>
+            </div>
+          )}
         </div>
 
         {!props.myProfile && (
@@ -90,7 +101,7 @@ export default function Infos(props: IInfosProps): JSX.Element {
           />
         )}
         <AvailableForCommandsButton isAvailable={props.availability === "available"} disabled={!props.myProfile} />
-        <div className="h-0.5 w-full bg-black" />
+        <div className="h-0.5 w-full bg-gray-400 rounded" />
         {props.myProfile && (
           <LinkButton link={props.link} href={`/single/new`} color="danger" type="button" className="w-fit self-center">
             Nouvelle publication
