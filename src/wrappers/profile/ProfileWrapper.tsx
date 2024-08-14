@@ -31,6 +31,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   const [publications, setPublications] = useState<IProfileArt[]>([]);
   const [followers, setFollowers] = useState<IUser[]>([]);
   const [followed, setFollowed] = useState<IUser[]>([]);
+  const [averageRating, setAverageRating] = useState<number>(-1);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
@@ -133,6 +134,14 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         return [];
       }
 
+      async function fetchAverageRating(userId: string): Promise<number> {
+        const response = await myFetch({ route: `/api/order/user/${userId}/average-rating`, method: "GET" });
+        if (response.ok) {
+          return response.json.averageRating;
+        }
+        return -1;
+      }
+
       async function fetchFollowed(): Promise<IUser[]> {
         const response = await myFetch({ route: `/api/follow/following`, method: "GET" });
         if (response.ok) {
@@ -150,6 +159,9 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         }
         return [];
       }
+
+      const fetchedAverageRating = await fetchAverageRating(props.id);
+      setAverageRating(fetchedAverageRating);
       const fetchedFollowers: IUser[] = await fetchFollowers();
       setFollowers(fetchedFollowers);
       const fetchedFollowed: IUser[] = await fetchFollowed();
@@ -192,6 +204,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             numberOfFollowers={artist.subscribersCount}
             followers={followers}
             followed={followed}
+            averageRating={averageRating}
             numberOfPosts={publications.length}
             myProfile={myProfile}
             following={Object.keys(user).length > 0 && artist.subscribers.includes(user.user.id)}
