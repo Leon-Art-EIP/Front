@@ -26,7 +26,7 @@ export default function ArticlesWrapper(): JSX.Element {
       <div className="bg-background-hl flex flex-col items-center">
         <div className="w-full flex flex-col gap-4">
           {passingArts.length === 0 ? (
-            <span className="text-lg font-medium italic text-tertiary">Aucun article n&apos;est disponible</span>
+            <></>
           ) : (
             passingArts.map((art, index) => (
               <PassingArt
