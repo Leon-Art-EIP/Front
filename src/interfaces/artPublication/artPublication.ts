@@ -1,7 +1,7 @@
 import { IArtist } from "../home/artist";
 
 export interface IArtPublication {
-  id: string;
+  _id: string;
   userId: string;
   image: string;
   artType: string;

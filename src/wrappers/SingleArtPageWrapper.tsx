@@ -98,7 +98,7 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
   }
 
   const getCollectionsWithArt = collectionsArtsExtended.filter((collection) =>
-    collection.artPublications.find((art) => art.id === artPublication.id)
+    collection.artPublications.find((art) => art._id === artPublication._id)
   );
   const idsOfCollectionsWithArt = getCollectionsWithArt.map((collection) => collection.id);
 
@@ -110,7 +110,7 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       caracteristics={artPublication.artType}
       price={artPublication.price}
       art={artPublication.image}
-      artId={artPublication.id}
+      artId={artPublication._id}
       profile={`${imageApi}/${artist.profilePicture}`}
       title={artPublication.name}
       liked={artPublication.likes.find((like) => like.id === user.id) ? true : false}

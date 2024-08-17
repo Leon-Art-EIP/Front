@@ -11,7 +11,7 @@ export default function Gallery4x4(props: Gallery4x4Props): JSX.Element {
   const router = useRouter();
 
   function handleClickOnArtPublication(index: number) {
-    router.push(`/single/${props.artPublications.artPublications[index].id}`);
+    router.push(`/single/${props.artPublications.artPublications[index]._id}`);
   }
 
   return (
