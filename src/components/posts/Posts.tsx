@@ -12,6 +12,8 @@ import Fetcher from "../fetch/Fetcher";
 import IconButton from "../../components/single-art-page/artwork/IconButton";
 import { Refresh } from "@mui/icons-material";
 import { IConnectedUser } from "../../interfaces/user/user";
+import { myFetch } from "../../tools/myFetch";
+import { IArtPublication } from "../../interfaces/artPublication/artPublication";
 
 interface IPostsProps {
   activeTab: "latest" | "trends" | "myposts";
@@ -44,8 +46,21 @@ export default function Posts(props: IPostsProps): JSX.Element {
     route = "/api/posts?filter=user";
   }
 
-  const onAddPost = (post: INewPost) => {
+  const onAddPost = async (post: INewPost) => {
     if (user) {
+      let linkedArtPublication: IArtPublication | null = null;
+
+      if (post.post.artPublicationId) {
+        const response = await myFetch({
+          method: "GET",
+          route: `/api/art-publications/${post.post.artPublicationId}`,
+        });
+
+        if (response.ok) {
+          linkedArtPublication = (await response.json) as IArtPublication;
+        }
+      }
+
       const newPost: IPost = {
         userId: post.post.userId,
         text: post.post.text,
@@ -55,11 +70,9 @@ export default function Posts(props: IPostsProps): JSX.Element {
         id: post.post.id,
         user: {
           username: post.user.username,
-          profilePicture: post.user.profilePicture
+          profilePicture: post.user.profilePicture,
         },
-        artPublication: {
-          name: 
-        }
+        artPublication: linkedArtPublication ? { name: linkedArtPublication.name } : null,
       };
 
       setPosts([newPost, ...posts]);

@@ -4,9 +4,9 @@ export interface INewPost {
     userId: string;
     text: string;
     artPublicationId: string | null;
+    createdAt: string;
     likes: string[];
     id: string;
-    createdAt: string;
   };
   user: {
     username: string;
