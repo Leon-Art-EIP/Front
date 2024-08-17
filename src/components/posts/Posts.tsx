@@ -5,7 +5,7 @@ import PostTab from "./PostTab";
 import Cameleon from "../../assets/cameleon.png";
 import NewPostModalWrapper from "../../wrappers/posts/NewPostModalWrapper";
 import UserPosts from "./UserPosts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { INewPost, IPost } from "../../interfaces/posts";
 import { Button } from "../lib";
 import Fetcher from "../fetch/Fetcher";
@@ -21,13 +21,16 @@ interface IPostsProps {
 }
 
 export default function Posts(props: IPostsProps): JSX.Element {
-  let user: IConnectedUser | undefined;
+  const [user, setUser] = useState<IConnectedUser | undefined>(undefined);
 
-  const local = localStorage.getItem("user");
+  useEffect(() => {
+    const local = localStorage.getItem("user");
 
-  if (local) {
-    user = JSON.parse(local) as IConnectedUser;
-  }
+    if (local) {
+      const localUser = JSON.parse(local) as IConnectedUser;
+      setUser(localUser);
+    }
+  }, []);
 
   const [posts, setPosts] = useState<IPost[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);

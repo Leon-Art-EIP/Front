@@ -49,7 +49,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
         const response = await myFetch({ route: `/api/collection/${collection.id}/publications`, method: "GET" });
         const arts = response.json as IArtPublication[];
         const pictures: IProfileArt[] = arts.map((art) => ({
-          id: art.id,
+          id: art._id,
           src: `${imageApi}/${art.image}`,
         }));
         return {
@@ -81,7 +81,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
           const arts = response.json as IArtPublication[];
 
           const publications = arts.map((art) => ({
-            id: art.id,
+            id: art._id,
             src: `${imageApi}/${art.image}`,
           }));
           return publications;

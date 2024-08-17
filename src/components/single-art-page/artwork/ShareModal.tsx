@@ -50,7 +50,7 @@ export default function ShareModal(props: IShareModalProps): JSX.Element {
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-4">
               <h3 className="text-sm text-orange-500 flex gap-1 items-center">
-                <Warning className="text-sm text-orange-500" /> Vous ne pouvez poster qu'une fois par heure
+                <Warning className="text-sm text-orange-500" /> Vous ne pouvez poster qu&apos;une fois par heure
               </h3>
               <TextArea
                 name="message"

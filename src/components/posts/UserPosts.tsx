@@ -14,7 +14,7 @@ interface IUserPostsProps {
   user: IConnectedUser | undefined;
 }
 
-export default function UserPosts({ user, ...props }: IUserPostsProps): JSX.Element {
+export default function UserPosts({ user, setPosts, route, ...props }: IUserPostsProps): JSX.Element {
   const onLike = (postId: string, isLiked: boolean) => {
     if (!user) {
       return;
@@ -31,24 +31,24 @@ export default function UserPosts({ user, ...props }: IUserPostsProps): JSX.Elem
       };
     });
 
-    props.setPosts(newPosts);
+    setPosts(newPosts);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const reponse = await myFetch({
         method: "GET",
-        route: props.route,
+        route,
       });
 
       if (reponse.ok) {
         const data = reponse.json;
 
-        props.setPosts(data);
+        setPosts(data);
       }
     };
     fetchData();
-  }, []);
+  }, [setPosts, route]);
 
   return (
     <div

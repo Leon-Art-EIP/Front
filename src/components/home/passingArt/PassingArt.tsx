@@ -37,7 +37,7 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
               className="text-3xl font-semibold truncate cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
-                handleClick(props.passingArt.id);
+                handleClick(props.passingArt._id);
               }}
             >
               {props.passingArt.title}
