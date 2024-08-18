@@ -52,7 +52,17 @@ export type TErrorMessages =
   | "You can only post once per hour"
   | "Token is not valid"
   | "User has not linked a Stripe account"
-  | "Invalid Art Publication ID";
+  | "Invalid Art Publication ID"
+  | "Please wait 10 more minute(s) before creating a new post."
+  | "Please wait 9 more minute(s) before creating a new post."
+  | "Please wait 8 more minute(s) before creating a new post."
+  | "Please wait 7 more minute(s) before creating a new post."
+  | "Please wait 6 more minute(s) before creating a new post."
+  | "Please wait 5 more minute(s) before creating a new post."
+  | "Please wait 4 more minute(s) before creating a new post."
+  | "Please wait 3 more minute(s) before creating a new post."
+  | "Please wait 2 more minute(s) before creating a new post."
+  | "Please wait 1 more minute(s) before creating a new post.";
 
 export const errors: Record<TErrorMessages, string> = {
   "Incorrect password": "Mot de passe incorrect",
@@ -105,4 +115,24 @@ export const errors: Record<TErrorMessages, string> = {
   "Token is not valid": "Session expirée, veuillez vous reconnecter",
   "User has not linked a Stripe account": "L'utilisateur n'a pas lié de compte Stripe",
   "Invalid Art Publication ID": "Une publication avec cette ID n'existe pas",
+  "Please wait 10 more minute(s) before creating a new post.":
+    "Veuillez attendre encore 10 minutes avant de créer un nouveau post.",
+  "Please wait 9 more minute(s) before creating a new post.":
+    "Veuillez attendre encore 9 minutes avant de créer un nouveau post.",
+  "Please wait 8 more minute(s) before creating a new post.":
+    "Veuillez attendre encore 8 minutes avant de créer un nouveau post.",
+  "Please wait 7 more minute(s) before creating a new post.":
+    "Veuillez attendre encore 7 minutes avant de créer un nouveau post.",
+  "Please wait 6 more minute(s) before creating a new post.":
+    "Veuillez attendre encore 6 minutes avant de créer un nouveau post.",
+  "Please wait 5 more minute(s) before creating a new post.":
+    "Veuillez attendre encore 5 minutes avant de créer un nouveau post.",
+  "Please wait 4 more minute(s) before creating a new post.":
+    "Veuillez attendre encore 4 minutes avant de créer un nouveau post.",
+  "Please wait 3 more minute(s) before creating a new post.":
+    "Veuillez attendre encore 3 minutes avant de créer un nouveau post.",
+  "Please wait 2 more minute(s) before creating a new post.":
+    "Veuillez attendre encore 2 minutes avant de créer un nouveau post.",
+  "Please wait 1 more minute(s) before creating a new post.":
+    "Veuillez attendre encore 1 minute avant de créer un nouveau post.",
 };

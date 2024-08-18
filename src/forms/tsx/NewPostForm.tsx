@@ -21,7 +21,7 @@ export default function NewPostForm(props: INewPostProps): JSX.Element {
       <form className="flex gap-2 p-2 flex-1 flex-wrap" onSubmit={methods.handleSubmit((data) => props.onSubmit(data))}>
         <div className="flex flex-col gap-4">
           <h3 className="text-sm text-orange-500 flex gap-1 items-center">
-            <Warning className="text-sm text-orange-500" /> Vous ne pouvez poster qu&apos;une fois par heure
+            <Warning className="text-sm text-orange-500" /> Vous ne pouvez créer qu&apos;un post toutes les 10 minutes
           </h3>
           <TextArea
             name="text"
