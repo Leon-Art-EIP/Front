@@ -221,6 +221,8 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             publications={publications}
             myProfile={myProfile}
             link={Link}
+            setProfileCollections={setProfileCollections}
+            setCollectionsArtsExtended={setCollectionsArtsExtended}
           />
         </div>
         <div className="flex justify-center">
