@@ -1,9 +1,17 @@
 export interface IComment {
-  id: string;
   userId: string;
   artPublicationId: string;
   text: string;
   createdAt: string;
+  parentCommentId: string | null;
+  likes: string[];
+  id: string;
+  nestedComments: Omit<IComment, "nestedComments">[];
+}
+
+export interface INewComment {
+  msg: string;
+  comment: Omit<IComment, "nestedComments">;
 }
 
 export interface IDisplayComment {
@@ -13,11 +21,5 @@ export interface IDisplayComment {
   authorId: string;
   text: string;
   createdAt: string;
-}
-
-export interface IAddComment {
-  msg: string;
-  comment: Omit<IComment, "id"> & {
-    id: string;
-  };
+  nestedComments: (Omit<IComment, "nestedComments">[]) | undefined;
 }

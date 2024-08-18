@@ -8,7 +8,7 @@ import SingleArtPage from "../components/single-art-page/SingleArtPage";
 import { IArtPublication } from "../interfaces/artPublication/artPublication";
 import { ICollection, ICollectionArtsExtended, INewCollection } from "../interfaces/single/collection";
 import { IProfileUser } from "../interfaces/user/profileUser";
-import { IUser } from "../interfaces/user/user";
+import { IConnectedUser, IUser } from "../interfaces/user/user";
 import { IMyFetchResponse, myFetch } from "../tools/myFetch";
 import { imageApi } from "../tools/variables";
 
@@ -19,12 +19,20 @@ interface SingleArtPageWrapperProps {
 }
 
 export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): JSX.Element {
+  const [user, setUser] = useState<IUser | undefined>(undefined);
   const [artPublication, setArtPublication] = useState<IArtPublication>();
   const [artist, setArtist] = useState<IProfileUser>();
   const [collectionsArtsExtended, setCollectionsArtsExtended] = useState<ICollectionArtsExtended[]>([]);
   const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
+    const local = localStorage.getItem("user");
+
+    if (local) {
+      const localUser = JSON.parse(local) as IConnectedUser;
+      setUser(localUser.user);
+    }
+
     const getData = async () => {
       try {
         const [collectionsResponse, artPublicationResponse] = await Promise.all([
@@ -87,8 +95,6 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
     };
     getData();
   }, [props.id]);
-
-  const user: IUser | undefined = JSON.parse(localStorage.getItem("user") || "").user;
 
   if (!user || !artPublication || !artist) {
     if (hasLoaded) {

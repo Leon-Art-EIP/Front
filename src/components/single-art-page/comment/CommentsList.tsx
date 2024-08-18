@@ -7,14 +7,27 @@ import Fetcher from "../../fetch/Fetcher";
 import { Button, Modal } from "../../lib";
 import Comment from "./Comment";
 
-interface ICommentsListProps {
-  id: string;
+interface IParentCommentsListProps {
+  artPublicationId: string;
   connectedUserId: string;
   localComments: IDisplayComment[];
   setLocalComments: Dispatch<SetStateAction<IDisplayComment[]>>;
+  isChild: true;
+  nestedComments: Omit<IComment, "nestedComments">[] | undefined;
+  parentCommentId: string | undefined;
 }
 
-export default function CommentsList(props: ICommentsListProps): JSX.Element {
+interface IChildrenCommentsListProps {
+  artPublicationId: string;
+  connectedUserId: string;
+  localComments: IDisplayComment[];
+  setLocalComments: Dispatch<SetStateAction<IDisplayComment[]>>;
+  isChild?: never;
+  nestedComments?: never;
+  parentCommentId?: never;
+}
+
+export default function CommentsList(props: IParentCommentsListProps | IChildrenCommentsListProps): JSX.Element {
   const [displayComments, setDisplayComments] = useState<IDisplayComment[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteIdComment, setDeleteIdComment] = useState("");
@@ -23,13 +36,9 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await myFetch({ route: `/api/art-publication/comment/${props.id}`, method: "GET" });
-
-      if (response.ok) {
-        const comments = response.json as IComment[];
-
+      if (props.nestedComments) {
         const authenticatedComments = await Promise.all(
-          comments.map(async (comment) => {
+          props.nestedComments.map(async (comment) => {
             const responseAuthor = await myFetch({ route: `/api/user/profile/${comment.userId}`, method: "GET" });
 
             if (responseAuthor.ok) {
@@ -41,6 +50,7 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
                 text: comment.text,
                 createdAt: comment.createdAt,
                 authorId: comment.userId,
+                nestedComments: "nestedComments" in comment ? comment.nestedComments : undefined,
               };
             }
           })
@@ -49,10 +59,42 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
         setDisplayComments(
           authenticatedComments.filter((comment): comment is IDisplayComment => comment !== undefined)
         );
+      } else {
+        const response = await myFetch({
+          route: `/api/art-publication/comment/${props.artPublicationId}`,
+          method: "GET",
+        });
+
+        if (response.ok) {
+          const comments = response.json as IComment[];
+
+          const authenticatedComments = await Promise.all(
+            comments.map(async (comment) => {
+              const responseAuthor = await myFetch({ route: `/api/user/profile/${comment.userId}`, method: "GET" });
+
+              if (responseAuthor.ok) {
+                const author = responseAuthor.json as IProfileUser;
+                return {
+                  id: comment.id,
+                  profilePicture: `${imageApi}/${author.profilePicture}`,
+                  username: author.username,
+                  text: comment.text,
+                  createdAt: comment.createdAt,
+                  authorId: comment.userId,
+                  nestedComments: "nestedComments" in comment ? comment.nestedComments : undefined,
+                };
+              }
+            })
+          );
+
+          setDisplayComments(
+            authenticatedComments.filter((comment): comment is IDisplayComment => comment !== undefined)
+          );
+        }
       }
     };
     fetchData();
-  }, [props.id]);
+  }, [props.artPublicationId]);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -77,6 +119,10 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
     setDeleteIdComment("");
   };
 
+  const comments = [...props.localComments, ...displayComments].sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
+
   return (
     <>
       <Fetcher
@@ -100,14 +146,17 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
           </div>
         </div>
       </Modal>
-      <div className="flex flex-col gap-4">
-        {[...props.localComments, ...displayComments].map((comment, index) => (
+      <div className="flex flex-col gap-8">
+        {comments.map((comment, index) => (
           <Comment
             key={`${index}-${comment.username}`}
             comment={comment}
             connectedUserId={props.connectedUserId}
             isLoading={isLoading}
             openModal={openModal}
+            isChild={props.isChild}
+            parentCommentId={props.parentCommentId ?? undefined}
+            artPublicationId={props.artPublicationId}
           />
         ))}
       </div>

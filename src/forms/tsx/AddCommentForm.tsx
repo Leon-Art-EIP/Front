@@ -5,7 +5,7 @@ import { FormProvider } from "react-hook-form";
 import Fetcher from "../../components/fetch/Fetcher";
 import Input from "../../components/form/Input";
 import { Button } from "../../components/lib";
-import { IAddComment, IDisplayComment } from "../../interfaces/single/comment";
+import { INewComment, IDisplayComment } from "../../interfaces/single/comment";
 import { IProfileUser } from "../../interfaces/user/profileUser";
 import { myFetch } from "../../tools/myFetch";
 import { imageApi } from "../../tools/variables";
@@ -34,7 +34,7 @@ export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element
     setNbFetchs(nbFetchs + 1);
   };
 
-  const handleOk = async (json: IAddComment) => {
+  const handleOk = async (json: INewComment) => {
     const responseAuthor = await myFetch({ route: `/api/user/profile/${json.comment.userId}`, method: "GET" });
 
     if (responseAuthor.ok) {
@@ -48,6 +48,7 @@ export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element
           text: json.comment.text,
           createdAt: json.comment.createdAt,
           authorId: json.comment.userId,
+          nestedComments: [],
         },
         ...props.localComments,
       ]);
