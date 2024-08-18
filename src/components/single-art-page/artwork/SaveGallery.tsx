@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 import CreateCollectionForm from "../../../forms/tsx/CreateCollectionForm";
-import { ICollectionArtsExtended } from "../../../interfaces/single/collection";
+import { ICollectionArtsExtended, INewCollection } from "../../../interfaces/single/collection";
 import { myFetch } from "../../../tools/myFetch";
 import { Button } from "../../lib";
 import Collection from "./Collection";
@@ -13,6 +13,10 @@ interface ISaveGalleryProps {
   selectedCollections: string[];
   setSelectedCollections: Dispatch<SetStateAction<string[]>>;
   artId: string;
+  setNewCollectionBody: Dispatch<SetStateAction<string>>;
+  isNewCollectionLoading: boolean;
+  newCollectionFetchs: number;
+  setNewCollectionFetchs: Dispatch<SetStateAction<number>>
 }
 
 /* c8 ignore start */
@@ -41,7 +45,7 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
     await Promise.all([
       Promise.all(
         newCollections.map(async (collectionId) => {
-          const collectionName = props.collections.find((collection) => collection.id === collectionId)?.name;
+          const collectionName = props.collections.find((collection) => collection._id === collectionId)?.name;
           if (!collectionName) return;
 
           const response = await myFetch({
@@ -110,10 +114,10 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
           <div className="flex flex-wrap gap-6 justify-center">
             {props.collections.map((collection) => (
               <Collection
-                key={collection.id}
+                key={collection._id}
                 collection={collection}
                 handleSelectCollection={handleSelectCollection}
-                selected={selectedCollections.includes(collection.id)}
+                selected={selectedCollections.includes(collection._id)}
               />
             ))}
           </div>
@@ -128,7 +132,15 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
           Créer une nouvelle collection
         </Button>
       ) : (
-        <CreateCollectionForm handleClose={handleNewCollection} artId={props.artId} />
+        <CreateCollectionForm
+          handleClose={handleNewCollection}
+          artId={props.artId}
+          collectionsNames={props.collections.map((collection) => collection.name)}
+          setNewCollectionBody={props.setNewCollectionBody}
+          isLoading={false}
+          newCollectionFetchs={props.newCollectionFetchs}
+          setNewCollectionFetchs={props.setNewCollectionFetchs}
+        />
       )}
     </div>
   );

@@ -6,7 +6,7 @@ import Link from "../components/link/Link";
 import LoadingPage from "../components/loading/LoadingPage";
 import SingleArtPage from "../components/single-art-page/SingleArtPage";
 import { IArtPublication } from "../interfaces/artPublication/artPublication";
-import { ICollection, ICollectionArtsExtended } from "../interfaces/single/collection";
+import { ICollection, ICollectionArtsExtended, INewCollection } from "../interfaces/single/collection";
 import { IProfileUser } from "../interfaces/user/profileUser";
 import { IUser } from "../interfaces/user/user";
 import { IMyFetchResponse, myFetch } from "../tools/myFetch";
@@ -100,7 +100,30 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
   const getCollectionsWithArt = collectionsArtsExtended.filter((collection) =>
     collection.artPublications.find((art) => art._id === artPublication._id)
   );
-  const idsOfCollectionsWithArt = getCollectionsWithArt.map((collection) => collection.id);
+  const idsOfCollectionsWithArt = getCollectionsWithArt.map((collection) => collection._id);
+
+  const onAddNewCollection = async (collection: INewCollection) => {
+    if (collection.collection.artPublications.length > 0) {
+      const artPublicationsResponse = await myFetch({
+        route: `/api/art-publication/${collection.collection.artPublications[0]}`,
+        method: "GET",
+      });
+
+      const artPublications: IArtPublication[] = [];
+
+      if (artPublicationsResponse.ok) {
+        artPublications.push(artPublicationsResponse.json);
+      }
+
+      setCollectionsArtsExtended([
+        ...collectionsArtsExtended,
+        {
+          ...collection.collection,
+          artPublications,
+        },
+      ]);
+    }
+  };
 
   return (
     <SingleArtPage
@@ -113,7 +136,7 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       artId={artPublication._id}
       profile={`${imageApi}/${artist.profilePicture}`}
       title={artPublication.name}
-      liked={artPublication.likes.find((like) => like.id === user.id) ? true : false}
+      liked={artPublication.likes.find((likeId) => likeId === user.id) ? true : false}
       nbrLikes={artPublication.likes.length}
       collections={collectionsArtsExtended}
       belongingCollectionsIds={idsOfCollectionsWithArt}
@@ -124,6 +147,7 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       connectedUserId={user.id}
       isForSale={artPublication.isForSale}
       isSold={artPublication.isSold}
+      onAddNewCollection={onAddNewCollection}
     />
   );
 }

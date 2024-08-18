@@ -7,11 +7,10 @@ export interface IArtPublication {
   artType: string;
   name: string;
   description: string;
-  dimension: string;
   isForSale: boolean;
   isSold: boolean;
   price: number;
   location: string;
-  likes: IArtist[];
+  likes: string[]; // id
   comments: string[];
 }

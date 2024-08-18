@@ -26,7 +26,7 @@ export default function Collections(props: ICollectionsProps): JSX.Element {
     setIsModalOpen(false);
   };
 
-  if (props.collections.length === 0) {
+  if (props.collectionsArtsExtended.length === 0) {
     return <div className="text-2xl">Aucune collection</div>;
   }
 
@@ -38,7 +38,7 @@ export default function Collections(props: ICollectionsProps): JSX.Element {
       <div className="flex flex-wrap gap-6">
         {props.collectionsArtsExtended.map((collection) => (
           <Collection
-            key={collection.id}
+            key={collection._id}
             collection={collection}
             handleSelectCollection={handleSelectCollection}
             selected={false}

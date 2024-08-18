@@ -25,7 +25,7 @@ export default function Collection(props: ICollectionProps): JSX.Element {
   if (secondPair.length > 0) pairs.push(secondPair);
 
   const handleOnClick = () => {
-    props.handleSelectCollection(props.collection.id);
+    props.handleSelectCollection(props.collection._id);
   };
 
   return (
