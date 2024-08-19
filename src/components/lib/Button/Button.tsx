@@ -1,41 +1,43 @@
-import React from 'react';
+import { CircularProgress } from "@mui/material";
+import React from "react";
 
-export interface ButtonProps {
-    onClick: () => void;
-    children: React.ReactNode;
-    color?: 'danger' | 'success' | 'info';
+export type ButtonType = "submit" | "button" | "reset";
+export type ButtonColor = "primary" | "secondary" | "danger" | "success" | "info";
+
+export interface IButtonProps {
+  children: React.ReactNode;
+  type: ButtonType;
+  color: ButtonColor;
+  className?: string;
+  onClick?: () => void;
+  loading?: boolean;
+  id?: string;
+  name?: string;
+  disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, children, color }) => {
-    let buttonColor: string;
-    let hoverColor: string;
-
-    switch(color) {
-        case 'danger':
-            buttonColor = 'bg-red-600 text-white';
-            hoverColor = 'hover:bg-red-700';
-            break;
-        case 'success':
-            buttonColor = 'bg-gray-200 text-purple-800';
-            hoverColor = 'hover:bg-gray-300';
-            break;
-        case 'info':
-            buttonColor = 'bg-purple-800 text-white';
-            hoverColor = 'hover:bg-purple-900';
-            break;
-        default:
-            buttonColor = '';
-            hoverColor = '';
-    }
-
-    return (
-        <button 
-            className={`rounded-lg py-3 px-10 text-base font-semibold cursor-pointer transition-colors duration-300 ease-in-out ${buttonColor} ${hoverColor}`} 
-            onClick={onClick}
-        >
-            {children}
-        </button>
-    );
+const colorClasses: Record<ButtonColor, string> = {
+  primary: "text-white bg-primary hover:bg-primary-hover disabled:bg-primary-disabled",
+  secondary:
+    "text-tertiary bg-secondary hover:bg-secondary-hover disabled:bg-secondary-disabled disabled: text-secondary",
+  danger: "bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled",
+  success: "bg-tertiary text-white hover:bg-tertiary-hover disabled:bg-tertiary-disabled",
+  info: "bg-purple-800 text-white hover:bg-purple-900 disabled:bg-purple-400",
 };
 
-export default Button;
+export default function Button(props: IButtonProps): JSX.Element {
+  return (
+    <button
+      id={props.id}
+      name={props.name}
+      type={props.type}
+      className={`rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 ${colorClasses[props.color]} ${
+        props.className
+      }`}
+      onClick={props.onClick}
+      disabled={props.disabled}
+    >
+      {props.loading ? <CircularProgress size={20} thickness={4} color="primary" /> : props.children}
+    </button>
+  );
+}

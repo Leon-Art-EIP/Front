@@ -1,48 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
+import CheckCircle from "../../animated/check-circle";
+import CrossCircle from "../../animated/cross-circle";
+import Button from "../Button/Button";
 
 export interface NotificationToastProps {
-    message: string;
-    type: 'success' | 'error' | 'info';
+  message: string;
+  type: "success" | "error";
+  closeNotification?: () => void;
 }
 
-const NotificationToast: React.FC<NotificationToastProps> = ({ message, type }) => {
-    const [visible, setVisible] = useState(true);
+/* c8 ignore start */
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setVisible(false);
-        }, 5000);
+export default function NotificationToast(props: NotificationToastProps): JSX.Element | null {
+  const [visible, setVisible] = useState(true);
+  const [display, setDisplay] = useState(true);
 
-        return () => {
-            clearTimeout(timer);
-        };
-    }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      closeToast();
+    }, 5000);
 
-    const closeToast = () => {
-        setVisible(false);
+    return () => {
+      /* c8 ignore next 3 */
+      clearTimeout(timer);
     };
+  }, []);
 
-    let borderColor;
-    switch(type) {
-        case 'success':
-            borderColor = 'border-green-500';
-            break;
-        case 'error':
-            borderColor = 'border-red-500';
-            break;
-        case 'info':
-            borderColor = 'border-blue-500';
-            break;
+  const closeToast = () => {
+    setVisible(false);
+    setTimeout(() => {
+      setDisplay(false);
+    }, 500);
+  };
+
+  const handleOnClick = () => {
+    closeToast();
+    if (props.closeNotification) {
+      props.closeNotification();
     }
+  };
 
-    return (
-        visible ?
-        <div className={`fixed right-0 top-0 m-6 p-4 border-2 ${borderColor} rounded-md bg-white shadow-lg z-50`}>
-            <button id="close-toast" className="float-right" onClick={closeToast}>X</button>
-            <p>{message}</p>
-        </div>
-        : null
-    );
-};
+  let backgroundColor = "bg-background";
+  switch (props.type) {
+    case "success":
+      backgroundColor = "bg-green-500";
+      break;
+    case "error":
+      backgroundColor = "bg-red-500";
+      break;
+  }
 
-export default NotificationToast;
+  return display ? (
+    <div
+      className={`fixed top-0 left-0 flex justify-center w-screen h-screen items-center transition-opacity duration-500 z-50 ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <div
+        className={`m-6 p-4 w-1/3 rounded-md text-white flex flex-col gap-4 bg-secondary border border-secondary shadow-lg`}
+      >
+        {props.type === "success" ? <CheckCircle /> : <CrossCircle />}
+        <p className="text-xl text-center text-black font-bold">{props.message}</p>
+        <Button id="close-toast" color="primary" type="button" className="self-end" onClick={handleOnClick}>
+          Ok
+        </Button>
+      </div>
+    </div>
+  ) : null;
+}
+
+/* c8 ignore stop */

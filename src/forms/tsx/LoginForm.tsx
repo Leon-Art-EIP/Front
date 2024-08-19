@@ -1,83 +1,151 @@
 "use client";
 
-import { FormProvider, useController } from "react-hook-form";
-import Input from "../../components/form/Input";
-import { useState } from "react";
-import useLoginForm from "../methods/useLoginForm";
+import { Google } from "@mui/icons-material";
+import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { useSetRecoilState } from "recoil";
-import { isLoggedIn } from "../../recoil/SetupRecoil";
-import { IError, ISuccess } from "../../interfaces";
+import { useEffect, useState } from "react";
+import { FormProvider } from "react-hook-form";
+import Fetcher from "../../components/fetch/Fetcher";
+import Input from "../../components/form/Input";
+import { auth } from "../../configs/firebase/firebase.config";
+import { IConnectedUser } from "../../interfaces/user/user";
 import { TLoginData } from "../../zod";
+import useLoginForm from "../methods/useLoginForm";
 
 export default function LoginForm(): JSX.Element {
-  const [connectionError, setConnectionError] = useState("");
+  const [body, setBody] = useState("");
+  const [nbFetchs, setNbFetchs] = useState(0);
   const methods = useLoginForm();
   const router = useRouter();
-  const setLoggedIn = useSetRecoilState(isLoggedIn);
-  const [disableLogin, setDisableLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleOk = async (json: any) => {
+    const data = json as IConnectedUser;
+
+    if ("token" in data) {
+      localStorage.setItem("user", JSON.stringify(data));
+      router.push("/");
+    }
+  };
 
   const handleSubmit = async (formData: TLoginData) => {
-    try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = (await response.json()) as ISuccess | IError;
-
-      if ("token" in data) {
-        const token = data.token;
-        console.log("token", token);
-        localStorage.setItem("token", token);
-        setLoggedIn(true);
-        router.push("/");
-      } else {
-        setConnectionError("Erreur lors de la connexion.");
-      }
-      methods.reset();
-    } catch (error) {
-      setConnectionError("Une erreur est survenue, veuillez réessayer plus tard");
-    }
+    setBody(
+      JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      })
+    );
+    setNbFetchs(nbFetchs + 1);
   };
 
   const onSubmit = async (data: TLoginData): Promise<void> => {
     await handleSubmit(data);
   };
 
+  const handleGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+
+      const formData = {
+        email: "vivant.garrigues@gmail.com", // EMAIL PAR DEFAUT
+        password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
+      };
+      await handleSubmit(formData);
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+    }
+  };
+
+  // const handleGoogle = () => {
+  //   const provider = new GoogleAuthProvider();
+  //   return signInWithPopup(auth, provider);
+  // };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (data) => {
+      //   if (data) {
+      //     const idToken = await data.getIdToken();
+      //     const user: IUser = {
+      //       id: data.uid,
+      //       username: data.displayName || "",
+      //       email: data.email || "",
+      //       is_artist: false,
+      //       availability: "",
+      //       subscription: "",
+      //       collections: [],
+      //     };
+      //     const connectedUser: IConnectedUser = {
+      //       token: idToken,
+      //       user: user,
+      //     };
+      //     localStorage.setItem("user", JSON.stringify(connectedUser));
+      //     // router.push("/");
+      //   }
+    });
+  }, [router]);
+
   return (
-    <FormProvider {...methods}>
-      <form className="flex flex-col gap-4 w-full mt-6 xl:mt-24" onSubmit={methods.handleSubmit(onSubmit)}>
-        <Input
-          type="email"
-          name="email"
-          className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
-          placeholder="Adresse email"
-        />
-        <Input
-          type="password"
-          name="password"
-          className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
-          placeholder="Mot de passe"
-        />
-        <div className="flex flex-col justify-center mt-5 gap-2">
-          {connectionError && <div className="text-center text-red-500">{connectionError}</div>}
-          <button
-            type="submit"
-            className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white w-full hover:bg-[#c51708] disabled:bg-gray-300"
-            disabled={disableLogin}
-            name="login"
-          >
-            Se connecter
-          </button>
-        </div>
-      </form>
-    </FormProvider>
+    <>
+      <Fetcher
+        method="POST"
+        nbFetchs={nbFetchs}
+        route="/api/auth/login"
+        body={body}
+        handleOk={handleOk}
+        setIsLoading={setIsLoading}
+      />
+      <FormProvider {...methods}>
+        <form
+          className="text-tertiary flex flex-col gap-2 w-full mt-6 xl:mt-24"
+          onSubmit={methods.handleSubmit(onSubmit)}
+        >
+          <Input
+            type="text"
+            name="email"
+            className="mb-4 rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
+            placeholder="Adresse email"
+          />
+          <Input
+            type="password"
+            name="password"
+            className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
+            placeholder="Mot de passe"
+          />
+          <a
+              className="text-tertiary font-medium text-sm self-end underline"
+              title="forgotten_password"
+              href="/forgotten_password"
+            >
+              Mot de passe oublié ?
+            </a>
+          <div className="flex flex-col justify-center mt-5 gap-4">
+            <button
+              type="submit"
+              className="py-3 rounded-[30px]  font-bold shadow-lg bg-primary text-white w-full hover:bg-primary-hover disabled:bg-primary-disabled"
+              disabled={isLoading}
+              name="login"
+            >
+              Se connecter
+            </button>
+            <div className="flex flex-row items-center">
+              <span className="bg-tertiary w-full rounded-full h-[2px]"/>
+              <span className="text-tertiary font-semibold px-6">Ou</span>
+              <span className="bg-tertiary w-full rounded-full h-[2px]"/>
+            </div>
+            <button
+              type="button"
+              className="py-3 rounded-[30px] font-semibold shadow-lg bg-secondary text-teritary w-full hover:bg-secondary-hover disabled:bg-secondary-disabled"
+              disabled={isLoading}
+              name="login"
+              onClick={handleGoogle}
+            >
+              <Google className="mr-2" style={{ marginTop: "-4px" }} />
+              Se connecter avec Google
+            </button>
+          </div>
+        </form>
+      </FormProvider>
+    </>
   );
 }

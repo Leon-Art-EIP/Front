@@ -1,50 +1,55 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { RecoilState, useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
 import { ITab } from "../../../src/interfaces";
-import { isLoggedIn } from "../../recoil/SetupRecoil";
+import { IArtist } from "../../interfaces/home/artist";
+import { myFetch } from "../../tools/myFetch";
+import { imageApi } from "../../tools/variables";
+import Link from "../link/Link";
+import Navbar from "../navbar/Navbar";
+import VerticalNavbar from "../navbar/VerticalNavbar";
 
 interface IHeaderProps {
   tabs: ITab[];
+  userId: string;
+  pathname: string;
 }
 
 export default function Header(props: IHeaderProps): JSX.Element {
-  const setLoggedIn = useSetRecoilState(isLoggedIn);
-  const router = useRouter();
-  const pathname = usePathname();
+  const [width, setWindowWidth] = useState(0);
+  const [profilePicture, setProfilePicture] = useState<string>("");
 
-  const displayHeader = pathname === "/" || props.tabs.find((tab) => tab.href === pathname)?.loggedIn;
+  const updateDimensions = () => {
+    const width = window.innerWidth;
+    setWindowWidth(width);
+  };
 
-  if (!displayHeader) {
-    return <></>;
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await myFetch({ route: `/api/user/profile/${props.userId}`, method: "GET" });
+      if (response.ok) {
+        const artist = response.json as IArtist;
+        setProfilePicture(artist.profilePicture);
+      }
+    };
+
+    fetchData();
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, [props.userId]);
+
+  if (width < 500) {
+    return <VerticalNavbar tabs={props.tabs} selectedTabHref={props.pathname} link={Link} userId={props.userId} />;
   }
 
   return (
-    <div className="flex flex-col flex-wrap gap-2 p-2 border border-neutral-400 bg-blue-200 h-28">
-      {" "}
-      {/* h-28 provisoire, juste le temps que la navbar ne soit pas faite */}
-      {props.tabs.map((tab) => (
-        <Link key={`${tab.name}-${tab.href}`} href={tab.href} className="underline text-blue-400">
-          {`->`} {tab.name}
-        </Link>
-      ))}
-      <button
-        title="Se déconnecter"
-        name="signout"
-        onClick={() => {
-          router.push("/login");
-          localStorage.removeItem("token");
-          setLoggedIn(false);
-        }}
-        className="rounded-lg bg-red-500 text-white p-2 max-w-max"
-      >
-        Se déconnecter
-      </button>
-    </div>
+    <Navbar
+      tabs={props.tabs}
+      selectedTabHref={props.pathname}
+      link={Link}
+      userId={props.userId}
+      image={`${imageApi}/${profilePicture}`}
+    />
   );
-}
-function useRecoilSetState(isLoggedIn: RecoilState<boolean>) {
-  throw new Error("Function not implemented.");
 }

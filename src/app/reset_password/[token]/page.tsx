@@ -2,30 +2,33 @@
 
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
 import Gallery from "../../../components/gallery";
-import { isLoggedIn } from "../../../recoil/SetupRecoil";
 import zxcvbn from "zxcvbn";
 import Form from "./form";
+import Fetcher from "../../../components/fetch/Fetcher";
 
 interface IBaseFormValues {
   newPassword: string;
   confirmNewPassword: string;
 }
 
-const BACKEND_URL = "http://localhost:5000";
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function Page(props: { params: { token: string } }): JSX.Element {
   const [validToken, setValidToken] = useState(true);
-  const setLoggedIn = useSetRecoilState(isLoggedIn);
   const router = useRouter();
 
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [body, setBody] = useState("");
+  const [nbFetchs, setNbFetchs] = useState(0);
 
   useEffect(() => {
     if (props.params.token) {
       const token = props.params.token;
-      fetch(BACKEND_URL + "/api/auth/validate-reset-token", {
+      fetch(NEXT_PUBLIC_BACKEND_URL + "/api/auth/validate-reset-token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,27 +39,28 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
       }).then(async (response) => {
         const data = await response.json();
         if (response.status === 200) {
-          setLoggedIn(true);
+          // setConnectedUser(???);
         } else {
-          setError(data.error);
+          setErrorMessage(data.error);
           router.push("/login");
         }
       });
     }
-  }, []);
+  }, [props.params.token, router]);
 
   function validateForm({ newPassword, confirmNewPassword }: IBaseFormValues) {
     if (!newPassword || !confirmNewPassword) {
-      setError("Veuillez remplir tous les champs.");
+      setErrorMessage("Veuillez remplir tous les champs.");
       return false;
     } else if (newPassword !== confirmNewPassword) {
-      setError("Les mots de passe ne correspondent pas.");
+      setErrorMessage("Les mots de passe ne correspondent pas.");
       return false;
     } else if (zxcvbn(newPassword).score < 3) {
-      setError("Le mot de passe n'est pas assez puissant.");
+      setErrorMessage("Le mot de passe n'est pas assez puissant.");
       return false;
     }
-    setError("");
+    setErrorMessage("");
+    setSuccessMessage("");
     return true;
   }
 
@@ -68,40 +72,44 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
         confirmNewPassword: event.currentTarget.confirmNewPassword.value,
       })
     ) {
-      const response = await fetch(BACKEND_URL + "/api/auth/reset-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      setBody(
+        JSON.stringify({
           token: props.params.token,
           newPassword: event.currentTarget.newPassword.value,
-        }),
-      });
-      if (response.status === 404) {
-        setError("Le token est invalide.");
-      } else if (response.status === 422) {
-        setError("Le mot de passe n'est pas assez puissant.");
-      } else if (response.status === 200) {
-        setError("");
-      }
+        })
+      );
+      setNbFetchs(nbFetchs + 1);
     }
   }
 
   return (
     <>
+      <Fetcher
+        method="POST"
+        route="/api/auth/reset-password"
+        body={body}
+        setIsLoading={setIsLoading}
+        nbFetchs={nbFetchs}
+      />
       {validToken ? (
         <div className="flex h-screen">
-          <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col items-center justify-center fixed">
+          <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center fixed">
             <label className="xl:hidden block text-6xl font-bold">
-              <span className="text-[#E11C0A]">Leon</span>
-              <span className="text-[#000000]">'Art</span>
+              <span className="text-[#E11C0A] cursor-default">Leon</span>
+              <span className="text-[#000000] cursor-default">&apos;Art</span>
             </label>
             <div className="max-w-xs w-full pt-28 xl:pt-0">
-              <label className="xl:text-5xl text-2xl xl:font-extrabold xl:leading-relaxed font-semibold w-full xl:text-center text-start">
+              <h1 className="text-tertiary text-[50px] text-center">
                 Réinitialiser votre mot de passe
-              </label>
-              <Form handleSubmit={handleSubmit} error={error} setError={setError}></Form>
+              </h1>
+              <Form
+                handleSubmit={handleSubmit}
+                error={errorMessage}
+                setError={setErrorMessage}
+                success={successMessage}
+                setSuccess={setSuccessMessage}
+                isLoading={isLoading}
+              ></Form>
             </div>
           </div>
           <div className="xl:block hidden ml-[33.33%] w-2/3 p-4">

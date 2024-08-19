@@ -1,98 +1,180 @@
 "use client";
 
-import { FormProvider } from "react-hook-form";
-import Input from "../../components/form/Input";
-import useRegisterForm from "../methods/useRegisterForm";
-import { TRegisterData } from "../../zod";
+import { Google } from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { isLoggedIn } from "../../recoil/SetupRecoil";
-import { IError, ISuccess } from "../../interfaces";
+import { useEffect, useState } from "react";
+import { FormProvider } from "react-hook-form";
+import Fetcher from "../../components/fetch/Fetcher";
+import Input from "../../components/form/Input";
+import { Modal } from "../../components/lib";
+import { auth } from "../../configs/firebase/firebase.config";
+import { IConnectedUser } from "../../interfaces/user/user";
+import { myFetch } from "../../tools/myFetch";
+import { TRegisterData } from "../../zod";
+import useRegisterForm from "../methods/useRegisterForm";
 
 export default function RegisterForm(): JSX.Element {
+  const [nbFetchs, setNbFetchs] = useState(0);
+  const [body, setBody] = useState("");
   const methods = useRegisterForm();
   const router = useRouter();
-  const [disableRegister, setDisableRegister] = useState(false);
-  const setLoggedIn = useSetRecoilState(isLoggedIn);
-  const [connectionError, setConnectionError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [generalConditionsModal, setGeneralConditionsModal] = useState<boolean>(false);
+  const [generalConditionsText, setGeneralConditionsText] = useState<string>("");
+
+  function handleToggleDeliveryHelpModal() {
+    setGeneralConditionsModal(!generalConditionsModal);
+  }
+
+  async function fetchGeneralConditions() {
+    const res = await myFetch({ route: `/api/conditions`, method: "GET" });
+    if (res.ok) {
+      const data = res.json;
+      setGeneralConditionsText(data.conditions);
+    }
+  }
+
+  useEffect(() => {
+    fetchGeneralConditions();
+  }, []);
+
+  const handleOk = async (json: any) => {
+    const data = json as IConnectedUser;
+
+    if ("token" in data) {
+      localStorage.setItem("user", JSON.stringify(data));
+      router.push("/quizz");
+    }
+  };
 
   const handleSubmit = async (formData: TRegisterData) => {
-    try {
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = (await response.json()) as ISuccess | IError;
-
-      if ("token" in data) {
-        const token = data.token;
-        console.log("token", token);
-        localStorage.setItem("token", token);
-        setLoggedIn(true);
-        router.push("/");
-      } else {
-        setConnectionError(data.errors[0].msg);
-      }
-      methods.reset();
-    } catch (error) {
-      setConnectionError("Une erreur est survenue, veuillez réessayer plus tard");
-    }
+    setBody(
+      JSON.stringify({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        is_artist: true,
+      })
+    );
+    setNbFetchs(nbFetchs + 1);
   };
 
   const onSubmit = async (data: TRegisterData): Promise<void> => {
     await handleSubmit(data);
   };
 
+  const handleGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+
+      const formData = {
+        username: "Joachim", // NOM PAR DEFAUT
+        email: "joachim.garrigues@gmail.com", // EMAIL PAR DEFAUT
+        password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
+        conscent: true,
+      };
+      await handleSubmit(formData);
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+    }
+  };
+
   return (
-    <FormProvider {...methods}>
-      <form className="flex flex-col gap-6 w-full mt-6 xl:mt-14" onSubmit={methods.handleSubmit(onSubmit)}>
-        <Input
-          type="text"
-          name="username"
-          className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
-          placeholder="Nom d'utilisateur"
-        />
-        <Input
-          type="email"
-          name="email"
-          className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
-          placeholder="Adresse email"
-        />
-        <Input
-          type="password"
-          name="password"
-          className="rounded-[30px] shadow-lg bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-[#ae1609] placeholder-gray-500"
-          placeholder="Mot de passe"
-        />
-        <div className="flex flex-row">
-          <input type="checkbox" name="conscent" />
-          <label htmlFor="terms" className="text-sm font-normal w-11/12 text-center">
-            En vous enregistrant, vous acceptez les{" "}
-            <a className="font-semibold text-[#E11C0A] cursor-pointer">Conditions d'utilisations</a> et{" "}
-            <a className="font-semibold text-[#E11C0A] cursor-pointer">notre Politique de confidentialité</a>
-          </label>
-        </div>
-        <div className="flex flex-col gap-2">
-          {connectionError && <div className="text-center text-red-500">{connectionError}</div>}
-          <button
-            type="submit"
-            className="py-3 rounded-[30px] shadow-lg bg-[#E11C0A] text-white w-full hover:bg-[#c51708] disabled:bg-gray-300"
-            disabled={disableRegister}
-            name="reset"
-          >
-            S'inscrire
-          </button>
-        </div>
-      </form>
-    </FormProvider>
+    <>
+      <Fetcher
+        method="POST"
+        route="/api/auth/signup"
+        body={body}
+        nbFetchs={nbFetchs}
+        handleOk={handleOk}
+        successStr="Inscription réussie."
+        setIsLoading={setIsLoading}
+      />
+      {generalConditionsModal && (
+        <Modal handleClose={handleToggleDeliveryHelpModal} isOpen={generalConditionsModal}>
+          <div className="flex flex-col justify-start gap-5">
+            <div className="flex flex-row justify-between">
+              <span className="text-2xl underline">Conditions Générales de Vente</span>
+              <button onClick={handleToggleDeliveryHelpModal}>
+                <CloseIcon />
+              </button>
+            </div>
+            {generalConditionsText ? (
+              <div className="text-tertiary text-md whitespace-pre max-h-[500px] overflow-y-auto">
+                {generalConditionsText}
+              </div>
+            ) : (
+              <div className="text-tertiary text-sm">Chargement des conditions générales de vente...</div>
+            )}
+          </div>
+        </Modal>
+      )}
+      <FormProvider {...methods}>
+        <form
+          className="text-tertiary flex flex-col gap-6 w-full mt-6 xl:mt-24"
+          onSubmit={methods.handleSubmit(onSubmit)}
+        >
+          <Input
+            type="text"
+            name="username"
+            className="rounded-[30px] shadow-md bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
+            placeholder="Nom d'utilisateur"
+          />
+          <Input
+            type="email"
+            name="email"
+            className="rounded-[30px] shadow-md bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
+            placeholder="Adresse email"
+          />
+          <Input
+            type="password"
+            name="password"
+            className="rounded-[30px] shadow-md bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
+            placeholder="Mot de passe"
+          />
+          <div className="flex flex-row gap-2 justify-start">
+            <Input type="checkbox" name="conscent" placeholder="" className="m-1" />
+            <label htmlFor="terms" className="text-sm font-normal w-11/12">
+              En vous enregistrant, vous acceptez les
+              <span
+                className="ms-1 font-bold text-primary cursor-pointer hover:underline"
+                onClick={handleToggleDeliveryHelpModal}
+              >
+                {" "}
+                Conditions Générales de Vente
+              </span>
+            </label>
+          </div>
+          <div className="flex flex-col gap-2 justify-center mt-5 ">
+            <button
+              type="submit"
+              className="py-3 rounded-[30px]  font-bold shadow-lg bg-primary text-white w-full hover:bg-primary-hover disabled:bg-primary-disabled"
+              disabled={isLoading}
+              name="register"
+            >
+              S{"'"}inscrire
+            </button>
+            <div className="flex flex-row items-center">
+              <span className="bg-tertiary w-full rounded-full h-[2px]" />
+              <span className="text-tertiary font-medium px-6">Ou</span>
+              <span className="bg-tertiary w-full rounded-full h-[2px]" />
+            </div>
+            <button
+              type="button"
+              className="py-3 rounded-[30px] font-semibold shadow-lg bg-secondary text-teritary w-full hover:bg-secondary-hover disabled:bg-secondary-disabled"
+              disabled={isLoading}
+              name="register"
+              onClick={handleGoogle}
+            >
+              <Google className="mr-2" style={{ marginTop: "-4px" }} />
+              Se connecter avec Google
+            </button>
+          </div>
+        </form>
+      </FormProvider>
+    </>
   );
 }

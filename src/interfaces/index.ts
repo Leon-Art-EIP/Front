@@ -2,18 +2,30 @@ export interface ITab {
   name: string;
   href: string;
   loggedIn: boolean;
+  navbar: boolean;
+  verticalNavbar: boolean;
+  header: boolean;
 }
 
-export type ISuccess = {
-  token: string;
-};
-
-export type IError = {
+export interface IError {
   errors: {
-    type: string;
     msg: string;
-    path: string;
-    location: string;
-    value: string;
   }[];
 };
+
+export interface IUnauthorized {
+  msg: string;
+}
+
+export interface IOption<T extends string | number> {
+  value: T;
+  label: string;
+  selected: boolean;
+}
+
+export interface IOptionSubOptions<T extends string | number> {
+  value: T;
+  label: string;
+  collapsed: boolean;
+  subOptions: IOption<T>[];
+}

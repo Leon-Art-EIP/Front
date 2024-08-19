@@ -11,7 +11,21 @@ To install the app, follow these steps:
 
 1. Clone the repository to your local machine
 2. Install the required dependencies by running `yarn install`
-3. Start the app by running `yarn dev`
+3. Create a .env.development file if you want to run the app in development mode, or a .env.production file if you want to run the app in production mode. The .env files should contain the following variables:
+(__MANDATORY__): </br>
+``NEXT_PUBLIC_BACKEND_URL="..."``</br>
+(__OPTIONAL__ if you want to use the payment system):</br>
+``NEXT_PUBLIC_STRIPE_PUBLIC_KEY="..."``</br>
+(__OPTIONAL__ if you want to recieve live notification via firebase):</br>
+``NEXT_PUBLIC_FIREBASE_API_KEY="..."``</br>
+``NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="..."``</br>
+``NEXT_PUBLIC_FIREBASE_PROJECT_ID="..."``</br>
+``NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="..."``</br>
+``NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="..."``</br>
+``NEXT_PUBLIC_FIREBASE_APP_ID="..."``</br>
+``NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="..."``</br>
+``NEXT_PUBLIC_FIREBASE_VAPID_KEY="..."``</br>
+4. Start the app by running `yarn dev`
 
 
 ## Testing

@@ -1,21 +1,45 @@
-# Utiliser une image Node.js comme base
-FROM node:20-alpine3.17
+# Stage 1: Dependencies
+FROM node:alpine AS dependencies
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install --production=true --frozen-lockfile --omit=dev
+RUN yarn add @types/zxcvbn
 
-# Définir le répertoire de travail
+# Stage 2: Build
+FROM node:alpine AS builder
+
 WORKDIR /app
 
-# Copier les fichiers package.json et package-lock.json
-COPY package*.json ./
+ARG NEXT_PUBLIC_BACKEND_URL
 
-# Installer les dépendances
-RUN yarn install
+ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
 
-# Copier tous les fichiers du projet
+COPY --from=dependencies /app/node_modules ./node_modules
+
 COPY . .
 
-RUN yarn build
-# Exposer le port 3000
+RUN NODE_ENV=production yarn build
+
+# Stage final
+FROM node:alpine as runner
+
+WORKDIR /app
+
+ENV NODE_ENV production
+
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+
+USER 1001
+
 EXPOSE 3000
 
-# Démarrer l'application
-CMD ["yarn", "start"]
+ENV PORT 3000
+ENV NEXT_TELEMETRY_DISABLED 1
+
+CMD ["node", "server.js"]

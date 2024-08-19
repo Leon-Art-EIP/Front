@@ -1,3 +1,10 @@
-export default function Page(props: { params: { id: string } }): JSX.Element {
-  return <div>profile user {props.params.id}</div>;
+import ProfileWrapper from "../../../wrappers/profile/ProfileWrapper";
+import "../../globals.css";
+
+export default async function Page(props: { params: { id: string } }): Promise<JSX.Element> {
+  return (
+    <div>
+      <ProfileWrapper id={props.params.id} />;
+    </div>
+  );
 }

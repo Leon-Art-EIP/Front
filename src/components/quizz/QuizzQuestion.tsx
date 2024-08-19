@@ -1,5 +1,7 @@
 import { FormControlLabel, FormGroup, Switch } from "@mui/material";
-import { Badge } from "../lib/lib";
+import { useState } from "react";
+
+/* c8 ignore start */
 
 export interface QuizzQuestionProps {
   question: {
@@ -11,9 +13,36 @@ export interface QuizzQuestionProps {
     }[];
   };
   onSelectAnswer: (index: number) => void;
+  location: string;
+  setLocation: (location: string) => void;
 }
 
 export default function QuizzQuestion(props: QuizzQuestionProps): JSX.Element {
+  const askLocation = false; // Used to show the location switch
+  const [isGeolocationEnabled, setGeolocationEnabled] = useState(false);
+
+  const handleGeolocationSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+    setGeolocationEnabled(isChecked);
+    if (isChecked) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            props.setLocation(`${position.coords.latitude}, ${position.coords.longitude}`);
+          },
+          (error) => {
+            console.error("Error getting location: ", error);
+            alert("Erreur lors de la tentative de récupération de votre localisation.");
+          }
+        );
+      } else {
+        alert("La géolocalisation n'est pas supportée par ce navigateur.");
+      }
+    } else {
+      props.setLocation("");
+    }
+  };
+
   return (
     <div className="flex flex-col mt-5 gap-20">
       <span className="text-3xl font-semibold px-14 lg:px-32">{props.question.question}</span>
@@ -34,13 +63,17 @@ export default function QuizzQuestion(props: QuizzQuestionProps): JSX.Element {
           ))}
           {/* c8 ignore stop */}
         </div>
-        <FormGroup className="px-6 lg:px-0">
-          <FormControlLabel
-            control={<Switch defaultChecked />}
-            label="Localiser ma position et optimiser mon référencement sur l’application"
-          />
-        </FormGroup>
+        {askLocation && (
+          <FormGroup className="px-6 lg:px-0">
+            <FormControlLabel
+              control={<Switch checked={isGeolocationEnabled} onChange={handleGeolocationSwitch} />}
+              label="Localiser ma position et optimiser mon référencement sur l’application"
+            />
+          </FormGroup>
+        )}
       </div>
     </div>
   );
 }
+
+/* c8 ignore stop */

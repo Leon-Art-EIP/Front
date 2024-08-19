@@ -1,15 +1,8 @@
-import { Test } from "../components/test";
+import HomeWrapper from "../wrappers/home/HomeWrapper";
+import "./globals.css";
 
-export default function Home(): JSX.Element {
-  let n = 0;
-  let arr = ["test"];
-
-  let result = n + arr.length;
-
+export default async function Page(): Promise<JSX.Element> {
   return (
-    <>
-      <h1>Application réalisée avec Next.js</h1>
-      <Test r={result} />
-    </>
+    <HomeWrapper />
   );
 }

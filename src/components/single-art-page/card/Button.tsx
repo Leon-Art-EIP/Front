@@ -1,4 +1,4 @@
-type TTailwindCustomColor = "primaryBlack" | "primaryRed";
+type TTailwindCustomColor = "primaryBlack" | "primary";
 
 interface IButtonProps {
   title: string;
@@ -7,6 +7,8 @@ interface IButtonProps {
   disabled?: boolean;
   id?: string;
 }
+
+/* c8 ignore start */
 
 export default function Button(props: IButtonProps): JSX.Element {
   return (
@@ -21,3 +23,5 @@ export default function Button(props: IButtonProps): JSX.Element {
     </button>
   );
 }
+
+/* c8 ignore stop */

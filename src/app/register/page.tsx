@@ -4,21 +4,27 @@ import RegisterForm from "../../forms/tsx/RegisterForm";
 export default function Page(): JSX.Element {
   return (
     <div className="flex h-screen">
-      <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col items-center justify-center fixed">
+      <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center fixed">
         <label className="xl:hidden block text-6xl font-bold">
-          <span className="text-[#E11C0A]">Leon</span>
-          <span className="text-[#000000]">'Art</span>
+          <span className="text-[#E11C0A] cursor-default">Leon</span>
+          <span className="text-[#000000] cursor-default">&apos;Art</span>
         </label>
         <div className="max-w-xs w-full pt-28 xl:pt-0">
-          <label className="xl:text-5xl text-4xl xl:font-extrabold xl:leading-relaxed font-semibold w-full xl:text-center text-start">
-            S'enregistrer
-          </label>
+          <h1 className="text-tertiary text-[50px] text-center">
+            S&apos;enregistrer
+          </h1>
           <RegisterForm />
-          <label className="flex justify-center font-normal">
-            Vous avez déjà un compte ?{" "}
-            <a className="ms-1 font-extrabold text-[#E11C0A] cursor-pointer" title="login" href="/login">
-              Se connecter
-            </a>
+          <label className="flex justify-center text-tertiary text-sm font-normal pt-5">
+            <span className="whitespace-nowrap">
+              Vous avez déjà un compte ?
+              <a
+                className="ms-1 font-extrabold text-primary cursor-pointer hover:underline"
+                title="login"
+                href="/login"
+              >
+                Se connecter
+              </a>
+            </span>
           </label>
         </div>
       </div>
