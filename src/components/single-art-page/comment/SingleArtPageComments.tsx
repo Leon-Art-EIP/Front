@@ -53,6 +53,7 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
         connectedUserId={props.connectedUserId}
         localComments={localComments}
         setLocalComments={setLocalComments}
+        parentCommentId={undefined}
       />
     </div>
   );

@@ -6,7 +6,7 @@ import { stringToFrenchDate } from "../../../tools/date";
 import { Delete, ExpandMore, ExpandLess } from "@mui/icons-material";
 import Link from "next/link";
 import { cn } from "../../../tools/cn";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import CommentsList from "./CommentsList";
 import { myFetch } from "../../../tools/myFetch";
 import { IProfileUser } from "../../../interfaces/user/profileUser";
@@ -21,6 +21,8 @@ interface ICommentProps {
   artPublicationId: string;
   isChild?: boolean;
   parentCommentId: string | undefined;
+  setLocalComments: Dispatch<SetStateAction<IDisplayComment[]>>;
+  localComments: IDisplayComment[];
 }
 
 // TODO: finish handling answer comment + likes
@@ -42,18 +44,33 @@ export default function Comment(props: ICommentProps): JSX.Element {
     if (responseAuthor.ok) {
       const author = responseAuthor.json as IProfileUser;
 
-      setLocalComments([
-        {
-          id: newComment.comment.id,
-          profilePicture: `${imageApi}/${author.profilePicture}`,
-          username: author.username,
-          text: newComment.comment.text,
-          createdAt: newComment.comment.createdAt,
-          authorId: newComment.comment.userId,
-          nestedComments: [],
-        },
-        ...localComments,
-      ]);
+      if (props.isChild) {
+        props.setLocalComments([
+          {
+            id: newComment.comment.id,
+            profilePicture: `${imageApi}/${author.profilePicture}`,
+            username: author.username,
+            text: newComment.comment.text,
+            createdAt: newComment.comment.createdAt,
+            authorId: newComment.comment.userId,
+            nestedComments: [],
+          },
+          ...props.localComments,
+        ]);
+      } else {
+        setLocalComments([
+          {
+            id: newComment.comment.id,
+            profilePicture: `${imageApi}/${author.profilePicture}`,
+            username: author.username,
+            text: newComment.comment.text,
+            createdAt: newComment.comment.createdAt,
+            authorId: newComment.comment.userId,
+            nestedComments: [],
+          },
+          ...localComments,
+        ]);
+      }
       setIsCommentsVisible(true);
     }
 
@@ -62,6 +79,7 @@ export default function Comment(props: ICommentProps): JSX.Element {
 
   const handleReply = () => {
     if (replyMessage.trim() !== "") {
+      console.log("parentCommentId: ", props.parentCommentId);
       setNbFetchs(nbFetch + 1);
       setIsReplying(false);
     }
@@ -73,10 +91,7 @@ export default function Comment(props: ICommentProps): JSX.Element {
         method="POST"
         nbFetchs={nbFetch}
         route={`/api/art-publication/comment/${props.artPublicationId}`}
-        body={JSON.stringify({
-          text: replyMessage,
-          parentCommentId: props.parentCommentId,
-        })}
+        body={JSON.stringify({ text: replyMessage, parentCommentId: props.parentCommentId ?? props.comment.id })}
         handleOk={handleAddAnswerComment}
         successStr="Réponse ajoutée"
       />
@@ -158,9 +173,9 @@ export default function Comment(props: ICommentProps): JSX.Element {
             localComments={localComments}
             setLocalComments={setLocalComments}
             isChild
-            nestedComments={props.comment.nestedComments}
             artPublicationId={props.artPublicationId}
             parentCommentId={props.comment.id}
+            nestedComments={props.comment.nestedComments}
           />
         )}
       </div>

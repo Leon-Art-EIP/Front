@@ -7,27 +7,17 @@ import Fetcher from "../../fetch/Fetcher";
 import { Button, Modal } from "../../lib";
 import Comment from "./Comment";
 
-interface IParentCommentsListProps {
+interface ICommentsListProps {
   artPublicationId: string;
   connectedUserId: string;
   localComments: IDisplayComment[];
   setLocalComments: Dispatch<SetStateAction<IDisplayComment[]>>;
-  isChild: true;
-  nestedComments: Omit<IComment, "nestedComments">[] | undefined;
+  isChild?: boolean;
   parentCommentId: string | undefined;
+  nestedComments?: Omit<IComment, "nestedComments">[];
 }
 
-interface IChildrenCommentsListProps {
-  artPublicationId: string;
-  connectedUserId: string;
-  localComments: IDisplayComment[];
-  setLocalComments: Dispatch<SetStateAction<IDisplayComment[]>>;
-  isChild?: never;
-  nestedComments?: never;
-  parentCommentId?: never;
-}
-
-export default function CommentsList(props: IParentCommentsListProps | IChildrenCommentsListProps): JSX.Element {
+export default function CommentsList(props: ICommentsListProps): JSX.Element {
   const [displayComments, setDisplayComments] = useState<IDisplayComment[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteIdComment, setDeleteIdComment] = useState("");
@@ -149,7 +139,7 @@ export default function CommentsList(props: IParentCommentsListProps | IChildren
       <div className="flex flex-col gap-8">
         {comments.map((comment, index) => (
           <Comment
-            key={`${index}-${comment.username}`}
+            key={`${props.isChild ? "child-" : ""}${index}-${comment.id}`}
             comment={comment}
             connectedUserId={props.connectedUserId}
             isLoading={isLoading}
@@ -157,6 +147,8 @@ export default function CommentsList(props: IParentCommentsListProps | IChildren
             isChild={props.isChild}
             parentCommentId={props.parentCommentId ?? undefined}
             artPublicationId={props.artPublicationId}
+            localComments={props.localComments}
+            setLocalComments={props.setLocalComments}
           />
         ))}
       </div>
