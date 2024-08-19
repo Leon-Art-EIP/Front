@@ -18,7 +18,7 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
     if (currentUser) {
       refreshChats();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   useEffect(() => {
@@ -28,14 +28,14 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
         setCurrentChat(selectedChat);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.convId, chats]);
 
   useEffect(() => {
     if (currentChat) {
       fetchMessages();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentChat]);
 
   return (
