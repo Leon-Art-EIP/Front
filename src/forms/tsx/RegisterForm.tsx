@@ -66,20 +66,43 @@ export default function RegisterForm(): JSX.Element {
   };
 
   const handleGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+    // try {
+    //   const provider = new GoogleAuthProvider();
+    //   await signInWithPopup(auth, provider);
 
-      const formData = {
-        username: "Joachim", // NOM PAR DEFAUT
-        email: "joachim.garrigues@gmail.com", // EMAIL PAR DEFAUT
-        password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
-        conscent: true,
-      };
-      await handleSubmit(formData);
-    } catch (error) {
-      console.error("Google sign-in error:", error);
-    }
+    //   const formData = {
+    //     username: "Joachim", // NOM PAR DEFAUT
+    //     email: "joachim.garrigues@gmail.com", // EMAIL PAR DEFAUT
+    //     password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
+    //     conscent: true,
+    //   };
+    //   await handleSubmit(formData);
+    // } catch (error) {
+    //   console.error("Google sign-in error:", error);
+    // }
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        if (credential != null) {
+          const token = credential.accessToken;
+          console.log("Access Token:", token);
+          localStorage.setItem("user", JSON.stringify(token));
+        }
+        const user = result.user;
+        console.log("User Info:", user);
+        router.push("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.error("Error Code:", errorCode);
+        console.error("Error Message:", errorMessage);
+        console.error("Email:", email);
+        console.error("Credential:", credential);
+      });
   };
 
   return (
@@ -170,7 +193,7 @@ export default function RegisterForm(): JSX.Element {
               onClick={handleGoogle}
             >
               <Google className="mr-2" style={{ marginTop: "-4px" }} />
-              Se connecter avec Google
+              S&apos;enregistrer avec Google
             </button>
           </div>
         </form>

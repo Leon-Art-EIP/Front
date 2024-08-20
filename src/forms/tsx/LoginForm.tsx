@@ -43,18 +43,29 @@ export default function LoginForm(): JSX.Element {
   };
 
   const handleGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-
-      const formData = {
-        email: "vivant.garrigues@gmail.com", // EMAIL PAR DEFAUT
-        password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
-      };
-      await handleSubmit(formData);
-    } catch (error) {
-      console.error("Google sign-in error:", error);
-    }
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        if (credential != null) {
+          const token = credential.accessToken;
+          console.log("Access Token:", token);
+          localStorage.setItem("user", JSON.stringify(token));
+        }
+        const user = result.user;
+        console.log("User Info:", user);
+        router.push("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.error("Error Code:", errorCode);
+        console.error("Error Message:", errorMessage);
+        console.error("Email:", email);
+        console.error("Credential:", credential);
+      });
   };
 
   // const handleGoogle = () => {
@@ -113,12 +124,12 @@ export default function LoginForm(): JSX.Element {
             placeholder="Mot de passe"
           />
           <a
-              className="text-tertiary font-medium text-sm self-end underline"
-              title="forgotten_password"
-              href="/forgotten_password"
-            >
-              Mot de passe oublié ?
-            </a>
+            className="text-tertiary font-medium text-sm self-end underline"
+            title="forgotten_password"
+            href="/forgotten_password"
+          >
+            Mot de passe oublié ?
+          </a>
           <div className="flex flex-col justify-center mt-5 gap-4">
             <button
               type="submit"
@@ -129,9 +140,9 @@ export default function LoginForm(): JSX.Element {
               Se connecter
             </button>
             <div className="flex flex-row items-center">
-              <span className="bg-tertiary w-full rounded-full h-[2px]"/>
+              <span className="bg-tertiary w-full rounded-full h-[2px]" />
               <span className="text-tertiary font-semibold px-6">Ou</span>
-              <span className="bg-tertiary w-full rounded-full h-[2px]"/>
+              <span className="bg-tertiary w-full rounded-full h-[2px]" />
             </div>
             <button
               type="button"
