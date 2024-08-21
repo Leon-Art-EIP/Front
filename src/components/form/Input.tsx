@@ -33,6 +33,7 @@ export default function Input(props: IInputProps): JSX.Element {
         placeholder={props.placeholder}
         onChange={onChange}
         value={value}
+        autoComplete="off"
       />
       {error && !props.hideError && <div className={cn("text-primary", props.errorClassName)}>{error.message}</div>}
     </div>

@@ -6,7 +6,7 @@ import { IConnectedUser } from '../../../../src/interfaces/user/user';
 import React from 'react';
 
 const mockChat: IChat = {
-  _id: '1',
+  id: '1',
   UserOneName: 'Alice',
   UserTwoName: 'Bob',
   lastMessage: 'Hello Bob',

@@ -17,9 +17,8 @@ export default function ChatList(): JSX.Element {
     setCurrentChat(chat);
   }
 
-  const filteredChats = chats?.filter((chat) =>
-    chat.UserOneName.toLowerCase().includes(searchTerm) ||
-    chat.UserTwoName.toLowerCase().includes(searchTerm)
+  const filteredChats = chats?.filter(
+    (chat) => chat.UserOneName.toLowerCase().includes(searchTerm) || chat.UserTwoName.toLowerCase().includes(searchTerm)
   );
 
   return (
@@ -31,7 +30,7 @@ export default function ChatList(): JSX.Element {
         <div className="grid grid-cols-1 gap-3">
           {filteredChats.map((chat, index) => (
             <ChatUserCard
-              key={chat._id}
+              key={chat.id}
               chat={chat}
               currentUser={currentUser}
               handleSelectChat={handleSelectChat}

@@ -49,10 +49,11 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
         <AddCommentForm id={props.id} localComments={localComments} setLocalComments={setLocalComments} />
       </div>
       <CommentsList
-        id={props.id}
+        artPublicationId={props.id}
         connectedUserId={props.connectedUserId}
         localComments={localComments}
         setLocalComments={setLocalComments}
+        parentCommentId={undefined}
       />
     </div>
   );

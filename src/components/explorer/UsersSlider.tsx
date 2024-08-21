@@ -11,7 +11,7 @@ export default function UsersSlider(props: UsersSliderProps): JSX.Element {
   const router = useRouter();
 
   function handleClickOnUser(index: number) {
-    router.push(`/profile/${props.users.users[index]._id}`);
+    router.push(`/profile/${props.users.users[index].id}`);
   }
 
   return (
