@@ -60,12 +60,12 @@ export default function Notifications() {
   }
 
   async function onMarkAsRead(notificationId: string) {
-    if (notifications.find((notification) => notification._id === notificationId)?.read) return;
+    if (notifications.find((notification) => notification.id === notificationId)?.read) return;
     const response = await myFetch({ route: `/api/notifications/${notificationId}/read`, method: "PUT" });
     if (response.ok) {
       const notifReaded = response.json.notification as INotification;
       setNotifications(
-        notifications.map((notification) => (notification._id === notifReaded._id ? notifReaded : notification))
+        notifications.map((notification) => (notification.id === notifReaded.id ? notifReaded : notification))
       );
       setNbrNewNotifications(nbrNewNotifications - 1);
     }
@@ -140,16 +140,9 @@ export default function Notifications() {
       router.push(`/single/${referenceId}`);
     } else if (type === "follow") {
       router.push(`/profile/${referenceId}`);
-    } else if (
-      type === "payment_success" ||
-      type === "order_cancelled_seller" ||
-      type === "order_completed"
-    ) {
+    } else if (type === "payment_success" || type === "order_cancelled_seller" || type === "order_completed") {
       router.push(`/order?type=sell&orderId=${referenceId}`);
-    }
-    else if (type === "order_processing" ||
-      type === "order_cancelled_buyer" ||
-      type === "order_shipping") {
+    } else if (type === "order_processing" || type === "order_cancelled_buyer" || type === "order_shipping") {
       router.push(`/order?type=buy&orderId=${referenceId}`);
     }
   }
@@ -169,9 +162,9 @@ export default function Notifications() {
           {notifications.length > 0 ? (
             notifications.map((notification) => (
               <div
-                key={notification._id}
+                key={notification.id}
                 className="flex flex-row justify-stretch items-center gap-2 py-2 px-4 hover:bg-gray-100 rounded-md cursor-pointer"
-                onMouseEnter={() => onMarkAsRead(notification._id)}
+                onMouseEnter={() => onMarkAsRead(notification.id)}
                 onClick={() => onGoToNotificationContent(notification.type, notification.referenceId)}
               >
                 <div className="flex flex-row items-center gap-2">

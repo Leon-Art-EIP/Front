@@ -1,23 +1,42 @@
+export type TChildComment = Omit<IComment, "nestedComments">;
+
 export interface IComment {
-  _id: string;
   userId: string;
   artPublicationId: string;
   text: string;
   createdAt: string;
+  parentCommentId: string | null;
+  likes: string[];
+  id: string;
+  nestedComments: TChildComment[];
 }
 
-export interface IDisplayComment {
-  id: string;
-  profilePicture: string;
-  username: string;
-  authorId: string;
+export interface INewComment {
+  msg: string;
+  comment: TChildComment; // nestedComments n'est pas renvoyé (même pour commentaire parent)
+}
+
+export type TChildExtendedComment = Omit<IExtendedComment, "nestedComments">;
+
+export interface IExtendedComment {
+  userId: string;
+  artPublicationId: string;
   text: string;
   createdAt: string;
+  parentCommentId: string | null;
+  likes: string[];
+  id: string;
+  // Comme IComment jusqu'ici
+  profilePicture: string;
+  username: string;
+  nestedComments: TChildExtendedComment[];
 }
 
-export interface IAddComment {
+export interface ILikeComment {
   msg: string;
-  comment: Omit<IComment, "_id"> & {
-    id: string;
+  likeStatus: {
+    commentId: string;
+    isLiked: boolean;
+    totalLikes: number;
   };
 }

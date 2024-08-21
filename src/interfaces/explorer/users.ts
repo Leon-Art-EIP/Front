@@ -3,13 +3,13 @@ export interface IUsers {
 }
 
 export interface IUser {
-  _id: number;
+  id: number;
   username: string;
   email: string;
   is_artist: string;
   availability: string;
   subscription: string;
-  subscribersCount: number
+  subscribersCount: number;
   canPostArticles: boolean;
   profilePicture: string;
 }

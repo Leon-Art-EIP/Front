@@ -40,7 +40,7 @@ export default function AvailableForCommandsButton(props: IAvailableForCommandsB
       <IconButton
         onClick={handleOnClick}
         text={`${isAvailable ? "Ouvert" : "Indisponible"} aux commandes`}
-        className={cn("text-white h-8", isAvailable ? "bg-green-500" : "bg-red-500")}
+        className={cn("text-white h-8 flex gap-4 px-6 py-2.5", isAvailable ? "bg-green-500" : "bg-red-500")}
         icon={isAvailable ? Chevron : undefined}
         disabled={props.disabled}
       />

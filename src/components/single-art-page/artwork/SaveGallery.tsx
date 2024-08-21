@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 import CreateCollectionForm from "../../../forms/tsx/CreateCollectionForm";
-import { ICollectionArtsExtended } from "../../../interfaces/single/collection";
+import { ICollectionArtsExtended, INewCollection } from "../../../interfaces/single/collection";
 import { myFetch } from "../../../tools/myFetch";
 import { Button } from "../../lib";
 import Collection from "./Collection";
@@ -13,6 +13,10 @@ interface ISaveGalleryProps {
   selectedCollections: string[];
   setSelectedCollections: Dispatch<SetStateAction<string[]>>;
   artId: string;
+  setNewCollectionBody: Dispatch<SetStateAction<string>>;
+  isNewCollectionLoading: boolean;
+  newCollectionFetchs: number;
+  setNewCollectionFetchs: Dispatch<SetStateAction<number>>
 }
 
 /* c8 ignore start */
@@ -128,7 +132,15 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
           Créer une nouvelle collection
         </Button>
       ) : (
-        <CreateCollectionForm handleClose={handleNewCollection} artId={props.artId} />
+        <CreateCollectionForm
+          handleClose={handleNewCollection}
+          artId={props.artId}
+          collectionsNames={props.collections.map((collection) => collection.name)}
+          setNewCollectionBody={props.setNewCollectionBody}
+          isLoading={false}
+          newCollectionFetchs={props.newCollectionFetchs}
+          setNewCollectionFetchs={props.setNewCollectionFetchs}
+        />
       )}
     </div>
   );

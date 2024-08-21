@@ -106,6 +106,9 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
               3<sup>ème</sup> étape: Mise en vente potentielle
             </h2>
             <div className="flex flex-col gap-6">
+              <span className="text-lg italic">
+                Information importante: pour l{"'"}instant notre application est en phase Bêta. Les paiements sont donc factices.
+              </span>
               <div className="px-4">
                 <Checkbox name="isForSale" title="À vendre" />
               </div>

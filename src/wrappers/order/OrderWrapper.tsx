@@ -11,7 +11,8 @@ import { orderDeliveryHelpText } from "../../configs/order/orderDeliveryHelp";
 import { useOrder } from "../../contexts/OrderContext";
 
 export default function OrderWrapper(): JSX.Element {
-  const { currentUser, selectedOrderId, refreshBuyOrders, refreshSellOrders, handleSelectOrder, clearSelectedOrder } = useOrder();
+  const { currentUser, selectedOrderId, refreshBuyOrders, refreshSellOrders, handleSelectOrder, clearSelectedOrder } =
+    useOrder();
 
   const searchParams = useSearchParams();
 

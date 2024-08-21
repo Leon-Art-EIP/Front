@@ -112,6 +112,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
               backgroundColor="bg-background-hl"
               onClick={openShareModal}
               iconColor="text-tertiary"
+              className="flex gap-4 px-6 py-2.5"
             />
             {props.artistId === props.connectedUserId && (
               <IconButton
@@ -120,6 +121,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
                 backgroundColor="bg-background-hl"
                 onClick={openModal}
                 iconColor="tertiary"
+                className="flex gap-4 px-6 py-2.5"
               />
             )}
             <IconButton
@@ -128,6 +130,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
               backgroundColor="bg-background-hl"
               onClick={props.bookmarkOnClick}
               iconColor="text-tertiary"
+              className="flex gap-4 px-6 py-2.5"
             />
             <IconButton
               id="like-button"
@@ -136,6 +139,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
               backgroundColor="bg-background-hl"
               onClick={props.heartOnClick}
               iconColor={props.liked ? "text-primary" : "text-tertiary"}
+              className="flex gap-4 px-6 py-2.5"
             />
           </div>
         </div>

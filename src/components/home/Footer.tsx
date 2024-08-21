@@ -7,10 +7,10 @@ export default function Footer(): JSX.Element {
     <div className="flex flex-col w-full h-full justify-center items-center flex-shrink-0">
       <span className="bg-secondary w-4/5 h-1 rounded"></span>
       <div className="flex flex-col sm:flex-row w-full justify-center items-center gap-4 sm:gap-10 py-5">
-        <Link href="/" className="hover:underline text-sm">
+        <Link href="/settings/terms" className="hover:underline text-sm">
           Conditions Générales de Vente
         </Link>
-        <Link href="/" className="hover:underline text-sm">
+        <Link href="/articles" className="hover:underline text-sm">
           Tous les articles
         </Link>
         <div className="flex items-center gap-3 flex-row">
