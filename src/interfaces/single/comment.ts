@@ -21,5 +21,15 @@ export interface IDisplayComment {
   authorId: string;
   text: string;
   createdAt: string;
-  nestedComments: (Omit<IComment, "nestedComments">[]) | undefined;
+  nestedComments: Omit<IComment, "nestedComments">[] | undefined;
+  likes: string[];
+}
+
+export interface ILikeComment {
+  msg: string;
+  likeStatus: {
+    commentId: string;
+    isLiked: boolean;
+    totalLikes: number;
+  };
 }

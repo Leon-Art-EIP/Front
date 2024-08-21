@@ -49,6 +49,7 @@ export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element
           createdAt: json.comment.createdAt,
           authorId: json.comment.userId,
           nestedComments: [],
+          likes: [],
         },
         ...props.localComments,
       ]);

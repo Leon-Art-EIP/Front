@@ -55,7 +55,7 @@ export default function NewPostModalWrapper(props: INewPostModalWrapperProps): J
         <NewPostForm closeModal={closeModal} onSubmit={onSubmit} />
       </Modal>
       {props.icon ? (
-        <IconButton backgroundColor="bg-primary" icon={Create} iconColor="white" onClick={openModal} className="m-2" />
+        <IconButton backgroundColor="bg-primary" icon={Create} iconColor="white" onClick={openModal} className="m-2 flex gap-4 px-6 py-2.5" />
       ) : (
         <Button color="primary" type="button" onClick={openModal}>
           Nouveau post

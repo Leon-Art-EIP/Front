@@ -41,6 +41,7 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
                 createdAt: comment.createdAt,
                 authorId: comment.userId,
                 nestedComments: "nestedComments" in comment ? comment.nestedComments : undefined,
+                likes: comment.likes,
               };
             }
           })
@@ -72,6 +73,7 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
                   createdAt: comment.createdAt,
                   authorId: comment.userId,
                   nestedComments: "nestedComments" in comment ? comment.nestedComments : undefined,
+                  likes: comment.likes,
                 };
               }
             })
@@ -84,7 +86,7 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
       }
     };
     fetchData();
-  }, [props.artPublicationId]);
+  }, [props.artPublicationId, props.nestedComments]);
 
   const closeModal = () => {
     setIsModalOpen(false);

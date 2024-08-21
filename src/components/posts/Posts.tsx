@@ -132,7 +132,7 @@ export default function Posts(props: IPostsProps): JSX.Element {
             icon={Refresh}
             iconColor="white"
             onClick={onRefresh}
-            className="m-2"
+            className="m-2 flex gap-4 px-6 py-2.5"
             disabled={isRefreshing}
           />
         </div>
