@@ -26,7 +26,7 @@ export interface IExtendedComment {
   parentCommentId: string | null;
   likes: string[];
   id: string;
-  // Comment IComment jusqu'ici
+  // Comme IComment jusqu'ici
   profilePicture: string;
   username: string;
   nestedComments: TChildExtendedComment[];
