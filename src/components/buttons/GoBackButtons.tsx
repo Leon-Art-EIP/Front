@@ -20,6 +20,6 @@ export default function GoBackButton(props: IGoBackButtonProps): JSX.Element {
   };
 
   return (
-    <IconButton onClick={handleOnClick} icon={KeyboardArrowLeft} backgroundColor="bg-background-hl" iconColor="secondary" />
+    <IconButton onClick={handleOnClick} icon={KeyboardArrowLeft} backgroundColor="bg-background-hl" iconColor="secondary" className="flex gap-4 px-6 py-2.5" />
   );
 }

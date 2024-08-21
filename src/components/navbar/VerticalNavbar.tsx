@@ -16,6 +16,7 @@ export default function VerticalNavbar({ link: Link, ...props }: Omit<INavbarPro
           onClick={() => {
             setOpen(!open);
           }}
+          className="flex gap-4 px-6 py-2.5"
         />
       </div>
       {open && (

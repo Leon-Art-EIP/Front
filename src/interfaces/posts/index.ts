@@ -3,10 +3,38 @@ export interface INewPost {
   post: {
     userId: string;
     text: string;
-    artPublicationId: string;
-    likes: number[];
-    _id: string;
+    artPublicationId: string | null;
     createdAt: string;
-    __v: number;
+    likes: string[];
+    id: string;
+  };
+  user: {
+    username: string;
+    profilePicture: string;
+  };
+}
+
+export interface IPost {
+  userId: string;
+  text: string;
+  artPublicationId: string | null;
+  createdAt: string;
+  likes: string[];
+  id: string;
+  user: {
+    username: string;
+    profilePicture: string;
+  };
+  artPublication: {
+    name: string;
+  } | null;
+}
+
+export interface ILikePost {
+  msg: string;
+  likeStatus: {
+    postId: string;
+    isLiked: boolean;
+    totalLikes: number;
   };
 }

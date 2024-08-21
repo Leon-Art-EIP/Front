@@ -45,34 +45,51 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
       const artist = response.json as IArtist;
       setArtist(artist);
 
-      async function fetchPublicationsForCollection(collection: ICollection): Promise<IProfileCollection> {
+      async function fetchPublicationsForCollection(collection: ICollection): Promise<IProfileCollection | undefined> {
         const response = await myFetch({ route: `/api/collection/${collection._id}/publications`, method: "GET" });
-        const arts = response.json as IArtPublication[];
-        const pictures: IProfileArt[] = arts.map((art) => ({
-          id: art._id,
-          src: `${imageApi}/${art.image}`,
-        }));
-        return {
-          id: collection._id,
-          title: collection.name,
-          pictures,
-        };
+
+        if (response.ok) {
+          const arts = response.json as IArtPublication[];
+          const pictures: IProfileArt[] = arts.map((art) => ({
+            id: art._id,
+            src: `${imageApi}/${art.image}`,
+          }));
+
+          return {
+            id: collection._id,
+            title: collection.name,
+            pictures,
+          };
+        } else if (response.message) {
+          console.error(response.message);
+        }
+
+        return undefined;
       }
 
-      async function fetchCollectionsWithPublications(): Promise<{
-        profileCollections: IProfileCollection[];
-        collections: ICollection[];
-      }> {
+      async function fetchCollectionsWithPublications(): Promise<
+        | {
+            profileCollections: (IProfileCollection | undefined)[];
+            collections: ICollection[];
+          }
+        | undefined
+      > {
         const response = await myFetch({ route: `/api/collection/user/${props.id}/collections`, method: "GET" });
-        const collections = response.json as ICollection[];
 
-        const profileCollections = await Promise.all(
-          collections.map((collection) => fetchPublicationsForCollection(collection))
-        );
-        return {
-          profileCollections,
-          collections,
-        };
+        if (response.ok) {
+          const collections = response.json as ICollection[];
+
+          const profileCollections = await Promise.all(
+            collections.map((collection) => fetchPublicationsForCollection(collection))
+          );
+          return {
+            profileCollections,
+            collections,
+          };
+        } else if (response.message) {
+          console.error(response.message);
+        }
+        return undefined;
       }
 
       async function fetchPublications(): Promise<IProfileArt[]> {
@@ -122,7 +139,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
           const data = response.json;
           // Transform the data to match IUser interface
           return data.subscribers.map((follower: any) => ({
-            id: follower._id,
+            id: follower.id,
             username: follower.username,
             email: follower.email,
             is_artist: follower.is_artist,
@@ -148,7 +165,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
           const data = response.json;
           // Transform the data to match IUser interface
           return data.subscriptions.map((followed: any) => ({
-            id: followed._id,
+            id: followed.id,
             username: followed.username,
             email: followed.email,
             is_artist: followed.is_artist,
@@ -166,8 +183,17 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
       setFollowers(fetchedFollowers);
       const fetchedFollowed: IUser[] = await fetchFollowed();
       setFollowed(fetchedFollowed);
-      const { profileCollections, collections } = await fetchCollectionsWithPublications();
-      setProfileCollections(profileCollections);
+      const collecionsWithPublications = await fetchCollectionsWithPublications();
+      const collections = collecionsWithPublications ? collecionsWithPublications.collections : [];
+      const profileCollections = collecionsWithPublications ? collecionsWithPublications.profileCollections : [];
+      setProfileCollections(
+        profileCollections.reduce<IProfileCollection[]>((acc, proColl) => {
+          if (proColl) {
+            acc.push(proColl);
+          }
+          return acc;
+        }, [])
+      );
       const publications: IProfileArt[] = await fetchPublications();
       setPublications(publications);
       const collectionsArtsExtended = await fetchCollectionsArtsExtended(collections);
@@ -195,6 +221,8 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             publications={publications}
             myProfile={myProfile}
             link={Link}
+            setProfileCollections={setProfileCollections}
+            setCollectionsArtsExtended={setCollectionsArtsExtended}
           />
         </div>
         <div className="flex justify-center">

@@ -6,8 +6,15 @@ import NewPostForm from "../../forms/tsx/NewPostForm";
 import { TNewPostData } from "../../zod";
 import { INewPost } from "../../interfaces/posts";
 import Fetcher from "../../components/fetch/Fetcher";
+import IconButton from "../../components/single-art-page/artwork/IconButton";
+import { Create } from "@mui/icons-material";
 
-export default function NewPostModalWrapper(): JSX.Element {
+interface INewPostModalWrapperProps {
+  icon?: boolean;
+  onAddPost: (post: INewPost) => void;
+}
+
+export default function NewPostModalWrapper(props: INewPostModalWrapperProps): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nbFetchs, setNbFetchs] = useState(0);
   const [body, setBody] = useState("");
@@ -31,8 +38,7 @@ export default function NewPostModalWrapper(): JSX.Element {
   };
 
   const handleOk = async (json: INewPost) => {
-    // TODO: locally update posts
-    console.log(json);
+    props.onAddPost(json);
   };
 
   return (
@@ -48,9 +54,13 @@ export default function NewPostModalWrapper(): JSX.Element {
       <Modal isOpen={isModalOpen} handleClose={closeModal}>
         <NewPostForm closeModal={closeModal} onSubmit={onSubmit} />
       </Modal>
-      <Button color="primary" type="button" onClick={openModal}>
-        Nouveau post
-      </Button>
+      {props.icon ? (
+        <IconButton backgroundColor="bg-primary" icon={Create} iconColor="white" onClick={openModal} className="m-2 flex gap-4 px-6 py-2.5" />
+      ) : (
+        <Button color="primary" type="button" onClick={openModal}>
+          Nouveau post
+        </Button>
+      )}
     </>
   );
 }

@@ -10,17 +10,18 @@ interface IconButtonProps {
   id?: string;
   className?: string;
   disabled?: boolean;
+  iconClassName?: string;
 }
 
 export default function IconButton({ icon: Icon, iconColor, ...props }: IconButtonProps): JSX.Element {
   return (
     <button
       id={props.id}
-      className={cn("rounded-full flex gap-4 px-6 py-2.5", props.backgroundColor, props.className)}
+      className={cn("rounded-full", props.backgroundColor, props.className)}
       onClick={props.onClick}
       disabled={props.disabled}
     >
-      <Icon style={{ color: iconColor }} />
+      <Icon style={{ color: iconColor }} className={props.iconClassName} />
       {props.text}
     </button>
   );

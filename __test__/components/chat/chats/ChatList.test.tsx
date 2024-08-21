@@ -20,7 +20,7 @@ vi.mock('../../../../src/components/searchBar/SearchBar', () => ({
 
 vi.mock('../../../../src/components/chat/chats/ChatUserCard', () => ({
   ChatUserCard: ({ chat, handleSelectChat }: { chat: IChat; handleSelectChat: (chat: IChat) => void }) => (
-    <div onClick={() => handleSelectChat(chat)} data-testid={`chat-user-card-${chat._id}`}>
+    <div onClick={() => handleSelectChat(chat)} data-testid={`chat-user-card-${chat.id}`}>
       {chat.UserOneName} - {chat.UserTwoName}
     </div>
   ),
@@ -30,7 +30,7 @@ const mockUseChat = useChat as jest.Mock;
 
 const mockChats: IChat[] = [
   {
-    _id: '1',
+    id: '1',
     UserOneName: 'Alice',
     UserTwoName: 'Bob',
     lastMessage: '',
@@ -41,7 +41,7 @@ const mockChats: IChat[] = [
     UserTwoPicture: ''
   },
   {
-    _id: '2',
+    id: '2',
     UserOneName: 'Charlie',
     UserTwoName: 'Dave',
     lastMessage: '',

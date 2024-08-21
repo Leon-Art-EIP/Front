@@ -1,5 +1,5 @@
 export interface IChat {
-  _id: string;
+  id: string;
   lastMessage: string;
   unreadMessages: boolean;
   UserOneId: string;

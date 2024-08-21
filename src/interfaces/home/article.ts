@@ -4,7 +4,7 @@ export interface IArticle {
   mainImage: string;
   content: string;
   author: {
-    _id: string;
+    id: string;
     username: string;
   };
   createdAt: string;

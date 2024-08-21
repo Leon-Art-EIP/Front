@@ -23,6 +23,7 @@ const data: Omit<ISingleArtPageProps, "link"> = {
   connectedUserId: "1",
   isForSale: true,
   isSold: false,
+  onAddNewCollection: () => {},
 };
 
 export default data;

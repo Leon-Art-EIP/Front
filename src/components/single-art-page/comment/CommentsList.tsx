@@ -1,20 +1,20 @@
-import { Delete } from "@mui/icons-material";
-import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IComment, IDisplayComment } from "../../../interfaces/single/comment";
 import { IProfileUser } from "../../../interfaces/user/profileUser";
-import { stringToFrenchDate } from "../../../tools/date";
 import { myFetch } from "../../../tools/myFetch";
 import { imageApi } from "../../../tools/variables";
 import Fetcher from "../../fetch/Fetcher";
 import { Button, Modal } from "../../lib";
-import IconButton from "../artwork/IconButton";
+import Comment from "./Comment";
 
 interface ICommentsListProps {
-  id: string;
+  artPublicationId: string;
   connectedUserId: string;
   localComments: IDisplayComment[];
   setLocalComments: Dispatch<SetStateAction<IDisplayComment[]>>;
+  isChild?: boolean;
+  parentCommentId: string | undefined;
+  nestedComments?: Omit<IComment, "nestedComments">[];
 }
 
 export default function CommentsList(props: ICommentsListProps): JSX.Element {
@@ -26,24 +26,22 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await myFetch({ route: `/api/art-publication/comment/${props.id}`, method: "GET" });
-
-      if (response.ok) {
-        const comments = response.json as IComment[];
-
+      if (props.nestedComments) {
         const authenticatedComments = await Promise.all(
-          comments.map(async (comment) => {
+          props.nestedComments.map(async (comment) => {
             const responseAuthor = await myFetch({ route: `/api/user/profile/${comment.userId}`, method: "GET" });
 
             if (responseAuthor.ok) {
               const author = responseAuthor.json as IProfileUser;
               return {
-                id: comment._id,
+                id: comment.id,
                 profilePicture: `${imageApi}/${author.profilePicture}`,
                 username: author.username,
                 text: comment.text,
                 createdAt: comment.createdAt,
                 authorId: comment.userId,
+                nestedComments: "nestedComments" in comment ? comment.nestedComments : undefined,
+                likes: comment.likes,
               };
             }
           })
@@ -52,10 +50,43 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
         setDisplayComments(
           authenticatedComments.filter((comment): comment is IDisplayComment => comment !== undefined)
         );
+      } else {
+        const response = await myFetch({
+          route: `/api/art-publication/comment/${props.artPublicationId}`,
+          method: "GET",
+        });
+
+        if (response.ok) {
+          const comments = response.json as IComment[];
+
+          const authenticatedComments = await Promise.all(
+            comments.map(async (comment) => {
+              const responseAuthor = await myFetch({ route: `/api/user/profile/${comment.userId}`, method: "GET" });
+
+              if (responseAuthor.ok) {
+                const author = responseAuthor.json as IProfileUser;
+                return {
+                  id: comment.id,
+                  profilePicture: `${imageApi}/${author.profilePicture}`,
+                  username: author.username,
+                  text: comment.text,
+                  createdAt: comment.createdAt,
+                  authorId: comment.userId,
+                  nestedComments: "nestedComments" in comment ? comment.nestedComments : undefined,
+                  likes: comment.likes,
+                };
+              }
+            })
+          );
+
+          setDisplayComments(
+            authenticatedComments.filter((comment): comment is IDisplayComment => comment !== undefined)
+          );
+        }
       }
     };
     fetchData();
-  }, [props.id]);
+  }, [props.artPublicationId, props.nestedComments]);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -80,6 +111,10 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
     setDeleteIdComment("");
   };
 
+  const comments = [...props.localComments, ...displayComments].sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
+
   return (
     <>
       <Fetcher
@@ -103,32 +138,20 @@ export default function CommentsList(props: ICommentsListProps): JSX.Element {
           </div>
         </div>
       </Modal>
-      <div className="flex flex-col gap-4">
-        {[...props.localComments, ...displayComments].map((comment, index) => (
-          <div key={`${index}-${comment.username}`} className="flex gap-4 items-center text-tertiary">
-            <Link href={`/profile/${comment.authorId}`}>
-              <img src={comment.profilePicture} alt="profile" className="rounded-3xl w-11 h-11" />
-            </Link>
-            <div>
-              <div className="flex gap-2">
-                <p className="font-semibold">{comment.username}</p>
-                <p className="text-neutral-400">{stringToFrenchDate(comment.createdAt)}</p>
-              </div>
-              <p>{comment.text}</p>
-            </div>
-            {comment.authorId === props.connectedUserId && (
-              <IconButton
-                icon={Delete}
-                backgroundColor="transparent"
-                iconColor="red"
-                onClick={() => {
-                  openModal(comment.id);
-                }}
-                className="border hover:border-neutral-400"
-                disabled={isLoading}
-              />
-            )}
-          </div>
+      <div className="flex flex-col gap-8">
+        {comments.map((comment, index) => (
+          <Comment
+            key={`${props.isChild ? "child-" : ""}${index}-${comment.id}`}
+            comment={comment}
+            connectedUserId={props.connectedUserId}
+            isLoading={isLoading}
+            openModal={openModal}
+            isChild={props.isChild}
+            parentCommentId={props.parentCommentId ?? undefined}
+            artPublicationId={props.artPublicationId}
+            localComments={props.localComments}
+            setLocalComments={props.setLocalComments}
+          />
         ))}
       </div>
     </>
