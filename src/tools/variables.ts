@@ -64,7 +64,8 @@ export type TErrorMessages =
   | "Please wait 2 more minute(s) before creating a new post."
   | "Please wait 1 more minute(s) before creating a new post."
   | "Comment not found"
-  | "Incorrect current password";
+  | "Incorrect current password"
+  | "New password is too weak";
 
 export const errors: Record<TErrorMessages, string> = {
   "Incorrect password": "Mot de passe incorrect",
@@ -139,4 +140,5 @@ export const errors: Record<TErrorMessages, string> = {
     "Veuillez attendre encore 1 minute avant de créer un nouveau post.",
   "Comment not found": "Commentaire introuvable.",
   "Incorrect current password": "Mot de passe actuel incorrect",
+  "New password is too weak": "Le nouveau mot de passe est trop faible",
 };
