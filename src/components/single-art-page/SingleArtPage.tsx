@@ -174,7 +174,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
             deleteOnClick={deleteOnClick}
             link={props.link}
           />
-          <SingleArtPageComments id={props.artId} connectedUserId={props.connectedUserId} />
+          <SingleArtPageComments artPublicationId={props.artId} connectedUserId={props.connectedUserId} />
         </div>
 
         <div className="flex flex-col gap-4 w-1/4">
