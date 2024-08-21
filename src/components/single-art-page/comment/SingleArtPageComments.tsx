@@ -9,6 +9,7 @@ import { imageApi } from "../../../tools/variables";
 import { getExtendComments } from "./getExtendedComments";
 import Comment from "./Comment";
 import { Button, Modal } from "../../lib";
+import Fetcher from "../../fetch/Fetcher";
 
 interface ISingleArtPageCommentsProps {
   artPublicationId: string;
@@ -24,7 +25,9 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
     profilePicture: "",
     username: "",
   });
+  const [nbDeleteFetch, setNbDeleteFetch] = useState(0);
   const [commentIdToBeDeleted, setCommentIdToBeDeleted] = useState<string>("");
+  const [parentCommentIdToBeDeleted, setParentCommentIdToBeDeleted] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
@@ -54,27 +57,38 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
     fetchData();
   }, [props.artPublicationId, props.connectedUserId]);
 
-  const openDeleteModal = (commentId: string) => {
+  const openDeleteModal = (commentId: string, parentCommentId: string | null) => {
     setCommentIdToBeDeleted(commentId);
+    setParentCommentIdToBeDeleted(parentCommentId);
     setIsDeleteModalOpen(true);
   };
 
   const closeDeleteModal = () => {
     setCommentIdToBeDeleted("");
+    setParentCommentIdToBeDeleted(null);
     setIsDeleteModalOpen(false);
   };
 
-  const deleteComment = async () => {
-    const response = await myFetch({
-      route: `/api/art-publication/comment/${commentIdToBeDeleted}`,
-      method: "DELETE",
+  const deleteCommentHandleOk = async () => {
+    const updatedComments: IExtendedComment[] = [];
+
+    comments.forEach((comment) => {
+      if (comment.id === commentIdToBeDeleted) {
+        return;
+      }
+
+      if (comment.id === parentCommentIdToBeDeleted) {
+        updatedComments.push({
+          ...comment,
+          nestedComments: comment.nestedComments.filter((nestedComment) => nestedComment.id !== commentIdToBeDeleted),
+        });
+      } else {
+        updatedComments.push(comment);
+      }
     });
 
-    if (response.ok) {
-      const updatedComments = comments.filter((comment) => comment.id !== commentIdToBeDeleted);
+    setComments(updatedComments);
 
-      setComments(updatedComments);
-    }
     closeDeleteModal();
   };
 
@@ -130,6 +144,13 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
 
   return (
     <>
+      <Fetcher
+        method="DELETE"
+        nbFetchs={nbDeleteFetch}
+        route={`/api/art-publication/comment/${commentIdToBeDeleted}`}
+        successStr="Commentaire supprimé"
+        handleOk={deleteCommentHandleOk}
+      />
       <Modal isOpen={isDeleteModalOpen} handleClose={closeDeleteModal}>
         <div className="flex flex-col gap-4">
           <h1 className="font-semibold">Êtes-vous sûr(e) de vouloir supprimer ce commentaire ?</h1>
@@ -137,7 +158,13 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
             <Button onClick={closeDeleteModal} color="secondary" type="button">
               Annuler
             </Button>
-            <Button onClick={deleteComment} color="danger" type="button">
+            <Button
+              onClick={() => {
+                setNbDeleteFetch(nbDeleteFetch + 1);
+              }}
+              color="danger"
+              type="button"
+            >
               Oui
             </Button>
           </div>

@@ -15,7 +15,7 @@ import { imageApi } from "../../../tools/variables";
 interface IParentCommentProps {
   comment: IExtendedComment;
   connectedUserId: string;
-  openDeleteModal: (commentId: string) => void;
+  openDeleteModal: (commentId: string, parentCommentId: string | null) => void;
   artPublicationId: string;
   onLikeComment: (commentId: string, parentCommentId: string | null, isLiked: boolean) => void;
   onAddComment: (comment: IExtendedComment) => void;
@@ -26,7 +26,7 @@ interface IParentCommentProps {
 interface IChildCommentProps {
   comment: TChildExtendedComment;
   connectedUserId: string;
-  openDeleteModal: (commentId: string) => void;
+  openDeleteModal: (commentId: string, parentCommentId: string | null) => void;
   artPublicationId: string;
   onLikeComment: (commentId: string, parentCommentId: string | null, isLiked: boolean) => void;
   onAddComment: (comment: IExtendedComment) => void;
@@ -113,7 +113,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                 backgroundColor="transparent"
                 iconColor="red"
                 onClick={() => {
-                  props.openDeleteModal(props.comment.id);
+                  props.openDeleteModal(props.comment.id, props.parentCommentId ?? null);
                 }}
                 className="border hover:border-neutral-400 flex gap-4 px-6 py-2.5"
               />
@@ -131,6 +131,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                 onChange={(e) => setReplyMessage(e.target.value)}
                 placeholder="Écrire une réponse..."
                 className="p-2 border-b border-black outline-none"
+                autoFocus
               />
               <div className="flex gap-2">
                 <button
