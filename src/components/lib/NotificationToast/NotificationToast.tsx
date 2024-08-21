@@ -40,16 +40,6 @@ export default function NotificationToast(props: NotificationToastProps): JSX.El
     }
   };
 
-  let backgroundColor = "bg-background";
-  switch (props.type) {
-    case "success":
-      backgroundColor = "bg-green-500";
-      break;
-    case "error":
-      backgroundColor = "bg-red-500";
-      break;
-  }
-
   return display ? (
     <div
       className={`fixed top-0 left-0 flex justify-center w-screen h-screen items-center transition-opacity duration-500 z-50 ${
