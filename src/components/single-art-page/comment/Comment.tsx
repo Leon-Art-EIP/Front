@@ -1,81 +1,64 @@
 "use client";
 
-import { IDisplayComment, ILikeComment, INewComment } from "../../../interfaces/single/comment";
+import { IExtendedComment, ILikeComment, INewComment, TChildExtendedComment } from "../../../interfaces/single/comment";
 import IconButton from "../artwork/IconButton";
 import { stringToFrenchDate } from "../../../tools/date";
 import { Delete, ExpandMore, ExpandLess, ThumbUp, ThumbUpOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import { cn } from "../../../tools/cn";
-import { Dispatch, SetStateAction, useState } from "react";
-import CommentsList from "./CommentsList";
+import { useState } from "react";
 import { myFetch } from "../../../tools/myFetch";
 import { IProfileUser } from "../../../interfaces/user/profileUser";
-import { imageApi } from "../../../tools/variables";
 import Fetcher from "../../fetch/Fetcher";
+import { imageApi } from "../../../tools/variables";
 
-interface ICommentProps {
-  comment: IDisplayComment;
+interface IParentCommentProps {
+  comment: IExtendedComment;
   connectedUserId: string;
-  isLoading: boolean;
-  openModal: (id: string) => void;
+  openDeleteModal: (commentId: string) => void;
   artPublicationId: string;
-  isChild?: boolean;
-  parentCommentId: string | undefined;
-  setLocalComments: Dispatch<SetStateAction<IDisplayComment[]>>;
-  localComments: IDisplayComment[];
+  onLikeComment: (commentId: string, parentCommentId: string | null, isLiked: boolean) => void;
+  onAddComment: (comment: IExtendedComment) => void;
+  parentCommentId?: never;
+  isChild?: never;
 }
 
-// TODO: finish handling answer comment + likes
+interface IChildCommentProps {
+  comment: TChildExtendedComment;
+  connectedUserId: string;
+  openDeleteModal: (commentId: string) => void;
+  artPublicationId: string;
+  onLikeComment: (commentId: string, parentCommentId: string | null, isLiked: boolean) => void;
+  onAddComment: (comment: IExtendedComment) => void;
+  parentCommentId: string;
+  isChild: true;
+}
 
-export default function Comment(props: ICommentProps): JSX.Element {
-  const [isLiked, setIsLiked] = useState<boolean>(props.comment.likes.includes(props.connectedUserId));
-  const [nbLikes, setNbLikes] = useState<number>(props.comment.likes.length);
-  const [localComments, setLocalComments] = useState<IDisplayComment[]>([]);
-  const [isCommentsVisible, setIsCommentsVisible] = useState<boolean>(false);
+export default function Comment(props: IChildCommentProps | IParentCommentProps): JSX.Element {
+  const [areChildrenCommentsVisible, setAreChildrenCommentsVisible] = useState<boolean>(false);
   const [isReplying, setIsReplying] = useState<boolean>(false);
   const [replyMessage, setReplyMessage] = useState<string>("");
   const [nbFetch, setNbFetchs] = useState(0);
 
+  const isCommentLiked = props.comment.likes.includes(props.connectedUserId);
+
   const toggleCommentsVisibility = () => {
-    setIsCommentsVisible(!isCommentsVisible);
+    setAreChildrenCommentsVisible(!areChildrenCommentsVisible);
   };
 
-  const handleAddAnswerComment = async (newComment: INewComment) => {
+  const commentHandleOk = async (newComment: INewComment) => {
     const responseAuthor = await myFetch({ route: `/api/user/profile/${newComment.comment.userId}`, method: "GET" });
 
     if (responseAuthor.ok) {
       const author = responseAuthor.json as IProfileUser;
 
-      if (props.isChild) {
-        props.setLocalComments([
-          {
-            id: newComment.comment.id,
-            profilePicture: `${imageApi}/${author.profilePicture}`,
-            username: author.username,
-            text: newComment.comment.text,
-            createdAt: newComment.comment.createdAt,
-            authorId: newComment.comment.userId,
-            nestedComments: [],
-            likes: [],
-          },
-          ...props.localComments,
-        ]);
-      } else {
-        setLocalComments([
-          {
-            id: newComment.comment.id,
-            profilePicture: `${imageApi}/${author.profilePicture}`,
-            username: author.username,
-            text: newComment.comment.text,
-            createdAt: newComment.comment.createdAt,
-            authorId: newComment.comment.userId,
-            nestedComments: [],
-            likes: [],
-          },
-          ...localComments,
-        ]);
-      }
-      setIsCommentsVisible(true);
+      props.onAddComment({
+        ...newComment.comment,
+        nestedComments: [],
+        profilePicture: `${imageApi}/${author.profilePicture}`,
+        username: author.username,
+      });
+      setAreChildrenCommentsVisible(true);
     }
 
     setReplyMessage("");
@@ -88,7 +71,7 @@ export default function Comment(props: ICommentProps): JSX.Element {
     }
   };
 
-  const likeOnClick = async () => {
+  const onLikeComment = async () => {
     const response = await myFetch({
       route: `/api/art-publication/comment/${props.comment.id}/like`,
       method: "POST",
@@ -97,8 +80,7 @@ export default function Comment(props: ICommentProps): JSX.Element {
     if (response.ok) {
       const data = response.json as ILikeComment;
 
-      setNbLikes(data.likeStatus.totalLikes);
-      setIsLiked(data.likeStatus.isLiked);
+      props.onLikeComment(data.likeStatus.commentId, props.parentCommentId ?? null, data.likeStatus.isLiked);
     }
   };
 
@@ -109,13 +91,13 @@ export default function Comment(props: ICommentProps): JSX.Element {
         nbFetchs={nbFetch}
         route={`/api/art-publication/comment/${props.artPublicationId}`}
         body={JSON.stringify({ text: replyMessage, parentCommentId: props.parentCommentId ?? props.comment.id })}
-        handleOk={handleAddAnswerComment}
+        handleOk={commentHandleOk}
         successStr="Réponse ajoutée"
       />
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <div className={cn("flex gap-4 items-center text-tertiary", props.isChild && "ml-10")}>
-            <Link href={`/profile/${props.comment.authorId}`}>
+            <Link href={`/profile/${props.comment.userId}`}>
               <img src={props.comment.profilePicture} alt="profile" className="rounded-3xl w-11 h-11" />
             </Link>
             <div>
@@ -125,16 +107,15 @@ export default function Comment(props: ICommentProps): JSX.Element {
               </div>
               <p>{props.comment.text}</p>
             </div>
-            {props.comment.authorId === props.connectedUserId && (
+            {props.comment.userId === props.connectedUserId && (
               <IconButton
                 icon={Delete}
                 backgroundColor="transparent"
                 iconColor="red"
                 onClick={() => {
-                  props.openModal(props.comment.id);
+                  props.openDeleteModal(props.comment.id);
                 }}
                 className="border hover:border-neutral-400 flex gap-4 px-6 py-2.5"
-                disabled={props.isLoading}
               />
             )}
             <button onClick={() => setIsReplying(true)} className="text-black text-sm">
@@ -177,10 +158,10 @@ export default function Comment(props: ICommentProps): JSX.Element {
 
           <div className={cn("self-start flex gap-2", props.isChild ? "ml-24" : "ml-14")}>
             <IconButton
-              icon={isLiked ? ThumbUp : ThumbUpOutlined}
+              icon={isCommentLiked ? ThumbUp : ThumbUpOutlined}
               iconColor="black"
-              onClick={likeOnClick}
-              text={nbLikes.toString()}
+              onClick={onLikeComment}
+              text={props.comment.likes.length.toString()}
               className="flex gap-2 px-2 py-1 items-center"
               iconClassName="text-lg"
               backgroundColor="bg-transparent"
@@ -193,21 +174,27 @@ export default function Comment(props: ICommentProps): JSX.Element {
             onClick={toggleCommentsVisibility}
             className="flex items-center gap-2 text-blue-600 font-semibold ml-10 self-start"
           >
-            {isCommentsVisible ? <ExpandLess /> : <ExpandMore />}
-            {isCommentsVisible ? "Masquer réponse(s)" : "Voir réponse(s)"}
+            {areChildrenCommentsVisible ? <ExpandLess /> : <ExpandMore />}
+            {props.comment.nestedComments.length} réponse{props.comment.nestedComments.length > 1 ? "s" : ""}
           </button>
         )}
 
-        {!props.isChild && isCommentsVisible && (
-          <CommentsList
-            connectedUserId={props.connectedUserId}
-            localComments={localComments}
-            setLocalComments={setLocalComments}
-            isChild
-            artPublicationId={props.artPublicationId}
-            parentCommentId={props.comment.id}
-            nestedComments={props.comment.nestedComments}
-          />
+        {!props.isChild && areChildrenCommentsVisible && (
+          <div className="flex flex-col gap-8">
+            {props.comment.nestedComments.map((nestedComment) => (
+              <Comment
+                key={nestedComment.id}
+                comment={nestedComment}
+                connectedUserId={props.connectedUserId}
+                openDeleteModal={props.openDeleteModal}
+                parentCommentId={props.comment.id}
+                artPublicationId={props.artPublicationId}
+                onLikeComment={props.onLikeComment}
+                onAddComment={props.onAddComment}
+                isChild
+              />
+            ))}
+          </div>
         )}
       </div>
     </>
