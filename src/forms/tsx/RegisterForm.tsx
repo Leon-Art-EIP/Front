@@ -15,6 +15,8 @@ import { myFetch } from "../../tools/myFetch";
 import { TRegisterData } from "../../zod";
 import useRegisterForm from "../methods/useRegisterForm";
 
+export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function RegisterForm(): JSX.Element {
   const [nbFetchs, setNbFetchs] = useState(0);
   const [body, setBody] = useState("");
@@ -42,8 +44,9 @@ export default function RegisterForm(): JSX.Element {
 
   const handleOk = async (json: any) => {
     const data = json as IConnectedUser;
-
+    console.log("checking token");
     if ("token" in data) {
+      console.log("Token is IN DATA");
       localStorage.setItem("user", JSON.stringify(data));
       router.push("/quizz");
     }
@@ -65,48 +68,8 @@ export default function RegisterForm(): JSX.Element {
     await handleSubmit(data);
   };
 
-  const handleGoogle = async () => {
-    try {
-      const response = await myFetch({ route: `/api/auth/google`, method: "GET" });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          console.error("No URL found in the response data.");
-        }
-      } else {
-        // Handle the case where the response is not OK
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-    } catch (error) {
-      // Handle any errors that occur during the fetch
-      console.error("Error:", error);
-    }
-    // const provider = new GoogleAuthProvider();
-    // signInWithPopup(auth, provider)
-    //   .then((result) => {
-    //     const credential = GoogleAuthProvider.credentialFromResult(result);
-    //     if (credential != null) {
-    //       const token = credential.accessToken;
-    //       // console.log("Access Token:", token);
-    //       localStorage.setItem("user", JSON.stringify(token));
-    //     }
-    //     const user = result.user;
-    //     console.log("User Info:", user);
-    //     router.push("/quizz");
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     const email = error.customData.email;
-    //     const credential = GoogleAuthProvider.credentialFromError(error);
-    //     console.error("Error Code:", errorCode);
-    //     console.error("Error Message:", errorMessage);
-    //     console.error("Email:", email);
-    //     console.error("Credential:", credential);
-    //   });
+  const handleGoogle = () => {
+    window.location.href = `${NEXT_PUBLIC_BACKEND_URL}/api/auth/google`;
   };
 
   return (
