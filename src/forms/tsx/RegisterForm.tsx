@@ -67,18 +67,22 @@ export default function RegisterForm(): JSX.Element {
 
   const handleGoogle = async () => {
     try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-
-      const formData = {
-        username: "Joachim", // NOM PAR DEFAUT
-        email: "joachim.garrigues@gmail.com", // EMAIL PAR DEFAUT
-        password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
-        conscent: true,
-      };
-      await handleSubmit(formData);
+      const response = await myFetch({ route: `/api/auth/google`, method: "GET" });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          console.error("No URL found in the response data.");
+        }
+      } else {
+        // Handle the case where the response is not OK
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
     } catch (error) {
-      console.error("Google sign-in error:", error);
+      // Handle any errors that occur during the fetch
+      console.error("Error:", error);
     }
     // const provider = new GoogleAuthProvider();
     // signInWithPopup(auth, provider)
@@ -86,12 +90,12 @@ export default function RegisterForm(): JSX.Element {
     //     const credential = GoogleAuthProvider.credentialFromResult(result);
     //     if (credential != null) {
     //       const token = credential.accessToken;
-    //       console.log("Access Token:", token);
+    //       // console.log("Access Token:", token);
     //       localStorage.setItem("user", JSON.stringify(token));
     //     }
     //     const user = result.user;
     //     console.log("User Info:", user);
-    //     router.push("/");
+    //     router.push("/quizz");
     //   })
     //   .catch((error) => {
     //     const errorCode = error.code;
