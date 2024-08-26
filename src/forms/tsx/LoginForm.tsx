@@ -12,6 +12,8 @@ import { IConnectedUser } from "../../interfaces/user/user";
 import { TLoginData } from "../../zod";
 import useLoginForm from "../methods/useLoginForm";
 
+export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function LoginForm(): JSX.Element {
   const [body, setBody] = useState("");
   const [nbFetchs, setNbFetchs] = useState(0);
@@ -43,29 +45,7 @@ export default function LoginForm(): JSX.Element {
   };
 
   const handleGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        if (credential != null) {
-          const token = credential.accessToken;
-          console.log("Access Token:", token);
-          localStorage.setItem("user", JSON.stringify(token));
-        }
-        const user = result.user;
-        console.log("User Info:", user);
-        router.push("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.error("Error Code:", errorCode);
-        console.error("Error Message:", errorMessage);
-        console.error("Email:", email);
-        console.error("Credential:", credential);
-      });
+    window.location.href = `${NEXT_PUBLIC_BACKEND_URL}/api/auth/google`;
   };
 
   // const handleGoogle = () => {
