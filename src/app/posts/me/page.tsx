@@ -1,3 +1,3 @@
 export default function Page(): JSX.Element {
-  return <div>trends</div>
+  return <div>my posts</div>
 }
