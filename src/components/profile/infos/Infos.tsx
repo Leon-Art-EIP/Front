@@ -9,6 +9,7 @@ import LinkButton from "../../lib/Button/LinkButton";
 import { FollowerCard } from "./FollowerCard";
 import { Star } from "@mui/icons-material";
 import SocialMediaLinks from "../../../wrappers/profile/SocialMediaLinks";
+import ShareLocalisation from "../../localisation/ShareLocalisation";
 
 export interface IInfosProps {
   availability: "available" | "unavailable";
@@ -121,6 +122,7 @@ export default function Infos(props: IInfosProps): JSX.Element {
             >
               Nouvelle publication
             </LinkButton>
+            <ShareLocalisation />
           </>
         )}
         {isFollowerModalOpen && (
