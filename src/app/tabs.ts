@@ -129,6 +129,14 @@ const tabs: ITab[] = [
     verticalNavbar: true,
     header: true,
   },
+  {
+    name: "Carte",
+    href: "/map",
+    loggedIn: true,
+    navbar: true,
+    verticalNavbar: true,
+    header: true,
+  },
 ];
 
 export default tabs;
