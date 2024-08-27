@@ -15,17 +15,17 @@ const defaultMapContainerStyle = {
 };
 
 const defaultMapCenter = {
-  lat: 35.8799866,
-  lng: 76.5048004,
+  lat: 48.683331,
+  lng: 6.2,
 };
 
-const defaultMapZoom = 18;
+const defaultMapZoom = 13;
 
-const defaultMapOptions = {
+const defaultMapOptions: google.maps.MapOptions = {
   zoomControl: true,
   tilt: 0,
   gestureHandling: "auto",
-  mapTypeId: "satellite",
+  mapTypeId: "roadmap",
 };
 
 export default function Map() {
