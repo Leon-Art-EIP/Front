@@ -190,9 +190,11 @@ export default function PostsWrapper(props: IPostsWrapperProps): JSX.Element {
         <CircularProgress size={20} thickness={4} color="primary" className="self-center" />
       ) : (
         <div className="flex flex-col gap-4 items-center p-2">
-          {posts.map((post) => (
-            <Post key={post.id} post={post} connectedUserId={user.id} onLike={onLike} />
-          ))}
+          {posts.length > 0 ? (
+            posts.map((post) => <Post key={post.id} post={post} connectedUserId={user.id} onLike={onLike} />)
+          ) : (
+            <p>Aucun post</p>
+          )}
         </div>
       )}
     </div>
