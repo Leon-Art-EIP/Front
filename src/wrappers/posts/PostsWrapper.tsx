@@ -69,6 +69,10 @@ export default function PostsWrapper(props: IPostsWrapperProps): JSX.Element {
   const [nbFetchsNewPost, setNbFetchsNewPost] = useState(0);
   const [isNewPostLoading, setIsNewPostLoading] = useState(false);
 
+  const [nbFetchsDeletePost, setNbFetchsDeletePost] = useState(0);
+  const [isDeletePostLoading, setIsDeletePostLoading] = useState(false);
+  const [postIdToDelete, setPostIdToDelete] = useState("");
+
   const route: `/api/posts?filter=${TFilter}` = `/api/posts?filter=${props.filter}`;
 
   useEffect(() => {
@@ -88,6 +92,11 @@ export default function PostsWrapper(props: IPostsWrapperProps): JSX.Element {
 
   const onCreate = () => {
     setIsCreatingPost(true);
+  };
+
+  const onDelete = (postId: string) => {
+    setPostIdToDelete(postId);
+    setNbFetchsDeletePost((prev) => prev + 1);
   };
 
   const onLike = async (postId: string) => {
@@ -130,6 +139,10 @@ export default function PostsWrapper(props: IPostsWrapperProps): JSX.Element {
     setPosts(newPosts);
   };
 
+  const handleDeleteOk = () => {
+    setPosts((prev) => prev.filter((post) => post.id !== postIdToDelete));
+  };
+
   return (
     <div className="flex flex-col gap-10">
       <Fetcher
@@ -148,6 +161,14 @@ export default function PostsWrapper(props: IPostsWrapperProps): JSX.Element {
         setIsLoading={setIsRefreshLoading}
         successStr="Posts mis à jour"
         handleOk={handleRefreshOk}
+      />
+      <Fetcher
+        method="DELETE"
+        route={`/api/posts/${postIdToDelete}`}
+        nbFetchs={nbFetchsDeletePost}
+        setIsLoading={setIsDeletePostLoading}
+        successStr="Post supprimé"
+        handleOk={handleDeleteOk}
       />
       <div className="flex gap-10 items-center">
         <p>Filtrer par :</p>
@@ -191,7 +212,16 @@ export default function PostsWrapper(props: IPostsWrapperProps): JSX.Element {
       ) : (
         <div className="flex flex-col gap-4 items-center p-2">
           {posts.length > 0 ? (
-            posts.map((post) => <Post key={post.id} post={post} connectedUserId={user.id} onLike={onLike} />)
+            posts.map((post) => (
+              <Post
+                key={post.id}
+                post={post}
+                connectedUserId={user.id}
+                onLike={onLike}
+                onDelete={onDelete}
+                isDeleteLoading={isDeletePostLoading && post.id === postIdToDelete}
+              />
+            ))
           ) : (
             <p>Aucun post</p>
           )}
