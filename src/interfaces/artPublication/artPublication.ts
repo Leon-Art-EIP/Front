@@ -1,5 +1,3 @@
-import { IArtist } from "../home/artist";
-
 export interface IArtPublication {
   _id: string;
   userId: string;
