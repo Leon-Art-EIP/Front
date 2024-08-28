@@ -13,6 +13,20 @@ export interface INavbarProps {
   image: string;
 }
 
+function isActiveTab(selectedTabHref: string, tabHref: string) {
+  const selectedTabHrefArray = selectedTabHref.split("/");
+  const tabHrefArray = tabHref.split("/");
+
+  if (selectedTabHrefArray.length > 1 && tabHrefArray.length > 1) {
+    const rootSelectedTabHref = `/${selectedTabHrefArray[1]}`;
+    const rootTabHref = `/${tabHrefArray[1]}`;
+
+    return rootSelectedTabHref === rootTabHref;
+  }
+
+  return false;
+}
+
 export default function Navbar({ link: Link, ...props }: INavbarProps) {
   return (
     <div className="flex h-24 flex-shrink-0 p-2 bg-background w-full gap-4 border-b border-b-secondary">
@@ -28,13 +42,13 @@ export default function Navbar({ link: Link, ...props }: INavbarProps) {
               <Link key={`${tab.name}-${tab.href}`} href={tab.href} className="group transition duration-300">
                 <span
                   className={`${
-                    props.selectedTabHref === tab.href
+                    isActiveTab(props.selectedTabHref, tab.href)
                       ? "text-primary font-semibold"
                       : "text-tertiary font-normal hover:text-tertiary-hover hover:transition-all hover:duration-300"
                   } `}
                 >
                   {tab.name}
-                  {props.selectedTabHref === tab.href ? (
+                  {isActiveTab(props.selectedTabHref, tab.href) ? (
                     <span className="block w-full h-0.5 bg-primary"></span>
                   ) : (
                     <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary"></span>

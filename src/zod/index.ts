@@ -84,7 +84,7 @@ export const shareArtSchema = z.object({
 
 export const newPostSchema = z.object({
   text: nonEmptyString,
-})
+});
 
 /* c8 ignore stop */
 
