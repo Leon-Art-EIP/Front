@@ -9,7 +9,7 @@ interface IPostLinkProps {
 
 export default function PostLink(props: IPostLinkProps): JSX.Element {
   return (
-    <Link href={props.href} className={cn("text-lg", props.active && "underline")}>
+    <Link href={props.href} className={cn("text-2xl", props.active && "underline")}>
       {props.title}
     </Link>
   );
