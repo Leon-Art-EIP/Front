@@ -7,10 +7,13 @@ import TitledLabel from "../../../components/label/TitledLabel";
 import Button from "../../../components/lib/Button/Button";
 import LoadingPage from "../../../components/loading/LoadingPage";
 import { IConnectedUser } from "../../../interfaces/user/user";
+import { myFetch } from "../../../tools/myFetch";
+import { IArtist } from "../../../interfaces/home/artist";
+import SocialMediaLinksForm, { SocialMediaLinks } from "../../../components/socialMediaLinks/SocialMediaLinksForm";
 
 export default function SettingsMeWrapper(): JSX.Element {
   const user: IConnectedUser = JSON.parse(localStorage.getItem("user") ?? "{}");
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "no_key_provided");
+  const [userProfile, setUserProfile] = useState<IArtist>();
   const [nbFetchsStripeAccountLink, setNbFetchsStripeAccountLink] = useState(0);
   const [nbFetchsStripeAccountAlreadyLinked, setNbFetchsStripeAccountAlreadyLinked] = useState(0);
   const [stripeAccountAlreadyLinked, setStripeAccountAlreadyLinked] = useState(false);
@@ -41,13 +44,30 @@ export default function SettingsMeWrapper(): JSX.Element {
   }
 
   useEffect(() => {
+    async function fetchUserProfileData() {
+      const response = await myFetch({ route: `/api/user/profile/${user.user.id}`, method: "GET" });
+      const artist = response.json as IArtist;
+      setUserProfile(artist);
+    }
+
     isStripeAccountAlreadyLinked();
+    fetchUserProfileData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function goToQuizz() {
-    // Redirect to the quizz page
     window.location.href = "/quizz";
+  }
+
+  async function handleSocialMediaLinksSubmit(links: SocialMediaLinks) {
+    const response = await myFetch({
+      route: `/api/user/profile/social-links`,
+      method: "POST",
+      body: JSON.stringify(links),
+    });
+    if (response.ok) {
+      setUserProfile(response.json as IArtist);
+    }
   }
 
   const numberOfElements = Object.keys(user).length;
@@ -68,29 +88,46 @@ export default function SettingsMeWrapper(): JSX.Element {
         nbFetchs={nbFetchsStripeAccountAlreadyLinked}
         handleOk={handleStipeAccountAlreadyLinked}
       />
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-14">
         <TitledLabel title="Adresse mail" text={user.user.email} underline />
         <div className="flex flex-col gap-4">
           <TitledLabel
+            title="Réseaux sociaux"
+            text="Ajoutez les liens vers vos réseaux sociaux pour plus de visibilité."
+          />
+            <SocialMediaLinksForm initialLinks={userProfile?.socialMediaLinks} onSubmit={handleSocialMediaLinksSubmit} />
+        </div>
+        <div className="flex flex-col gap-4">
+          <TitledLabel
             title="Compte Stripe"
-            text={stripeAccountAlreadyLinked ? "Compte stripe connecté" : "Vous n'avez pas de compte stripe connecté."}
+            text={
+              stripeAccountAlreadyLinked
+                ? "Un compte Stripe est connecté à votre compte Leon'Art, vous pouvez désormais vendre vos oeuvres d'arts."
+                : "Aucun compte Stripe n'est connecté à votre compte Leon'Art, vous ne pouvez pas vendre vos oeuvres d'arts pour l'instant."
+            }
           />
           {!stripeAccountAlreadyLinked && (
-            <Button color="primary" type="button" onClick={getStripeAccountLink} className="w-fit">
-              Créer ou connecter un compte Stripe
-            </Button>
+            <a
+              onClick={getStripeAccountLink}
+              className="text-lg italic px-4 text-secondary-tertiary font-normal hover:underline underline-offset-4 cursor-pointer"
+            >
+              Cliquez ici pour créer ou connecter un compte Stripe.
+            </a>
           )}
         </div>
         <div className="flex flex-col gap-4">
           <TitledLabel title="Type de compte" text={user.user.subscription} capitalize />
           {user.user.subscription === "standard" && (
-            <div className="flex flex-col gap-2">
-              <div className="font-semibold text-xs text-tertiary">
-                Vous êtes un utilisateur sans type pour l&apos;instant
+            <div className="flex flex-col gap-2 px-4">
+              <div className="font-normal text-lg text-tertiary">
+                Vous êtes un utilisateur sans type pour l&apos;instant.
               </div>
-              <Button color="primary" type="button" className="w-fit" onClick={goToQuizz}>
-                Passer le quizz
-              </Button>
+              <a
+                onClick={goToQuizz}
+                className="text-lg italic text-secondary-tertiary font-normal hover:underline underline-offset-4 cursor-pointer"
+              >
+                Cliquez ici pour passer le quizz.
+              </a>
             </div>
           )}
         </div>
