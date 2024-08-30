@@ -8,7 +8,7 @@ export default function Page() {
       <MapProvider>
         <Map />
       </MapProvider>
-      <ShareLocalisation className="self-center" />
+      <ShareLocalisation color="primary" className="self-center" />
     </div>
   );
 }

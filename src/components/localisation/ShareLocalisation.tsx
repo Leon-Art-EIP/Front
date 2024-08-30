@@ -3,9 +3,11 @@
 import { useState } from "react";
 import Fetcher from "../fetch/Fetcher";
 import { Button } from "../lib";
+import { ButtonColor } from "../lib/Button/Button";
 
 interface IShareLocalisationProps {
   className?: string;
+  color: ButtonColor;
 }
 
 export default function ShareLocalisation(props: IShareLocalisationProps): JSX.Element {
@@ -34,7 +36,7 @@ export default function ShareLocalisation(props: IShareLocalisationProps): JSX.E
         successStr="Position mise à jour"
         setIsLoading={setIsLoading}
       />
-      <Button type="button" color="primary" className={props.className} onClick={onClick} disabled={isLoading}>
+      <Button type="button" color={props.color} className={props.className} onClick={onClick} disabled={isLoading}>
         Partager ma localisation
       </Button>
     </>

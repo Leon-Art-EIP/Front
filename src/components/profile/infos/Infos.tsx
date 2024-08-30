@@ -122,7 +122,7 @@ export default function Infos(props: IInfosProps): JSX.Element {
             >
               Nouvelle publication
             </LinkButton>
-            <ShareLocalisation />
+            <ShareLocalisation color="secondary" />
           </>
         )}
         {isFollowerModalOpen && (
