@@ -47,8 +47,8 @@ export default function InfosButtonsWrapper({ link: Link, ...props }: IInfosButt
         route="/api/conversations/create"
         method="PUT"
         body={JSON.stringify({
-          UserOneId: props.connectedUserId,
-          UserTwoId: props.id,
+          UserOneId: props.id,
+          UserTwoId: props.connectedUserId,
         })}
         handleOk={handleOkCreateConversations}
         nbFetchs={nbFetchsCreateConversations}
