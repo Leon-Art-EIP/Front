@@ -92,14 +92,14 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
       socketRef.current.emit("send-msg", {
         to: to,
         from: currentUser?.user.id,
-        convId: currentChat.id,
+        convId: currentChat._id,
         msg: message,
       });
       await myFetch({
         route: "/api/chats/messages/new",
         method: "POST",
         body: JSON.stringify({
-          convId: currentChat.id,
+          convId: currentChat._id,
           contentType: "text",
           userId: currentUser?.user.id,
           content: message,
@@ -130,7 +130,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
   function markChatAsReadIfOpened() {
     if (currentChat) {
       const updatedChats = chats.map((chat) => {
-        if (chat.id === currentChat.id) {
+        if (chat._id === currentChat._id) {
           return { ...chat, unreadMessages: false };
         }
         return chat;
@@ -142,7 +142,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   async function fetchMessages() {
     if (currentChat) {
-      const res = await myFetch({ route: `/api/chats/messages/${currentChat.id}`, method: "GET" });
+      const res = await myFetch({ route: `/api/chats/messages/${currentChat._id}`, method: "GET" });
       if (res.ok) {
         const data = res.json;
         setMessages(data.messages);

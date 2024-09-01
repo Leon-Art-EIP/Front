@@ -16,7 +16,7 @@ export default function DeletePostModal(props: IDeletePostModalProps): JSX.Eleme
 
   return (
     <Modal isOpen handleClose={props.handleClose}>
-      <div className="flex flex-col gap-4 p-4 rounded-2xl bg-white max-w-3xl">
+      <div className="flex flex-col gap-4 p-4 rounded-2xl bg-background max-w-3xl">
         <h2>Voulez-vous vraiment supprimer ce post ?</h2>
         <div className="flex gap-8 justify-center">
           <Button type="button" color="secondary" onClick={onCancel}>
