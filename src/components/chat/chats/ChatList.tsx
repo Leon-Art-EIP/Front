@@ -30,7 +30,7 @@ export default function ChatList(): JSX.Element {
         <div className="grid grid-cols-1 gap-3">
           {filteredChats.map((chat, index) => (
             <ChatUserCard
-              key={chat.id}
+              key={chat._id}
               chat={chat}
               currentUser={currentUser}
               handleSelectChat={handleSelectChat}
