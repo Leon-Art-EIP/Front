@@ -8,6 +8,7 @@ import InfosButtonsWrapper from "../../../wrappers/profile/InfosButtonsWrapper";
 import LinkButton from "../../lib/Button/LinkButton";
 import { FollowerCard } from "./FollowerCard";
 import { Star } from "@mui/icons-material";
+import SocialMediaLinks from "../../../wrappers/profile/SocialMediaLinks";
 
 export interface IInfosProps {
   availability: "available" | "unavailable";
@@ -22,6 +23,12 @@ export interface IInfosProps {
   id: string;
   connectedUserId: string;
   link: ElementType<{ children: JSX.Element; href: string }>;
+  socialMediaLinks?: {
+    facebook?: string;
+    instagram?: string;
+    twitter?: string;
+    tiktok?: string;
+  };
 }
 
 /* c8 ignore start */
@@ -101,11 +108,20 @@ export default function Infos(props: IInfosProps): JSX.Element {
           />
         )}
         <AvailableForCommandsButton isAvailable={props.availability === "available"} disabled={!props.myProfile} />
-        <div className="h-0.5 w-full bg-gray-400 rounded" />
+        <SocialMediaLinks socialMediaLinks={props.socialMediaLinks} />
         {props.myProfile && (
-          <LinkButton link={props.link} href={`/single/new`} color="danger" type="button" className="w-fit self-center">
-            Nouvelle publication
-          </LinkButton>
+          <>
+            <div className="h-0.5 w-full bg-gray-400 rounded" />
+            <LinkButton
+              link={props.link}
+              href={`/single/new`}
+              color="danger"
+              type="button"
+              className="w-fit self-center"
+            >
+              Nouvelle publication
+            </LinkButton>
+          </>
         )}
         {isFollowerModalOpen && (
           <div className="fixed inset-0 z-10 overflow-y-auto">
