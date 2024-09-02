@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import React, { useEffect } from "react";
+import { useForm, FormProvider } from "react-hook-form";
 import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 
 export interface SocialMediaLinks {
@@ -20,9 +20,16 @@ const TikTokIcon = ({ color = "#000000" }) => {
 interface SocialMediaLinksFormProps {
   initialLinks: SocialMediaLinks | undefined;
   onSubmit: (links: SocialMediaLinks) => void;
+  successMessage?: string;
+  errorMessage?: string;
 }
 
-const SocialMediaLinksForm: React.FC<SocialMediaLinksFormProps> = ({ initialLinks, onSubmit }) => {
+const SocialMediaLinksForm: React.FC<SocialMediaLinksFormProps> = ({
+  initialLinks,
+  onSubmit,
+  successMessage,
+  errorMessage,
+}) => {
   const methods = useForm<SocialMediaLinks>({
     defaultValues: initialLinks,
   });
@@ -77,12 +84,16 @@ const SocialMediaLinksForm: React.FC<SocialMediaLinksFormProps> = ({ initialLink
             placeholder="Entrez le lien vers votre compte TikTok"
           />
         </div>
-        <button
-          type="submit"
-          className="inline-flex justify-center py-2 px-4 ml-14 border border-transparent w-fit shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primaryHover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-        >
-          Sauvegarder les liens
-        </button>
+        <div className="flex gap-4 items-center">
+          <button
+            type="submit"
+            className="inline-flex justify-center py-2 px-4 ml-14 border border-transparent w-fit shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primaryHover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+          >
+            Sauvegarder les liens
+          </button>
+          {successMessage && <span className="text-md text-green-500">{successMessage}</span>}
+          {errorMessage && <span className="text-md text-red-500">{errorMessage}</span>}
+        </div>
       </form>
     </FormProvider>
   );

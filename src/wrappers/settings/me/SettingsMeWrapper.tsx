@@ -15,8 +15,9 @@ export default function SettingsMeWrapper(): JSX.Element {
   const user: IConnectedUser = JSON.parse(localStorage.getItem("user") ?? "{}");
   const [userProfile, setUserProfile] = useState<IArtist>();
   const [nbFetchsStripeAccountLink, setNbFetchsStripeAccountLink] = useState(0);
-  const [nbFetchsStripeAccountAlreadyLinked, setNbFetchsStripeAccountAlreadyLinked] = useState(0);
   const [stripeAccountAlreadyLinked, setStripeAccountAlreadyLinked] = useState(false);
+  const [socialMediaLinkUpdatedSuccessfully, setSocialMediaLinkUpdatedSuccessfully] = useState<string>();
+  const [socialMediaLinkUpdateFailed, setSocialMediaLinkUpdateFailed] = useState<string>();
 
   function getStripeAccountLink() {
     setNbFetchsStripeAccountLink(nbFetchsStripeAccountLink + 1);
@@ -31,18 +32,6 @@ export default function SettingsMeWrapper(): JSX.Element {
     }
   }
 
-  function handleStipeAccountAlreadyLinked(json: any) {
-    const data = json;
-
-    if (data.linked) {
-      setStripeAccountAlreadyLinked(data.linked);
-    }
-  }
-
-  function isStripeAccountAlreadyLinked() {
-    setNbFetchsStripeAccountAlreadyLinked(nbFetchsStripeAccountAlreadyLinked + 1);
-  }
-
   useEffect(() => {
     async function fetchUserProfileData() {
       const response = await myFetch({ route: `/api/user/profile/${user.user.id}`, method: "GET" });
@@ -50,8 +39,17 @@ export default function SettingsMeWrapper(): JSX.Element {
       setUserProfile(artist);
     }
 
-    isStripeAccountAlreadyLinked();
+    async function fetchStripeAccountLinked() {
+      const response = await myFetch({ route: "/api/stripe/account-link-status", method: "GET" });
+      const data = response.json;
+      console.log(response)
+      if (data && data.linked) {
+        setStripeAccountAlreadyLinked(data.linked);
+      }
+    }
+
     fetchUserProfileData();
+    fetchStripeAccountLinked();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -67,6 +65,11 @@ export default function SettingsMeWrapper(): JSX.Element {
     });
     if (response.ok) {
       setUserProfile(response.json as IArtist);
+      setSocialMediaLinkUpdatedSuccessfully("Vos liens ont été mis à jour avec succès.");
+      setSocialMediaLinkUpdateFailed(undefined);
+    } else {
+      setSocialMediaLinkUpdateFailed("Une erreur est survenue lors de la mise à jour de vos liens.");
+      setSocialMediaLinkUpdatedSuccessfully(undefined);
     }
   }
 
@@ -82,20 +85,19 @@ export default function SettingsMeWrapper(): JSX.Element {
         nbFetchs={nbFetchsStripeAccountLink}
         handleOk={handleCreateStipeAccount}
       />
-      <Fetcher
-        route={"/api/stripe/account-link-status"}
-        method="GET"
-        nbFetchs={nbFetchsStripeAccountAlreadyLinked}
-        handleOk={handleStipeAccountAlreadyLinked}
-      />
       <div className="flex flex-col gap-14">
-        <TitledLabel title="Adresse mail" text={user.user.email} underline />
+        <TitledLabel title="Adresse mail" text={user.user.email} />
         <div className="flex flex-col gap-4">
           <TitledLabel
             title="Réseaux sociaux"
             text="Ajoutez les liens vers vos réseaux sociaux pour plus de visibilité."
           />
-            <SocialMediaLinksForm initialLinks={userProfile?.socialMediaLinks} onSubmit={handleSocialMediaLinksSubmit} />
+          <SocialMediaLinksForm
+            initialLinks={userProfile?.socialMediaLinks}
+            onSubmit={handleSocialMediaLinksSubmit}
+            successMessage={socialMediaLinkUpdatedSuccessfully}
+            errorMessage={socialMediaLinkUpdateFailed}
+          />
         </div>
         <div className="flex flex-col gap-4">
           <TitledLabel
