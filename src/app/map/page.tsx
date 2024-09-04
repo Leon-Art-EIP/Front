@@ -1,14 +1,11 @@
-import ShareLocalisation from "../../components/localisation/ShareLocalisation";
-import Map from "../../components/map/Map";
-import MapProvider from "../../providers/MapProvider";
+import MapWrapper, { ICoords } from "../../wrappers/map/MapWrapper";
 
-export default function Page() {
-  return (
-    <div className="flex flex-col gap-4">
-      <MapProvider>
-        <Map />
-      </MapProvider>
-      <ShareLocalisation color="primary" className="self-center" />
-    </div>
-  );
+export default function Page({ searchParams }: { searchParams?: ICoords }) {
+  let coords: ICoords | undefined;
+
+  if (searchParams && searchParams.latitude && searchParams.longitude) {
+    coords = searchParams;
+  }
+
+  return <MapWrapper coords={coords} />;
 }

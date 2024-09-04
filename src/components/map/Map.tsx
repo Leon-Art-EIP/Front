@@ -28,13 +28,18 @@ const defaultMapOptions: google.maps.MapOptions = {
   mapTypeId: "roadmap",
 };
 
-export default function Map() {
+interface IMapProps {
+  mapCenter?: google.maps.LatLngLiteral;
+  mapZoom?: number;
+}
+
+export default function Map(props: IMapProps): JSX.Element {
   return (
     <div className="w-full">
       <GoogleMap
         mapContainerStyle={defaultMapContainerStyle}
-        center={defaultMapCenter}
-        zoom={defaultMapZoom}
+        center={props.mapCenter ?? defaultMapCenter}
+        zoom={props.mapZoom ?? defaultMapZoom}
         options={defaultMapOptions}
       ></GoogleMap>
     </div>

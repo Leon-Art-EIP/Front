@@ -154,6 +154,14 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       isForSale={artPublication.isForSale}
       isSold={artPublication.isSold}
       onAddNewCollection={onAddNewCollection}
+      artistCoords={
+        artist.location
+          ? {
+              latitude: artist.location.coordinates[0],
+              longitude: artist.location.coordinates[1],
+            }
+          : undefined
+      }
     />
   );
 }

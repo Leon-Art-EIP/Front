@@ -15,7 +15,7 @@ export interface IProfileUser extends IUser {
     facebook?: string;
     tiktok?: string;
   };
-  location: {
+  location?: {
     type: "Point";
     coordinates: [string, string];
   };

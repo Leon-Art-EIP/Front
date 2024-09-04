@@ -5,7 +5,7 @@ interface IconButtonProps {
   text?: string;
   icon: React.ComponentType<SvgIconProps>;
   backgroundColor: string;
-  onClick(): void;
+  onClick?(): void;
   iconColor: string; // Ajoutez une nouvelle propriété pour la couleur de l'icône
   id?: string;
   className?: string;

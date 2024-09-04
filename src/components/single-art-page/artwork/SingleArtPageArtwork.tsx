@@ -1,4 +1,4 @@
-import { BookmarkBorder, DeleteOutline, Favorite, FavoriteBorder, Share } from "@mui/icons-material";
+import { BookmarkBorder, DeleteOutline, Favorite, FavoriteBorder, Map, Share } from "@mui/icons-material";
 import { ElementType, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
@@ -8,6 +8,7 @@ import { imageApi } from "../../../tools/variables";
 import { Button, Modal } from "../../lib";
 import IconButton from "./IconButton";
 import ShareModal from "./ShareModal";
+import { ICoords } from "../../../wrappers/map/MapWrapper";
 
 interface ISingleArtPageArtworkProps {
   art: string;
@@ -15,6 +16,7 @@ interface ISingleArtPageArtworkProps {
   profile: string;
   artisteName: string;
   artistId: string;
+  artistCoords: ICoords | undefined;
   connectedUserId: string;
   title: string;
   liked: boolean;
@@ -106,6 +108,17 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
         <div className="flex">
           <div className="text-tertiary flex flex-1 font-bold text-3xl">{props.title}</div>
           <div className="inline-flex gap-4 items-center">
+            {props.artistCoords && (
+              <Link href={`/map?latitude=${props.artistCoords.latitude}&longitude=${props.artistCoords.longitude}`}>
+                <IconButton
+                  id="localisation-button"
+                  icon={Map}
+                  backgroundColor="bg-background-hl"
+                  iconColor="text-tertiary"
+                  className="flex gap-4 px-6 py-2.5"
+                />
+              </Link>
+            )}
             <IconButton
               id="share-button"
               icon={Share}
