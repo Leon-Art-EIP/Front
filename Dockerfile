@@ -1,5 +1,5 @@
 # Stage 1: Dependencies
-FROM node:alpine AS dependencies
+FROM node:20-alpine AS dependencies
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -7,7 +7,7 @@ RUN yarn install --production=true --frozen-lockfile --omit=dev
 RUN yarn add @types/zxcvbn
 
 # Stage 2: Build
-FROM node:alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ COPY . .
 RUN NODE_ENV=production yarn build
 
 # Stage final
-FROM node:alpine as runner
+FROM node:20-alpine as runner
 
 WORKDIR /app
 
@@ -37,9 +37,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 USER 1001
 
-EXPOSE 3000
+EXPOSE 3001
 
-ENV PORT 3000
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV PORT 3001
 
 CMD ["node", "server.js"]
