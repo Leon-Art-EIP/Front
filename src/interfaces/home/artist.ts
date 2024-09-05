@@ -14,4 +14,10 @@ export interface IArtist {
   profilePicture: string;
   bannerPicture: string;
   biography?: string;
+  socialMediaLinks?: {
+    facebook?: string;
+    instagram?: string;
+    twitter?: string;
+    tiktok?: string;
+  };
 }

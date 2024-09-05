@@ -239,6 +239,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             id={props.id}
             connectedUserId={user.user.id}
             link={Link}
+            socialMediaLinks={artist.socialMediaLinks}
           />
         </div>
       </div>
