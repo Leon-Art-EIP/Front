@@ -31,13 +31,17 @@ export default function Button(props: IButtonProps): JSX.Element {
       id={props.id}
       name={props.name}
       type={props.type}
-      className={`rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 ${colorClasses[props.color]} ${
-        props.className
-      }`}
+      className={`rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center ${
+        colorClasses[props.color]
+      } ${props.className}`}
       onClick={props.onClick}
-      disabled={props.disabled}
+      disabled={props.disabled || props.loading}
     >
-      {props.loading ? <CircularProgress size={20} thickness={4} color="primary" /> : props.children}
+      {props.loading ? (
+        <CircularProgress size={20} thickness={4} className={colorClasses[props.color]} />
+      ) : (
+        props.children
+      )}
     </button>
   );
 }
