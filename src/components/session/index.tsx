@@ -66,6 +66,7 @@ export default function Session(props: ISessionProps): JSX.Element | null {
         setUser(null);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, searchParams, fcmToken]);
 
   useEffect(() => {

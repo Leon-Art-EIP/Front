@@ -213,7 +213,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
             {props.orderType === "sell" && selectedOrder.orderState === "completed" && (
               <div className="flex flex-col items-center justify-center gap-4">
                 <span className="text-2xl font-semibold text-center">Évaluation</span>
-                <span className="text-lg">L'acheteur a évalué cette commande avec la note de</span>
+                <span className="text-lg">L{"'"}acheteur a évalué cette commande avec la note de</span>
                 <span className="flex items-center text-3xl">
                   {selectedOrder.orderRating} <StarRateRoundedIcon className="text-4xl" />
                 </span>
