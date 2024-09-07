@@ -81,7 +81,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
         <img
           src={`${imageApi}/${props.art}`}
           alt={props.title}
-          className="w-full cursor-zoom-in"
+          className="w-full cursor-zoom-in rounded-2xl"
           onClick={onOpenLightbox}
         />
         <Lightbox

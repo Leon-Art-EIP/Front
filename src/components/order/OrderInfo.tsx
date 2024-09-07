@@ -81,7 +81,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
               <img
                 src={`${NEXT_PUBLIC_BACKEND_URL}/api/${selectedOrder.artPublicationImage}`}
                 alt="order"
-                className="w-full cursor-zoom-in"
+                className=" rounded-2xl"
               />
               <Button color="primary" type="button" onClick={onGoToChat} className="absolute top-[105%] w-full">
                 Aller à la conversation
