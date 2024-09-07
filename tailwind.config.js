@@ -4,8 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)'],
-        syne: ['var(--font-syne)'],
+        sans: ["var(--font-inter)"],
+        syne: ["var(--font-syne)"],
       },
       backgroundColor: ["focus"],
       colors: {
@@ -66,6 +66,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
   safelist: ["bg-primary", "bg-secondary"],
 };

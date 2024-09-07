@@ -206,13 +206,13 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   if (!artist || loading) return <LoadingPage />;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full">
       <ProfileComponent
         profilePicture={`${imageApi}/${artist.profilePicture}`}
         banner={artist.bannerPicture.includes("default") ? banner : `${imageApi}/${artist.bannerPicture}`}
       />
-      <div className="flex lg:flex-row flex-col-reverse bg-background">
-        <div className="flex-1 flex flex-col gap-2 p-4">
+      <div className="flex lg:flex-row flex-col-reverse bg-background h-full">
+        <div className="flex-1 flex flex-col gap-2 p-4 h-full">
           <TabsWrapper
             aboutTitle="Bienvenue dans mon espace créatif"
             aboutDescription={artist.biography}
@@ -243,7 +243,6 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
           />
         </div>
       </div>
-      <footer></footer>
     </div>
   );
 }
