@@ -1,62 +1,70 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Pictures from "./Pictures";
+import { myFetch } from "../../tools/myFetch";
 
 export interface IGalleryProps {
   redirectUrl: string;
   redirectText: string;
 }
 
+const NEXT_PUBLIC_IMAGE_GENERATOR_ACCESS_KEY = process.env.NEXT_PUBLIC_IMAGE_GENERATOR_ACCESS_KEY;
+const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 function Gallery(props: IGalleryProps | { title?: boolean }) {
   const [pictures, setPictures] = useState<string[]>([]);
 
-  React.useEffect(() => {
-    const seedData = [
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://media.cdnws.com/_i/119489/433/3867/37/jm-arthot-newlessables-044-liberte-time-workofart-frame.jpeg ",
-      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://media.cdnws.com/_i/119489/433/3867/37/jm-arthot-newlessables-044-liberte-time-workofart-frame.jpeg ",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://media.cdnws.com/_i/119489/433/3867/37/jm-arthot-newlessables-044-liberte-time-workofart-frame.jpeg ",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://media.cdnws.com/_i/119489/433/3867/37/jm-arthot-newlessables-044-liberte-time-workofart-frame.jpeg ",
-      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://media.cdnws.com/_i/119489/433/3867/37/jm-arthot-newlessables-044-liberte-time-workofart-frame.jpeg ",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://media.cdnws.com/_i/119489/433/3867/37/jm-arthot-newlessables-044-liberte-time-workofart-frame.jpeg ",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-      "https://1.bp.blogspot.com/-ekTejpwv2NU/VNPK7wucUlI/AAAAAAAADbs/-ytw6gg_yGUuU04nLn6tp5Ljvud-lWBrACKgB/s1600/FullSizeRender_1.jpg",
-      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
-      "https://tds-images.thedailystar.net/sites/default/files/styles/amp_metadata_content_image_min_696px_wide/public/images/2022/10/14/ai_art_generator.png?itok=kgyM3PUE",
-    ];
-    setPictures(seedData);
+  async function fetchBackendImages(): Promise<string[]> {
+    try {
+      const response = await myFetch({
+        route: `/api/art-publication/images`,
+        method: "GET",
+      });
+
+      if (response.ok) {
+        const images = await response.json;
+        return images.map((img: string) => `${NEXT_PUBLIC_BACKEND_URL}/api/${img}`);
+      } else {
+        console.error("Erreur lors de la récupération des images du backend");
+        return [];
+      }
+    } catch (error) {
+      console.error("Erreur lors de la récupération des images du backend", error);
+      return [];
+    }
+  }
+
+  async function fetchUnsplashImages(): Promise<string[]> {
+    try {
+      const response = await fetch(`https://api.unsplash.com/photos/random?count=30&client_id=${NEXT_PUBLIC_IMAGE_GENERATOR_ACCESS_KEY}`);
+
+      if (response.ok) {
+        const unsplashData = await response.json();
+        return unsplashData.map((img: any) => img.urls.small);
+      } else {
+        console.error("Erreur lors de la récupération des images Unsplash");
+        return [];
+      }
+    } catch (error) {
+      console.error("Erreur lors de la récupération des images Unsplash", error);
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    async function loadImages() {
+      const backendImages = await fetchBackendImages();
+
+      if (backendImages.length < 20) {
+        const unsplashImages = await fetchUnsplashImages();
+        setPictures([...backendImages, ...unsplashImages.slice(0, 20 - backendImages.length)]); // Limite à 20 images au total
+      } else {
+        setPictures(backendImages);
+      }
+    }
+
+    loadImages();
   }, []);
 
   return (
