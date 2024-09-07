@@ -14,4 +14,5 @@ export interface IOrder {
   artPublicationDescription: string; // Description de la publication d'art
   artPublicationPrice: number; // Prix de la publication d'art
   artPublicationImage: string; // URL de l'image de la publication d'art
+  orderRating: number; // Évaluation de la commande 1 à 5 (si 0, alors l'order n'a pas été évaluée)
 }

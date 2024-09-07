@@ -1,7 +1,9 @@
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useOrder } from "../../contexts/OrderContext";
 import Button from "../lib/Button/Button";
+import { OrderRating } from "./OrderRating";
+import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 
 export interface OrderInfoProps {
   orderType: "sell" | "buy";
@@ -23,6 +25,8 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
     handleCancelOrder,
     handleConfirmSend,
   } = useOrder();
+
+  const [rating, setRating] = useState<number>(0);
 
   useEffect(() => {
     if (selectedOrderId) {
@@ -65,7 +69,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
   }
 
   async function onConfirmSend() {
-    handleConfirmSend(props.orderType);
+    if (rating > 0 && rating <= 5) handleConfirmSend(props.orderType, rating);
   }
 
   return (
@@ -183,9 +187,36 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
               </Button>
             )}
             {props.orderType === "buy" && selectedOrder.orderState === "shipping" && (
-              <Button color="primary" type="button" className="w-full" onClick={onConfirmSend}>
-                Confirmer la réception de la commande
-              </Button>
+              <>
+                <OrderRating rating={rating} setRating={setRating} />
+                <Button
+                  color="primary"
+                  type="button"
+                  className="w-full"
+                  onClick={onConfirmSend}
+                  disabled={rating === 0}
+                >
+                  Confirmer la réception de la commande
+                </Button>
+              </>
+            )}
+            {props.orderType === "buy" && selectedOrder.orderState === "completed" && (
+              <div className="flex flex-col items-center justify-center gap-4">
+                <span className="text-2xl font-semibold text-center">Évaluation</span>
+                <span className="text-lg">Vous avez évalué cette commande avec la note de</span>
+                <span className="flex items-center text-3xl">
+                  {selectedOrder.orderRating} <StarRateRoundedIcon className="text-4xl" />
+                </span>
+              </div>
+            )}
+            {props.orderType === "sell" && selectedOrder.orderState === "completed" && (
+              <div className="flex flex-col items-center justify-center gap-4">
+                <span className="text-2xl font-semibold text-center">Évaluation</span>
+                <span className="text-lg">L{"'"}acheteur a évalué cette commande avec la note de</span>
+                <span className="flex items-center text-3xl">
+                  {selectedOrder.orderRating} <StarRateRoundedIcon className="text-4xl" />
+                </span>
+              </div>
             )}
           </div>
         </div>

@@ -99,7 +99,7 @@ export default function Notifications() {
         return <PaidIcon className="w-8 green-color" />;
       case "order_processing":
         return <AutorenewIcon className="w-8 blue-color" />;
-      case "order_cancelled_seller" || "order_cancelled_buyer":
+      case "order_cancelled" || "order_cancelled_buyer":
         return <CancelIcon className="w-8 fill-primary" />;
       case "order_completed":
         return <CheckCircleIcon className="w-8 green-color" />;
@@ -122,10 +122,8 @@ export default function Notifications() {
         return "Une personne viens d'acheter une de vos oeuvres !";
       case "order_processing":
         return "Votre payment a bien été reçu, le vendeur va traiter votre commande";
-      case "order_cancelled_seller":
+      case "order_cancelled":
         return "Une de vos commandes a été annulée";
-      case "order_cancelled_buyer":
-        return "Vous avez annulé une commande";
       case "order_completed":
         return "Une de vos commandes a été complétée";
       case "order_shipping":
