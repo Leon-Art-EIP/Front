@@ -5,7 +5,7 @@ we need to make this component client rendered as well else error occurs
 "use client";
 
 //Map component Component from library
-import { GoogleMap } from "@react-google-maps/api";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 
 //Map's styling
 const defaultMapContainerStyle = {
@@ -31,9 +31,14 @@ const defaultMapOptions: google.maps.MapOptions = {
 interface IMapProps {
   mapCenter?: google.maps.LatLngLiteral;
   mapZoom?: number;
+  markerCoords?: google.maps.LatLngLiteral;
 }
 
 export default function Map(props: IMapProps): JSX.Element {
+  const onClickMarker = () => {
+    console.log("Marker clicked");
+  };
+
   return (
     <div className="w-full">
       <GoogleMap
@@ -41,7 +46,9 @@ export default function Map(props: IMapProps): JSX.Element {
         center={props.mapCenter ?? defaultMapCenter}
         zoom={props.mapZoom ?? defaultMapZoom}
         options={defaultMapOptions}
-      ></GoogleMap>
+      >
+        {props.markerCoords && <MarkerF position={props.markerCoords} onClick={onClickMarker} />}
+      </GoogleMap>
     </div>
   );
 }

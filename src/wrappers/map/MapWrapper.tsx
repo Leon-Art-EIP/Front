@@ -29,8 +29,8 @@ async function fetchUserCoords(userId: string, setUserCoords: Dispatch<SetStateA
 
     if (user.location && user.location.coordinates.length == 2) {
       setUserCoords({
-        latitude: user.location.coordinates[0],
-        longitude: user.location.coordinates[1],
+        latitude: user.location.coordinates[1],
+        longitude: user.location.coordinates[0],
       });
     } else {
       setUserCoords(null);
@@ -69,12 +69,27 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
       }
     : undefined;
 
+  const markerCoords = userCoords
+    ? {
+        lat: parseFloat(userCoords.latitude),
+        lng: parseFloat(userCoords.longitude),
+      }
+    : undefined;
+
+  const onRefreshCoords = (position: ICoords) => {
+    setUserCoords(position);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <MapProvider>
-        <Map mapCenter={mapCenter} />
+        <Map mapCenter={mapCenter} markerCoords={markerCoords} />
       </MapProvider>
-      {!userCoords && <ShareLocalisation color="primary" className="self-center" />}
+      {userCoords ? (
+        <ShareLocalisation color="primary" className="self-center" refresh onRefreshCoords={onRefreshCoords} />
+      ) : (
+        <ShareLocalisation color="primary" className="self-center" onRefreshCoords={onRefreshCoords} />
+      )}
     </div>
   );
 }

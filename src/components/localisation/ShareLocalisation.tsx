@@ -4,10 +4,13 @@ import { useState } from "react";
 import Fetcher from "../fetch/Fetcher";
 import { Button } from "../lib";
 import { ButtonColor } from "../lib/Button/Button";
+import { ICoords } from "../../wrappers/map/MapWrapper";
 
 interface IShareLocalisationProps {
   className?: string;
   color: ButtonColor;
+  refresh?: boolean;
+  onRefreshCoords?: (position: ICoords) => void;
 }
 
 export default function ShareLocalisation(props: IShareLocalisationProps): JSX.Element {
@@ -19,10 +22,16 @@ export default function ShareLocalisation(props: IShareLocalisationProps): JSX.E
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
 
-      const userPosition = { latitude, longitude };
+      const userPosition = { longitude, latitude };
 
       setBody(JSON.stringify(userPosition));
       setNbFetchs(nbFetchs + 1);
+      if (props.onRefreshCoords) {
+        props.onRefreshCoords({
+          latitude: userPosition.latitude.toString(),
+          longitude: userPosition.longitude.toString(),
+        });
+      }
     });
   };
 
@@ -37,7 +46,7 @@ export default function ShareLocalisation(props: IShareLocalisationProps): JSX.E
         setIsLoading={setIsLoading}
       />
       <Button type="button" color={props.color} className={props.className} onClick={onClick} disabled={isLoading}>
-        Partager ma localisation
+        {props.refresh ? "Rafraîchir" : "Partager"} ma localisation
       </Button>
     </>
   );
