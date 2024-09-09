@@ -142,3 +142,5 @@ export const errors: Record<TErrorMessages, string> = {
   "Incorrect current password": "Mot de passe actuel incorrect",
   "New password is too weak": "Le nouveau mot de passe est trop faible",
 };
+
+export const RADIUS_MAP = 100; // 100 km autour du user
