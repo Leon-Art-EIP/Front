@@ -25,7 +25,7 @@ async function fetchLocatedMapUsers(
 ) {
   const response = await myFetch({
     method: "GET",
-    route: "/api/map/nearby-art",
+    route: `/api/map/nearby-art?latitude=${userPosition.latitude}&longitude=${userPosition.longitude}&radius=100`,
   });
 
   if (response.ok) {
@@ -94,13 +94,16 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
 
     if (local) {
       const localUser = JSON.parse(local) as IConnectedUser;
-      fetchUserCoords(localUser.user.id, setUserCoords).then(() => {
-        if (userCoords) {
-          fetchLocatedMapUsers(userCoords, setLocatedMapUsers);
-        }
-      });
+      fetchUserCoords(localUser.user.id, setUserCoords);
     } else {
       setUserCoords(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (userCoords) {
+      fetchLocatedMapUsers(userCoords, setLocatedMapUsers);
     }
   }, [userCoords]);
 
@@ -128,7 +131,6 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
 
   const onRefreshCoords = (position: ICoords) => {
     setUserCoords(position);
-    fetchLocatedMapUsers(position, setLocatedMapUsers);
   };
 
   return (

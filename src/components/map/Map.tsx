@@ -1,13 +1,8 @@
-/* 
-Since the map was loaded on client side, 
-we need to make this component client rendered as well else error occurs
-*/
-"use client";
-
-//Map component Component from library
-import { GoogleMap, InfoWindow, MarkerF } from "@react-google-maps/api";
-import { nancyPosition1, nancyPosition6, nancyPositionsList } from "../../tools/positions";
+import { useState, useRef } from "react";
+import { GoogleMap, InfoWindow, InfoWindowF, MarkerF } from "@react-google-maps/api";
+import Link from "next/link";
 import { ILocatedMapUser } from "../../interfaces/map";
+import { imageApi } from "../../tools/variables";
 
 //Map's styling
 const defaultMapContainerStyle = {
@@ -37,8 +32,31 @@ interface IMapProps {
 }
 
 export default function Map(props: IMapProps): JSX.Element {
-  const onClickMarker = () => {
-    console.log("Marker clicked");
+  const [activeUserId, setActiveUserId] = useState<string | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const onMarkerHover = (userId: string) => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    setActiveUserId(userId);
+  };
+
+  const onMarkerLeave = () => {
+    // Définir un délai avant de cacher l'InfoWindow
+    timerRef.current = setTimeout(() => {
+      setActiveUserId(null);
+    }, 300);
+  };
+
+  const onInfoWindowEnter = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+  };
+
+  const onInfoWindowLeave = () => {
+    setActiveUserId(null);
   };
 
   return (
@@ -49,14 +67,40 @@ export default function Map(props: IMapProps): JSX.Element {
         zoom={props.mapZoom ?? defaultMapZoom}
         options={defaultMapOptions}
       >
-        {props.locatedMapUsers.map((user) => (
-          <MarkerF key={`${user.username}-${user._id}`} position={user.position} onClick={onClickMarker} />
-        ))}
-        <InfoWindow position={nancyPosition6}>
-          <div className="rounded-full">
-            <h1>InfoWindow</h1>
-          </div>
-        </InfoWindow>
+        {props.locatedMapUsers.map((user) => {
+          const isActive = user._id === activeUserId;
+
+          return (
+            <MarkerF
+              key={`${user.username}-${user._id}`}
+              position={user.position}
+              onMouseOver={() => onMarkerHover(user._id)}
+              onMouseOut={onMarkerLeave} // Utilisation d'un délai pour ne pas fermer immédiatement
+            >
+              {isActive && (
+                <InfoWindowF
+                  position={user.position}
+                  onCloseClick={onInfoWindowLeave}
+                  options={{ disableAutoPan: true }}
+                >
+                  <div
+                    onMouseEnter={onInfoWindowEnter}
+                    onMouseLeave={onInfoWindowLeave} // Permet de ne pas fermer immédiatement lorsqu'on interagit avec le contenu
+                  >
+                    <Link href={`/profile/${user._id}`} className="flex flex-col w-32 h-32">
+                      <p className="font-semibold text-lg">{user.username}</p>
+                      <img
+                        alt="profilePicture"
+                        src={`${imageApi}/${user.profilePicture}`}
+                        className="object-cover overflow-hidden"
+                      />
+                    </Link>
+                  </div>
+                </InfoWindowF>
+              )}
+            </MarkerF>
+          );
+        })}
       </GoogleMap>
     </div>
   );
