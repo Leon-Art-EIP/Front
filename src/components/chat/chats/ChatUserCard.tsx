@@ -1,8 +1,10 @@
 import { IChat } from "../../../interfaces/chat/chats";
 import { IConnectedUser } from "../../../interfaces/user/user";
-import { NEXT_PUBLIC_BACKEND_URL } from "../../../tools/myFetch";
+import { myFetch, NEXT_PUBLIC_BACKEND_URL } from "../../../tools/myFetch";
 import MuteIcon from "@mui/icons-material/Notifications";
 import UnmuteIcon from "@mui/icons-material/NotificationsOff";
+import Delete from "@mui/icons-material/Delete";
+
 import { useState } from "react";
 
 export interface ChatUserCardProps {
@@ -10,6 +12,7 @@ export interface ChatUserCardProps {
   currentUser: IConnectedUser | undefined;
   currentSelected: IChat | undefined;
   handleSelectChat: (chat: IChat) => void;
+  handleDeleteChat: (chatId: string) => void;
 }
 
 export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
@@ -25,11 +28,9 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
   }
 
   function handleMuteToggle() {
-    // Toggle mute state
     setIsMuted((prev) => {
       const newMutedState = !prev;
 
-      // Update localStorage
       const mutedChats = JSON.parse(localStorage.getItem("mutedChats") || "{}");
       mutedChats[props.chat._id] = newMutedState;
       localStorage.setItem("mutedChats", JSON.stringify(mutedChats));
@@ -37,6 +38,31 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
       console.log("Mute/Unmute toggled", newMutedState);
       return newMutedState;
     });
+  }
+
+  async function handleDelete() {
+    const res = await myFetch({ route: `/api/conversations/delete/${props.chat._id}`, method: "DELETE" });
+    if (res.ok) {
+      props.handleDeleteChat(props.chat._id);
+      console.log("Chat deleted", props.chat._id);
+    } else {
+      console.log("Failed to delete chat");
+    }
+
+    // try {
+    //   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/conversations/delete/${props.chat._id}`, {
+    //     method: "DELETE",
+    //   });
+
+    //   if (!response.ok) {
+    //     throw new Error("Failed to delete chat");
+    //   }
+
+    //   props.handleDeleteChat(props.chat._id);
+    //   console.log("Chat deleted", props.chat._id);
+    // } catch (error) {
+    //   console.error("Error deleting chat:", error);
+    // }
   }
 
   return (
@@ -84,9 +110,18 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
             e.stopPropagation();
             handleMuteToggle();
           }}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 p-1 rounded-full bg-hover hidden group-hover:block"
+          className="absolute right-12 top-1/2 transform -translate-y-1/2 p-1 rounded-full bg-hover hidden group-hover:block"
         >
           {isMuted ? <UnmuteIcon /> : <MuteIcon />}
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete();
+          }}
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 p-1 rounded-full bg-hover hidden group-hover:block"
+        >
+          <Delete />
         </button>
         {props.chat._id === props.currentSelected?._id && (
           <div className="absolute right-0 top-0 w-1 h-full bg-primary" />

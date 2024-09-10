@@ -3,10 +3,11 @@ import { useChat } from "../../../contexts/ChatContext";
 import { IChat } from "../../../interfaces/chat/chats";
 import { SearchBar } from "../../searchBar/SearchBar";
 import { ChatUserCard } from "./ChatUserCard";
+import { NEXT_PUBLIC_BACKEND_URL } from "../../../tools/myFetch";
 
 export default function ChatList(): JSX.Element {
   /* c8 ignore start */
-  const { chats, currentUser, currentChat, setCurrentChat } = useChat() || {};
+  const { chats, currentUser, currentChat, setCurrentChat, refreshChats } = useChat() || {};
   const [searchTerm, setSearchTerm] = useState("");
 
   function handleSearch(search: string) {
@@ -20,6 +21,10 @@ export default function ChatList(): JSX.Element {
   const filteredChats = chats?.filter(
     (chat) => chat.UserOneName.toLowerCase().includes(searchTerm) || chat.UserTwoName.toLowerCase().includes(searchTerm)
   );
+
+  function handleDeleteChat(chatId: string) {
+    refreshChats();
+  }
 
   return (
     <div className="bg-background-hl flex flex-col h-full shadow-[2px_0_3px_0px_rgba(170,170,170)]">
@@ -35,6 +40,7 @@ export default function ChatList(): JSX.Element {
               currentUser={currentUser}
               handleSelectChat={handleSelectChat}
               currentSelected={currentChat}
+              handleDeleteChat={handleDeleteChat} // Pass the handler
             />
           ))}
         </div>
