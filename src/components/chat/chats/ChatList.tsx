@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useChat } from "../../../contexts/ChatContext";
 import { IChat } from "../../../interfaces/chat/chats";
 import { SearchBar } from "../../searchBar/SearchBar";
@@ -9,6 +9,11 @@ export default function ChatList(): JSX.Element {
   /* c8 ignore start */
   const { chats, currentUser, currentChat, setCurrentChat, refreshChats } = useChat() || {};
   const [searchTerm, setSearchTerm] = useState("");
+  const filteredChats = filterChats(searchTerm);
+
+  useEffect(() => {
+    filterChats(searchTerm);
+  }, [chats, searchTerm]);
 
   function handleSearch(search: string) {
     setSearchTerm(search.toLowerCase());
@@ -18,9 +23,17 @@ export default function ChatList(): JSX.Element {
     setCurrentChat(chat);
   }
 
-  const filteredChats = chats?.filter(
-    (chat) => chat.UserOneName.toLowerCase().includes(searchTerm) || chat.UserTwoName.toLowerCase().includes(searchTerm)
-  );
+  function filterChats(search: string) {
+    const deletedChats = JSON.parse(localStorage.getItem("deletedChats") || "{}");
+
+    const newFilteredChats = chats?.filter(
+      (chat) =>
+        (chat.UserOneName.toLowerCase().includes(search) || chat.UserTwoName.toLowerCase().includes(search)) &&
+        !deletedChats[chat._id]
+    );
+
+    return newFilteredChats || [];
+  }
 
   function handleDeleteChat(chatId: string) {
     refreshChats();

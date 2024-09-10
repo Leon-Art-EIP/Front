@@ -41,28 +41,18 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
   }
 
   async function handleDelete() {
-    const res = await myFetch({ route: `/api/conversations/delete/${props.chat._id}`, method: "DELETE" });
-    if (res.ok) {
-      props.handleDeleteChat(props.chat._id);
-      console.log("Chat deleted", props.chat._id);
-    } else {
-      console.log("Failed to delete chat");
-    }
-
-    // try {
-    //   const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/conversations/delete/${props.chat._id}`, {
-    //     method: "DELETE",
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error("Failed to delete chat");
-    //   }
-
+    // const res = await myFetch({ route: `/api/conversations/delete/${props.chat._id}`, method: "DELETE" });
+    // if (res.ok) {
     //   props.handleDeleteChat(props.chat._id);
     //   console.log("Chat deleted", props.chat._id);
-    // } catch (error) {
-    //   console.error("Error deleting chat:", error);
+    // } else {
+    //   console.log("Failed to delete chat");
     // }
+    const deletedChats = JSON.parse(localStorage.getItem("deletedChats") || "{}");
+    deletedChats[props.chat._id] = true;
+    localStorage.setItem("deletedChats", JSON.stringify(deletedChats));
+    props.handleDeleteChat(props.chat._id);
+    console.log("Chat marked as deleted", props.chat._id);
   }
 
   return (
