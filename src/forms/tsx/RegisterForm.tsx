@@ -15,6 +15,8 @@ import { myFetch } from "../../tools/myFetch";
 import { TRegisterData } from "../../zod";
 import useRegisterForm from "../methods/useRegisterForm";
 
+export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function RegisterForm(): JSX.Element {
   const [nbFetchs, setNbFetchs] = useState(0);
   const [body, setBody] = useState("");
@@ -42,8 +44,9 @@ export default function RegisterForm(): JSX.Element {
 
   const handleOk = async (json: any) => {
     const data = json as IConnectedUser;
-
+    console.log("checking token");
     if ("token" in data) {
+      console.log("Token is IN DATA");
       localStorage.setItem("user", JSON.stringify(data));
       router.push("/quizz");
     }
@@ -65,21 +68,8 @@ export default function RegisterForm(): JSX.Element {
     await handleSubmit(data);
   };
 
-  const handleGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-
-      const formData = {
-        username: "Joachim", // NOM PAR DEFAUT
-        email: "joachim.garrigues@gmail.com", // EMAIL PAR DEFAUT
-        password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
-        conscent: true,
-      };
-      await handleSubmit(formData);
-    } catch (error) {
-      console.error("Google sign-in error:", error);
-    }
+  const handleGoogle = () => {
+    window.location.href = `${NEXT_PUBLIC_BACKEND_URL}/api/auth/google`;
   };
 
   return (
@@ -170,7 +160,7 @@ export default function RegisterForm(): JSX.Element {
               onClick={handleGoogle}
             >
               <Google className="mr-2" style={{ marginTop: "-4px" }} />
-              Se connecter avec Google
+              S&apos;enregistrer avec Google
             </button>
           </div>
         </form>

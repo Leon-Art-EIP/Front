@@ -9,7 +9,7 @@ export default function Heading(props: IHeadingProps): JSX.Element {
   const src = typeof props.banner === "string" ? props.banner : props.banner.src;
 
   return (
-    <div className="relative h-64">
+    <div className="shrink-0 relative h-64">
       <div className="z-10 flex items-center lg:justify-end justify-center lg:mx-28 h-full">
         <ProfilePicture
           src={props.profilePicture}

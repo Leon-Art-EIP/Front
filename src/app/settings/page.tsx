@@ -64,7 +64,6 @@ export default function Page(): JSX.Element {
         <div className="self-center py-4">
           <DisconnectButton />
         </div>
-        <footer></footer>
       </div>
     </div>
   );

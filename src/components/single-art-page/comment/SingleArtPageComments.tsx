@@ -170,8 +170,8 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
           </div>
         </div>
       </Modal>
-      <div className="flex flex-col gap-8 bg-secondary rounded px-4 py-2">
-        <h1 className="font-semibold text-xl text-tertiary">Commentaires</h1>
+      <div className="flex flex-col gap-8 bg-secondary rounded-2xl px-4 py-2">
+        <span className="font-semibold text-xl pt-4 pl-4 text-tertiary">Commentaires</span>
         <div className="flex flex-wrap gap-2 items-center text-tertiary">
           {connectedUser.profilePicture && (
             <img src={connectedUser.profilePicture} alt="profile" className="rounded-3xl w-11 h-11" />

@@ -9,13 +9,13 @@ import Heading from "../../components/profile/heading/Heading";
 import Infos from "../../components/profile/infos/Infos";
 import ProfileHeadingForm from "../../forms/tsx/ProfileHeadingForm";
 import { IArtPublication } from "../../interfaces/artPublication/artPublication";
-import { IArtist } from "../../interfaces/home/artist";
 import { IProfileArt, IProfileCollection } from "../../interfaces/profile/profileCollection";
 import { ICollection, ICollectionArtsExtended } from "../../interfaces/single/collection";
 import { IConnectedUser, IUser } from "../../interfaces/user/user";
 import { myFetch } from "../../tools/myFetch";
 import { imageApi } from "../../tools/variables";
 import TabsWrapper from "./TabsWrapper";
+import { IProfileUser } from "../../interfaces/user/profileUser";
 
 interface IProfileWrapperProps {
   id: string;
@@ -25,7 +25,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
   const myProfile = Object.keys(user).length > 0 && user.user.id === props.id;
   const ProfileComponent = myProfile ? ProfileHeadingForm : Heading;
-  const [artist, setArtist] = useState<IArtist | null>(null);
+  const [artist, setArtist] = useState<IProfileUser | null>(null);
   const [profileCollections, setProfileCollections] = useState<IProfileCollection[]>([]);
   const [collectionsArtsExtended, setCollectionsArtsExtended] = useState<ICollectionArtsExtended[]>([]);
   const [publications, setPublications] = useState<IProfileArt[]>([]);
@@ -42,7 +42,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
 
     const fetchData = async () => {
       const response = await myFetch({ route: `/api/user/profile/${props.id}`, method: "GET", handleUnauthorized });
-      const artist = response.json as IArtist;
+      const artist = response.json as IProfileUser;
       setArtist(artist);
 
       async function fetchPublicationsForCollection(collection: ICollection): Promise<IProfileCollection | undefined> {
@@ -206,13 +206,13 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   if (!artist || loading) return <LoadingPage />;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full">
       <ProfileComponent
         profilePicture={`${imageApi}/${artist.profilePicture}`}
         banner={artist.bannerPicture.includes("default") ? banner : `${imageApi}/${artist.bannerPicture}`}
       />
-      <div className="flex lg:flex-row flex-col-reverse bg-background">
-        <div className="flex-1 flex flex-col gap-2 p-4">
+      <div className="flex lg:flex-row flex-col-reverse bg-background h-full">
+        <div className="flex-1 flex flex-col gap-2 p-4 h-full">
           <TabsWrapper
             aboutTitle="Bienvenue dans mon espace créatif"
             aboutDescription={artist.biography}
@@ -239,10 +239,10 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             id={props.id}
             connectedUserId={user.user.id}
             link={Link}
+            socialMediaLinks={artist.socialMediaLinks}
           />
         </div>
       </div>
-      <footer></footer>
     </div>
   );
 }

@@ -4,16 +4,19 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import Fetcher from "../../../components/fetch/Fetcher";
 import TitledLabel from "../../../components/label/TitledLabel";
-import Button from "../../../components/lib/Button/Button";
 import LoadingPage from "../../../components/loading/LoadingPage";
 import { IConnectedUser } from "../../../interfaces/user/user";
+import { myFetch } from "../../../tools/myFetch";
+import SocialMediaLinksForm, { SocialMediaLinks } from "../../../components/socialMediaLinks/SocialMediaLinksForm";
+import { IProfileUser } from "../../../interfaces/user/profileUser";
 
 export default function SettingsMeWrapper(): JSX.Element {
   const user: IConnectedUser = JSON.parse(localStorage.getItem("user") ?? "{}");
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "no_key_provided");
+  const [userProfile, setUserProfile] = useState<IProfileUser>();
   const [nbFetchsStripeAccountLink, setNbFetchsStripeAccountLink] = useState(0);
-  const [nbFetchsStripeAccountAlreadyLinked, setNbFetchsStripeAccountAlreadyLinked] = useState(0);
   const [stripeAccountAlreadyLinked, setStripeAccountAlreadyLinked] = useState(false);
+  const [socialMediaLinkUpdatedSuccessfully, setSocialMediaLinkUpdatedSuccessfully] = useState<string>();
+  const [socialMediaLinkUpdateFailed, setSocialMediaLinkUpdateFailed] = useState<string>();
 
   function getStripeAccountLink() {
     setNbFetchsStripeAccountLink(nbFetchsStripeAccountLink + 1);
@@ -28,26 +31,45 @@ export default function SettingsMeWrapper(): JSX.Element {
     }
   }
 
-  function handleStipeAccountAlreadyLinked(json: any) {
-    const data = json;
-
-    if (data.linked) {
-      setStripeAccountAlreadyLinked(data.linked);
-    }
-  }
-
-  function isStripeAccountAlreadyLinked() {
-    setNbFetchsStripeAccountAlreadyLinked(nbFetchsStripeAccountAlreadyLinked + 1);
-  }
-
   useEffect(() => {
-    isStripeAccountAlreadyLinked();
+    async function fetchUserProfileData() {
+      const response = await myFetch({ route: `/api/user/profile/${user.user.id}`, method: "GET" });
+      const artist = response.json as IProfileUser;
+      setUserProfile(artist);
+    }
+
+    async function fetchStripeAccountLinked() {
+      const response = await myFetch({ route: "/api/stripe/account-link-status", method: "GET" });
+      const data = response.json;
+      console.log(response);
+      if (data && data.linked) {
+        setStripeAccountAlreadyLinked(data.linked);
+      }
+    }
+
+    fetchUserProfileData();
+    fetchStripeAccountLinked();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function goToQuizz() {
-    // Redirect to the quizz page
     window.location.href = "/quizz";
+  }
+
+  async function handleSocialMediaLinksSubmit(links: SocialMediaLinks) {
+    const response = await myFetch({
+      route: `/api/user/profile/social-links`,
+      method: "POST",
+      body: JSON.stringify(links),
+    });
+    if (response.ok) {
+      setUserProfile(response.json as IProfileUser);
+      setSocialMediaLinkUpdatedSuccessfully("Vos liens ont été mis à jour avec succès.");
+      setSocialMediaLinkUpdateFailed(undefined);
+    } else {
+      setSocialMediaLinkUpdateFailed("Une erreur est survenue lors de la mise à jour de vos liens.");
+      setSocialMediaLinkUpdatedSuccessfully(undefined);
+    }
   }
 
   const numberOfElements = Object.keys(user).length;
@@ -62,35 +84,51 @@ export default function SettingsMeWrapper(): JSX.Element {
         nbFetchs={nbFetchsStripeAccountLink}
         handleOk={handleCreateStipeAccount}
       />
-      <Fetcher
-        route={"/api/stripe/account-link-status"}
-        method="GET"
-        nbFetchs={nbFetchsStripeAccountAlreadyLinked}
-        handleOk={handleStipeAccountAlreadyLinked}
-      />
-      <div className="flex flex-col gap-8">
-        <TitledLabel title="Adresse mail" text={user.user.email} underline />
+      <div className="flex flex-col gap-14">
+        <TitledLabel title="Adresse mail" text={user.user.email} />
+        <div className="flex flex-col gap-4">
+          <TitledLabel
+            title="Réseaux sociaux"
+            text="Ajoutez les liens vers vos réseaux sociaux pour plus de visibilité."
+          />
+          <SocialMediaLinksForm
+            initialLinks={userProfile?.socialMediaLinks}
+            onSubmit={handleSocialMediaLinksSubmit}
+            successMessage={socialMediaLinkUpdatedSuccessfully}
+            errorMessage={socialMediaLinkUpdateFailed}
+          />
+        </div>
         <div className="flex flex-col gap-4">
           <TitledLabel
             title="Compte Stripe"
-            text={stripeAccountAlreadyLinked ? "Compte stripe connecté" : "Vous n'avez pas de compte stripe connecté."}
+            text={
+              stripeAccountAlreadyLinked
+                ? "Un compte Stripe est connecté à votre compte Leon'Art, vous pouvez désormais vendre vos oeuvres d'arts."
+                : "Aucun compte Stripe n'est connecté à votre compte Leon'Art, vous ne pouvez pas vendre vos oeuvres d'arts pour l'instant."
+            }
           />
           {!stripeAccountAlreadyLinked && (
-            <Button color="primary" type="button" onClick={getStripeAccountLink} className="w-fit">
-              Créer ou connecter un compte Stripe
-            </Button>
+            <a
+              onClick={getStripeAccountLink}
+              className="text-lg italic px-4 text-secondary-tertiary font-normal hover:underline underline-offset-4 cursor-pointer"
+            >
+              Cliquez ici pour créer ou connecter un compte Stripe.
+            </a>
           )}
         </div>
         <div className="flex flex-col gap-4">
           <TitledLabel title="Type de compte" text={user.user.subscription} capitalize />
           {user.user.subscription === "standard" && (
-            <div className="flex flex-col gap-2">
-              <div className="font-semibold text-xs text-tertiary">
-                Vous êtes un utilisateur sans type pour l&apos;instant
+            <div className="flex flex-col gap-2 px-4">
+              <div className="font-normal text-lg text-tertiary">
+                Vous êtes un utilisateur sans type pour l&apos;instant.
               </div>
-              <Button color="primary" type="button" className="w-fit" onClick={goToQuizz}>
-                Passer le quizz
-              </Button>
+              <a
+                onClick={goToQuizz}
+                className="text-lg italic text-secondary-tertiary font-normal hover:underline underline-offset-4 cursor-pointer"
+              >
+                Cliquez ici pour passer le quizz.
+              </a>
             </div>
           )}
         </div>

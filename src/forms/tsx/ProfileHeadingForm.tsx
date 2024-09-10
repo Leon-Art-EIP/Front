@@ -74,7 +74,7 @@ export default function ProfileHeadingForm(props: IHeadingProps): JSX.Element {
   };
 
   return (
-    <div className="relative h-64">
+    <div className="shrink-0 relative h-64">
       {notificationToast && <NotificationToast message={message} type={notificationToast} />}
       <Modal isOpen={isProfilePictureModalOpen || isBannerPictureModalOpen} handleClose={handleModalOnClose}>
         <ImageCropper

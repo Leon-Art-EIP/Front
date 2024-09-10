@@ -7,6 +7,7 @@ import { Modal } from "../../lib";
 import Collection from "../../single-art-page/artwork/Collection";
 import Publications from "../publications/Publications";
 import { myFetch } from "../../../tools/myFetch";
+import InboxIcon from "@mui/icons-material/Inbox";
 
 export interface ICollectionsProps {
   collections: IProfileCollection[];
@@ -50,7 +51,12 @@ export default function Collections(props: ICollectionsProps): JSX.Element {
   };
 
   if (props.collectionsArtsExtended.length === 0) {
-    return <div className="text-2xl">Aucune collection</div>;
+    return (
+      <div className="w-full flex flex-col justify-center h-full items-center text-2xl">
+        <InboxIcon className="text-8xl" />
+        <span className="text-2xl">Aucune collection</span>
+      </div>
+    );
   }
 
   return (

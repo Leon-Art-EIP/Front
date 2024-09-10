@@ -3,7 +3,7 @@
 import { IExtendedComment, ILikeComment, INewComment, TChildExtendedComment } from "../../../interfaces/single/comment";
 import IconButton from "../artwork/IconButton";
 import { stringToFrenchDate } from "../../../tools/date";
-import { Delete, ExpandMore, ExpandLess, ThumbUp, ThumbUpOutlined } from "@mui/icons-material";
+import { Delete, Reply, ExpandMore, ExpandLess, ThumbUp, ThumbUpOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import { cn } from "../../../tools/cn";
 import { useState } from "react";
@@ -96,31 +96,39 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
       />
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <div className={cn("flex gap-4 items-center text-tertiary", props.isChild && "ml-10")}>
-            <Link href={`/profile/${props.comment.userId}`}>
-              <img src={props.comment.profilePicture} alt="profile" className="rounded-3xl w-11 h-11" />
-            </Link>
-            <div>
-              <div className="flex gap-2">
-                <p className="font-semibold">{props.comment.username}</p>
-                <p className="text-neutral-400">{stringToFrenchDate(props.comment.createdAt)}</p>
+          <div className={cn("flex items-center justify-between text-tertiary", props.isChild && "ml-10")}>
+            <div className="flex gap-4">
+              <Link href={`/profile/${props.comment.userId}`}>
+                <img src={props.comment.profilePicture} alt="profile" className="rounded-3xl w-11 h-11" />
+              </Link>
+              <div>
+                <div className="flex gap-2">
+                  <p className="font-semibold">{props.comment.username}</p>
+                  <p className="text-neutral-400">{stringToFrenchDate(props.comment.createdAt)}</p>
+                </div>
+                <p>{props.comment.text}</p>
               </div>
-              <p>{props.comment.text}</p>
             </div>
-            {props.comment.userId === props.connectedUserId && (
+            <div className="flex gap-4">
               <IconButton
-                icon={Delete}
+                icon={Reply}
                 backgroundColor="transparent"
-                iconColor="red"
-                onClick={() => {
-                  props.openDeleteModal(props.comment.id, props.parentCommentId ?? null);
-                }}
+                iconColor="black"
+                onClick={() => setIsReplying(true)}
                 className="border hover:border-neutral-400 flex gap-4 px-6 py-2.5"
               />
-            )}
-            <button onClick={() => setIsReplying(true)} className="text-black text-sm">
-              Répondre
-            </button>
+              {props.comment.userId === props.connectedUserId && (
+                <IconButton
+                  icon={Delete}
+                  backgroundColor="transparent"
+                  iconColor="black"
+                  onClick={() => {
+                    props.openDeleteModal(props.comment.id, props.parentCommentId ?? null);
+                  }}
+                  className="border hover:border-neutral-400 flex gap-4 px-6 py-2.5"
+                />
+              )}
+            </div>
           </div>
 
           {isReplying && (
@@ -139,7 +147,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                   disabled={replyMessage.trim() === ""}
                   className={cn(
                     "text-white font-semibold px-4 py-2 rounded",
-                    replyMessage.trim() === "" ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600"
+                    replyMessage.trim() === "" ? "bg-gray-400 cursor-not-allowed" : "bg-primary"
                   )}
                 >
                   Répondre
