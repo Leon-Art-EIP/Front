@@ -3,7 +3,7 @@ export interface IUser {
   username: string;
   email: string;
   is_artist: boolean;
-  availability: string;
+  availability: "available" | "unavailable";
   subscription: string;
   collections: string[];
 }

@@ -1,7 +1,6 @@
 import { IUser } from "./user";
 
 export interface IProfileUser extends IUser {
-  id: string;
   subscriptions: string[];
   subscribers: string[];
   subscribersCount: number;
@@ -9,4 +8,15 @@ export interface IProfileUser extends IUser {
   canPostArticles: boolean;
   bannerPicture: string;
   profilePicture: string;
+  biography?: string;
+  socialMediaLinks: {
+    instagram?: string;
+    twitter?: string;
+    facebook?: string;
+    tiktok?: string;
+  };
+  location?: {
+    type: "Point";
+    coordinates: [string, string];
+  };
 }
