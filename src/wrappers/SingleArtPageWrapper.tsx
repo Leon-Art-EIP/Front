@@ -157,8 +157,8 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       artistCoords={
         artist.location
           ? {
-              latitude: artist.location.coordinates[0],
-              longitude: artist.location.coordinates[1],
+              latitude: artist.location.coordinates[1],
+              longitude: artist.location.coordinates[0],
             }
           : undefined
       }

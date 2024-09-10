@@ -116,6 +116,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
                   backgroundColor="bg-background-hl"
                   iconColor="text-tertiary"
                   className="flex gap-4 px-6 py-2.5"
+                  title="Voir sur la carte"
                 />
               </Link>
             )}
@@ -126,6 +127,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
               onClick={openShareModal}
               iconColor="text-tertiary"
               className="flex gap-4 px-6 py-2.5"
+              title="Partager"
             />
             {props.artistId === props.connectedUserId && (
               <IconButton
@@ -135,6 +137,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
                 onClick={openModal}
                 iconColor="tertiary"
                 className="flex gap-4 px-6 py-2.5"
+                title="Supprimer"
               />
             )}
             <IconButton
@@ -144,6 +147,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
               onClick={props.bookmarkOnClick}
               iconColor="text-tertiary"
               className="flex gap-4 px-6 py-2.5"
+              title="Ajouter à une collection"
             />
             <IconButton
               id="like-button"

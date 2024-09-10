@@ -1,3 +1,5 @@
+import { ICoords } from "../wrappers/map/MapWrapper";
+
 export const nancyPosition1 = {
   lat: 48.69585996585411,
   lng: 6.182318878173838,
@@ -29,3 +31,10 @@ export const nancyPosition6 = {
   lat: 48.69786,
   lng: 6.188319,
 };
+
+export function positionToCoords(position: google.maps.LatLngLiteral): ICoords {
+  return {
+    latitude: position.lat.toString(),
+    longitude: position.lng.toString(),
+  };
+}

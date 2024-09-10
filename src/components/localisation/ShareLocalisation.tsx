@@ -10,7 +10,7 @@ interface IShareLocalisationProps {
   className?: string;
   color: ButtonColor;
   refresh?: boolean;
-  onRefreshCoords?: (position: ICoords) => void;
+  onRefreshCoords?: () => void;
 }
 
 export default function ShareLocalisation(props: IShareLocalisationProps): JSX.Element {
@@ -26,13 +26,13 @@ export default function ShareLocalisation(props: IShareLocalisationProps): JSX.E
 
       setBody(JSON.stringify(userPosition));
       setNbFetchs(nbFetchs + 1);
-      if (props.onRefreshCoords) {
-        props.onRefreshCoords({
-          latitude: userPosition.latitude.toString(),
-          longitude: userPosition.longitude.toString(),
-        });
-      }
     });
+  };
+
+  const handleOk = () => {
+    if (props.onRefreshCoords) {
+      props.onRefreshCoords();
+    }
   };
 
   return (
@@ -44,6 +44,7 @@ export default function ShareLocalisation(props: IShareLocalisationProps): JSX.E
         body={body}
         successStr="Position mise à jour"
         setIsLoading={setIsLoading}
+        handleOk={handleOk}
       />
       <Button type="button" color={props.color} className={props.className} onClick={onClick} disabled={isLoading}>
         {props.refresh ? "Rafraîchir" : "Partager"} ma localisation

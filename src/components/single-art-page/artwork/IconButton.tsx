@@ -11,6 +11,7 @@ interface IconButtonProps {
   className?: string;
   disabled?: boolean;
   iconClassName?: string;
+  title?: string;
 }
 
 export default function IconButton({ icon: Icon, iconColor, ...props }: IconButtonProps): JSX.Element {
@@ -20,6 +21,7 @@ export default function IconButton({ icon: Icon, iconColor, ...props }: IconButt
       className={cn("rounded-full", props.backgroundColor, props.className)}
       onClick={props.onClick}
       disabled={props.disabled}
+      title={props.title}
     >
       <Icon style={{ color: iconColor }} className={props.iconClassName} />
       {props.text}

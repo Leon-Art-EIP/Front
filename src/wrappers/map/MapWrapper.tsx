@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import ShareLocalisation from "../../components/localisation/ShareLocalisation";
 import Map from "../../components/map/Map";
 import MapProvider from "../../providers/MapProvider";
@@ -9,6 +9,7 @@ import { CircularProgress } from "@mui/material";
 import { myFetch } from "../../tools/myFetch";
 import { IProfileUser } from "../../interfaces/user/profileUser";
 import { ILocatedMapUser, IMapUser } from "../../interfaces/map";
+import { nancyPositionsList, positionToCoords } from "../../tools/positions";
 
 export interface ICoords {
   latitude: string;
@@ -49,7 +50,7 @@ async function fetchLocatedMapUsers(
               _id: user._id,
               username: user.username,
               profilePicture: user.profilePicture,
-              position: { lat, lng },
+              position: nancyPositionsList[Math.floor(Math.random() * nancyPositionsList.length)],
             };
           }
         }
@@ -63,51 +64,82 @@ async function fetchLocatedMapUsers(
   }
 }
 
-async function fetchUserCoords(userId: string, setUserCoords: Dispatch<SetStateAction<ICoords | null | undefined>>) {
+async function fetchMapUser(user: IUser, setMapUser: Dispatch<SetStateAction<ILocatedMapUser | null | undefined>>) {
   const response = await myFetch({
     method: "GET",
-    route: `/api/user/profile/${userId}`,
+    route: `/api/user/profile/${user.id}`,
   });
 
   if (response.ok) {
     const user = response.json as IProfileUser;
 
     if (user.location && user.location.coordinates.length == 2) {
-      setUserCoords({
-        latitude: user.location.coordinates[1],
-        longitude: user.location.coordinates[0],
+      setMapUser({
+        position: {
+          lat: Number(user.location.coordinates[1]),
+          lng: Number(user.location.coordinates[0]),
+        },
+        _id: user.id,
+        username: user.username,
+        profilePicture: user.profilePicture,
       });
     } else {
-      setUserCoords(null);
+      setMapUser(null);
     }
   } else {
-    setUserCoords(null);
+    setMapUser(null);
   }
 }
 
 export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
-  const [userCoords, setUserCoords] = useState<ICoords | undefined | null>(undefined);
+  const [localUser, setLocalUser] = useState<IUser | null>(null);
+  const [locatedMapUser, setLocatedMapUser] = useState<ILocatedMapUser | undefined | null>(undefined);
   const [locatedMapUsers, setLocatedMapUsers] = useState<ILocatedMapUser[]>([]);
+
+  const mapCenter = useMemo(() => {
+    if (props.coords) {
+      const lat = Number(props.coords.latitude);
+      const lng = Number(props.coords.longitude);
+
+      if (!isNaN(lat) && !isNaN(lng)) {
+        return {
+          lat,
+          lng,
+        };
+      }
+    }
+
+    if (locatedMapUser) {
+      return locatedMapUser.position;
+    }
+  }, [locatedMapUser, props.coords]);
 
   useEffect(() => {
     const local = localStorage.getItem("user");
 
     if (local) {
       const localUser = JSON.parse(local) as IConnectedUser;
-      fetchUserCoords(localUser.user.id, setUserCoords);
+      setLocalUser(localUser.user);
+      fetchMapUser(localUser.user, setLocatedMapUser);
     } else {
-      setUserCoords(null);
+      setLocatedMapUser(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (userCoords) {
-      fetchLocatedMapUsers(userCoords, setLocatedMapUsers);
+    if (locatedMapUser) {
+      fetchLocatedMapUsers(positionToCoords(locatedMapUser.position), setLocatedMapUsers);
     }
-  }, [userCoords]);
+  }, [locatedMapUser]);
 
-  if (userCoords === undefined) {
+  useEffect(() => {
+    if (mapCenter) {
+      fetchLocatedMapUsers(positionToCoords(mapCenter), setLocatedMapUsers);
+    }
+  }, [mapCenter]);
+
+  if (locatedMapUser === undefined) {
     return (
       <div className="flex flex-1 justify-center items-center">
         <CircularProgress size={40} thickness={4} color="primary" className="self-center" />
@@ -115,34 +147,24 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
     );
   }
 
-  const mapCenter = props.coords
-    ? {
-        lat: parseFloat(props.coords.latitude),
-        lng: parseFloat(props.coords.longitude),
-      }
-    : undefined;
-
-  const markerCoords = userCoords
-    ? {
-        lat: parseFloat(userCoords.latitude),
-        lng: parseFloat(userCoords.longitude),
-      }
-    : undefined;
-
-  const onRefreshCoords = (position: ICoords) => {
-    setUserCoords(position);
+  const onRefreshCoords = () => {
+    if (localUser) {
+      fetchMapUser(localUser, setLocatedMapUser);
+    }
   };
 
   return (
     <div className="flex flex-col gap-4">
       <MapProvider>
-        <Map mapCenter={mapCenter} locatedMapUsers={locatedMapUsers} />
+        <Map mapCenter={mapCenter} locatedMapUsers={locatedMapUsers} mapZoom={mapCenter ? 12 : undefined} />
       </MapProvider>
-      {userCoords ? (
+      {locatedMapUser ? (
         <ShareLocalisation color="primary" className="self-center" refresh onRefreshCoords={onRefreshCoords} />
       ) : (
         <div className="flex flex-col gap-2 items-center">
-          <p className="text-sm">Si vous souhaitez voir les artistes autour de vous, partagez votre localisation</p>
+          {!mapCenter && (
+            <p className="text-sm">Si vous souhaitez voir les artistes autour de vous, partagez votre localisation</p>
+          )}
           <ShareLocalisation color="primary" className="self-center" onRefreshCoords={onRefreshCoords} />
         </div>
       )}

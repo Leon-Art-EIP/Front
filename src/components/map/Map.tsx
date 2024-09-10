@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
-import { GoogleMap, InfoWindow, InfoWindowF, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, InfoWindowF, MarkerClustererF, MarkerF } from "@react-google-maps/api";
 import Link from "next/link";
 import { ILocatedMapUser } from "../../interfaces/map";
 import { imageApi } from "../../tools/variables";
 
-//Map's styling
+// Map's styling
 const defaultMapContainerStyle = {
   width: "100%",
   height: "80vh",
@@ -12,11 +12,12 @@ const defaultMapContainerStyle = {
 };
 
 const defaultMapCenter = {
-  lat: 48.683331,
-  lng: 6.2,
+  // milieu France
+  lat: 47.81,
+  lng: 2.308,
 };
 
-const defaultMapZoom = 13;
+const defaultMapZoom = 6;
 
 const defaultMapOptions: google.maps.MapOptions = {
   zoomControl: true,
@@ -35,6 +36,19 @@ export default function Map(props: IMapProps): JSX.Element {
   const [activeUserId, setActiveUserId] = useState<string | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  if (props.locatedMapUsers.length === 0) {
+    return (
+      <div>
+        <GoogleMap
+          mapContainerStyle={defaultMapContainerStyle}
+          center={props.mapCenter ?? defaultMapCenter}
+          zoom={props.mapZoom ?? defaultMapZoom}
+          options={defaultMapOptions}
+        />
+      </div>
+    );
+  }
+
   const onMarkerHover = (userId: string) => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -43,7 +57,6 @@ export default function Map(props: IMapProps): JSX.Element {
   };
 
   const onMarkerLeave = () => {
-    // Définir un délai avant de cacher l'InfoWindow
     timerRef.current = setTimeout(() => {
       setActiveUserId(null);
     }, 300);
@@ -67,40 +80,47 @@ export default function Map(props: IMapProps): JSX.Element {
         zoom={props.mapZoom ?? defaultMapZoom}
         options={defaultMapOptions}
       >
-        {props.locatedMapUsers.map((user) => {
-          const isActive = user._id === activeUserId;
+        <MarkerClustererF options={{ gridSize: 50, minimumClusterSize: 2, maxZoom: 15 }}>
+          {(clusterer) => (
+            <>
+              {props.locatedMapUsers.map((user) => {
+                const isActive = user._id === activeUserId;
 
-          return (
-            <MarkerF
-              key={`${user.username}-${user._id}`}
-              position={user.position}
-              onMouseOver={() => onMarkerHover(user._id)}
-              onMouseOut={onMarkerLeave} // Utilisation d'un délai pour ne pas fermer immédiatement
-            >
-              {isActive && (
-                <InfoWindowF
-                  position={user.position}
-                  onCloseClick={onInfoWindowLeave}
-                  options={{ disableAutoPan: true }}
-                >
-                  <div
-                    onMouseEnter={onInfoWindowEnter}
-                    onMouseLeave={onInfoWindowLeave} // Permet de ne pas fermer immédiatement lorsqu'on interagit avec le contenu
+                return (
+                  <MarkerF
+                    key={`${user.username}-${user._id}`}
+                    position={user.position}
+                    clusterer={clusterer}
+                    onMouseOver={() => onMarkerHover(user._id)}
+                    onMouseOut={onMarkerLeave}
                   >
-                    <Link href={`/profile/${user._id}`} className="flex flex-col w-32 h-32">
-                      <p className="font-semibold text-lg">{user.username}</p>
-                      <img
-                        alt="profilePicture"
-                        src={`${imageApi}/${user.profilePicture}`}
-                        className="object-cover overflow-hidden"
-                      />
-                    </Link>
-                  </div>
-                </InfoWindowF>
-              )}
-            </MarkerF>
-          );
-        })}
+                    {isActive && (
+                      <InfoWindowF
+                        position={user.position}
+                        onCloseClick={onInfoWindowLeave}
+                        options={{ disableAutoPan: true }}
+                      >
+                        <div onMouseEnter={onInfoWindowEnter} onMouseLeave={onInfoWindowLeave}>
+                          <Link
+                            href={`/profile/${user._id}`}
+                            className="flex flex-col gap-1 w-32 h-32 items-center hover:bg-background-inputfield rounded p-2 hover:text-primary"
+                          >
+                            <p className="font-semibold text-lg">{user.username}</p>
+                            <img
+                              alt="profilePicture"
+                              src={`${imageApi}/${user.profilePicture}`}
+                              className="object-contain overflow-hidden"
+                            />
+                          </Link>
+                        </div>
+                      </InfoWindowF>
+                    )}
+                  </MarkerF>
+                );
+              })}
+            </>
+          )}
+        </MarkerClustererF>
       </GoogleMap>
     </div>
   );
