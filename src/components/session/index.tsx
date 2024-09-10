@@ -39,10 +39,10 @@ export default function Session(props: ISessionProps): JSX.Element | null {
           username: username,
           email: email,
           is_artist: false,
-          availability: "",
+          availability: "unavailable",
           subscription: "",
-          collections: []
-        }
+          collections: [],
+        },
       };
       localStorage.setItem("user", JSON.stringify(loggedInUser));
       setUser(loggedInUser);
@@ -66,7 +66,7 @@ export default function Session(props: ISessionProps): JSX.Element | null {
         setUser(null);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, searchParams, fcmToken]);
 
   useEffect(() => {
