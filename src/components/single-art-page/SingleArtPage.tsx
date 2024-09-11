@@ -11,6 +11,7 @@ import SaveGallery from "./artwork/SaveGallery";
 import SingleArtPageArtwork from "./artwork/SingleArtPageArtwork";
 import SingleArtPageCard from "./card/SingleArtPageCard";
 import SingleArtPageComments from "./comment/SingleArtPageComments";
+import { ICoords } from "../../wrappers/map/MapWrapper";
 
 export interface ISingleArtPageProps {
   description: string;
@@ -34,6 +35,7 @@ export interface ISingleArtPageProps {
   isForSale: boolean;
   isSold: boolean;
   onAddNewCollection: (collection: INewCollection) => void;
+  artistCoords: ICoords | undefined;
 }
 
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
@@ -162,6 +164,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
           <SingleArtPageArtwork
             art={props.art}
             artId={props.artId}
+            artistCoords={props.artistCoords}
             profile={props.profile}
             artisteName={props.artistName}
             artistId={props.artistId}

@@ -24,6 +24,10 @@ const data: Omit<ISingleArtPageProps, "link"> = {
   isForSale: true,
   isSold: false,
   onAddNewCollection: () => {},
+  artistCoords: {
+    latitude: "48.683331",
+    longitude: "6.2",
+  },
 };
 
 export default data;

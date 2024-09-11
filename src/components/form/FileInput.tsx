@@ -8,6 +8,7 @@ import { Button } from "../lib";
 
 interface IUploadButtonProps {
   name: string;
+  maxFileSize?: number;
   children?: React.ReactNode;
   className?: string;
 }
@@ -19,6 +20,7 @@ export default function FileInput(props: IUploadButtonProps): JSX.Element {
   } = useController({ name: props.name });
 
   const [isDragging, setIsDragging] = useState(false);
+  const [fileError, setFileError] = useState<string | null>(null);
 
   const fileInput = useRef<HTMLInputElement>(null);
 
@@ -36,10 +38,19 @@ export default function FileInput(props: IUploadButtonProps): JSX.Element {
     setIsDragging(false);
   };
 
+  const validateFileSize = (file: File): boolean => {
+    if (props.maxFileSize && file.size > props.maxFileSize * 1024 * 1024) {
+      setFileError(`La taille de l'image ne doit pas dépasser ${props.maxFileSize}MB.`);
+      return false;
+    }
+    setFileError(null);
+    return true;
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const newFile = e.target.files?.item(0);
 
-    if (newFile) {
+    if (newFile && validateFileSize(newFile)) {
       onChange(newFile);
     }
   };
@@ -50,7 +61,7 @@ export default function FileInput(props: IUploadButtonProps): JSX.Element {
 
     const newFile = e.dataTransfer.files.item(0);
 
-    if (newFile) {
+    if (newFile && validateFileSize(newFile)) {
       onChange(newFile);
     }
   };
@@ -79,7 +90,7 @@ export default function FileInput(props: IUploadButtonProps): JSX.Element {
       {value && (
         <div className="flex items-center gap-4">
           <label className="text-tertiary text-lg">
-            <span className="underline">Image séléctionnée :</span> {value.name}
+            <span className="underline">Image sélectionnée :</span> {value.name}
           </label>
           <Button className="px-4 rounded" color="secondary" type="button" onClick={cancel}>
             Annuler
@@ -96,6 +107,7 @@ export default function FileInput(props: IUploadButtonProps): JSX.Element {
         className="hidden"
         id={props.name}
       />
+      {fileError && <div className="text-primary">{fileError}</div>}
       {error && <div className="text-primary">{error.message}</div>}
     </div>
   );

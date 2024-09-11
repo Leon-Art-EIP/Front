@@ -4,16 +4,15 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import Fetcher from "../../../components/fetch/Fetcher";
 import TitledLabel from "../../../components/label/TitledLabel";
-import Button from "../../../components/lib/Button/Button";
 import LoadingPage from "../../../components/loading/LoadingPage";
 import { IConnectedUser } from "../../../interfaces/user/user";
 import { myFetch } from "../../../tools/myFetch";
-import { IArtist } from "../../../interfaces/home/artist";
 import SocialMediaLinksForm, { SocialMediaLinks } from "../../../components/socialMediaLinks/SocialMediaLinksForm";
+import { IProfileUser } from "../../../interfaces/user/profileUser";
 
 export default function SettingsMeWrapper(): JSX.Element {
   const user: IConnectedUser = JSON.parse(localStorage.getItem("user") ?? "{}");
-  const [userProfile, setUserProfile] = useState<IArtist>();
+  const [userProfile, setUserProfile] = useState<IProfileUser>();
   const [nbFetchsStripeAccountLink, setNbFetchsStripeAccountLink] = useState(0);
   const [stripeAccountAlreadyLinked, setStripeAccountAlreadyLinked] = useState(false);
   const [socialMediaLinkUpdatedSuccessfully, setSocialMediaLinkUpdatedSuccessfully] = useState<string>();
@@ -35,14 +34,14 @@ export default function SettingsMeWrapper(): JSX.Element {
   useEffect(() => {
     async function fetchUserProfileData() {
       const response = await myFetch({ route: `/api/user/profile/${user.user.id}`, method: "GET" });
-      const artist = response.json as IArtist;
+      const artist = response.json as IProfileUser;
       setUserProfile(artist);
     }
 
     async function fetchStripeAccountLinked() {
       const response = await myFetch({ route: "/api/stripe/account-link-status", method: "GET" });
       const data = response.json;
-      console.log(response)
+      console.log(response);
       if (data && data.linked) {
         setStripeAccountAlreadyLinked(data.linked);
       }
@@ -64,7 +63,7 @@ export default function SettingsMeWrapper(): JSX.Element {
       body: JSON.stringify(links),
     });
     if (response.ok) {
-      setUserProfile(response.json as IArtist);
+      setUserProfile(response.json as IProfileUser);
       setSocialMediaLinkUpdatedSuccessfully("Vos liens ont été mis à jour avec succès.");
       setSocialMediaLinkUpdateFailed(undefined);
     } else {
