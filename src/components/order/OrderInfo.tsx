@@ -4,6 +4,7 @@ import { useOrder } from "../../contexts/OrderContext";
 import Button from "../lib/Button/Button";
 import { OrderRating } from "./OrderRating";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
+import { myFetch } from "../../tools/myFetch";
 
 export interface OrderInfoProps {
   orderType: "sell" | "buy";
@@ -27,13 +28,39 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
   } = useOrder();
 
   const [rating, setRating] = useState<number>(0);
+  const [profilePicture, setProfilePicture] = useState<string>("");
 
   useEffect(() => {
-    if (selectedOrderId) {
-      fetchOrderInfos(props.orderType);
-    }
+    const fetchData = async () => {
+      if (selectedOrderId) {
+        await fetchOrderInfos(props.orderType);
+      }
+    };
+
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedOrderId]);
+  }, [selectedOrderId, selectedOrder]);
+
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      if (!selectedOrder) return;
+
+      const userId = props.orderType === "buy" ? selectedOrder.sellerId : selectedOrder.buyerId;
+
+      if (userId) {
+        const res = await myFetch({ route: `/api/user/profile/${userId}`, method: "GET" });
+        if (res.ok) {
+          const data = res.json;
+          setProfilePicture(data.profilePicture);
+        } else {
+          console.log("Failed to fetch profile picture");
+        }
+      }
+    };
+
+    fetchProfilePicture();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOrder]);
 
   function onGoToUserProviderProfile() {
     handleGoToUserProviderProfile(props.orderType);
@@ -91,7 +118,12 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
               <span className="text-2xl font-semibold">{selectedOrder.artPublicationName}</span>
               <span className="text-lg line-clamp-5">{selectedOrder.artPublicationDescription}</span>
               <div className="flex flex-row w-full justify-between">
-                <button onClick={onGoToUserProviderProfile}>
+                <button onClick={onGoToUserProviderProfile} className="flex items-center gap-2">
+                  <img
+                    src={`${NEXT_PUBLIC_BACKEND_URL}/api/${profilePicture}`}
+                    alt="user profile"
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
                   <span className="text-xl">
                     {props.orderType === "buy" ? selectedOrder.sellerName : selectedOrder.buyerName}
                   </span>
