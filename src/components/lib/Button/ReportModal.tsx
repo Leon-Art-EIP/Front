@@ -7,10 +7,19 @@ import Fetcher from "../../fetch/Fetcher";
 
 interface ReportButtonProps {
   closeModal(): void;
-  id: string; // The ID of the art publication
+  id: string;
   isOpen: boolean;
   title: string;
 }
+
+const infractionTranslations: { [key: string]: string } = {
+  "AI-generated Art": "Art généré par IA",
+  "Intellectual Property Violation": "Violation des droits d'auteur",
+  spam: "Spam",
+  "Not Art": "Il ne s'agit pas d'art",
+  "Hate Speech or Symbols": "Discours ou symboles de haine",
+  Other: "Autre",
+};
 
 export default function ReportButton(props: ReportButtonProps): JSX.Element {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -73,7 +82,7 @@ export default function ReportButton(props: ReportButtonProps): JSX.Element {
           >
             {infractions.map((infraction, index) => (
               <option key={index} value={infraction}>
-                {infraction}
+                {infractionTranslations[infraction] || infraction}
               </option>
             ))}
           </select>
