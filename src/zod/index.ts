@@ -29,7 +29,7 @@ export const registerSchema = z
     if (zxcvbn(data.password).score < 3) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Mot de passe trop faible",
+        message: "Mot de passe trop faible : 1 majuscule, 1 chiffre, 1 charactère spécial et 8 charactères minimums.",
         path: ["password"],
       });
     }
