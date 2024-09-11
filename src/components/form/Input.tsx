@@ -12,6 +12,8 @@ interface IInputProps {
   placeholder: string;
   title?: string;
   hideError?: boolean;
+  onBlur?: () => void;
+  onFocus?: () => void;
 }
 
 /* c8 ignore start */
@@ -32,6 +34,8 @@ export default function Input(props: IInputProps): JSX.Element {
         className={cn("sm:min-w-min min-w-0 px-6 py-4 rounded placeholder:text-tertiary-hover", props.className)}
         placeholder={props.placeholder}
         onChange={onChange}
+        onBlur={props.onBlur}
+        onFocus={props.onFocus}
         value={value}
         autoComplete="off"
       />
