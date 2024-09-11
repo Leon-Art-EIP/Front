@@ -1,4 +1,4 @@
-import { BookmarkBorder, DeleteOutline, Favorite, FavoriteBorder, Map, Share } from "@mui/icons-material";
+import { BookmarkBorder, DeleteOutline, Favorite, FavoriteBorder, Map, Share, Report } from "@mui/icons-material";
 import { ElementType, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
@@ -8,6 +8,7 @@ import { imageApi } from "../../../tools/variables";
 import { Button, Modal } from "../../lib";
 import IconButton from "./IconButton";
 import ShareModal from "./ShareModal";
+import ReportModal from "../../../components/lib/Button/ReportModal";
 import { ICoords } from "../../../wrappers/map/MapWrapper";
 
 interface ISingleArtPageArtworkProps {
@@ -33,6 +34,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
   const [isImageLightboxOpen, setImageLightboxOpen] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isShareModalOpen, setShareModalOpen] = useState(false);
+  const [isReportModalOpen, setReportModalOpen] = useState(false);
 
   function onCloseLightbox() {
     setImageLightboxOpen(false);
@@ -63,6 +65,14 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
     setShareModalOpen(false);
   };
 
+  const openReportModal = () => {
+    setReportModalOpen(true);
+  };
+
+  const closeReportModal = () => {
+    setReportModalOpen(false);
+  };
+
   return (
     <>
       <Modal isOpen={isModalOpen} handleClose={closeModal}>
@@ -79,6 +89,12 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
         </div>
       </Modal>
       <ShareModal closeModal={closeShareModal} id={props.artId} isOpen={isShareModalOpen} />
+      <ReportModal
+        closeModal={closeReportModal}
+        id={props.artId}
+        isOpen={isReportModalOpen}
+        title="Signaler cette oeuvre"
+      />
       <div className="flex flex-col gap-5 w-full">
         <img
           src={`${imageApi}/${props.art}`}
@@ -108,6 +124,14 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
         <div className="flex">
           <div className="text-tertiary flex flex-1 font-bold text-3xl">{props.title}</div>
           <div className="inline-flex gap-4 items-center">
+            {/* <ReportButton userId={props.artistId} title="Report this Art" /> */}
+            <IconButton
+              id="report-button"
+              icon={Report}
+              backgroundColor="bg-background-hl"
+              onClick={openReportModal}
+              iconColor="text-tertiary"
+            />
             {props.artistCoords && (
               <Link href={`/map?latitude=${props.artistCoords.latitude}&longitude=${props.artistCoords.longitude}`}>
                 <IconButton
