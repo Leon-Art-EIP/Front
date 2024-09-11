@@ -179,6 +179,7 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         body: JSON.stringify({
           orderId: selectedOrderId,
           rating: rating,
+          comment: "Super vendeur, je recommande !",
         }),
       });
       if (res.ok) {
