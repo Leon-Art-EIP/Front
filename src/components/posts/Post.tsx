@@ -10,6 +10,7 @@ import { CircularProgress } from "@mui/material";
 import PostArtPublication from "./PostArtPublication";
 import { DeleteOutline, Favorite, FavoriteBorder } from "@mui/icons-material";
 import DeletePostModal from "./DeletePostModal";
+import Link from "next/link";
 
 interface IPostProps {
   post: IPost;
@@ -71,10 +72,10 @@ export default function Post(props: IPostProps): JSX.Element {
       {isDeleteModalOpen && <DeletePostModal handleClose={closeDeleteModal} handleDelete={handleDelete} />}
       <div className="flex flex-col gap-4 bg-secondary p-4 rounded-2xl w-1/2">
         <div className="flex gap-4 items-center justify-between">
-          <div className="flex gap-4 items-center">
+          <Link href={`/profile/${props.post.userId}`} className="flex gap-4 items-center">
             <img alt="author" src={`${imageApi}/${props.post.user.profilePicture}`} className="w-8 h-8 rounded-full" />
             <p className="font-semibold flex">{props.post.user.username}</p>
-          </div>
+          </Link>
           <p className="text-xs font-light">{stringToFrenchDate(props.post.createdAt)}</p>
         </div>
         <p className="font-light">{props.post.text}</p>
