@@ -15,6 +15,7 @@ interface IFetchData {
 
 export interface IMyFetchResponse {
   ok: boolean;
+  status: number;
   message?: string;
   json: any;
 }
@@ -52,12 +53,14 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
       body: props.body,
     });
 
+    const responseJson = await response.json();
+
     if (response.status === 422) {
-      const error: IError = await response.json();
+      const error: IError = responseJson;
       const serverErrorMsg = (error.errors.length > 0 ? error.errors[0].msg : undefined) as TErrorMessages | undefined;
       message = serverErrorMsg ? errors[serverErrorMsg] ?? serverErrorMsg : "Une erreur est survenue";
     } else if (response.status >= 400 && response.status < 500) {
-      const error: IUnauthorized = await response.json();
+      const error: IUnauthorized = responseJson;
       const serverErrorMsg = errors[error.msg as TErrorMessages];
       if (response.status === 401) {
         message = error.msg ? serverErrorMsg ?? error.msg : "Vous n'êtes pas autorisé à effectuer cette action";
@@ -70,18 +73,25 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
     } else if (!response.ok) {
       message = "Une erreur est survenue";
     } else {
-      json = await response.json();
+      json = responseJson;
     }
+
+    return {
+      ok: response.ok,
+      status: response.status,
+      message,
+      json,
+    };
   } catch (error) {
     message = "Le serveur ne répond pas, veuillez réessayer plus tard";
     resetCredentials();
+    return {
+      ok: false,
+      status: 0,
+      message,
+      json: null,
+    };
   }
-
-  return {
-    ok: response ? response.ok : false,
-    message,
-    json,
-  };
 }
 
 /* c8 ignore stop */

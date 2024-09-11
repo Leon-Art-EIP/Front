@@ -25,6 +25,8 @@ export default function RegisterForm(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const [generalConditionsModal, setGeneralConditionsModal] = useState<boolean>(false);
   const [generalConditionsText, setGeneralConditionsText] = useState<string>("");
+  const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [usernameConflict, setUsernameConflict] = useState<boolean>(false);
 
   function handleToggleDeliveryHelpModal() {
     setGeneralConditionsModal(!generalConditionsModal);
@@ -72,6 +74,44 @@ export default function RegisterForm(): JSX.Element {
     window.location.href = `${NEXT_PUBLIC_BACKEND_URL}/api/auth/google`;
   };
 
+  const handleUsernameBlur = async () => {
+    const { getValues } = methods;
+    const username = getValues("username");
+
+    if (username) {
+      try {
+        const res = await myFetch({
+          route: `/api/user/check-username/${username}`,
+          method: "GET",
+        });
+
+        if (res.status === 409) {
+          // If the status is 409, set the conflict flag and error message
+          setUsernameConflict(true);
+          setUsernameError("Nom d'utilisateur déjà pris.");
+        } else {
+          // Handle other statuses or successful responses
+          if (res.json.exists) {
+            setUsernameConflict(true);
+            setUsernameError("Nom d'utilisateur déjà pris.");
+          } else {
+            setUsernameConflict(false);
+            setUsernameError(null);
+          }
+        }
+      } catch (error) {
+        console.error("Network error:", error);
+        setUsernameError("Erreur de réseau. Veuillez réessayer.");
+        setUsernameConflict(false);
+      }
+    }
+  };
+
+  const resetUsernameError = () => {
+    setUsernameError(null);
+    setUsernameConflict(false);
+  };
+
   return (
     <>
       <Fetcher
@@ -112,7 +152,13 @@ export default function RegisterForm(): JSX.Element {
             name="username"
             className="rounded-[30px] shadow-md bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
             placeholder="Nom d'utilisateur"
+            onBlur={handleUsernameBlur}
+            onFocus={resetUsernameError}
           />
+          {usernameConflict && usernameError && (
+            // eslint-disable-next-line react/no-unescaped-entities
+            <div className="text-primary text-sm">{usernameError}</div>
+          )}
           <Input
             type="email"
             name="email"

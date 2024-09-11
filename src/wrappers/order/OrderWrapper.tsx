@@ -11,86 +11,58 @@ import { orderDeliveryHelpText } from "../../configs/order/orderDeliveryHelp";
 import { useOrder } from "../../contexts/OrderContext";
 
 export default function OrderWrapper(): JSX.Element {
-  const { currentUser, selectedOrderId, refreshBuyOrders, refreshSellOrders, handleSelectOrder, clearSelectedOrder } =
-    useOrder();
+  const {
+    currentUser,
+    selectedOrderId,
+    refreshBuyOrders,
+    refreshSellOrders,
+    handleSelectOrder,
+    clearSelectedOrder,
+    buyOrders,
+    sellOrders,
+  } = useOrder();
 
   const searchParams = useSearchParams();
 
-  const [orderType, setOrderType] = useState<"buy" | "sell">(getOrderType());
+  const [orderType, setOrderType] = useState<"buy" | "sell">(getInitialOrderType());
   const orderIdSelectedParams = searchParams.get("orderId") || undefined;
   const [deliveryHelpModal, setDeliveryHelpModal] = useState<boolean>(false);
 
-  function getOrderType(): "buy" | "sell" {
+  function getInitialOrderType(): "buy" | "sell" {
     const type = searchParams.get("type");
-    return type === "sell" ? "sell" : "buy";
+    if (type === "sell" || (type !== "buy" && !buyOrders.length)) {
+      return "sell";
+    }
+    return "buy";
   }
 
   useEffect(() => {
     if (orderIdSelectedParams) {
       handleSelectOrder(orderIdSelectedParams);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderIdSelectedParams]);
 
   useEffect(() => {
-    const newOrderType = getOrderType();
+    const newOrderType = getInitialOrderType();
     if (newOrderType !== orderType) {
       setOrderType(newOrderType);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams, buyOrders, sellOrders]);
 
   useEffect(() => {
     if (currentUser) {
       refreshBuyOrders();
       refreshSellOrders();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   function handleOrderTypeChange(orderType: "buy" | "sell") {
     clearSelectedOrder();
     setOrderType(orderType);
   }
-
-  // const [orderType, setOrderType] = useState<"sell" | "buy">("buy");
-  // const [buyOrders, setBuyOrders] = useState<Order[]>([]);
-  // const [sellOrders, setSellOrders] = useState<Order[]>([]);
-  // const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>(props.orderId); // select the order if there is a orderId in the url
-  // const [currentUser, setCurrentUser] = useState<IConnectedUser>();
-
-  // useEffect(() => {
-  //   async function fetchBuyOrders() {
-  //     const res = await myFetch({ route: `/api/order/latest-buy-orders`, method: "GET" });
-  //     const data: Order[] = res.json;
-  //     setBuyOrders(data);
-  //   }
-  //   async function fetchSellOrders() {
-  //     const res = await myFetch({ route: `/api/order/latest-sell-orders`, method: "GET" });
-  //     const data: Order[] = res.json;
-  //     setSellOrders(data);
-  //   }
-  //   async function getCurrentUser() {
-  //     if (!localStorage.getItem("user")) {
-  //       router.push("/login");
-  //     } else {
-  //       setCurrentUser(await JSON.parse(localStorage.getItem("user") || "{}"));
-  //     }
-  //   }
-
-  //   getCurrentUser();
-  //   fetchBuyOrders();
-  //   fetchSellOrders();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  // function handleOrderChange(orderId: string) {
-  //   setSelectedOrderId(orderId);
-  // }
-
-  // function handleOrderTypeChange(type: "sell" | "buy") {
-  //   setOrderType(type);
-  // }
 
   function handleToggleDeliveryHelpModal() {
     setDeliveryHelpModal(!deliveryHelpModal);
