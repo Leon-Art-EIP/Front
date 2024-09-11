@@ -1,7 +1,10 @@
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useOrder } from "../../contexts/OrderContext";
 import Button from "../lib/Button/Button";
+import { OrderRating } from "./OrderRating";
+import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
+import { myFetch } from "../../tools/myFetch";
 
 export interface OrderInfoProps {
   orderType: "sell" | "buy";
@@ -24,12 +27,40 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
     handleConfirmSend,
   } = useOrder();
 
+  const [rating, setRating] = useState<number>(0);
+  const [profilePicture, setProfilePicture] = useState<string>("");
+
   useEffect(() => {
-    if (selectedOrderId) {
-      fetchOrderInfos(props.orderType);
-    }
+    const fetchData = async () => {
+      if (selectedOrderId) {
+        await fetchOrderInfos(props.orderType);
+      }
+    };
+
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedOrderId]);
+  }, [selectedOrderId, selectedOrder]);
+
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      if (!selectedOrder) return;
+
+      const userId = props.orderType === "buy" ? selectedOrder.sellerId : selectedOrder.buyerId;
+
+      if (userId) {
+        const res = await myFetch({ route: `/api/user/profile/${userId}`, method: "GET" });
+        if (res.ok) {
+          const data = res.json;
+          setProfilePicture(data.profilePicture);
+        } else {
+          console.log("Failed to fetch profile picture");
+        }
+      }
+    };
+
+    fetchProfilePicture();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOrder]);
 
   function onGoToUserProviderProfile() {
     handleGoToUserProviderProfile(props.orderType);
@@ -65,7 +96,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
   }
 
   async function onConfirmSend() {
-    handleConfirmSend(props.orderType);
+    if (rating > 0 && rating <= 5) handleConfirmSend(props.orderType, rating);
   }
 
   return (
@@ -77,7 +108,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
               <img
                 src={`${NEXT_PUBLIC_BACKEND_URL}/api/${selectedOrder.artPublicationImage}`}
                 alt="order"
-                className="w-full cursor-zoom-in"
+                className=" rounded-2xl"
               />
               <Button color="primary" type="button" onClick={onGoToChat} className="absolute top-[105%] w-full">
                 Aller à la conversation
@@ -87,7 +118,12 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
               <span className="text-2xl font-semibold">{selectedOrder.artPublicationName}</span>
               <span className="text-lg line-clamp-5">{selectedOrder.artPublicationDescription}</span>
               <div className="flex flex-row w-full justify-between">
-                <button onClick={onGoToUserProviderProfile}>
+                <button onClick={onGoToUserProviderProfile} className="flex items-center gap-2">
+                  <img
+                    src={`${NEXT_PUBLIC_BACKEND_URL}/api/${profilePicture}`}
+                    alt="user profile"
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
                   <span className="text-xl">
                     {props.orderType === "buy" ? selectedOrder.sellerName : selectedOrder.buyerName}
                   </span>
@@ -183,9 +219,36 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
               </Button>
             )}
             {props.orderType === "buy" && selectedOrder.orderState === "shipping" && (
-              <Button color="primary" type="button" className="w-full" onClick={onConfirmSend}>
-                Confirmer la réception de la commande
-              </Button>
+              <>
+                <OrderRating rating={rating} setRating={setRating} />
+                <Button
+                  color="primary"
+                  type="button"
+                  className="w-full"
+                  onClick={onConfirmSend}
+                  disabled={rating === 0}
+                >
+                  Confirmer la réception de la commande
+                </Button>
+              </>
+            )}
+            {props.orderType === "buy" && selectedOrder.orderState === "completed" && (
+              <div className="flex flex-col items-center justify-center gap-4">
+                <span className="text-2xl font-semibold text-center">Évaluation</span>
+                <span className="text-lg">Vous avez évalué cette commande avec la note de</span>
+                <span className="flex items-center text-3xl">
+                  {selectedOrder.orderRating} <StarRateRoundedIcon className="text-4xl" />
+                </span>
+              </div>
+            )}
+            {props.orderType === "sell" && selectedOrder.orderState === "completed" && (
+              <div className="flex flex-col items-center justify-center gap-4">
+                <span className="text-2xl font-semibold text-center">Évaluation</span>
+                <span className="text-lg">L{"'"}acheteur a évalué cette commande avec la note de</span>
+                <span className="flex items-center text-3xl">
+                  {selectedOrder.orderRating} <StarRateRoundedIcon className="text-4xl" />
+                </span>
+              </div>
             )}
           </div>
         </div>

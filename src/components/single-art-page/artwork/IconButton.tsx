@@ -5,22 +5,25 @@ interface IconButtonProps {
   text?: string;
   icon: React.ComponentType<SvgIconProps>;
   backgroundColor: string;
-  onClick(): void;
+  onClick?(): void;
   iconColor: string; // Ajoutez une nouvelle propriété pour la couleur de l'icône
   id?: string;
   className?: string;
   disabled?: boolean;
+  iconClassName?: string;
+  title?: string;
 }
 
 export default function IconButton({ icon: Icon, iconColor, ...props }: IconButtonProps): JSX.Element {
   return (
     <button
       id={props.id}
-      className={cn("rounded-full flex gap-4 px-6 py-2.5", props.backgroundColor, props.className)}
+      className={cn("rounded-full", props.backgroundColor, props.className)}
       onClick={props.onClick}
       disabled={props.disabled}
+      title={props.title}
     >
-      <Icon style={{ color: iconColor }} />
+      <Icon style={{ color: iconColor }} className={props.iconClassName} />
       {props.text}
     </button>
   );

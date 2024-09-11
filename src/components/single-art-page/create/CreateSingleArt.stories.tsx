@@ -19,9 +19,33 @@ type Story = StoryObj<ICreateArtFormProps>;
 export const Regular: Story = {
   args: {
     artTypes: [
-      { value: "painting", label: "Peinture" },
-      { value: "sculpture", label: "Sculpture" },
-      { value: "photography", label: "Photographie" },
+      {
+        value: "painting",
+        label: "Peinture",
+        collapsed: false,
+        subOptions: [
+          { value: "oil", label: "Oil", selected: false },
+          { value: "acrylic", label: "Acrylic", selected: false }
+        ],
+      },
+      {
+        value: "sculpture",
+        label: "Sculpture",
+        collapsed: false,
+        subOptions: [
+          { value: "wood", label: "Wood", selected: false },
+          { value: "stone", label: "Stone", selected: false }
+        ],
+      },
+      {
+        value: "photography",
+        label: "Photographie",
+        collapsed: false,
+        subOptions: [
+          { value: "digital", label: "Digital", selected: false },
+          { value: "film", label: "Film", selected: false }
+        ],
+      },
     ],
   },
 };

@@ -16,6 +16,7 @@ export default function PriceFilters(props: PriceFiltersProps): JSX.Element {
     priceRanges.forEach((priceRange) => {
       priceRange.selected = false;
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleSelectPriceRange(priceRangeToggled: IPriceRangeFilter) {

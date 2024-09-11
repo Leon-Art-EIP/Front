@@ -48,6 +48,7 @@ export function FollowerCard(props: FollowerCardProps): JSX.Element {
       }
     }
     getCurrentUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

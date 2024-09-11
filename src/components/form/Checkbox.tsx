@@ -16,7 +16,6 @@ export default function Checkbox(props: ICheckboxProps): JSX.Element {
   return (
     <div className="flex flex-col gap-2 sm:min-w-min min-w-0">
       <div className="flex gap-2 items-center">
-        {props.title && <div className="text-lg">{props.title}</div>}
         <input
           type="checkbox"
           name={props.name}
@@ -24,7 +23,8 @@ export default function Checkbox(props: ICheckboxProps): JSX.Element {
           className={cn("sm:min-w-min min-w-0 h-4 w-4", props.className)}
           onChange={onChange}
           value={value}
-        />
+          />
+        {props.title && <label className="text-xl">{props.title}</label>}
       </div>
       {error && <div className="text-primary">{error.message}</div>}
     </div>

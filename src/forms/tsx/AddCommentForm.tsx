@@ -5,7 +5,7 @@ import { FormProvider } from "react-hook-form";
 import Fetcher from "../../components/fetch/Fetcher";
 import Input from "../../components/form/Input";
 import { Button } from "../../components/lib";
-import { IAddComment, IDisplayComment } from "../../interfaces/single/comment";
+import { INewComment, IExtendedComment } from "../../interfaces/single/comment";
 import { IProfileUser } from "../../interfaces/user/profileUser";
 import { myFetch } from "../../tools/myFetch";
 import { imageApi } from "../../tools/variables";
@@ -13,9 +13,9 @@ import { TAddCommentData } from "../../zod";
 import useAddCommentForm from "../methods/useAddCommentForm";
 
 interface IAddCommentFormProps {
-  id: string;
-  localComments: IDisplayComment[];
-  setLocalComments: Dispatch<SetStateAction<IDisplayComment[]>>;
+  artPublicationId: string;
+  comments: IExtendedComment[];
+  setComments: Dispatch<SetStateAction<IExtendedComment[]>>;
 }
 
 export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element {
@@ -34,22 +34,26 @@ export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element
     setNbFetchs(nbFetchs + 1);
   };
 
-  const handleOk = async (json: IAddComment) => {
+  const handleOk = async (json: INewComment) => {
     const responseAuthor = await myFetch({ route: `/api/user/profile/${json.comment.userId}`, method: "GET" });
 
     if (responseAuthor.ok) {
       const author = responseAuthor.json as IProfileUser;
 
-      props.setLocalComments([
+      props.setComments([
         {
           id: json.comment.id,
           profilePicture: `${imageApi}/${author.profilePicture}`,
           username: author.username,
           text: json.comment.text,
           createdAt: json.comment.createdAt,
-          authorId: json.comment.userId,
+          userId: json.comment.userId,
+          artPublicationId: json.comment.artPublicationId,
+          parentCommentId: json.comment.parentCommentId,
+          nestedComments: [],
+          likes: [],
         },
-        ...props.localComments,
+        ...props.comments,
       ]);
     }
     methods.reset();
@@ -60,7 +64,7 @@ export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element
       <Fetcher
         method="POST"
         nbFetchs={nbFetchs}
-        route={`/api/art-publication/comment/${props.id}`}
+        route={`/api/art-publication/comment/${props.artPublicationId}`}
         body={body}
         successStr="Commentaire ajouté"
         handleOk={handleOk}

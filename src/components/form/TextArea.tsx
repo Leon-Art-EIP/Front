@@ -23,7 +23,7 @@ export default function TextArea(props: ITextAreaProps): JSX.Element {
         onChange={onChange}
         value={value}
         placeholder={props.placeholder}
-        className={cn("sm:min-w-min min-w-0", props.className)}
+        className={cn("sm:min-w-min min-w-0 px-6 py-4 rounded placeholder:text-tertiary-hover", props.className)}
       />
       {error && <div className="text-primary">{error.message}</div>}
     </div>

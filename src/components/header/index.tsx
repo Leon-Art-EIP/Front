@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { ITab } from "../../../src/interfaces";
-import { IArtist } from "../../interfaces/home/artist";
 import { myFetch } from "../../tools/myFetch";
 import { imageApi } from "../../tools/variables";
 import Link from "../link/Link";
 import Navbar from "../navbar/Navbar";
 import VerticalNavbar from "../navbar/VerticalNavbar";
+import { IProfileUser } from "../../interfaces/user/profileUser";
 
 interface IHeaderProps {
   tabs: ITab[];
@@ -28,7 +28,7 @@ export default function Header(props: IHeaderProps): JSX.Element {
     const fetchData = async () => {
       const response = await myFetch({ route: `/api/user/profile/${props.userId}`, method: "GET" });
       if (response.ok) {
-        const artist = response.json as IArtist;
+        const artist = response.json as IProfileUser;
         setProfilePicture(artist.profilePicture);
       }
     };

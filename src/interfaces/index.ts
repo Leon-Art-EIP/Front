@@ -20,4 +20,12 @@ export interface IUnauthorized {
 export interface IOption<T extends string | number> {
   value: T;
   label: string;
+  selected: boolean;
+}
+
+export interface IOptionSubOptions<T extends string | number> {
+  value: T;
+  label: string;
+  collapsed: boolean;
+  subOptions: IOption<T>[];
 }

@@ -17,7 +17,7 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
   const router = useRouter();
 
   const handleClick = (id: string) => {
-    // router.push(`/article/${props.users.users[index]._id}`);
+    // router.push(`/article/${props.users.users[index].id}`);
     router.push(`/article/${id}`);
   };
 

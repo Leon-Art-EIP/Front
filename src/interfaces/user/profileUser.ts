@@ -1,13 +1,22 @@
 import { IUser } from "./user";
 
 export interface IProfileUser extends IUser {
-  _id: string;
   subscriptions: string[];
   subscribers: string[];
   subscribersCount: number;
   likedPublications: string[];
   canPostArticles: boolean;
-  __v: number;
   bannerPicture: string;
   profilePicture: string;
+  biography?: string;
+  socialMediaLinks: {
+    instagram?: string;
+    twitter?: string;
+    facebook?: string;
+    tiktok?: string;
+  };
+  location?: {
+    type: "Point";
+    coordinates: [string, string];
+  };
 }

@@ -8,6 +8,7 @@ import { FormProvider } from "react-hook-form";
 import { useState } from "react";
 import Fetcher from "../../fetch/Fetcher";
 import TextArea from "../../form/TextArea";
+import { Warning } from "@mui/icons-material";
 
 interface IShareModalProps {
   closeModal(): void;
@@ -48,6 +49,9 @@ export default function ShareModal(props: IShareModalProps): JSX.Element {
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-4">
+              <h3 className="text-sm text-orange-500 flex gap-1 items-center">
+                <Warning className="text-sm text-orange-500" /> Vous ne pouvez créer qu&apos;un post toutes les 10 minutes
+              </h3>
               <TextArea
                 name="message"
                 placeholder="Je vous partage cette oeuvre car..."

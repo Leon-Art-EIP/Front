@@ -35,7 +35,7 @@ const tabs: ITab[] = [
   },
   {
     name: "Posts",
-    href: "/posts/latest",
+    href: "/posts/recent",
     loggedIn: true,
     navbar: true,
     verticalNavbar: true,
@@ -43,7 +43,7 @@ const tabs: ITab[] = [
   },
   {
     name: "Posts",
-    href: "/posts/trends",
+    href: "/posts/popular",
     loggedIn: false,
     navbar: false,
     verticalNavbar: false,
@@ -51,7 +51,7 @@ const tabs: ITab[] = [
   },
   {
     name: "Posts",
-    href: "/posts/myposts",
+    href: "/posts/user",
     loggedIn: false,
     navbar: false,
     verticalNavbar: false,
@@ -126,6 +126,14 @@ const tabs: ITab[] = [
     href: "/article",
     loggedIn: true,
     navbar: false,
+    verticalNavbar: true,
+    header: true,
+  },
+  {
+    name: "Carte",
+    href: "/map",
+    loggedIn: true,
+    navbar: true,
     verticalNavbar: true,
     header: true,
   },

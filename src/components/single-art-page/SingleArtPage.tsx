@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ElementType, useEffect, useState } from "react";
-import { ICollectionArtsExtended } from "../../interfaces/single/collection";
+import { ICollectionArtsExtended, INewCollection } from "../../interfaces/single/collection";
 import { IConnectedUser } from "../../interfaces/user/user";
 import { myFetch } from "../../tools/myFetch";
 import Fetcher from "../fetch/Fetcher";
@@ -11,6 +11,7 @@ import SaveGallery from "./artwork/SaveGallery";
 import SingleArtPageArtwork from "./artwork/SingleArtPageArtwork";
 import SingleArtPageCard from "./card/SingleArtPageCard";
 import SingleArtPageComments from "./comment/SingleArtPageComments";
+import { ICoords } from "../../wrappers/map/MapWrapper";
 
 export interface ISingleArtPageProps {
   description: string;
@@ -33,6 +34,8 @@ export interface ISingleArtPageProps {
   connectedUserId: string;
   isForSale: boolean;
   isSold: boolean;
+  onAddNewCollection: (collection: INewCollection) => void;
+  artistCoords: ICoords | undefined;
 }
 
 export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
@@ -41,8 +44,11 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   const [isLiked, setLiked] = useState(props.liked);
   const [selectedCollections, setSelectedCollections] = useState<string[]>(props.belongingCollectionsIds);
   const [currentUser, setCurrentUser] = useState<IConnectedUser>();
-  const [nbFetchs, setNbFetchs] = useState(0);
+  const [likeFetchs, setLikeFetchs] = useState(0);
   const [deleteFetchs, setDeleteFetchs] = useState(0);
+  const [newCollectionFetchs, setNewCollectionFetchs] = useState(0);
+  const [newCollectionBody, setNewCollectionBody] = useState("");
+  const [newCollectionLoading, setNewCollectionLoading] = useState(false);
 
   useEffect(() => {
     async function getCurrentUser() {
@@ -72,12 +78,12 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
     setModalOpen(false);
   };
 
-  const handleOk = () => {
+  const handleSuccessLike = () => {
     setLiked(!isLiked);
   };
 
   const heartOnClick = () => {
-    setNbFetchs(nbFetchs + 1);
+    setLikeFetchs(likeFetchs + 1);
   };
 
   const deleteOnClick = () => {
@@ -89,7 +95,6 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
   };
 
   function isArtPublicationBuyable() {
-    console.log(currentUser?.user.id, props.artistId, props.price, props);
     var isBuyable = true;
     if (props.price === 0 || !props.isForSale || currentUser?.user.id === props.artistId || props.isSold) {
       isBuyable = false;
@@ -112,19 +117,34 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
     }
   }
 
+  const handleSuccessNewCollection = (json: INewCollection) => {
+    setSelectedCollections([...selectedCollections, json.collection._id]);
+    props.onAddNewCollection(json);
+    setModalOpen(false);
+  };
+
   return (
     <>
       <Fetcher
         route={`/api/art-publication/like/${props.artId}`}
         method="POST"
-        nbFetchs={nbFetchs}
-        handleOk={handleOk}
+        nbFetchs={likeFetchs}
+        handleOk={handleSuccessLike}
       />
       <Fetcher
         route={`/api/art-publication/${props.artId}`}
         method="DELETE"
         nbFetchs={deleteFetchs}
         handleOk={handleSuccessDelete}
+      />
+      <Fetcher
+        method="POST"
+        route="/api/collection"
+        body={newCollectionBody}
+        handleOk={handleSuccessNewCollection}
+        nbFetchs={newCollectionFetchs}
+        setIsLoading={setNewCollectionLoading}
+        successStr="Collection créee"
       />
       <Modal isOpen={isModalOpen} handleClose={closeModal}>
         <SaveGallery
@@ -133,6 +153,10 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
           selectedCollections={selectedCollections}
           setSelectedCollections={setSelectedCollections}
           artId={props.artId}
+          setNewCollectionBody={setNewCollectionBody}
+          isNewCollectionLoading={newCollectionLoading}
+          newCollectionFetchs={newCollectionFetchs}
+          setNewCollectionFetchs={setNewCollectionFetchs}
         />
       </Modal>
       <div className="bg-background flex px-20 py-10 gap-8 flex-wrap lg:flex-nowrap">
@@ -140,6 +164,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
           <SingleArtPageArtwork
             art={props.art}
             artId={props.artId}
+            artistCoords={props.artistCoords}
             profile={props.profile}
             artisteName={props.artistName}
             artistId={props.artistId}
@@ -152,7 +177,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
             deleteOnClick={deleteOnClick}
             link={props.link}
           />
-          <SingleArtPageComments id={props.artId} connectedUserId={props.connectedUserId} />
+          <SingleArtPageComments artPublicationId={props.artId} connectedUserId={props.connectedUserId} />
         </div>
 
         <div className="flex flex-col gap-4 w-1/4">

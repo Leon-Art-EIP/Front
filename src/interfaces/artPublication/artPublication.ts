@@ -1,5 +1,3 @@
-import { IArtist } from "../home/artist";
-
 export interface IArtPublication {
   _id: string;
   userId: string;
@@ -7,14 +5,12 @@ export interface IArtPublication {
   artType: string;
   name: string;
   description: string;
-  dimension: string;
   isForSale: boolean;
   isSold: boolean;
   price: number;
   location: string;
   // likes: IArtist[];
-  isLiked: boolean;
+  likes: string[]; // id
   totalLikes: number;
   comments: string[];
-  __v: number;
 }

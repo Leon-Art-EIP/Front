@@ -1,16 +1,14 @@
 import { IArtPublication } from "../artPublication/artPublication";
 
-export interface ICreateCollection {
-  artPublicationId: string;
-  collectionName: string;
-  isPublic: boolean;
+export interface INewCollection {
+  msg: string;
+  collection: ICollection;
 }
 
 export interface ICollection {
   _id: string;
   name: string;
-  user: string; // id
-  __v?: number;
+  userId: string; // id
   artPublications: string[]; // id
   isPublic: boolean;
 }

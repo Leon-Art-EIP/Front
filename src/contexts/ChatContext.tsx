@@ -53,6 +53,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } else {
       setCurrentUser(JSON.parse(localStorage.getItem("user") || "{}"));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   async function sendMessage(message: string, to: string) {

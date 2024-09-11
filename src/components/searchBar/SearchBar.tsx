@@ -10,7 +10,7 @@ export function SearchBar({ onSearch }: SearchBarProps): JSX.Element {
     <div className="w-full">
       <div className="relative flex items-center w-full h-12 rounded-3xl focus-within:shadow-lg bg-secondary overflow-hidden">
         <input
-          className="peer h-full w-full outline-none text-md placeholder-secondary pl-6"
+          className="peer h-full w-full outline-none text-md placeholder:text-tertiary placeholder:opacity-50 pl-6"
           type="text"
           id="search"
           placeholder="Rechercher ..."

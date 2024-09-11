@@ -6,9 +6,9 @@ import Link from "../components/link/Link";
 import LoadingPage from "../components/loading/LoadingPage";
 import SingleArtPage from "../components/single-art-page/SingleArtPage";
 import { IArtPublication } from "../interfaces/artPublication/artPublication";
-import { ICollection, ICollectionArtsExtended } from "../interfaces/single/collection";
+import { ICollection, ICollectionArtsExtended, INewCollection } from "../interfaces/single/collection";
 import { IProfileUser } from "../interfaces/user/profileUser";
-import { IUser } from "../interfaces/user/user";
+import { IConnectedUser, IUser } from "../interfaces/user/user";
 import { IMyFetchResponse, myFetch } from "../tools/myFetch";
 import { imageApi } from "../tools/variables";
 
@@ -19,12 +19,20 @@ interface SingleArtPageWrapperProps {
 }
 
 export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): JSX.Element {
+  const [user, setUser] = useState<IUser | undefined>(undefined);
   const [artPublication, setArtPublication] = useState<IArtPublication>();
   const [artist, setArtist] = useState<IProfileUser>();
   const [collectionsArtsExtended, setCollectionsArtsExtended] = useState<ICollectionArtsExtended[]>([]);
   const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
+    const local = localStorage.getItem("user");
+
+    if (local) {
+      const localUser = JSON.parse(local) as IConnectedUser;
+      setUser(localUser.user);
+    }
+
     const getData = async () => {
       try {
         const [collectionsResponse, artPublicationResponse] = await Promise.all([
@@ -88,8 +96,6 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
     getData();
   }, [props.id]);
 
-  const user: IUser | undefined = JSON.parse(localStorage.getItem("user") || "").user;
-
   if (!user || !artPublication || !artist) {
     if (hasLoaded) {
       return <NotFound />;
@@ -102,10 +108,33 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
   );
   const idsOfCollectionsWithArt = getCollectionsWithArt.map((collection) => collection._id);
 
+  const onAddNewCollection = async (collection: INewCollection) => {
+    if (collection.collection.artPublications.length > 0) {
+      const artPublicationsResponse = await myFetch({
+        route: `/api/art-publication/${collection.collection.artPublications[0]}`,
+        method: "GET",
+      });
+
+      const artPublications: IArtPublication[] = [];
+
+      if (artPublicationsResponse.ok) {
+        artPublications.push(artPublicationsResponse.json);
+      }
+
+      setCollectionsArtsExtended([
+        ...collectionsArtsExtended,
+        {
+          ...collection.collection,
+          artPublications,
+        },
+      ]);
+    }
+  };
+
   return (
     <SingleArtPage
       artistName={artist.username}
-      artistId={artist._id}
+      artistId={artist.id}
       description={artPublication.description}
       caracteristics={artPublication.artType}
       price={artPublication.price}
@@ -113,10 +142,8 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       artId={artPublication._id}
       profile={`${imageApi}/${artist.profilePicture}`}
       title={artPublication.name}
-      // liked={artPublication.likes.find((like) => like._id === user.id) ? true : false}
-      liked={artPublication.isLiked}
-      // nbrLikes={artPublication.likes.length}
-      nbrLikes={artPublication.totalLikes}
+      liked={artPublication.likes.find((likeId) => likeId === user.id) ? true : false}
+      nbrLikes={artPublication.likes.length}
       collections={collectionsArtsExtended}
       belongingCollectionsIds={idsOfCollectionsWithArt}
       belongingCommands={false} // TODO
@@ -126,6 +153,15 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       connectedUserId={user.id}
       isForSale={artPublication.isForSale}
       isSold={artPublication.isSold}
+      onAddNewCollection={onAddNewCollection}
+      artistCoords={
+        artist.location
+          ? {
+              latitude: artist.location.coordinates[1],
+              longitude: artist.location.coordinates[0],
+            }
+          : undefined
+      }
     />
   );
 }

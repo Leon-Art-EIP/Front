@@ -59,6 +59,7 @@ export default function ExplorerWrapper(): JSX.Element {
     }
 
     fetchArtPub();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, unavailableToBuy]);
 
   function handleSearchTerm(searchTerm: string) {
@@ -71,7 +72,7 @@ export default function ExplorerWrapper(): JSX.Element {
 
   return (
     <div className="flex justify-center bg-background">
-      <div className="flex flex-col max-w-[1500px] w-full items-center gap-12 lg:py-8 py-4 lg:px-10 px-6">
+      <div className="flex flex-col max-w-[1500px] w-full items-center gap-4 lg:py-8 py-4 lg:px-10 px-6">
         <div className="flex flex-row w-full gap-4">
           <Searchbar handleSearchTerm={handleSearchTerm} />
           <Filters handleFilters={handleFilters} filters={filters} />
@@ -82,15 +83,15 @@ export default function ExplorerWrapper(): JSX.Element {
           unavailableToBuy={unavailableToBuy}
           setUnavailableToBuy={setUnavailableToBuy}
         />
-        {/* <span className="w-2/3 h-1 bg-secondary rounded-full"></span> */}
-        <div className="flex flex-col self-start gap-6 w-full">
-          <h1 className="text-tertiary">Artistes</h1>
-          <UsersSlider users={filteredUsers} />
-        </div>
-        {/* <span className="w-2/3 h-1 bg-secondary rounded-full"></span> */}
-        <div className="flex flex-col self-start gap-6 w-full">
-          <h1 className="text-tertiary">Publication d{"'"}arts</h1>
-          <Gallery4x4 artPublications={filteredArtPubs} />
+        <div className="flex flex-col w-full items-center gap-12">
+          <div className="flex flex-col self-start gap-6 w-full">
+            <h1 className="text-tertiary">Artistes</h1>
+            <UsersSlider users={filteredUsers} />
+          </div>
+          <div className="flex flex-col self-start gap-6 w-full">
+            <h1 className="text-tertiary">Publication d{"'"}arts</h1>
+            <Gallery4x4 artPublications={filteredArtPubs} />
+          </div>
         </div>
       </div>
     </div>

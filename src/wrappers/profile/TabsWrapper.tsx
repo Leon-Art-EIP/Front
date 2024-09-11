@@ -1,6 +1,6 @@
 "use client";
 
-import { ElementType, useState, useEffect } from "react";
+import { ElementType, useState, useEffect, SetStateAction, Dispatch } from "react";
 import Collections from "../../components/profile/collections/Collections";
 import Publications from "../../components/profile/publications/Publications";
 import Tabs from "../../components/profile/tabs/Tabs";
@@ -19,6 +19,8 @@ interface ITabsWrapperProps {
   publications: IProfileArt[];
   myProfile: boolean;
   link: ElementType<{ children: JSX.Element; href: string }>;
+  setProfileCollections: Dispatch<SetStateAction<IProfileCollection[]>>;
+  setCollectionsArtsExtended: Dispatch<SetStateAction<ICollectionArtsExtended[]>>;
 }
 
 export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
@@ -98,6 +100,8 @@ export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
           link={props.link}
           collections={props.collections}
           collectionsArtsExtended={props.collectionsArtsExtended}
+          setProfileCollections={props.setProfileCollections}
+          setCollectionsArtsExtended={props.setCollectionsArtsExtended}
         />
       )}
       {selectedTab === "about" && (

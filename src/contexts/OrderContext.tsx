@@ -22,7 +22,7 @@ interface OrderContextType {
   handleGoToChat: (orderType: "buy" | "sell") => void;
   handleConfirmReception: (orderType: "buy" | "sell") => void;
   handleCancelOrder: () => void;
-  handleConfirmSend: (orderType: "buy" | "sell") => void;
+  handleConfirmSend: (orderType: "buy" | "sell", rating: number) => void;
   clearSelectedOrder: () => void;
 }
 
@@ -65,6 +65,7 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } else {
       setCurrentUser(JSON.parse(localStorage.getItem("user") || "{}"));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         refreshSellOrders();
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
   async function refreshBuyOrders() {
@@ -169,14 +171,14 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }
 
-  async function handleConfirmSend(orderType: "buy" | "sell") {
+  async function handleConfirmSend(orderType: "buy" | "sell", rating: number) {
     if (currentUser) {
       const res = await myFetch({
         route: `/api/order/confirm-delivery-rate`,
         method: "POST",
         body: JSON.stringify({
           orderId: selectedOrderId,
-          rating: 5,
+          rating: rating,
         }),
       });
       if (res.ok) {

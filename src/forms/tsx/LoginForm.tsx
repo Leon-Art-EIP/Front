@@ -12,6 +12,8 @@ import { IConnectedUser } from "../../interfaces/user/user";
 import { TLoginData } from "../../zod";
 import useLoginForm from "../methods/useLoginForm";
 
+export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function LoginForm(): JSX.Element {
   const [body, setBody] = useState("");
   const [nbFetchs, setNbFetchs] = useState(0);
@@ -43,18 +45,7 @@ export default function LoginForm(): JSX.Element {
   };
 
   const handleGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-
-      const formData = {
-        email: "vivant.garrigues@gmail.com", // EMAIL PAR DEFAUT
-        password: "StrongPassword123*[", // MOT DE PASSE PAR DEFAUT
-      };
-      await handleSubmit(formData);
-    } catch (error) {
-      console.error("Google sign-in error:", error);
-    }
+    window.location.href = `${NEXT_PUBLIC_BACKEND_URL}/api/auth/google`;
   };
 
   // const handleGoogle = () => {
@@ -113,12 +104,12 @@ export default function LoginForm(): JSX.Element {
             placeholder="Mot de passe"
           />
           <a
-              className="text-tertiary font-medium text-sm self-end underline"
-              title="forgotten_password"
-              href="/forgotten_password"
-            >
-              Mot de passe oublié ?
-            </a>
+            className="text-tertiary font-medium text-sm self-end underline"
+            title="forgotten_password"
+            href="/forgotten_password"
+          >
+            Mot de passe oublié ?
+          </a>
           <div className="flex flex-col justify-center mt-5 gap-4">
             <button
               type="submit"
@@ -129,9 +120,9 @@ export default function LoginForm(): JSX.Element {
               Se connecter
             </button>
             <div className="flex flex-row items-center">
-              <span className="bg-tertiary w-full rounded-full h-[2px]"/>
+              <span className="bg-tertiary w-full rounded-full h-[2px]" />
               <span className="text-tertiary font-semibold px-6">Ou</span>
-              <span className="bg-tertiary w-full rounded-full h-[2px]"/>
+              <span className="bg-tertiary w-full rounded-full h-[2px]" />
             </div>
             <button
               type="button"

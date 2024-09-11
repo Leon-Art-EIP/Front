@@ -1,4 +1,4 @@
-import { BookmarkBorder, DeleteOutline, Favorite, FavoriteBorder, Share, Report } from "@mui/icons-material";
+import { BookmarkBorder, DeleteOutline, Favorite, FavoriteBorder, Map, Share, Report } from "@mui/icons-material";
 import { ElementType, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
@@ -9,6 +9,7 @@ import { Button, Modal } from "../../lib";
 import IconButton from "./IconButton";
 import ShareModal from "./ShareModal";
 import ReportModal from "../../../components/lib/Button/ReportModal";
+import { ICoords } from "../../../wrappers/map/MapWrapper";
 
 interface ISingleArtPageArtworkProps {
   art: string;
@@ -16,6 +17,7 @@ interface ISingleArtPageArtworkProps {
   profile: string;
   artisteName: string;
   artistId: string;
+  artistCoords: ICoords | undefined;
   connectedUserId: string;
   title: string;
   liked: boolean;
@@ -97,7 +99,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
         <img
           src={`${imageApi}/${props.art}`}
           alt={props.title}
-          className="w-full cursor-zoom-in"
+          className="w-full cursor-zoom-in rounded-2xl"
           onClick={onOpenLightbox}
         />
         <Lightbox
@@ -130,12 +132,26 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
               onClick={openReportModal}
               iconColor="text-tertiary"
             />
+            {props.artistCoords && (
+              <Link href={`/map?latitude=${props.artistCoords.latitude}&longitude=${props.artistCoords.longitude}`}>
+                <IconButton
+                  id="localisation-button"
+                  icon={Map}
+                  backgroundColor="bg-background-hl"
+                  iconColor="text-tertiary"
+                  className="flex gap-4 px-6 py-2.5"
+                  title="Voir sur la carte"
+                />
+              </Link>
+            )}
             <IconButton
               id="share-button"
               icon={Share}
               backgroundColor="bg-background-hl"
               onClick={openShareModal}
               iconColor="text-tertiary"
+              className="flex gap-4 px-6 py-2.5"
+              title="Partager"
             />
             {props.artistId === props.connectedUserId && (
               <IconButton
@@ -144,6 +160,8 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
                 backgroundColor="bg-background-hl"
                 onClick={openModal}
                 iconColor="tertiary"
+                className="flex gap-4 px-6 py-2.5"
+                title="Supprimer"
               />
             )}
             <IconButton
@@ -152,6 +170,8 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
               backgroundColor="bg-background-hl"
               onClick={props.bookmarkOnClick}
               iconColor="text-tertiary"
+              className="flex gap-4 px-6 py-2.5"
+              title="Ajouter à une collection"
             />
             <IconButton
               id="like-button"
@@ -160,6 +180,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
               backgroundColor="bg-background-hl"
               onClick={props.heartOnClick}
               iconColor={props.liked ? "text-primary" : "text-tertiary"}
+              className="flex gap-4 px-6 py-2.5"
             />
           </div>
         </div>

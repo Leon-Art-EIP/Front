@@ -31,7 +31,7 @@ export function MessageInput(props: MessageInputProps): JSX.Element {
           value={messageToSend}
           onChange={(e) => setMessageToSend(e.target.value)}
           placeholder="Votre message..."
-          className="text-tertiary w-full bg-inherit outline-none placeholder:text-secondary rounded-full pl-6"
+          className="text-tertiary w-full bg-inherit outline-none placeholder:text-tertiary placeholder:opacity-50 rounded-full pl-6"
         />
         <button type="submit" className="bg-quaternary-hover p-3 rounded-full h-full text-center">
           <SendIcon className="h-7 w-7 fill-quaternary" />

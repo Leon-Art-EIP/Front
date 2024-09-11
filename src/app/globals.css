@@ -2,22 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-html body {
-  font-family: "Oxygen", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+html, body {
+  font-family: var(--font-inter);
+	background-color: var(--color-background);
+  color: var(--color-tertiary);
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
-	font-family: "Rufina", serif !important;
+  font-family: var(--font-syne);
   font-weight: 700;
-	font-size: 48px;
+  font-size: 48px;
 }
 
 h2 {
-	font-family: "Rufina", serif !important;
+  font-family: var(--font-syne);
   font-weight: 400;
-	font-size: 36px;
+  font-size: 36px;
 }
 
 .page-content-non-scrollable {
@@ -83,7 +86,7 @@ footer {
 	/* Light theme (default) */
 	:root {
 		--color-primary: #e03915;
-		--color-primaryHover: #e03a15d6;
+		--color-primaryHover: #b83012d6;
 		--color-primaryPressed:	#e03a15d6;
 		--color-primaryDisabled: #e03a1580;
 
@@ -132,4 +135,58 @@ footer {
     --color-background: #1a202c;
 		--color-backgroundHighlight:#48395f;
 	}
+
+/* Solarized theme */
+:root[data-theme="solarized"] {
+	--color-primary: #268bd2; /* Bright blue contrasting with solarized background */
+	--color-primaryHover: #2aa198;
+	--color-primaryPressed: #d33682;
+	--color-primaryDisabled: #268bd280;
+
+	--color-secondary: #839496;
+	--color-secondaryHover: #93a1a1;
+	--color-secondaryPressed: #586e75;
+	--color-secondaryDisabled: #83949680;
+
+	--color-tertiary: #eee8d5; /* Light color for text */
+	--color-tertiaryHover: #657b83;
+	--color-background: #002b36;
+	--color-backgroundHighlight: #073642;
+}
+
+/* High Contrast theme */
+:root[data-theme="high-contrast"] {
+	--color-primary: #ffeb3b; /* Bright yellow for strong contrast */
+	--color-primaryHover: #ffea00;
+	--color-primaryPressed: #ffc107;
+	--color-primaryDisabled: #ffeb3b80;
+
+	--color-secondary: #ffffff;
+	--color-secondaryHover: #cccccc;
+	--color-secondaryPressed: #bdbdbd;
+	--color-secondaryDisabled: #ffffff80;
+
+	--color-tertiary: #ffffff; /* White for strong text contrast */
+	--color-tertiaryHover: #cccccc;
+	--color-background: #000000;
+	--color-backgroundHighlight: #1a1a1a;
+}
+
+/* Pastel theme */
+:root[data-theme="pastel"] {
+	--color-primary: #ff69b4; /* Hot pink contrasting with pastel background */
+	--color-primaryHover: #ff85c1;
+	--color-primaryPressed: #ff5e9c;
+	--color-primaryDisabled: #ff69b480;
+
+	--color-secondary: #ffb6c1;
+	--color-secondaryHover: #ffc1cc;
+	--color-secondaryPressed: #ffa1af;
+	--color-secondaryDisabled: #ffb6c180;
+
+	--color-tertiary: #333333; /* Dark text color for contrast */
+	--color-tertiaryHover: #4d4d4d;
+	--color-background: #f7e1e3;
+	--color-backgroundHighlight: #f3d3d6;
+}
 }
