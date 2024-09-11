@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 const ThemeSelector = () => {
   const [selectedTheme, setSelectedTheme] = useState("");
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const themes = [
     {
       name: "light",
@@ -13,7 +12,7 @@ const ThemeSelector = () => {
         DEFAULT: "#ffffff",
         hover: "#f0f0f0",
       },
-      secondary: "#ff0000", // Red color for light theme
+      secondary: "#ff0000",
     },
     {
       name: "dark",
@@ -21,7 +20,7 @@ const ThemeSelector = () => {
         DEFAULT: "#333333",
         hover: "#555555",
       },
-      secondary: "#00ff00", // Green color for dark theme
+      secondary: "#00ff00",
     },
     {
       name: "dark-purple",
@@ -29,13 +28,48 @@ const ThemeSelector = () => {
         DEFAULT: "#9c27b0",
         hover: "#aa00ff",
       },
-      secondary: "#0000ff", // Blue color for dark-purple theme
+      secondary: "#0000ff",
+    },
+    {
+      name: "solarized",
+      primary: {
+        DEFAULT: "#002b36",
+        hover: "#073642",
+      },
+      secondary: "#268bd2",
+    },
+    {
+      name: "high-contrast",
+      primary: {
+        DEFAULT: "#000000",
+        hover: "#1a1a1a",
+      },
+      secondary: "#ffff00",
+    },
+    {
+      name: "pastel",
+      primary: {
+        DEFAULT: "#f7e1e3",
+        hover: "#f2c5cc",
+      },
+      secondary: "#ffb6c1",
     },
   ];
 
   useEffect(() => {
-    setSelectedTheme("");
-  }, [themes]);
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setSelectedTheme(savedTheme);
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    } else {
+      console.log("settt");
+      // Set theme based on system preference if no saved theme
+      const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const defaultTheme = prefersDarkScheme ? "dark" : "light";
+      setSelectedTheme(defaultTheme);
+      document.documentElement.setAttribute("data-theme", defaultTheme);
+    }
+  }, []);
 
   const toggleTheme = (theme: string) => {
     setSelectedTheme(theme);
