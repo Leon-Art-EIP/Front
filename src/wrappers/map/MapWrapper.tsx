@@ -9,7 +9,7 @@ import { CircularProgress } from "@mui/material";
 import { myFetch } from "../../tools/myFetch";
 import { IProfileUser } from "../../interfaces/user/profileUser";
 import { ILocatedMapUser, IMapUser } from "../../interfaces/map";
-import { nancyPositionsList, positionToCoords } from "../../tools/positions";
+import { positionToCoords } from "../../tools/positions";
 
 export interface ICoords {
   latitude: string;
@@ -50,7 +50,10 @@ async function fetchLocatedMapUsers(
               _id: user._id,
               username: user.username,
               profilePicture: user.profilePicture,
-              position: nancyPositionsList[Math.floor(Math.random() * nancyPositionsList.length)],
+              position: {
+                lat,
+                lng,
+              },
             };
           }
         }
