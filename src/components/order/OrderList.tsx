@@ -3,6 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useEffect, useState } from "react";
 import { useOrder } from "../../contexts/OrderContext";
 import { IOrder } from "../../interfaces/order/orders";
+import { cn } from "../../tools/cn";
 
 export interface OrderListProps {
   orderType: "buy" | "sell";
@@ -43,6 +44,14 @@ export default function OrderList(props: OrderListProps): JSX.Element {
     handleSelectOrder(orderId);
   }
 
+  const openBuyOrdersCount = buyOrders.filter(
+    (order) => order.orderState === "pending" || order.orderState === "paid" || order.orderState === "shipping"
+  ).length;
+
+  const openSellOrdersCount = sellOrders.filter(
+    (order) => order.orderState === "pending" || order.orderState === "paid" || order.orderState === "shipping"
+  ).length;
+
   return (
     <div className="text-tertiary flex flex-col h-full bg-background-hl shadow-[3px_0_3px_0px_rgba(170,170,170)] py-10 px-6 gap-6">
       <div className="flex flex-col items-center justify-between gap-4">
@@ -57,6 +66,15 @@ export default function OrderList(props: OrderListProps): JSX.Element {
               }`}
             >
               Achat
+              <span
+                className={cn(
+                  "inline-flex py-1 px-3 text-xs rounded-2xl ml-2",
+                  "bg-primary text-secondary",
+                  "transform translate-y-[-3px]"
+                )}
+              >
+                {openBuyOrdersCount}
+              </span>
             </span>
           </button>
           <button onClick={() => onOrderTypeChange("sell")}>
@@ -68,6 +86,15 @@ export default function OrderList(props: OrderListProps): JSX.Element {
               }`}
             >
               Vente
+              <span
+                className={cn(
+                  "inline-flex py-1 px-3 text-xs rounded-2xl ml-2",
+                  "bg-primary text-secondary",
+                  "transform translate-y-[-3px]"
+                )}
+              >
+                {openSellOrdersCount}
+              </span>
             </span>
           </button>
         </div>
