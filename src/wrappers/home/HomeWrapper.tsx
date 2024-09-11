@@ -57,9 +57,9 @@ export default function HomeWrapper(): JSX.Element {
             <h1 className="text-tertiary">Pour vous</h1>
             <Gallery4x4 artPublications={arts} />
           </div>
-        </div>
-        <div className="w-full">
-          <Footer></Footer>
+          <div className="w-full">
+            <Footer></Footer>
+          </div>
         </div>
       </div>
     </>
