@@ -39,7 +39,7 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
 
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedOrderId, selectedOrder]);
+  }, [selectedOrderId]);
 
   // useEffect(() => {
   //   const fetchProfilePicture = async () => {
