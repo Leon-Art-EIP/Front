@@ -41,26 +41,26 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOrderId, selectedOrder]);
 
-  useEffect(() => {
-    const fetchProfilePicture = async () => {
-      if (!selectedOrder) return;
+  // useEffect(() => {
+  //   const fetchProfilePicture = async () => {
+  //     if (!selectedOrder) return;
 
-      const userId = props.orderType === "buy" ? selectedOrder.sellerId : selectedOrder.buyerId;
+  //     const userId = props.orderType === "buy" ? selectedOrder.sellerId : selectedOrder.buyerId;
 
-      if (userId) {
-        const res = await myFetch({ route: `/api/user/profile/${userId}`, method: "GET" });
-        if (res.ok) {
-          const data = res.json;
-          setProfilePicture(data.profilePicture);
-        } else {
-          console.log("Failed to fetch profile picture");
-        }
-      }
-    };
+  //     if (userId) {
+  //       const res = await myFetch({ route: `/api/user/profile/${userId}`, method: "GET" });
+  //       if (res.ok) {
+  //         const data = res.json;
+  //         setProfilePicture(data.profilePicture);
+  //       } else {
+  //         console.log("Failed to fetch profile picture");
+  //       }
+  //     }
+  //   };
 
-    fetchProfilePicture();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedOrder]);
+  //   fetchProfilePicture();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selectedOrder]);
 
   function onGoToUserProviderProfile() {
     handleGoToUserProviderProfile(props.orderType);
