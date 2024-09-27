@@ -14,7 +14,7 @@ import { getMessaging, onMessage } from "firebase/messaging";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { INotification } from "../../../interfaces/notifications/notifications";
-import firebaseApp from "../../../tools/firebase";
+import { app } from "../../../configs/firebase/firebase.config";
 import { myFetch } from "../../../tools/myFetch";
 
 export default function Notifications() {
@@ -28,7 +28,7 @@ export default function Notifications() {
 
   useEffect(() => {
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-      const messaging = getMessaging(firebaseApp);
+      const messaging = getMessaging(app);
       onMessage(messaging, (payload) => {
         // Handle the received push notification while the app is in the foreground
         // You can display a notification or update the UI based on the payload

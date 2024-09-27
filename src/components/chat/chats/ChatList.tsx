@@ -13,6 +13,7 @@ export default function ChatList(): JSX.Element {
 
   useEffect(() => {
     filterChats(searchTerm);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chats, searchTerm]);
 
   function handleSearch(search: string) {

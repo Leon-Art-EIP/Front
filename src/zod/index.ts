@@ -7,7 +7,7 @@ import { getValueOrUndefined } from "./utils";
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const nonEmptyString = z.string().min(1, { message: "Veuillez remplir ce champ" });
-const nonStringSelected = z.string().min(1, { message: "Veuillez séléctionner au moins un champ" });
+const nonStringSelected = z.string().min(1, { message: "Veuillez sélectionner au moins un champ" });
 const validEmail = nonEmptyString.regex(emailRegex, { message: "Adresse email invalide" });
 
 export const loginSchema = z.object({
