@@ -21,7 +21,6 @@
     "noEmit": true,
     "jsx": "preserve",
     "types": [
-      "cypress",
       "node"
     ],
     "incremental": true,

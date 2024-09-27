@@ -1,6 +1,5 @@
 "use client";
 
-import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import Fetcher from "../../../components/fetch/Fetcher";
 import TitledLabel from "../../../components/label/TitledLabel";
