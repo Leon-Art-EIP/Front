@@ -14,6 +14,11 @@ export default function Searchbar(props: SearchbarProps): JSX.Element {
     props.handleSearchTerm(searchTerm);
   }
 
+  function clearSearchTerm() {
+    setSearchTerm("");
+    props.handleSearchTerm("");
+  }
+
   return (
     <form className="relative w-full" onSubmit={onSearchTerm}>
       <input
@@ -26,10 +31,10 @@ export default function Searchbar(props: SearchbarProps): JSX.Element {
         type="submit"
         className="p-2 absolute top-2 left-4 hover:opacity-75 rounded-xl transition hover:bg-secondary hover:shadow-lg duration-300 ease-in-out"
       >
-        <SearchIcon className={`text-tertiary`} />
+        <SearchIcon className={`text-tertiary`}/>
       </button>
       {searchTerm && (
-        <button className="absolute top-2 right-2">
+        <button className="absolute top-1/2 transform -translate-y-1/2 right-4" onClick={clearSearchTerm}>
           <ClearIcon className="text-primary" />
         </button>
       )}
