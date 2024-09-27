@@ -52,15 +52,6 @@ export default function PriceFilters(props: PriceFiltersProps): JSX.Element {
           {priceRange.priceRangeTitle}
         </button>
       ))}
-      <button
-        type="button"
-        className={`py-2 w-full whitespace-nowrap border-secondary border-2 flex flex-row justify-between items-center px-4 rounded-xl hover:bg-secondary-hover hover:shadow-lg duration-300 ease-in-out text-tertiary ${
-          props.unavailableToBuy ? "bg-secondary" : ""
-        }`}
-        onClick={() => props.setUnavailableToBuy(!props.unavailableToBuy)}
-      >
-        {"Indisponible à la vente"}
-      </button>
     </div>
   );
 }
