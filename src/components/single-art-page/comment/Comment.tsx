@@ -190,19 +190,21 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
 
         {!props.isChild && areChildrenCommentsVisible && (
           <div className="flex flex-col gap-8">
-            {props.comment.nestedComments.map((nestedComment) => (
-              <Comment
-                key={nestedComment.id}
-                comment={nestedComment}
-                connectedUserId={props.connectedUserId}
-                openDeleteModal={props.openDeleteModal}
-                parentCommentId={props.comment.id}
-                artPublicationId={props.artPublicationId}
-                onLikeComment={props.onLikeComment}
-                onAddComment={props.onAddComment}
-                isChild
-              />
-            ))}
+            {props.comment.nestedComments
+              .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+              .map((nestedComment) => (
+                <Comment
+                  key={nestedComment.id}
+                  comment={nestedComment}
+                  connectedUserId={props.connectedUserId}
+                  openDeleteModal={props.openDeleteModal}
+                  parentCommentId={props.comment.id}
+                  artPublicationId={props.artPublicationId}
+                  onLikeComment={props.onLikeComment}
+                  onAddComment={props.onAddComment}
+                  isChild
+                />
+              ))}
           </div>
         )}
       </div>
