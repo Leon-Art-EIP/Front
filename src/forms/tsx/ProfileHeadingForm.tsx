@@ -60,6 +60,7 @@ export default function ProfileHeadingForm(props: IHeadingProps): JSX.Element {
       const data = response.json as IProfileUser;
       if (isProfilePictureModalOpen) {
         setCurrentProfilePicture(`${imageApi}/${data.profilePicture}`);
+        window.location.reload();
       } else {
         setCurrentBannerPicture(`${imageApi}/${data.bannerPicture}`);
       }

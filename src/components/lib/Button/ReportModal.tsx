@@ -22,7 +22,6 @@ const infractionTranslations: { [key: string]: string } = {
 };
 
 export default function ReportButton(props: ReportButtonProps): JSX.Element {
-  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportInputValue, setReportInputValue] = useState<string>("");
   const [infractions, setInfractions] = useState<string[]>([]);
   const [selectedReason, setSelectedReason] = useState<string>(infractions[0] || "");
@@ -47,7 +46,7 @@ export default function ReportButton(props: ReportButtonProps): JSX.Element {
       })
     );
     setNbFetchs(nbFetchs + 1);
-    setIsReportModalOpen(false);
+    props.closeModal();
   };
 
   useEffect(() => {
@@ -68,7 +67,7 @@ export default function ReportButton(props: ReportButtonProps): JSX.Element {
         method="POST"
         nbFetchs={nbFetchs}
         route="/api/signalments/art-publication"
-        successStr="Report submitted successfully"
+        successStr="Le signalement a bien été envoyé"
         body={body}
         setIsLoading={setIsLoading}
       />

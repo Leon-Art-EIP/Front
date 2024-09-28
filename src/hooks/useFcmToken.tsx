@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getMessaging, getToken } from 'firebase/messaging';
-import firebaseApp from '../tools/firebase';
+import { app } from '../configs/firebase/firebase.config';
 
 // vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY
 
@@ -13,7 +13,7 @@ const useFcmToken = () => {
     const retrieveToken = async () => {
       try {
         if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-          const messaging = getMessaging(firebaseApp);
+          const messaging = getMessaging(app);
 
           // Retrieve the notification permission status
           const permission = await Notification.requestPermission();

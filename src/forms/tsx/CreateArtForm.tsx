@@ -93,7 +93,7 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
             <h2>
               1<sup>ère</sup> étape: Sélectionner une image
             </h2>
-            <label className="text-tertiary-hover px-6">La taille de l{"'"}image ne doit pas dépasser les 5MB.</label>
+            <label className="text-tertiary-hover px-6">La taille de l{"'"}image ne doit pas dépasser les 50MB.</label>
             {imageImported && (
               <>
                 <img
@@ -123,7 +123,7 @@ export default function CreateArtForm(props: ICreateArtFormProps): JSX.Element {
                 />
               </>
             )}
-            <FileInput name="image" maxFileSize={5} /> {/* 5MB */}
+            <FileInput name="image" maxFileSize={50} /> {/* 50MB */}
           </div>
           <div className="flex flex-col gap-4">
             <h2>

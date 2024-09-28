@@ -33,6 +33,10 @@ async function fetchData(
   if (response.ok) {
     const data = response.json as IPost[];
 
+    if (route === "/api/posts?filter=popular") {
+      data.sort((a, b) => b.likes.length - a.likes.length);
+    }
+
     setPosts(data);
   }
 

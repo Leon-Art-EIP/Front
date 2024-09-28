@@ -33,16 +33,22 @@ export default function ExplorerWrapper(): JSX.Element {
   });
 
   function createQueryStringForFetch(filters: IFilters): string {
-    return `?${filters.searchTerm ? `searchTerm=${filters.searchTerm}&` : ""}${
-      filters.artType ? `artType=${filters.artType}&` : ""
-    }${filters.priceRange ? `priceRange=${filters.priceRange}&` : ""}${
-      filters.isForSale ? `isForSale=${filters.isForSale}&` : ``
-    }${unavailableToBuy ? `isForSale=false&` : ``}
-    ${filters.sort ? `sort=${filters.sort}&` : ""}${filters.artPage ? `artPage=${filters.artPage}&` : ""}${
-      filters.artLimit ? `artLimit=${filters.artLimit}&` : ""
-    }${filters.artistPage ? `artistPage=${filters.artistPage}&` : ""}${
-      filters.artistLimit ? `artistLimit=${filters.artistLimit}` : ""
-    }`.slice(0, -1);
+    const queryParams = [
+      filters.searchTerm ? `searchTerm=${filters.searchTerm}` : "",
+      filters.artType ? `artType=${filters.artType}` : "",
+      filters.priceRange ? `priceRange=${filters.priceRange}` : "",
+      filters.isForSale ? `isForSale=${filters.isForSale}` : "",
+      filters.sort ? `sort=${filters.sort}` : "",
+      filters.artPage ? `artPage=${filters.artPage}` : "",
+      filters.artLimit ? `artLimit=${filters.artLimit}` : "",
+      filters.artistPage ? `artistPage=${filters.artistPage}` : "",
+      filters.artistLimit ? `artistLimit=${filters.artistLimit}` : "",
+      unavailableToBuy ? `isForSale=false` : ""
+    ]
+    .filter(Boolean)
+    .join("&");
+  
+    return queryParams ? `?${queryParams}` : "";
   }
 
   useEffect(() => {
