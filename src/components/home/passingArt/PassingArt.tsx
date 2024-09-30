@@ -39,6 +39,7 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
                 e.stopPropagation();
                 handleClick(props.passingArt._id);
               }}
+              style={{ userSelect: "none" }}
             >
               {props.passingArt.title}
             </div>
