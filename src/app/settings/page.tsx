@@ -7,8 +7,9 @@ import IconLabel from "../../components/label/IconLabel";
 import ThemeSelector from "../../components/theme/ThemeSelector";
 import "../globals.css";
 import CustomSwitch from "../../components/buttons/CustomSwitch";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { myFetch } from "../../tools/myFetch";
+import { IProfileUser } from "../../interfaces/user/profileUser";
 
 interface ISettingTab {
   icon: any;
@@ -19,6 +20,8 @@ interface ISettingTab {
 
 export default function Page(): JSX.Element {
   const [switchState, setSwitchState] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const tabs: ISettingTab[] = [
     {
       icon: AccountCircle,
@@ -50,8 +53,33 @@ export default function Page(): JSX.Element {
     },
   ];
 
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      console.log(JSON.parse(localStorage.getItem("user") || "{}"));
+      const user: IProfileUser = JSON.parse(localStorage.getItem("user") || "{}");
+      const userId = user.user.id; // Use user.user.id if that's where the ID is located
+      const response = await myFetch({ route: `/api/user/profile/${userId}`, method: "GET" });
+      if (response.ok) {
+        const profileData: IProfileUser = response.json;
+        // console.log("Profile Data:", profileData);
+        console.log("Profile Data:", response);
+
+        // Check if the property exists before setting the switch state
+        if (profileData.emailNotificationEnabled !== undefined) {
+          setSwitchState(profileData.emailNotificationEnabled);
+        } else {
+          console.error("emailNotificationEnabled property not found in profileData.");
+        }
+      } else {
+        console.error("Failed to fetch user profile:", response.message);
+      }
+      setLoading(false); // Set loading to false after fetching data
+    };
+
+    fetchUserProfile();
+  }, []);
+
   const handleSwitchChange = async () => {
-    // Toggle switch state
     const newSwitchState = !switchState;
     setSwitchState(newSwitchState);
 
@@ -60,6 +88,8 @@ export default function Page(): JSX.Element {
       console.log("Failed to switch email notifications");
     }
   };
+
+  if (loading) return <div>Loading...</div>; // Show a loading state if needed
 
   return (
     <div className="flex justify-center">
