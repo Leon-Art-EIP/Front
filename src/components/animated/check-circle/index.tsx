@@ -1,5 +1,5 @@
 import "./index.css";
-
+/* c8 ignore start */
 export default function CheckCircle() {
   return (
     <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
@@ -8,3 +8,4 @@ export default function CheckCircle() {
     </svg>
   );
 }
+/* c8 ignore stop */

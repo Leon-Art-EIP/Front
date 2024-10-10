@@ -2,6 +2,7 @@ import Art from "../../assets/art1.jpeg";
 import Profile from "../../assets/profile1.jpeg";
 import { ISingleArtPageProps } from "./SingleArtPage";
 
+/* c8 ignore start */
 const data: Omit<ISingleArtPageProps, "link"> = {
   description:
     "Cette peinture est l’expression la plus pure du mélange chaud/froid, défini par les différentes teintes de rose et de bleu. Ici, nous pouvons assister à un affrontement au sein même de la nature : le froid et la tristesse des vagues contre la chaleur ainsi que l’aridité du désert rosé.",
@@ -31,3 +32,4 @@ const data: Omit<ISingleArtPageProps, "link"> = {
 };
 
 export default data;
+/* c8 ignore stop */
