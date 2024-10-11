@@ -178,7 +178,11 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
       }
 
       const fetchedAverageRating = await fetchAverageRating(props.id);
-      setAverageRating(parseFloat(fetchedAverageRating.toFixed(1)));
+      if (fetchedAverageRating >= 0) {
+        setAverageRating(parseFloat(fetchedAverageRating.toFixed(1)));
+      } else {
+        setAverageRating(-1);
+      }
       const fetchedFollowers: IUser[] = await fetchFollowers();
       setFollowers(fetchedFollowers);
       const fetchedFollowed: IUser[] = await fetchFollowed();
