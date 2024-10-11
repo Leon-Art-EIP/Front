@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useChat } from "../../../contexts/ChatContext";
 import { IChat } from "../../../interfaces/chat/chats";
 import { SearchBar } from "../../searchBar/SearchBar";
@@ -10,6 +11,7 @@ export default function ChatList(): JSX.Element {
   const { chats, currentUser, currentChat, setCurrentChat, refreshChats } = useChat() || {};
   const [searchTerm, setSearchTerm] = useState("");
   const filteredChats = filterChats(searchTerm);
+  const router = useRouter();
 
   useEffect(() => {
     filterChats(searchTerm);
@@ -38,6 +40,7 @@ export default function ChatList(): JSX.Element {
 
   function handleDeleteChat(chatId: string) {
     refreshChats();
+    router.push("/chat");
   }
 
   return (
