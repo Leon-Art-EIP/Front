@@ -9,7 +9,7 @@ export function Chat(props: ChatProps): JSX.Element {
   return (
     <div className={`flex flex-col ${props.sender ? "items-start" : "items-end"} justify-center px-6`}>
       <div
-        className={`rounded-2xl p-4 max-w-xl ${
+        className={`rounded-2xl p-4 max-w-xl break-words ${
           props.sender ? "bg-background-hl text-tertiary" : "bg-primary text-white"
         }`}
       >
