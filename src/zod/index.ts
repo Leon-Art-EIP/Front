@@ -20,10 +20,6 @@ export const registerSchema = z
     username: nonEmptyString.max(20, { message: "Le nom d'utilisateur ne doit pas dépasser 20 caractères" }),
     email: validEmail,
     password: nonEmptyString,
-    conscent: z.boolean({
-      required_error: "Vous devez accepter les conditions d'utilisation",
-      invalid_type_error: "conscent must be a boolean",
-    }),
   })
   .superRefine((data, ctx) => {
     if (zxcvbn(data.password).score < 3) {

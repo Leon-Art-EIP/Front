@@ -5,7 +5,7 @@ import LoginForm from "../../forms/tsx/LoginForm";
 export default function Page(): JSX.Element {
   return (
     <div className="bg-background flex h-screen">
-      <div className="bg-background shadow-[10px_0_10px_-10px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center fixed">
+      <div className="bg-background shadow-[10px_0_10px_-10px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center overflow-y-auto fixed">
         <label className="xl:hidden block text-6xl font-bold">
           <TextLogo />
         </label>
