@@ -157,7 +157,7 @@ export default function RegisterForm(): JSX.Element {
       )}
       <FormProvider {...methods}>
         <form
-          className="text-tertiary flex flex-col gap-6 w-full mt-6 xl:mt-24"
+          className="text-tertiary flex flex-col gap-6 w-full mt-6 md:mt-14 xl:mt-24"
           onSubmit={methods.handleSubmit(onSubmit)}
         >
           <Input

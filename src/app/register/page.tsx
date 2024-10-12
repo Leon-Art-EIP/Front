@@ -4,12 +4,12 @@ import RegisterForm from "../../forms/tsx/RegisterForm";
 export default function Page(): JSX.Element {
   return (
     <div className="flex h-screen">
-      <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center fixed">
-        <label className="xl:hidden block text-6xl font-bold">
+      <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center fixed overflow-y-auto">
+        <label className="xl:hidden block text-6xl font-bold mt-10">
           <span className="text-[#E11C0A] cursor-default">Leon</span>
           <span className="text-[#000000] cursor-default">&apos;Art</span>
         </label>
-        <div className="max-w-xs w-full pt-28 xl:pt-0">
+        <div className="max-w-xs w-full h-full pt-28 xl:pt-0">
           <h1 className="text-tertiary text-[50px] text-center">
             S&apos;enregistrer
           </h1>
