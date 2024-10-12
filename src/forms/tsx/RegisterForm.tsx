@@ -27,6 +27,8 @@ export default function RegisterForm(): JSX.Element {
   const [generalConditionsText, setGeneralConditionsText] = useState<string>("");
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [usernameConflict, setUsernameConflict] = useState<boolean>(false);
+  const [conscentError, setConscentError] = useState<boolean>(false);
+  const [conscent, setConscent] = useState<boolean>(false);
 
   function handleToggleDeliveryHelpModal() {
     setGeneralConditionsModal(!generalConditionsModal);
@@ -67,6 +69,10 @@ export default function RegisterForm(): JSX.Element {
   };
 
   const onSubmit = async (data: TRegisterData): Promise<void> => {
+    if (!conscent) {
+      setConscentError(true);
+      return;
+    }
     await handleSubmit(data);
   };
 
@@ -111,6 +117,13 @@ export default function RegisterForm(): JSX.Element {
     setUsernameError(null);
     setUsernameConflict(false);
   };
+
+  const onChangeConscent = () => {
+    setConscent(!conscent);
+    if (conscentError) {
+      setConscentError(false);
+    }
+  }
 
   return (
     <>
@@ -172,7 +185,7 @@ export default function RegisterForm(): JSX.Element {
             placeholder="Mot de passe"
           />
           <div className="flex flex-row gap-2 justify-start">
-            <Input type="checkbox" name="conscent" placeholder="" className="m-1" />
+            <input type="checkbox" name="conscent" className="m-1" onChange={onChangeConscent}/>
             <label htmlFor="terms" className="text-sm font-normal w-11/12">
               En vous enregistrant, vous acceptez les
               <span
@@ -184,6 +197,7 @@ export default function RegisterForm(): JSX.Element {
               </span>
             </label>
           </div>
+          {conscentError && <div className="text-primary text-sm">Veuillez accepter les conditions générales de vente.</div>}
           <div className="flex flex-col gap-2 justify-center mt-5 ">
             <button
               type="submit"
