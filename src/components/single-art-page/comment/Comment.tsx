@@ -3,7 +3,7 @@
 import { IExtendedComment, ILikeComment, INewComment, TChildExtendedComment } from "../../../interfaces/single/comment";
 import IconButton from "../artwork/IconButton";
 import { stringToFrenchDate } from "../../../tools/date";
-import { Delete, Reply, ExpandMore, ExpandLess, ThumbUp, ThumbUpOutlined } from "@mui/icons-material";
+import { Delete, Reply, ThumbUp, ThumbUpOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import { cn } from "../../../tools/cn";
 import { useState } from "react";
@@ -11,6 +11,7 @@ import { myFetch } from "../../../tools/myFetch";
 import { IProfileUser } from "../../../interfaces/user/profileUser";
 import Fetcher from "../../fetch/Fetcher";
 import { imageApi } from "../../../tools/variables";
+import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 
 interface IParentCommentProps {
   comment: IExtendedComment;
@@ -39,11 +40,16 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
   const [isReplying, setIsReplying] = useState<boolean>(false);
   const [replyMessage, setReplyMessage] = useState<string>("");
   const [nbFetch, setNbFetchs] = useState(0);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const isCommentLiked = props.comment.likes.includes(props.connectedUserId);
 
   const toggleCommentsVisibility = () => {
     setAreChildrenCommentsVisible(!areChildrenCommentsVisible);
+  };
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
   };
 
   const commentHandleOk = async (newComment: INewComment) => {
@@ -98,37 +104,46 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
         <div className="flex flex-col gap-2">
           <div className={cn("flex items-center justify-between text-tertiary", props.isChild && "ml-10")}>
             <div className="flex gap-4">
-              <Link href={`/profile/${props.comment.userId}`}>
-                <img src={props.comment.profilePicture} alt="profile" className="rounded-3xl w-11 h-11" />
+              <Link href={`/profile/${props.comment.userId}`} className="flex-shrink-0 w-11">
+                <img src={props.comment.profilePicture} alt="profile" className="rounded-3xl w-11 h-11 object-cover" />
               </Link>
-              <div>
+              <div className="flex flex-col flex-grow">
                 <div className="flex gap-2">
-                  <p className="font-semibold">{props.comment.username}</p>
+                  <Link href={`/profile/${props.comment.userId}`} className="font-semibold">
+                    {props.comment.username}
+                  </Link>
                   <p className="text-neutral-400">{stringToFrenchDate(props.comment.createdAt)}</p>
                 </div>
-                <p>{props.comment.text}</p>
+                <p className={cn("break-all whitespace-pre-wrap", !isExpanded && "line-clamp-3")}>
+                  {props.comment.text}
+                </p>
+                {props.comment.text.length > 100 && (
+                  <button onClick={toggleExpand} className="text-blue-600 font-semibold mt-2">
+                    {isExpanded ? (
+                      <span className="flex items-center gap-1">
+                        Réduire <ArrowDropUp fontSize="small" />
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1">
+                        Voir plus <ArrowDropDown fontSize="small" />
+                      </span>
+                    )}
+                  </button>
+                )}
               </div>
             </div>
-            <div className="flex gap-4">
+
+            {props.comment.userId === props.connectedUserId && (
               <IconButton
-                icon={Reply}
+                icon={Delete}
                 backgroundColor="transparent"
                 iconColor="black"
-                onClick={() => setIsReplying(true)}
+                onClick={() => {
+                  props.openDeleteModal(props.comment.id, props.parentCommentId ?? null);
+                }}
                 className="border hover:border-neutral-400 flex gap-4 px-6 py-2.5"
               />
-              {props.comment.userId === props.connectedUserId && (
-                <IconButton
-                  icon={Delete}
-                  backgroundColor="transparent"
-                  iconColor="black"
-                  onClick={() => {
-                    props.openDeleteModal(props.comment.id, props.parentCommentId ?? null);
-                  }}
-                  className="border hover:border-neutral-400 flex gap-4 px-6 py-2.5"
-                />
-              )}
-            </div>
+            )}
           </div>
 
           {isReplying && (
@@ -175,6 +190,12 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
               iconClassName="text-lg"
               backgroundColor="bg-transparent"
             />
+            <button
+              onClick={() => setIsReplying(true)}
+              className="text-black text-sm px-4 py-2 rounded-2xl hover:bg-background-inputfield"
+            >
+              Répondre
+            </button>
           </div>
         </div>
 
@@ -183,7 +204,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
             onClick={toggleCommentsVisibility}
             className="flex items-center gap-2 text-blue-600 font-semibold ml-10 self-start"
           >
-            {areChildrenCommentsVisible ? <ExpandLess /> : <ExpandMore />}
+            {areChildrenCommentsVisible ? <ArrowDropUp fontSize="small" /> : <ArrowDropDown fontSize="small" />}
             {props.comment.nestedComments.length} réponse{props.comment.nestedComments.length > 1 ? "s" : ""}
           </button>
         )}
