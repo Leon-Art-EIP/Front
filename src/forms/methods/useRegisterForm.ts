@@ -9,7 +9,6 @@ export default function useRegisterForm(): UseFormReturn<TRegisterData> {
       username: "",
       email: "",
       password: "",
-      conscent: false,
     },
     resolver: zodResolver(registerSchema),
   });

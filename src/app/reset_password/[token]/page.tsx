@@ -97,7 +97,7 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
     <>
       {validToken ? (
         <div className="flex h-screen">
-          <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center fixed">
+          <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center overflow-y-auto fixed">
             <label className="xl:hidden block text-6xl font-bold">
               <span className="text-[#E11C0A] cursor-default">Leon</span>
               <span className="text-[#000000] cursor-default">&apos;Art</span>

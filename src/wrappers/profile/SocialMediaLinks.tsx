@@ -26,17 +26,17 @@ export default function SocialMediaLinks(props: SocialMediaLinksProps): JSX.Elem
         <div className="flex justify-center items-center gap-4">
           {props.socialMediaLinks?.facebook && (
             <Link href={props.socialMediaLinks?.facebook}>
-              <Facebook className="text-2xl" />
+              <Facebook style={{ fontSize: '24px' }} />
             </Link>
           )}
           {props.socialMediaLinks?.instagram && (
             <Link href={props.socialMediaLinks?.instagram}>
-              <Instagram className="text-2xl" />
+              <Instagram style={{ fontSize: '24px' }} />
             </Link>
           )}
           {props.socialMediaLinks?.twitter && (
             <Link href={props.socialMediaLinks?.twitter}>
-              <Twitter className="text-2xl" />
+              <Twitter style={{ fontSize: '24px' }} />
             </Link>
           )}
           {props.socialMediaLinks?.tiktok && (
