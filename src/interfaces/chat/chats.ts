@@ -8,4 +8,5 @@ export interface IChat {
   UserTwoId: string;
   UserTwoName: string;
   UserTwoPicture: string;
+  LastSenderId: string;
 }

@@ -52,7 +52,7 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
     deletedChats[props.chat._id] = true;
     localStorage.setItem("deletedChats", JSON.stringify(deletedChats));
     props.handleDeleteChat(props.chat._id);
-    console.log("Chat marked as deleted", props.chat._id);
+    // console.log("Chat marked as deleted", props.chat._id);
   }
 
   return (
@@ -63,7 +63,7 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
         }`}
         onClick={onSelectChat}
       >
-        {props.chat.unreadMessages && !isMuted && (
+        {props.chat.unreadMessages && !isMuted && props.chat.LastSenderId !== props.currentUser?.user.id && (
           <div className="absolute rounded-full w-3 h-3 bg-primary -left-4 top-1/2 transform -translate-y-1/2" />
         )}
         {(
