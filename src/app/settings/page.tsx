@@ -64,8 +64,6 @@ export default function Page(): JSX.Element {
       if (response.ok) {
         const profileData: IProfileUser = response.json;
         if (profileData.emailNotificationEnabled !== undefined) {
-          console.log("Email", profileData.emailNotificationEnabled);
-          console.log("Full", profileData);
           setSwitchState(profileData.emailNotificationEnabled);
         } else {
           console.error("emailNotificationEnabled property not found in profileData.");
@@ -88,10 +86,8 @@ export default function Page(): JSX.Element {
       method: "PUT",
       body: JSON.stringify({ emailNotificationEnabled: newSwitchState }), // Sending the updated state
     });
-    if (res.ok) {
-      console.log("Email notifications updated successfully", res);
-    } else {
-      console.log("Failed to update email notifications");
+    if (!res.ok) {
+      console.error("Failed to update email notifications");
     }
 
     setFetchProfileAfterChange(true);
