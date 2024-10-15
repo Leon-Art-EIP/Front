@@ -27,6 +27,10 @@ h2 {
   height: calc(100vh - 6rem);
 }
 
+.placeholder-tertiary::placeholder {
+  color: var(--color-tertiaryHover) !important;
+}
+
 ::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -96,7 +100,7 @@ footer {
 		--color-secondaryDisabled: #eeeeee8b;
 		
 		--color-tertiary: #000000;
-		--color-tertiaryHover: #676666;
+		--color-tertiaryHover: #515151;
 		--color-quaternary: #6db1e3;
 		--color-quaternaryHover: #e3f3ff;
 		--color-background: #ffffff;
@@ -115,7 +119,7 @@ footer {
 		--color-secondaryDisabled: #666666;
 		
 		--color-tertiary: #eeeeee;
-		--color-tertiaryHover: #676666;
+		--color-tertiaryHover: #b3b4b3;
 		--color-background: #1a202c;
 		--color-backgroundHighlight: #31394a;
 	}
