@@ -57,7 +57,7 @@ export default function ChatList(): JSX.Element {
               currentUser={currentUser}
               handleSelectChat={handleSelectChat}
               currentSelected={currentChat}
-              handleDeleteChat={handleDeleteChat} // Pass the handler
+              handleDeleteChat={handleDeleteChat}
             />
           ))}
         </div>
