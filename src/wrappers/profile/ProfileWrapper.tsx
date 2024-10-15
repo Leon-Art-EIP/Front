@@ -227,6 +227,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
             link={Link}
             setProfileCollections={setProfileCollections}
             setCollectionsArtsExtended={setCollectionsArtsExtended}
+            profileUserId={artist.id}
           />
         </div>
         <div className="flex justify-center">
