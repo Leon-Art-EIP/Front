@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Gallery from "../../../components/gallery";
 import zxcvbn from "zxcvbn";
 import Form from "./form";
-import Fetcher from "../../../components/fetch/Fetcher";
+import { myFetch } from "../../../tools/myFetch"; // Use myFetch instead of Fetcher
 
 interface IBaseFormValues {
   newPassword: string;
@@ -21,28 +21,30 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
 
   const [body, setBody] = useState("");
-  const [nbFetchs, setNbFetchs] = useState(0);
+
+  useEffect(() => {
+    if (passwordResetSuccess) {
+      router.push("/login");
+    }
+  }, [passwordResetSuccess, router]);
 
   useEffect(() => {
     if (props.params.token) {
       const token = props.params.token;
-      fetch(NEXT_PUBLIC_BACKEND_URL + "/api/auth/validate-reset-token", {
+      myFetch({
+        route: `/api/auth/validate-reset-token`,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: token,
-        }),
+        body: JSON.stringify({ token }),
       }).then(async (response) => {
-        const data = await response.json();
-        if (response.status === 200) {
-          // setConnectedUser(???);
+        const data = await response.json;
+        if (response.ok) {
+          setValidToken(true); // Token is valid
         } else {
           setErrorMessage(data.error);
-          router.push("/login");
+          router.push("/login"); // Invalid token, redirect to login
         }
       });
     }
@@ -66,42 +68,42 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (
-      validateForm({
-        newPassword: event.currentTarget.newPassword.value,
-        confirmNewPassword: event.currentTarget.confirmNewPassword.value,
-      })
-    ) {
-      setBody(
-        JSON.stringify({
+    const newPassword = event.currentTarget.newPassword.value;
+    const confirmNewPassword = event.currentTarget.confirmNewPassword.value;
+
+    if (validateForm({ newPassword, confirmNewPassword })) {
+      setIsLoading(true);
+      const res = await myFetch({
+        route: `/api/auth/reset-password`,
+        method: "POST",
+        body: JSON.stringify({
           token: props.params.token,
-          newPassword: event.currentTarget.newPassword.value,
-        })
-      );
-      setNbFetchs(nbFetchs + 1);
+          newPassword,
+        }),
+      });
+
+      setIsLoading(false);
+
+      if (res.ok) {
+        setPasswordResetSuccess(true); // Password reset success
+      } else {
+        const data = await res.json;
+        setErrorMessage(data.error);
+      }
     }
   }
 
   return (
     <>
-      <Fetcher
-        method="POST"
-        route="/api/auth/reset-password"
-        body={body}
-        setIsLoading={setIsLoading}
-        nbFetchs={nbFetchs}
-      />
       {validToken ? (
         <div className="flex h-screen">
-          <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center fixed">
+          <div className="shadow-[10px_0_13px_-7px_rgba(170,170,170)] h-screen xl:w-1/3 w-full flex flex-col flex-shrink-0 items-center justify-center overflow-y-auto fixed">
             <label className="xl:hidden block text-6xl font-bold">
               <span className="text-[#E11C0A] cursor-default">Leon</span>
               <span className="text-[#000000] cursor-default">&apos;Art</span>
             </label>
             <div className="max-w-xs w-full pt-28 xl:pt-0">
-              <h1 className="text-tertiary text-[50px] text-center">
-                Réinitialiser votre mot de passe
-              </h1>
+              <h1 className="text-tertiary text-[50px] text-center">Réinitialiser votre mot de passe</h1>
               <Form
                 handleSubmit={handleSubmit}
                 error={errorMessage}
