@@ -55,7 +55,9 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
 
     const responseJson = await response.json();
 
-    if (response.status === 422) {
+    if (response.status === 413) {
+      message = "La taille du fichier est trop élevée";
+    } else if (response.status === 422) {
       const error: IError = responseJson;
       const serverErrorMsg = (error.errors.length > 0 ? error.errors[0].msg : undefined) as TErrorMessages | undefined;
       message = serverErrorMsg ? errors[serverErrorMsg] ?? serverErrorMsg : "Une erreur est survenue";
