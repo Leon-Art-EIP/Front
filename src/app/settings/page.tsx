@@ -11,6 +11,7 @@ import React, { useState, useEffect } from "react";
 import { myFetch } from "../../tools/myFetch";
 import { IProfileUser } from "../../interfaces/user/profileUser";
 import { cp } from "fs";
+import { IConnectedUser } from "../../interfaces/user/user";
 
 interface ISettingTab {
   icon: any;
@@ -58,8 +59,9 @@ export default function Page(): JSX.Element {
   useEffect(() => {
     setFetchProfileAfterChange(false);
     const fetchUserProfile = async () => {
-      const user: IProfileUser = JSON.parse(localStorage.getItem("user") || "{}");
+      const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
       const userId = user.user.id;
+      console.log("User: ", userId);
       const response = await myFetch({ route: `/api/user/profile/${userId}`, method: "GET" });
       if (response.ok) {
         const profileData: IProfileUser = response.json;
