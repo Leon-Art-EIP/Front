@@ -61,7 +61,6 @@ export default function Page(): JSX.Element {
     const fetchUserProfile = async () => {
       const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
       const userId = user.user.id;
-      console.log("User: ", userId);
       const response = await myFetch({ route: `/api/user/profile/${userId}`, method: "GET" });
       if (response.ok) {
         const profileData: IProfileUser = response.json;
@@ -95,7 +94,7 @@ export default function Page(): JSX.Element {
     setFetchProfileAfterChange(true);
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Chargement...</div>;
 
   return (
     <div className="flex justify-center">
