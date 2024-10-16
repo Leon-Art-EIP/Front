@@ -1,5 +1,4 @@
 import { render } from "@testing-library/react";
-import React from "react";
 import { expect, test } from "vitest";
 import SaveGallery from "../../../src/components/single-art-page/artwork/SaveGallery";
 import data from "../../../src/components/single-art-page/fakeData";
@@ -12,6 +11,10 @@ test("SaveGallery regular test", () => {
       selectedCollections={[]}
       setSelectedCollections={() => {}}
       artId={"1"}
+      setNewCollectionBody={() => {}}
+      isNewCollectionLoading={false}
+      newCollectionFetchs={0}
+      setNewCollectionFetchs={() => {}}
     />
   );
 
