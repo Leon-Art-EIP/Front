@@ -137,7 +137,7 @@ export default function Page(props: { params: { token: string } }): JSX.Element 
                 fill="currentFill"
               />
             </svg>
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">Chargement...</span>
           </div>
           <div className="ml-2 text-gray-700 dark:text-gray-400">Vérification du token...</div>
         </div>

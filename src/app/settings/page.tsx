@@ -7,8 +7,11 @@ import IconLabel from "../../components/label/IconLabel";
 import ThemeSelector from "../../components/theme/ThemeSelector";
 import "../globals.css";
 import CustomSwitch from "../../components/buttons/CustomSwitch";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { myFetch } from "../../tools/myFetch";
+import { IProfileUser } from "../../interfaces/user/profileUser";
+import { cp } from "fs";
+import { IConnectedUser } from "../../interfaces/user/user";
 
 interface ISettingTab {
   icon: any;
@@ -19,6 +22,9 @@ interface ISettingTab {
 
 export default function Page(): JSX.Element {
   const [switchState, setSwitchState] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [fetchProfileAfterChange, setFetchProfileAfterChange] = useState<boolean>(false);
+
   const tabs: ISettingTab[] = [
     {
       icon: AccountCircle,
@@ -50,16 +56,45 @@ export default function Page(): JSX.Element {
     },
   ];
 
+  useEffect(() => {
+    setFetchProfileAfterChange(false);
+    const fetchUserProfile = async () => {
+      const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
+      const userId = user.user.id;
+      const response = await myFetch({ route: `/api/user/profile/${userId}`, method: "GET" });
+      if (response.ok) {
+        const profileData: IProfileUser = response.json;
+        if (profileData.emailNotificationEnabled !== undefined) {
+          setSwitchState(profileData.emailNotificationEnabled);
+        } else {
+          console.error("emailNotificationEnabled property not found in profileData.");
+        }
+      } else {
+        console.error("Failed to fetch user profile:", response.message);
+      }
+      setLoading(false);
+    };
+
+    fetchUserProfile();
+  }, [fetchProfileAfterChange]);
+
   const handleSwitchChange = async () => {
-    // Toggle switch state
     const newSwitchState = !switchState;
     setSwitchState(newSwitchState);
 
-    const res = await myFetch({ route: `/api/notifications/email-notification`, method: "PUT" });
+    const res = await myFetch({
+      route: `/api/notifications/email-notification`,
+      method: "PUT",
+      body: JSON.stringify({ emailNotificationEnabled: newSwitchState }), // Sending the updated state
+    });
     if (!res.ok) {
-      console.log("Failed to switch email notifications");
+      console.error("Failed to update email notifications");
     }
+
+    setFetchProfileAfterChange(true);
   };
+
+  if (loading) return <div>Chargement...</div>;
 
   return (
     <div className="flex justify-center">

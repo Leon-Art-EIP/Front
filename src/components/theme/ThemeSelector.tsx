@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 const ThemeSelector = () => {
-  const [selectedTheme, setSelectedTheme] = useState("");
+  const { selectedTheme, setSelectedTheme } = useContext(ThemeContext);
 
   const themes = [
     {
@@ -56,25 +57,8 @@ const ThemeSelector = () => {
     },
   ];
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setSelectedTheme(savedTheme);
-      document.documentElement.setAttribute("data-theme", savedTheme);
-    } else {
-      console.log("settt");
-      // Set theme based on system preference if no saved theme
-      const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const defaultTheme = prefersDarkScheme ? "dark" : "light";
-      setSelectedTheme(defaultTheme);
-      document.documentElement.setAttribute("data-theme", defaultTheme);
-    }
-  }, []);
-
   const toggleTheme = (theme: string) => {
     setSelectedTheme(theme);
-    localStorage.setItem("theme", theme);
-    document.documentElement.setAttribute("data-theme", theme);
   };
 
   return (
@@ -82,7 +66,7 @@ const ThemeSelector = () => {
       {themes.map((theme, index) => (
         <button
           key={index}
-          className={`rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none border-gray-400 border-2 ${
+          className={`rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none border-gray-400 ${
             selectedTheme === theme.name ? "border-2" : ""
           }`}
           style={{ backgroundColor: theme.primary.DEFAULT }}
