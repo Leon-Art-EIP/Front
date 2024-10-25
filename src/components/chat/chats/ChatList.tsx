@@ -50,7 +50,7 @@ export default function ChatList(props: IChatListProps): JSX.Element {
         <SearchBar onSearch={handleSearch} />
       </div>
       {filteredChats && filteredChats.length > 0 ? (
-        <div className="grid grid-cols-1 gap-3">
+        <div className="grid grid-cols-1 gap-3 overflow-y-auto">
           {filteredChats.map((chat, index) => (
             <ChatUserCard
               key={chat._id}
