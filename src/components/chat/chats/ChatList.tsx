@@ -8,10 +8,10 @@ import { NEXT_PUBLIC_BACKEND_URL } from "../../../tools/myFetch";
 
 export default function ChatList(): JSX.Element {
   /* c8 ignore start */
+  const router = useRouter();
   const { chats, currentUser, currentChat, setCurrentChat, refreshChats } = useChat() || {};
   const [searchTerm, setSearchTerm] = useState("");
   const filteredChats = filterChats(searchTerm);
-  const router = useRouter();
 
   useEffect(() => {
     filterChats(searchTerm);
