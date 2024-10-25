@@ -29,7 +29,7 @@ export default function CreatePostForm(props: INewPostProps): JSX.Element {
           <TextArea
             name="text"
             placeholder="Mon nouveau post"
-            className="h-64 w-full p-2 rounded focus:outline-none bg-secondary"
+            className="h-64 w-full p-2 rounded focus:outline-none bg-secondary text-tertiary placeholder-tertiary"
           />
           <div className="flex justify-between">
             <Button color="secondary" type="button" onClick={onCancel} disabled={props.isLoading}>
