@@ -6,7 +6,7 @@ import { stringToFrenchDate } from "../../../tools/date";
 import { Delete, Reply, ThumbUp, ThumbUpOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import { cn } from "../../../tools/cn";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { myFetch } from "../../../tools/myFetch";
 import { IProfileUser } from "../../../interfaces/user/profileUser";
 import Fetcher from "../../fetch/Fetcher";
@@ -41,6 +41,9 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
   const [replyMessage, setReplyMessage] = useState<string>("");
   const [nbFetch, setNbFetchs] = useState(0);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isTruncated, setIsTruncated] = useState<boolean>(false);
+
+  const commentRef = useRef<HTMLParagraphElement>(null);
 
   const isCommentLiked = props.comment.likes.includes(props.connectedUserId);
 
@@ -90,6 +93,15 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
     }
   };
 
+  useEffect(() => {
+    const element = commentRef.current;
+    if (element) {
+      const lineHeight = parseFloat(getComputedStyle(element).lineHeight);
+      const maxHeight = lineHeight * 3; // max height for 3 lines
+      setIsTruncated(element.scrollHeight > maxHeight);
+    }
+  }, [props.comment.text]);
+
   return (
     <>
       <Fetcher
@@ -114,10 +126,10 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                   </Link>
                   <p className="text-neutral-400">{stringToFrenchDate(props.comment.createdAt)}</p>
                 </div>
-                <p className={cn("break-all whitespace-pre-wrap", !isExpanded && "line-clamp-3")}>
+                <p ref={commentRef} className={cn("break-all whitespace-pre-wrap", !isExpanded && "line-clamp-3")}>
                   {props.comment.text}
                 </p>
-                {props.comment.text.length > 100 && (
+                {isTruncated && (
                   <button onClick={toggleExpand} className="text-blue-600 font-semibold mt-2">
                     {isExpanded ? (
                       <span className="flex items-center gap-1">
