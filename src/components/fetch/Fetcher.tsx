@@ -56,7 +56,6 @@ export default function Fetcher(props: IFetcherProps): JSX.Element | null {
       setTimeout(() => setAnimate(true), 10);
     };
     if (props.nbFetchs > 0) {
-      console.log("body: ", props.body);
       fetchData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
