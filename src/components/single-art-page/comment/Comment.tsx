@@ -58,7 +58,23 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
   const commentHandleOk = async (newComment: INewComment) => {
     const responseAuthor = await myFetch({ route: `/api/user/profile/${newComment.comment.userId}`, method: "GET" });
 
-    if (responseAuthor.ok) {
+    let respondingToUsername: string | null | undefined = undefined; // null = error
+
+    if (newComment.comment.respondingToUserId) {
+      const responseRespondingto = await myFetch({
+        route: `/api/user/profile/${newComment.comment.respondingToUserId}`,
+        method: "GET",
+      });
+
+      if (responseRespondingto.ok) {
+        const respondingTo = responseRespondingto.json as IProfileUser;
+        respondingToUsername = respondingTo.username;
+      } else {
+        respondingToUsername = null;
+      }
+    }
+
+    if (responseAuthor.ok && respondingToUsername !== null) {
       const author = responseAuthor.json as IProfileUser;
 
       props.onAddComment({
@@ -66,6 +82,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
         nestedComments: [],
         profilePicture: `${imageApi}/${author.profilePicture}`,
         username: author.username,
+        respondingToUsername: respondingToUsername ?? null,
       });
       setAreChildrenCommentsVisible(true);
     }
