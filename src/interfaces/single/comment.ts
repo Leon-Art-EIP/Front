@@ -6,7 +6,7 @@ export interface IComment {
   text: string;
   createdAt: string;
   parentCommentId: string | null;
-  respondingToUserId: string | null;
+  replyingToUserId: string | null;
   likes: string[];
   id: string;
   nestedComments: TChildComment[];
@@ -30,7 +30,7 @@ export interface IExtendedComment {
   // Comme IComment jusqu'ici
   profilePicture: string;
   username: string;
-  respondingToUsername: string | null;
+  replyingToUsername: string | null;
   nestedComments: TChildExtendedComment[];
 }
 

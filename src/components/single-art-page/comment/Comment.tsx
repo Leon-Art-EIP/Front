@@ -37,9 +37,9 @@ interface IChildCommentProps {
 
 export default function Comment(props: IChildCommentProps | IParentCommentProps): JSX.Element {
   const [areChildrenCommentsVisible, setAreChildrenCommentsVisible] = useState<boolean>(false);
-  const [isReplying, setIsReplying] = useState<boolean>(false);
+  const [isReplyingTo, setIsReplyingTo] = useState<string | null>(null);
   const [replyMessage, setReplyMessage] = useState<string>("");
-  const [nbFetch, setNbFetchs] = useState(0);
+  const [nbFetchs, setNbFetchs] = useState(0);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isTruncated, setIsTruncated] = useState<boolean>(false);
 
@@ -56,25 +56,27 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
   };
 
   const commentHandleOk = async (newComment: INewComment) => {
+    setIsReplyingTo(null);
+
     const responseAuthor = await myFetch({ route: `/api/user/profile/${newComment.comment.userId}`, method: "GET" });
 
-    let respondingToUsername: string | null | undefined = undefined; // null = error
+    let replyingToUsername: string | null | undefined = undefined; // null = error
 
-    if (newComment.comment.respondingToUserId) {
+    if (newComment.comment.replyingToUserId) {
       const responseRespondingto = await myFetch({
-        route: `/api/user/profile/${newComment.comment.respondingToUserId}`,
+        route: `/api/user/profile/${newComment.comment.replyingToUserId}`,
         method: "GET",
       });
 
       if (responseRespondingto.ok) {
         const respondingTo = responseRespondingto.json as IProfileUser;
-        respondingToUsername = respondingTo.username;
+        replyingToUsername = respondingTo.username;
       } else {
-        respondingToUsername = null;
+        replyingToUsername = null;
       }
     }
 
-    if (responseAuthor.ok && respondingToUsername !== null) {
+    if (responseAuthor.ok && replyingToUsername !== null) {
       const author = responseAuthor.json as IProfileUser;
 
       props.onAddComment({
@@ -82,7 +84,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
         nestedComments: [],
         profilePicture: `${imageApi}/${author.profilePicture}`,
         username: author.username,
-        respondingToUsername: respondingToUsername ?? null,
+        replyingToUsername: replyingToUsername ?? null,
       });
       setAreChildrenCommentsVisible(true);
     }
@@ -92,8 +94,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
 
   const handleReply = () => {
     if (replyMessage.trim() !== "") {
-      setNbFetchs(nbFetch + 1);
-      setIsReplying(false);
+      setNbFetchs(nbFetchs + 1);
     }
   };
 
@@ -119,13 +120,19 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
     }
   }, [props.comment.text]);
 
+  const replyingToUsername = props.comment.replyingToUsername;
+
   return (
     <>
       <Fetcher
         method="POST"
-        nbFetchs={nbFetch}
+        nbFetchs={nbFetchs}
         route={`/api/art-publication/comment/${props.artPublicationId}`}
-        body={JSON.stringify({ text: replyMessage, parentCommentId: props.parentCommentId ?? props.comment.id })}
+        body={JSON.stringify({
+          text: replyMessage,
+          parentCommentId: props.parentCommentId ?? props.comment.id,
+          replyingToUserId: isReplyingTo,
+        })}
         handleOk={commentHandleOk}
         successStr="Réponse ajoutée"
       />
@@ -144,6 +151,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                   <p className="text-neutral-400">{stringToFrenchDate(props.comment.createdAt)}</p>
                 </div>
                 <p ref={commentRef} className={cn("break-all whitespace-pre-wrap", !isExpanded && "line-clamp-3")}>
+                  {replyingToUsername && <span className="text-blue-400">@{replyingToUsername} </span>}
                   {props.comment.text}
                 </p>
                 {isTruncated && (
@@ -175,7 +183,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
             )}
           </div>
 
-          {isReplying && (
+          {!!isReplyingTo && (
             <div className="flex flex-col gap-2 ml-10">
               <input
                 type="text"
@@ -198,7 +206,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                 </button>
                 <button
                   onClick={() => {
-                    setIsReplying(false);
+                    setIsReplyingTo(null);
                     setReplyMessage("");
                   }}
                   className="text-gray-600 font-semibold"
@@ -220,7 +228,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
               backgroundColor="bg-transparent"
             />
             <button
-              onClick={() => setIsReplying(true)}
+              onClick={() => setIsReplyingTo(props.comment.userId)}
               className="text-black text-sm px-4 py-2 rounded-2xl hover:bg-background-inputfield"
             >
               Répondre

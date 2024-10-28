@@ -8,30 +8,30 @@ async function getChildExtendedComments(comment: IComment): Promise<TChildExtend
     comment.nestedComments.map(async (nestedComment) => {
       const response = await myFetch({ route: `/api/user/profile/${nestedComment.userId}`, method: "GET" });
 
-      let respondingToUsername: string | null | undefined = undefined; // null = error
+      let replyingToUsername: string | null | undefined = undefined; // null = error
 
-      if (comment.respondingToUserId) {
-        const responseRespondingto = await myFetch({
-          route: `/api/user/profile/${comment.respondingToUserId}`,
+      if (nestedComment.replyingToUserId) {
+        const responseReplyingTo = await myFetch({
+          route: `/api/user/profile/${nestedComment.replyingToUserId}`,
           method: "GET",
         });
 
-        if (responseRespondingto.ok) {
-          const respondingTo = responseRespondingto.json as IProfileUser;
-          respondingToUsername = respondingTo.username;
+        if (responseReplyingTo.ok) {
+          const replyingTo = responseReplyingTo.json as IProfileUser;
+          replyingToUsername = replyingTo.username;
         } else {
-          respondingToUsername = null;
+          replyingToUsername = null;
         }
       }
 
-      if (response.ok && respondingToUsername !== null) {
+      if (response.ok && replyingToUsername !== null) {
         const commentAuthor = response.json as IProfileUser;
 
         return {
           ...nestedComment,
           profilePicture: `${imageApi}/${commentAuthor.profilePicture}`,
           username: commentAuthor.username,
-          respondingToUsername: respondingToUsername ?? null,
+          replyingToUsername: replyingToUsername ?? null,
         };
       }
 
@@ -42,29 +42,14 @@ async function getChildExtendedComments(comment: IComment): Promise<TChildExtend
   return extendedComments.filter((comment): comment is TChildExtendedComment => comment !== null);
 }
 
-export async function getExtendComments(artPublicationComments: IComment[]): Promise<IExtendedComment[]> {
+export async function getExtendedComments(artPublicationComments: IComment[]): Promise<IExtendedComment[]> {
   const unfilteredExtendedComments: (IExtendedComment | null)[] = await Promise.all(
     artPublicationComments.map(async (comment) => {
       const response = await myFetch({ route: `/api/user/profile/${comment.userId}`, method: "GET" });
 
-      let respondingToUsername: string | null | undefined = undefined; // null = error
-
-      if (comment.respondingToUserId) {
-        const responseRespondingto = await myFetch({
-          route: `/api/user/profile/${comment.respondingToUserId}`,
-          method: "GET",
-        });
-
-        if (responseRespondingto.ok) {
-          const respondingTo = responseRespondingto.json as IProfileUser;
-          respondingToUsername = respondingTo.username;
-        } else {
-          respondingToUsername = null;
-        }
-      }
-
-      if (response.ok && respondingToUsername !== null) {
+      if (response.ok) {
         const commentAuthor = response.json as IProfileUser;
+
         const nestedComments = await getChildExtendedComments(comment);
 
         return {
@@ -72,7 +57,7 @@ export async function getExtendComments(artPublicationComments: IComment[]): Pro
           profilePicture: `${imageApi}/${commentAuthor.profilePicture}`,
           username: commentAuthor.username,
           nestedComments,
-          respondingToUsername: respondingToUsername ?? null,
+          replyingToUsername: null,
         };
       }
 
