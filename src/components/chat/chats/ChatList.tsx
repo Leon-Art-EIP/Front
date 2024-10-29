@@ -3,6 +3,7 @@ import { useChat } from "../../../contexts/ChatContext";
 import { IChat } from "../../../interfaces/chat/chats";
 import { SearchBar } from "../../searchBar/SearchBar";
 import { ChatUserCard } from "./ChatUserCard";
+import { useRouter } from "next/navigation";
 
 interface IChatListProps {
   onDeleteChat: () => void;
