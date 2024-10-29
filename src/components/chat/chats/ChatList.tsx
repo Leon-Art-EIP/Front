@@ -3,6 +3,7 @@ import { useChat } from "../../../contexts/ChatContext";
 import { IChat } from "../../../interfaces/chat/chats";
 import { SearchBar } from "../../searchBar/SearchBar";
 import { ChatUserCard } from "./ChatUserCard";
+import { useRouter } from "next/navigation";
 
 interface IChatListProps {
   onDeleteChat: () => void;
@@ -10,6 +11,7 @@ interface IChatListProps {
 
 export default function ChatList(props: IChatListProps): JSX.Element {
   /* c8 ignore start */
+  const router = useRouter();
   const { chats, currentUser, currentChat, setCurrentChat, refreshChats } = useChat() || {};
   const [searchTerm, setSearchTerm] = useState("");
   const filteredChats = filterChats(searchTerm);

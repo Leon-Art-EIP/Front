@@ -4,6 +4,13 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import ChatList from "../../../../src/components/chat/chats/ChatList";
 import { useChat } from "../../../../src/contexts/ChatContext";
 import { IChat } from "../../../../src/interfaces/chat/chats";
+import React from "react";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
+}));
 
 vi.mock("../../../../src/contexts/ChatContext");
 
