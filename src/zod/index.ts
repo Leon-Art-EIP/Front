@@ -9,27 +9,22 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nonEmptyString = z.string().min(1, { message: "Veuillez remplir ce champ" });
 const nonStringSelected = z.string().min(1, { message: "Veuillez sélectionner au moins un champ" });
 const validEmail = nonEmptyString.regex(emailRegex, { message: "Adresse email invalide" });
+const validPassword = z
+  .string()
+  .min(8, { message: "Le mot de passe doit contenir au moins 8 caractères" })
+  .regex(/[A-Z]/, { message: "Le mot de passe doit contenir au moins une majuscule" })
+  .regex(/\d/, { message: "Le mot de passe doit contenir au moins un chiffre" });
 
 export const loginSchema = z.object({
   email: validEmail,
   password: nonEmptyString,
 });
 
-export const registerSchema = z
-  .object({
-    username: nonEmptyString.max(20, { message: "Le nom d'utilisateur ne doit pas dépasser 20 caractères" }),
-    email: validEmail,
-    password: nonEmptyString,
-  })
-  .superRefine((data, ctx) => {
-    if (zxcvbn(data.password).score < 3) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Mot de passe trop faible : 1 majuscule, 1 chiffre, 1 charactère spécial et 8 charactères minimums.",
-        path: ["password"],
-      });
-    }
-  });
+export const registerSchema = z.object({
+  username: nonEmptyString.max(20, { message: "Le nom d'utilisateur ne doit pas dépasser 20 caractères" }),
+  email: validEmail,
+  password: validPassword,
+});
 
 export const settingsPasswordSchema = z
   .object({

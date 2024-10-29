@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useChat } from "../../../contexts/ChatContext";
 import { IChat } from "../../../interfaces/chat/chats";
 import { SearchBar } from "../../searchBar/SearchBar";
 import { ChatUserCard } from "./ChatUserCard";
-import { NEXT_PUBLIC_BACKEND_URL } from "../../../tools/myFetch";
 
-export default function ChatList(): JSX.Element {
+interface IChatListProps {
+  onDeleteChat: () => void;
+}
+
+export default function ChatList(props: IChatListProps): JSX.Element {
   /* c8 ignore start */
   const router = useRouter();
   const { chats, currentUser, currentChat, setCurrentChat, refreshChats } = useChat() || {};
@@ -40,7 +42,7 @@ export default function ChatList(): JSX.Element {
 
   function handleDeleteChat(chatId: string) {
     refreshChats();
-    router.push("/chat");
+    props.onDeleteChat();
   }
 
   return (
@@ -57,7 +59,7 @@ export default function ChatList(): JSX.Element {
               currentUser={currentUser}
               handleSelectChat={handleSelectChat}
               currentSelected={currentChat}
-              handleDeleteChat={handleDeleteChat} // Pass the handler
+              handleDeleteChat={handleDeleteChat}
             />
           ))}
         </div>

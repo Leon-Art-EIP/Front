@@ -50,11 +50,11 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
             <PointsPosition nbrPoints={props.nbrPoints} position={props.position} />
           </div>
         )}
-        {props.archived && (
+        {/* {props.archived && (
           <div className="absolute bottom-4 right-10 bg-primary text-secondary px-2 py-1 text-sm font-bold">
             Archivé
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

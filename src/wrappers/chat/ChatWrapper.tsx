@@ -6,6 +6,7 @@ import { useChat } from "../../contexts/ChatContext";
 
 import ForumIcon from "@mui/icons-material/Forum";
 import Messages from "../../components/chat/messages/Messages";
+import { useRouter } from "next/navigation";
 
 interface IChatWrapperProps {
   convId: string | undefined;
@@ -13,6 +14,7 @@ interface IChatWrapperProps {
 
 export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
   const { chats, currentChat, currentUser, setCurrentChat, refreshChats, fetchMessages } = useChat();
+  const router = useRouter();
 
   useEffect(() => {
     if (currentUser) {
@@ -41,7 +43,7 @@ export default function ChatWrapper(props: IChatWrapperProps): JSX.Element {
   return (
     <div className="bg-background flex flex-row page-content-non-scrollable">
       <div className="lg:w-1/3 lg:min-w-[350px] lg:max-w-[500px]">
-        <ChatList />
+        <ChatList onDeleteChat={() => router.push("/chat")} />
       </div>
       {!currentChat ? (
         <div className="flex flex-col items-center justify-center w-full h-full gap-4 text-gray-400">

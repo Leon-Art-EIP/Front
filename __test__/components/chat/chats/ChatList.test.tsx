@@ -22,7 +22,7 @@ vi.mock("../../../../src/components/searchBar/SearchBar", () => ({
 
 vi.mock("../../../../src/components/chat/chats/ChatUserCard", () => ({
   ChatUserCard: ({ chat, handleSelectChat }: { chat: IChat; handleSelectChat: (chat: IChat) => void }) => (
-    <div onClick={() => handleSelectChat(chat)} data-testid={`chat-user-card-${chat.id}`}>
+    <div onClick={() => handleSelectChat(chat)} data-testid={`chat-user-card-${chat._id}`}>
       {chat.UserOneName} - {chat.UserTwoName}
     </div>
   ),
@@ -32,7 +32,7 @@ const mockUseChat = useChat as jest.Mock;
 
 const mockChats: IChat[] = [
   {
-    id: "1",
+    _id: "1",
     UserOneName: "Alice",
     UserTwoName: "Bob",
     lastMessage: "",
@@ -43,7 +43,7 @@ const mockChats: IChat[] = [
     UserTwoPicture: "",
   },
   {
-    id: "2",
+    _id: "2",
     UserOneName: "Charlie",
     UserTwoName: "Dave",
     lastMessage: "",
@@ -66,13 +66,13 @@ describe("ChatList", () => {
   });
 
   it("renders correctly", () => {
-    render(<ChatList />);
+    render(<ChatList onDeleteChat={() => {}} />);
     // expect(screen.getByPlaceholderText('Search...')).not.toBeNull();
     // expect(screen.getByText('Aucune conversation')).not.toBeNull();
   });
 
   it("displays chats when available", () => {
-    render(<ChatList />);
+    render(<ChatList onDeleteChat={() => {}} />);
     // expect(screen.getByText('Alice')).not.toBeNull();
     // expect(screen.getByText('Bob')).not.toBeNull();
     // expect(screen.getByText('Charlie')).not.toBeNull();
@@ -80,7 +80,7 @@ describe("ChatList", () => {
   });
 
   it("filters chats based on search term", () => {
-    render(<ChatList />);
+    render(<ChatList onDeleteChat={() => {}} />);
     // const searchBar = screen.getByPlaceholderText('Search...');
     // fireEvent.change(searchBar, { target: { value: 'Alice' } });
     // expect(screen.getByText('Alice')).not.toBeNull();
@@ -88,7 +88,7 @@ describe("ChatList", () => {
   });
 
   it("selects a chat when clicked", () => {
-    render(<ChatList />);
+    render(<ChatList onDeleteChat={() => {}} />);
     // const chatCard = screen.getByText('Alice').closest('button');
     // if (chatCard) fireEvent.click(chatCard);
     // const { setCurrentChat } = useChat();
@@ -96,7 +96,7 @@ describe("ChatList", () => {
   });
 
   it('displays "Aucune conversation" when no chats match search term', () => {
-    render(<ChatList />);
+    render(<ChatList onDeleteChat={() => {}} />);
     // const searchBar = screen.getByPlaceholderText('Search...');
     // fireEvent.change(searchBar, { target: { value: 'Zelda' } });
     // expect(screen.getByText('Aucune conversation')).not.toBeNull();
