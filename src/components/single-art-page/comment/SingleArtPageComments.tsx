@@ -6,7 +6,7 @@ import { IComment, IExtendedComment } from "../../../interfaces/single/comment";
 import { IProfileUser } from "../../../interfaces/user/profileUser";
 import { myFetch } from "../../../tools/myFetch";
 import { imageApi } from "../../../tools/variables";
-import { getExtendComments } from "./getExtendedComments";
+import { getExtendedComments } from "./getExtendedComments";
 import Comment from "./Comment";
 import { Button, Modal } from "../../lib";
 import Fetcher from "../../fetch/Fetcher";
@@ -49,7 +49,7 @@ export default function SingleArtPageComments(props: ISingleArtPageCommentsProps
       if (responseComments.ok) {
         const artPublicationComments = responseComments.json as IComment[];
 
-        const extendedComments = await getExtendComments(artPublicationComments);
+        const extendedComments = await getExtendedComments(artPublicationComments);
 
         setComments(extendedComments);
       }
