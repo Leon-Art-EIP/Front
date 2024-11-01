@@ -21,6 +21,7 @@ interface ITabsWrapperProps {
   link: ElementType<{ children: JSX.Element; href: string }>;
   setProfileCollections: Dispatch<SetStateAction<IProfileCollection[]>>;
   setCollectionsArtsExtended: Dispatch<SetStateAction<ICollectionArtsExtended[]>>;
+  profileUserId: string;
 }
 
 const infractionTranslations: { [key: string]: string } = {
@@ -60,6 +61,27 @@ export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
   };
 
   const handleReportSubmit = (reason: string, description: string) => {
+    const reportBody = {
+      userId: props.profileUserId,
+      infraction: reason,
+      message: description,
+    };
+
+    myFetch({
+      route: `/api/signalments/user`,
+      method: "POST",
+      body: JSON.stringify(reportBody),
+    }).then(async (response) => {
+      const data = await response.json;
+      if (response.ok) {
+        // Handle successful report submission
+        console.log("Report submitted successfully:", data);
+      } else {
+        // Handle error case
+        console.error("Failed to submit report:", response.message);
+      }
+    });
+
     setIsReportModalOpen(false);
   };
 
