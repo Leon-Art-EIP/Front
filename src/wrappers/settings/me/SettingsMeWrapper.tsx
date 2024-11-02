@@ -53,7 +53,7 @@ export default function SettingsMeWrapper(): JSX.Element {
 
     fetchUserProfileData();
     fetchStripeAccountLinked();
-  }, []);
+  }, [user.user.id]);
 
   function goToQuizz() {
     window.location.href = "/quizz";
