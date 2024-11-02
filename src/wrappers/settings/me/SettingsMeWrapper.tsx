@@ -148,7 +148,7 @@ export default function SettingsMeWrapper(): JSX.Element {
       />
       <div className="flex flex-col gap-14">
         <div className="flex flex-col gap-4 font-semibold text-lg text-tertiary">
-          <div>Nom d'utilisateur</div>
+          <div>Nom d&apos;utilisateur</div>
           <div className="flex items-center gap-4">
             <input
               type="text"
