@@ -14,6 +14,8 @@ import { IConnectedUser } from "../../interfaces/user/user";
 import { myFetch } from "../../tools/myFetch";
 import { TRegisterData } from "../../zod";
 import useRegisterForm from "../methods/useRegisterForm";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -29,6 +31,7 @@ export default function RegisterForm(): JSX.Element {
   const [usernameConflict, setUsernameConflict] = useState<boolean>(false);
   const [conscentError, setConscentError] = useState<boolean>(false);
   const [conscent, setConscent] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   function handleToggleDeliveryHelpModal() {
     setGeneralConditionsModal(!generalConditionsModal);
@@ -178,12 +181,21 @@ export default function RegisterForm(): JSX.Element {
             className="rounded-[30px] shadow-md bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
             placeholder="Adresse email"
           />
-          <Input
-            type="password"
-            name="password"
-            className="rounded-[30px] shadow-md bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
-            placeholder="Mot de passe"
-          />
+          <div className="relative">
+            <Input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
+              placeholder="Mot de passe"
+            />
+            <button
+              type="button"
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 mr-5"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            </button>
+          </div>
           <div className="flex flex-row gap-2 justify-start">
             <input type="checkbox" name="conscent" className="m-1" onChange={onChangeConscent}/>
             <label htmlFor="terms" className="text-sm font-normal w-11/12">
