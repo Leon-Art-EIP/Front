@@ -11,6 +11,8 @@ import { auth } from "../../configs/firebase/firebase.config";
 import { IConnectedUser } from "../../interfaces/user/user";
 import { TLoginData } from "../../zod";
 import useLoginForm from "../methods/useLoginForm";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -20,6 +22,7 @@ export default function LoginForm(): JSX.Element {
   const methods = useLoginForm();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleOk = async (json: any) => {
     const data = json as IConnectedUser;
@@ -48,32 +51,8 @@ export default function LoginForm(): JSX.Element {
     window.location.href = `${NEXT_PUBLIC_BACKEND_URL}/api/auth/google`;
   };
 
-  // const handleGoogle = () => {
-  //   const provider = new GoogleAuthProvider();
-  //   return signInWithPopup(auth, provider);
-  // };
-
   useEffect(() => {
-    onAuthStateChanged(auth, async (data) => {
-      //   if (data) {
-      //     const idToken = await data.getIdToken();
-      //     const user: IUser = {
-      //       id: data.uid,
-      //       username: data.displayName || "",
-      //       email: data.email || "",
-      //       is_artist: false,
-      //       availability: "",
-      //       subscription: "",
-      //       collections: [],
-      //     };
-      //     const connectedUser: IConnectedUser = {
-      //       token: idToken,
-      //       user: user,
-      //     };
-      //     localStorage.setItem("user", JSON.stringify(connectedUser));
-      //     // router.push("/");
-      //   }
-    });
+    onAuthStateChanged(auth, async (data) => {});
   }, [router]);
 
   return (
@@ -97,12 +76,21 @@ export default function LoginForm(): JSX.Element {
             className="mb-4 rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
             placeholder="Adresse email"
           />
-          <Input
-            type="password"
-            name="password"
-            className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
-            placeholder="Mot de passe"
-          />
+          <div className="relative">
+            <Input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
+              placeholder="Mot de passe"
+            />
+            <button
+              type="button"
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 mr-5"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            </button>
+          </div>
           <a
             className="text-tertiary font-medium text-sm self-end underline"
             title="forgotten_password"
