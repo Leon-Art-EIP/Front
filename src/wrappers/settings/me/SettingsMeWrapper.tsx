@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -16,6 +17,11 @@ export default function SettingsMeWrapper(): JSX.Element {
   const [stripeAccountAlreadyLinked, setStripeAccountAlreadyLinked] = useState(false);
   const [socialMediaLinkUpdatedSuccessfully, setSocialMediaLinkUpdatedSuccessfully] = useState<string>();
   const [socialMediaLinkUpdateFailed, setSocialMediaLinkUpdateFailed] = useState<string>();
+
+  const [usernameInputValue, setUsernameInputValue] = useState<string>("");
+  const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [usernameConflict, setUsernameConflict] = useState<boolean>(false);
+  const [usernameSuccess, setUsernameSuccess] = useState<string | null>(null);
 
   function getStripeAccountLink() {
     setNbFetchsStripeAccountLink(nbFetchsStripeAccountLink + 1);
@@ -40,7 +46,6 @@ export default function SettingsMeWrapper(): JSX.Element {
     async function fetchStripeAccountLinked() {
       const response = await myFetch({ route: "/api/stripe/account-link-status", method: "GET" });
       const data = response.json;
-      console.log(response);
       if (data && data.linked) {
         setStripeAccountAlreadyLinked(data.linked);
       }
@@ -48,7 +53,6 @@ export default function SettingsMeWrapper(): JSX.Element {
 
     fetchUserProfileData();
     fetchStripeAccountLinked();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function goToQuizz() {
@@ -71,6 +75,65 @@ export default function SettingsMeWrapper(): JSX.Element {
     }
   }
 
+  const handleOnUsernemeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsernameInputValue(event.target.value);
+  };
+
+  const handleUsernameBlur = async () => {
+    if (usernameInputValue) {
+      try {
+        const res = await myFetch({
+          route: `/api/user/check-username/${usernameInputValue}`,
+          method: "GET",
+        });
+
+        if (res.status === 409 || res.json.exists) {
+          setUsernameConflict(true);
+          setUsernameError("Nom d'utilisateur déjà pris.");
+        } else {
+          setUsernameConflict(false);
+          setUsernameError(null);
+        }
+      } catch (error) {
+        console.error("Network error:", error);
+        setUsernameError("Erreur de réseau. Veuillez réessayer.");
+        setUsernameConflict(false);
+      }
+    }
+  };
+
+  const resetUsernameError = () => {
+    setUsernameError(null);
+    setUsernameConflict(false);
+  };
+
+  const handleOnUsernameModify = async () => {
+    console.log("Enter handleOnUsernameModify");
+    if (usernameConflict || !usernameInputValue) return;
+    console.log("No error detected");
+    try {
+      const response = await myFetch({
+        route: `/api/user/profile/username`,
+        method: "POST",
+        body: JSON.stringify({ username: usernameInputValue }),
+      });
+
+      if (response.ok) {
+        setUserProfile((prevProfile) => prevProfile && { ...prevProfile, username: usernameInputValue });
+        setUsernameSuccess("Nom d'utilisateur mis à jour avec succès."); // Set success message
+        setUsernameError(null); // Clear any existing error
+      } else {
+        setUsernameError("Erreur lors de la mise à jour du nom d'utilisateur.");
+        setUsernameSuccess(null); // Clear success message
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      setUsernameError("Erreur de réseau. Veuillez réessayer.");
+      setUsernameSuccess(null); // Clear success message
+    }
+    console.log("API called");
+  };
+
   const numberOfElements = Object.keys(user).length;
   if (numberOfElements === 0) return <LoadingPage />;
 
@@ -84,6 +147,41 @@ export default function SettingsMeWrapper(): JSX.Element {
         handleOk={handleCreateStipeAccount}
       />
       <div className="flex flex-col gap-14">
+        <div className="flex flex-col gap-4 font-semibold text-lg text-tertiary">
+          <div>Nom d'utilisateur</div>
+          <div className="flex items-center gap-4">
+            <input
+              type="text"
+              value={usernameInputValue}
+              onChange={handleOnUsernemeChange}
+              onBlur={handleUsernameBlur}
+              onFocus={resetUsernameError}
+              className="px-4 text-secondary-tertiary font-normal border rounded-md"
+              placeholder={user.user.username}
+            />
+            <button
+              type="button"
+              className={`inline-flex justify-center py-2 px-4 border border-transparent w-fit shadow-sm text-sm font-medium rounded-md text-white ${
+                usernameInputValue && !usernameConflict ? "bg-primary hover:bg-primaryHover" : "bg-secondary"
+              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary`}
+              onClick={handleOnUsernameModify}
+              disabled={!usernameInputValue || usernameConflict}
+            >
+              Modifier
+            </button>
+          </div>
+          {usernameConflict && usernameError && (
+            <div className="text-primary text-sm mt-1" style={{ color: "red" }}>
+              {usernameError}
+            </div>
+          )}
+          {usernameSuccess && (
+            <div className="text-primary text-sm mt-1" style={{ color: "green" }}>
+              {usernameSuccess}
+            </div>
+          )}
+        </div>
+
         <TitledLabel title="Adresse mail" text={user.user.email} />
         <div className="flex flex-col gap-4">
           <TitledLabel
