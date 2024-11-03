@@ -6,7 +6,7 @@ import { stringToFrenchDate } from "../../../tools/date";
 import { Delete, Reply, ThumbUp, ThumbUpOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import { cn } from "../../../tools/cn";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { myFetch } from "../../../tools/myFetch";
 import { IProfileUser } from "../../../interfaces/user/profileUser";
 import Fetcher from "../../fetch/Fetcher";
@@ -37,10 +37,13 @@ interface IChildCommentProps {
 
 export default function Comment(props: IChildCommentProps | IParentCommentProps): JSX.Element {
   const [areChildrenCommentsVisible, setAreChildrenCommentsVisible] = useState<boolean>(false);
-  const [isReplying, setIsReplying] = useState<boolean>(false);
+  const [isReplyingTo, setIsReplyingTo] = useState<string | null>(null);
   const [replyMessage, setReplyMessage] = useState<string>("");
-  const [nbFetch, setNbFetchs] = useState(0);
+  const [nbFetchs, setNbFetchs] = useState(0);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isTruncated, setIsTruncated] = useState<boolean>(false);
+
+  const commentRef = useRef<HTMLParagraphElement>(null);
 
   const isCommentLiked = props.comment.likes.includes(props.connectedUserId);
 
@@ -53,9 +56,27 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
   };
 
   const commentHandleOk = async (newComment: INewComment) => {
+    setIsReplyingTo(null);
+
     const responseAuthor = await myFetch({ route: `/api/user/profile/${newComment.comment.userId}`, method: "GET" });
 
-    if (responseAuthor.ok) {
+    let replyingToUsername: string | null | undefined = undefined; // null = error
+
+    if (newComment.comment.replyingToUserId) {
+      const responseRespondingto = await myFetch({
+        route: `/api/user/profile/${newComment.comment.replyingToUserId}`,
+        method: "GET",
+      });
+
+      if (responseRespondingto.ok) {
+        const respondingTo = responseRespondingto.json as IProfileUser;
+        replyingToUsername = respondingTo.username;
+      } else {
+        replyingToUsername = null;
+      }
+    }
+
+    if (responseAuthor.ok && replyingToUsername !== null) {
       const author = responseAuthor.json as IProfileUser;
 
       props.onAddComment({
@@ -63,6 +84,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
         nestedComments: [],
         profilePicture: `${imageApi}/${author.profilePicture}`,
         username: author.username,
+        replyingToUsername: replyingToUsername ?? null,
       });
       setAreChildrenCommentsVisible(true);
     }
@@ -72,8 +94,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
 
   const handleReply = () => {
     if (replyMessage.trim() !== "") {
-      setNbFetchs(nbFetch + 1);
-      setIsReplying(false);
+      setNbFetchs(nbFetchs + 1);
     }
   };
 
@@ -90,13 +111,28 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
     }
   };
 
+  useEffect(() => {
+    const element = commentRef.current;
+    if (element) {
+      const lineHeight = parseFloat(getComputedStyle(element).lineHeight);
+      const maxHeight = lineHeight * 3; // max height for 3 lines
+      setIsTruncated(element.scrollHeight > maxHeight);
+    }
+  }, [props.comment.text]);
+
+  const replyingToUsername = props.comment.replyingToUsername;
+
   return (
     <>
       <Fetcher
         method="POST"
-        nbFetchs={nbFetch}
+        nbFetchs={nbFetchs}
         route={`/api/art-publication/comment/${props.artPublicationId}`}
-        body={JSON.stringify({ text: replyMessage, parentCommentId: props.parentCommentId ?? props.comment.id })}
+        body={JSON.stringify({
+          text: replyMessage,
+          parentCommentId: props.parentCommentId ?? props.comment.id,
+          replyingToUserId: isReplyingTo,
+        })}
         handleOk={commentHandleOk}
         successStr="Réponse ajoutée"
       />
@@ -114,10 +150,11 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                   </Link>
                   <p className="text-neutral-400">{stringToFrenchDate(props.comment.createdAt)}</p>
                 </div>
-                <p className={cn("break-all whitespace-pre-wrap", !isExpanded && "line-clamp-3")}>
+                <p ref={commentRef} className={cn("break-all whitespace-pre-wrap", !isExpanded && "line-clamp-3")}>
+                  {replyingToUsername && <span className="text-blue-400">@{replyingToUsername} </span>}
                   {props.comment.text}
                 </p>
-                {props.comment.text.length > 100 && (
+                {isTruncated && (
                   <button onClick={toggleExpand} className="text-blue-600 font-semibold mt-2">
                     {isExpanded ? (
                       <span className="flex items-center gap-1">
@@ -146,7 +183,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
             )}
           </div>
 
-          {isReplying && (
+          {!!isReplyingTo && (
             <div className="flex flex-col gap-2 ml-10">
               <input
                 type="text"
@@ -169,7 +206,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                 </button>
                 <button
                   onClick={() => {
-                    setIsReplying(false);
+                    setIsReplyingTo(null);
                     setReplyMessage("");
                   }}
                   className="text-gray-600 font-semibold"
@@ -191,7 +228,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
               backgroundColor="bg-transparent"
             />
             <button
-              onClick={() => setIsReplying(true)}
+              onClick={() => setIsReplyingTo(props.comment.userId)}
               className="text-black text-sm px-4 py-2 rounded-2xl hover:bg-background-inputfield"
             >
               Répondre

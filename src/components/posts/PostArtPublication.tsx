@@ -11,8 +11,6 @@ interface IPostArtPublicationProps {
 export default function PostArtPublication(props: IPostArtPublicationProps): JSX.Element {
   let children: JSX.Element;
 
-  console.log("image: ", props.artPublication.image);
-
   if (props.artPublication) {
     children = (
       <img

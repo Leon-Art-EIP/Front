@@ -45,3 +45,5 @@ next-env.d.ts
 # test result for junit
 
 /test-results
+
+package-lock.json

@@ -29,6 +29,7 @@ export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element
     setBody(
       JSON.stringify({
         text: data.comment,
+        replyingToUserId: null,
       })
     );
     setNbFetchs(nbFetchs + 1);
@@ -52,6 +53,7 @@ export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element
           parentCommentId: json.comment.parentCommentId,
           nestedComments: [],
           likes: [],
+          replyingToUsername: null,
         },
         ...props.comments,
       ]);

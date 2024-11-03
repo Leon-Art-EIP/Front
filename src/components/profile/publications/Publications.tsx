@@ -1,25 +1,33 @@
-import { Dispatch, ElementType, SetStateAction } from "react";
-import { IProfileArt, IProfileCollection } from "../../../interfaces/profile/profileCollection";
+import { ElementType, useState } from "react";
+import { IProfileArt } from "../../../interfaces/profile/profileCollection";
 import { Button } from "../../lib";
 import { cn } from "../../../tools/cn";
-import { myFetch } from "../../../tools/myFetch";
-import { ICollectionArtsExtended } from "../../../interfaces/single/collection";
-import InboxIcon from '@mui/icons-material/Inbox';
+import InboxIcon from "@mui/icons-material/Inbox";
 
 interface IPublicationsProps {
   profileArts: IProfileArt[];
   link: ElementType<{ children: JSX.Element; href: string }>;
-  deleteCollectionOnClick?: () => Promise<void>;
+  deleteCollectionOnConfirm?: () => void;
 }
 
 export default function Publications({ link: Link, ...props }: IPublicationsProps): JSX.Element {
+  const [isDeletingCollection, setIsDeletingCollection] = useState(false);
+
+  const deleteCollectionOnClick = () => {
+    setIsDeletingCollection(true);
+  };
+
+  const onCancelDeleteCollection = () => {
+    setIsDeletingCollection(false);
+  };
+
   return (
     <>
       {props.profileArts.length > 0 ? (
         <div
           className={cn(
             "w-full flex flex-col bg-background-hl p-4 rounded gap-4",
-            props.deleteCollectionOnClick && "items-center justify-center"
+            props.deleteCollectionOnConfirm && "items-center justify-center"
           )}
         >
           <div className="flex flex-wrap gap-4">
@@ -34,18 +42,29 @@ export default function Publications({ link: Link, ...props }: IPublicationsProp
             ))}
           </div>
 
-          {props.deleteCollectionOnClick && (
-            <Button color="primary" type="button" onClick={props.deleteCollectionOnClick}>
-              Supprimer la collection
-            </Button>
-          )}
+          {props.deleteCollectionOnConfirm &&
+            (isDeletingCollection ? (
+              <div className="flex flex-col gap-2 items-center">
+                <h2>Êtes-vous sûr ?</h2>
+                <div className="flex gap-2">
+                  <Button color="primary" type="button" onClick={props.deleteCollectionOnConfirm}>
+                    Confirmer
+                  </Button>
+                  <Button color="secondary" type="button" onClick={onCancelDeleteCollection}>
+                    Annuler
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <Button color="primary" type="button" onClick={deleteCollectionOnClick}>
+                Supprimer la collection
+              </Button>
+            ))}
         </div>
       ) : (
         <div className="w-full flex flex-col justify-center h-full items-center text-2xl">
           <InboxIcon className="text-8xl" />
-          <span className="text-2xl">
-            Aucune publication
-          </span>
+          <span className="text-2xl">Aucune publication</span>
         </div>
       )}
     </>

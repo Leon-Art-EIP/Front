@@ -9,7 +9,7 @@ export default function Page(): JSX.Element {
           <span className="text-[#E11C0A] cursor-default">Leon</span>
           <span className="text-[#000000] cursor-default">&apos;Art</span>
         </label>
-        <div className="max-w-xs w-full h-full pt-28 xl:pt-0">
+        <div className="max-w-xs w-full pt-28 xl:pt-0">
           <h1 className="text-tertiary text-[50px] text-center">
             S&apos;enregistrer
           </h1>

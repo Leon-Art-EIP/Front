@@ -21,6 +21,7 @@ interface ITabsWrapperProps {
   link: ElementType<{ children: JSX.Element; href: string }>;
   setProfileCollections: Dispatch<SetStateAction<IProfileCollection[]>>;
   setCollectionsArtsExtended: Dispatch<SetStateAction<ICollectionArtsExtended[]>>;
+  profileUserId: string;
 }
 
 const infractionTranslations: { [key: string]: string } = {
@@ -36,7 +37,6 @@ export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
   const [selectedTab, setSelectedTab] = useState<"publications" | "collections" | "about">("publications");
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportInputValue, setReportInputValue] = useState<string>("");
-  const [error, setError] = useState<string>("");
   const [infractions, setInfractions] = useState<string[]>([]);
   const [selectedReason, setSelectedReason] = useState<string>(infractions[0] || "");
 
@@ -61,7 +61,27 @@ export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
   };
 
   const handleReportSubmit = (reason: string, description: string) => {
-    console.log("Report submitted:", { reason, description });
+    const reportBody = {
+      userId: props.profileUserId,
+      infraction: reason,
+      message: description,
+    };
+
+    myFetch({
+      route: `/api/signalments/user`,
+      method: "POST",
+      body: JSON.stringify(reportBody),
+    }).then(async (response) => {
+      const data = await response.json;
+      if (response.ok) {
+        // Handle successful report submission
+        console.log("Report submitted successfully:", data);
+      } else {
+        // Handle error case
+        console.error("Failed to submit report:", response.message);
+      }
+    });
+
     setIsReportModalOpen(false);
   };
 
@@ -84,7 +104,6 @@ export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
       if (res.ok) {
         const infractions = res.json as string[];
         setInfractions(infractions);
-        console.log(infractions);
       }
     }
     fetchArticle();
@@ -111,6 +130,7 @@ export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
           collectionsArtsExtended={props.collectionsArtsExtended}
           setProfileCollections={props.setProfileCollections}
           setCollectionsArtsExtended={props.setCollectionsArtsExtended}
+          myProfile={props.myProfile}
         />
       )}
       {selectedTab === "about" && (
@@ -139,7 +159,6 @@ export default function TabsWrapper(props: ITabsWrapperProps): JSX.Element {
           <Button color="danger" type="button" className="self-center" onClick={handleOnModify}>
             Signaler
           </Button>
-          {/* {error && <div className="text-primary text-center">{error}</div>} */}
         </div>
       </Modal>
     </>

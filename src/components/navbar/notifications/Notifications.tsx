@@ -99,7 +99,8 @@ export default function Notifications() {
         return <PaidIcon className="w-8 green-color" />;
       case "order_processing":
         return <AutorenewIcon className="w-8 blue-color" />;
-      case "order_cancelled" || "order_cancelled_buyer":
+      case "order_cancelled":
+      case "order_cancelled_buyer":
         return <CancelIcon className="w-8 fill-primary" />;
       case "order_completed":
         return <CheckCircleIcon className="w-8 green-color" />;
