@@ -11,8 +11,8 @@ import { auth } from "../../configs/firebase/firebase.config";
 import { IConnectedUser } from "../../interfaces/user/user";
 import { TLoginData } from "../../zod";
 import useLoginForm from "../methods/useLoginForm";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
