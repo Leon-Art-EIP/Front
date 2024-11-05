@@ -24,6 +24,10 @@ export default function Page(): JSX.Element {
   const [switchState, setSwitchState] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
   const [fetchProfileAfterChange, setFetchProfileAfterChange] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
 
   const tabs: ISettingTab[] = [
     {
@@ -115,7 +119,11 @@ export default function Page(): JSX.Element {
                   <ThemeSelector />
                 </div>
               ) : tab.type === "switch" ? (
-                <div className="flex items-center">
+                <div
+                  className="flex items-center relative"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <div className="mr-16">
                     <IconLabel icon={tab.icon} text={tab.text} color="tertiary" />
                   </div>
@@ -124,8 +132,15 @@ export default function Page(): JSX.Element {
                     labelOff="Désactivé"
                     checked={switchState}
                     onChange={handleSwitchChange}
-                    tooltip="Toggle to enable or disable notifications"
+                    tooltip="Cliquez pour activer/désactiver les notifications par mail"
                   />
+                  {isHovered && (
+                    <div className="ml-4 top-1/2 transform -translate-y-1 bg-secondary-hl text-tertiary p-2 rounded-lg shadow-lg max-w-[50%]">
+                      Lorsque vous activez les notifications par mail, vous serez alerté lorsqu&apos;un utilisateur like
+                      un de vos posts ou commence à vous suivre. Vous recevrez également des mise à jour concernant vos
+                      commandes.
+                    </div>
+                  )}
                 </div>
               ) : null}
             </div>
