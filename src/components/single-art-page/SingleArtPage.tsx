@@ -16,7 +16,7 @@ import { ICoords } from "../../wrappers/map/MapWrapper";
 export interface ISingleArtPageProps {
   description: string;
   caracteristics: string;
-  price?: number;
+  price: number | null;
   art: string;
   artId: string;
   profile: string;

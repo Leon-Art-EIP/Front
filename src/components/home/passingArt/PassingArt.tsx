@@ -17,7 +17,6 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
   const router = useRouter();
 
   const handleClick = (id: string) => {
-    // router.push(`/article/${props.users.users[index].id}`);
     router.push(`/article/${id}`);
   };
 
@@ -30,16 +29,19 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
           className="w-full h-72 object-cover"
         />
       </div>
-      <div className="flex flex-col px-16 pt-16 pb-2 relative z-10 w-full">
+      <div className="flex flex-col pt-16 pb-2 relative z-10">
         <div className="flex flex-col gap-2 text-secondary max-w-l truncate h-40">
-          <div className="max-w-full whitespace-normal truncate">
+          <div
+            className="whitespace-normal truncate text-tertiary rounded-r-3xl px-4 py-1"
+            style={{ backgroundColor: "rgba(238, 238, 238, 0.75)" }}
+          >
             <div
-              className="text-3xl font-semibold truncate cursor-pointer"
+              className="text-3xl font-semibold cursor-pointer inline-block transition duration-200 px-16"
+              style={{ userSelect: "none" }}
               onClick={(e) => {
                 e.stopPropagation();
                 handleClick(props.passingArt._id);
               }}
-              style={{ userSelect: "none" }}
             >
               {props.passingArt.title}
             </div>
@@ -50,11 +52,6 @@ export default function PassingArt(props: IPassingArtProps): JSX.Element {
             <PointsPosition nbrPoints={props.nbrPoints} position={props.position} />
           </div>
         )}
-        {/* {props.archived && (
-          <div className="absolute bottom-4 right-10 bg-primary text-secondary px-2 py-1 text-sm font-bold">
-            Archivé
-          </div>
-        )} */}
       </div>
     </div>
   );

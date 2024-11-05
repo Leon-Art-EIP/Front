@@ -7,9 +7,8 @@ export interface IArtPublication {
   description: string;
   isForSale: boolean;
   isSold: boolean;
-  price: number;
+  price: number | null;
   location: string;
-  // likes: IArtist[];
   likes: string[]; // id
   totalLikes: number;
   comments: string[];
