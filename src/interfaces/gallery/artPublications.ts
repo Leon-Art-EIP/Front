@@ -7,7 +7,7 @@ export interface IArtPublication {
   name: string;
   artType: string;
   image: string;
-  price: number;
+  price: number | null;
   isForSale: boolean;
   description: string;
 }

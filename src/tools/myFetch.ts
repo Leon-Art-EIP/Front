@@ -61,6 +61,8 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
       const error: IError = responseJson;
       const serverErrorMsg = (error.errors.length > 0 ? error.errors[0].msg : undefined) as TErrorMessages | undefined;
       message = serverErrorMsg ? errors[serverErrorMsg] ?? serverErrorMsg : "Une erreur est survenue";
+    } else if (response.status === 429) {
+      message = "Trop de requêtes ont été effectuées avec cette IP, veuillez réessayer plus tard";
     } else if (response.status >= 400 && response.status < 500) {
       const error: IUnauthorized = responseJson;
       const serverErrorMsg = errors[error.msg as TErrorMessages];
