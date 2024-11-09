@@ -14,8 +14,8 @@ import { IConnectedUser } from "../../interfaces/user/user";
 import { myFetch } from "../../tools/myFetch";
 import { TRegisterData } from "../../zod";
 import useRegisterForm from "../methods/useRegisterForm";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 export const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -31,7 +31,6 @@ export default function RegisterForm(): JSX.Element {
   const [usernameConflict, setUsernameConflict] = useState<boolean>(false);
   const [conscentError, setConscentError] = useState<boolean>(false);
   const [conscent, setConscent] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   function handleToggleDeliveryHelpModal() {
     setGeneralConditionsModal(!generalConditionsModal);
@@ -126,7 +125,7 @@ export default function RegisterForm(): JSX.Element {
     if (conscentError) {
       setConscentError(false);
     }
-  }
+  };
 
   return (
     <>
@@ -181,23 +180,14 @@ export default function RegisterForm(): JSX.Element {
             className="rounded-[30px] shadow-md bg-[#F5F5F5] text-gray-700 py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
             placeholder="Adresse email"
           />
-          <div className="relative">
-            <Input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
-              placeholder="Mot de passe"
-            />
-            <button
-              type="button"
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 mr-5"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-            </button>
-          </div>
+          <Input
+            type="password"
+            name="password"
+            className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
+            placeholder="Mot de passe"
+          />
           <div className="flex flex-row gap-2 justify-start">
-            <input type="checkbox" name="conscent" className="m-1" onChange={onChangeConscent}/>
+            <input type="checkbox" name="conscent" className="m-1" onChange={onChangeConscent} />
             <label htmlFor="terms" className="text-sm font-normal w-11/12">
               En vous enregistrant, vous acceptez les
               <span
@@ -209,7 +199,9 @@ export default function RegisterForm(): JSX.Element {
               </span>
             </label>
           </div>
-          {conscentError && <div className="text-primary text-sm">Veuillez accepter les conditions générales de vente.</div>}
+          {conscentError && (
+            <div className="text-primary text-sm">Veuillez accepter les conditions générales de vente.</div>
+          )}
           <div className="flex flex-col gap-2 justify-center mt-5 ">
             <button
               type="submit"

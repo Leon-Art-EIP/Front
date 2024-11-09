@@ -73,13 +73,13 @@ export default function SettingsPasswordForm(): JSX.Element {
       />
       <FormProvider {...methods}>
         <form
-          className="text-tertiary flex flex-col p-2 gap-3"
+          className="text-tertiary flex flex-col p-2 gap-3 max-w-md"
           onSubmit={methods.handleSubmit((data) => onSubmit(data))}
         >
           {inputs.map((input) => (
             <Input
               key={`settings-password-${input.name}`}
-              className="bg-secondary rounded p-2 truncate max-w-sm"
+              className="bg-secondary rounded p-2 truncate w-full"
               name={input.name}
               placeholder={input.placeholder}
               type="password"
