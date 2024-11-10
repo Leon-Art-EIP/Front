@@ -1,4 +1,6 @@
 import { useState } from "react";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 export interface FormProps {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -17,26 +19,48 @@ export default function Form({
   setSuccess,
   isLoading,
 }: FormProps): JSX.Element {
+  const [showPassword, setShowPassword] = useState(false);
+
   function handleInputChange() {
     setError("");
   }
 
   return (
     <form className="flex flex-col gap-6 w-full mt-6 xl:mt-24" onSubmit={handleSubmit}>
-      <input
-        type="password"
-        name="newPassword"
-        className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
-        placeholder="Nouveau mot de passe"
-        onChange={handleInputChange}
-      />
-      <input
-        type="password"
-        name="confirmNewPassword"
-        className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover"
-        placeholder="Confirmer le nouveau mot de passe"
-        onChange={handleInputChange}
-      />
+      <div className="relative">
+        <input
+          type={showPassword ? "text" : "password"}
+          name="newPassword"
+          className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover pr-10"
+          placeholder="Nouveau mot de passe"
+          onChange={handleInputChange}
+        />
+        <button
+          type="button"
+          className="absolute inset-y-0 right-3 flex items-center"
+          onClick={() => setShowPassword(!showPassword)}
+          aria-label={showPassword ? "Masquer le mot de passe" : "Voir le mot de passe"}
+        >
+          {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+        </button>
+      </div>
+      <div className="relative">
+        <input
+          type={showPassword ? "text" : "password"}
+          name="confirmNewPassword"
+          className="rounded-[30px] shadow-md bg-background-inputfield text-tertiary py-3 px-7 w-full focus:outline-none focus:ring-1 focus:ring-tertiary-hover placeholder-tertiary-hover pr-10"
+          placeholder="Confirmer le nouveau mot de passe"
+          onChange={handleInputChange}
+        />
+        <button
+          type="button"
+          className="absolute inset-y-0 right-3 flex items-center"
+          onClick={() => setShowPassword(!showPassword)}
+          aria-label={showPassword ? "Masquer le mot de passe" : "Voir le mot de passe"}
+        >
+          {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+        </button>
+      </div>
       <div className="relative">
         {error && <label className="absolute top-0 text-sm font-normal text-red-500 error-message">{error}</label>}
         {success && <label className="absolute top-0 text-center text-sm font-normal text-green-500">{success}</label>}
