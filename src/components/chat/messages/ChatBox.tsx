@@ -29,13 +29,10 @@ export function ChatBox(): JSX.Element {
       {messages.map((message, index) => {
         const currentDateTime = new Date(message.dateTime);
         let showFullDate = false;
-        let showTimeOnly = false;
 
         if (prevDateTime) {
           if (currentDateTime.toDateString() !== prevDateTime.toDateString()) {
             showFullDate = true;
-          } else if (Math.abs(currentDateTime.getTime() - prevDateTime.getTime()) >= 2 * 60 * 60 * 1000) {
-            showTimeOnly = true;
           }
         } else {
           showFullDate = true;
@@ -52,7 +49,7 @@ export function ChatBox(): JSX.Element {
               </>
             )}
             <Chat
-              dateTime={showTimeOnly ? formatTime(message.dateTime) : ""}
+              dateTime={formatTime(message.dateTime)}
               key={message.id}
               content={message.content}
               sender={message.senderId === currentUser?.user.id ? 0 : 1}
