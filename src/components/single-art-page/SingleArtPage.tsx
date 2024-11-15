@@ -176,6 +176,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
             heartOnClick={heartOnClick}
             deleteOnClick={deleteOnClick}
             link={props.link}
+            isPartOfCollection={selectedCollections.length > 0}
           />
           <SingleArtPageComments artPublicationId={props.artId} connectedUserId={props.connectedUserId} />
         </div>
