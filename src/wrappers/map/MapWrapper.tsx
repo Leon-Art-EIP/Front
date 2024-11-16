@@ -42,7 +42,12 @@ async function fetchLocatedMapUsers(
       if (response.ok) {
         const profileUser: IProfileUser = response.json as IProfileUser;
 
-        if (profileUser.location && profileUser.location.coordinates.length === 2) {
+        if (
+          profileUser.location &&
+          "coordinates" in profileUser.location &&
+          profileUser.location.coordinates &&
+          profileUser.location.coordinates.length === 2
+        ) {
           const lat: number = Number(profileUser.location.coordinates[1]);
           const lng: number = Number(profileUser.location.coordinates[0]);
 
@@ -77,7 +82,12 @@ async function fetchMapUser(user: IUser, setMapUser: Dispatch<SetStateAction<ILo
   if (response.ok) {
     const user = response.json as IProfileUser;
 
-    if (user.location && "coordinates" in user.location && user.location.coordinates.length == 2) {
+    if (
+      user.location &&
+      "coordinates" in user.location &&
+      user.location.coordinates &&
+      user.location.coordinates.length == 2
+    ) {
       setMapUser({
         position: {
           lat: Number(user.location.coordinates[1]),

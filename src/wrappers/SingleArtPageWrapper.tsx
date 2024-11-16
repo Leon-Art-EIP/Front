@@ -155,7 +155,10 @@ export default function SingleArtPageWrapper(props: SingleArtPageWrapperProps): 
       isSold={artPublication.isSold}
       onAddNewCollection={onAddNewCollection}
       artistCoords={
-        artist.location
+        artist.location &&
+        "coordinates" in artist.location &&
+        artist.location.coordinates &&
+        artist.location.coordinates.length === 2
           ? {
               latitude: artist.location.coordinates[1],
               longitude: artist.location.coordinates[0],
