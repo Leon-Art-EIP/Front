@@ -45,8 +45,8 @@ export default function ExplorerWrapper(): JSX.Element {
       filters.artistLimit ? `artistLimit=${filters.artistLimit}` : "",
       unavailableToBuy ? `isForSale=false` : ""
     ]
-    .filter(Boolean)
-    .join("&");
+      .filter(Boolean)
+      .join("&");
   
     return queryParams ? `?${queryParams}` : "";
   }

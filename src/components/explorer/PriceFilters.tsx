@@ -10,32 +10,35 @@ interface PriceFiltersProps {
 }
 
 export default function PriceFilters(props: PriceFiltersProps): JSX.Element {
-  const [priceRanges] = useState<IPriceRangeFilter[]>(priceRangeFilters);
-
-  useEffect(() => {
-    priceRanges.forEach((priceRange) => {
-      priceRange.selected = false;
-    });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [priceRanges, setPriceRanges] = useState<IPriceRangeFilter[]>(priceRangeFilters);
 
   function handleSelectPriceRange(priceRangeToggled: IPriceRangeFilter) {
-    let clearPriceRange = false;
-
-    priceRanges.forEach((priceRange) => {
+    const updatedPriceRanges = priceRanges.map((priceRange) => {
       if (priceRange.priceRangeTitle === priceRangeToggled.priceRangeTitle) {
-        if (priceRange.selected) clearPriceRange = true;
-        priceRange.selected = !priceRange.selected;
-      } else {
-        priceRange.selected = false;
+        return { ...priceRange, selected: !priceRange.selected };
       }
+      return priceRange;
     });
 
-    props.handleFilters({
-      ...props.filters,
-      isForSale: false,
-      priceRange: clearPriceRange ? "" : priceRangeToggled.priceRangeValue,
-    });
+    setPriceRanges(updatedPriceRanges);
+
+    const selectedRanges = updatedPriceRanges
+      .filter((priceRange) => priceRange.selected)
+      .map((priceRange) => priceRange.priceRangeValue);
+
+    if (selectedRanges.length > 0) {
+      const minPrice = Math.min(...selectedRanges.map((range) => Number(range.split("-")[0])));
+      const maxPrice = Math.max(...selectedRanges.map((range) => Number(range.split("-")[1])));
+      props.handleFilters({
+        ...props.filters,
+        priceRange: `${minPrice}-${maxPrice}`,
+      });
+    } else {
+      props.handleFilters({
+        ...props.filters,
+        priceRange: "",
+      });
+    }
   }
 
   return (
