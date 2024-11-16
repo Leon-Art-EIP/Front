@@ -24,7 +24,7 @@ export default function Switch({
   };
 
   return (
-    <div className={cn("flex flex-col gap-2 items-center justify-center", className)}>
+    <div className={cn("flex flex-col gap-1 items-center justify-center", className)}>
       <span className="text-sm">{label}</span>
       <button
         onClick={handleClick}
