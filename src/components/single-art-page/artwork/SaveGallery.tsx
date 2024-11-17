@@ -16,7 +16,7 @@ interface ISaveGalleryProps {
   setNewCollectionBody: Dispatch<SetStateAction<string>>;
   isNewCollectionLoading: boolean;
   newCollectionFetchs: number;
-  setNewCollectionFetchs: Dispatch<SetStateAction<number>>
+  setNewCollectionFetchs: Dispatch<SetStateAction<number>>;
 }
 
 /* c8 ignore start */
