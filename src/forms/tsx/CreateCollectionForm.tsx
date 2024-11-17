@@ -47,7 +47,7 @@ export default function CreateCollectionForm(props: ICreateCollectionFormProps):
         onSubmit={methods.handleSubmit(onSubmit)}
       >
         <button
-          className="rounded-full bg-gray-200 hover:bg-gray-300 p-2 w-20"
+          className="rounded-full bg-gray-200 hover:bg-gray-300 p-2 w-20 text-black"
           onClick={props.handleClose}
           disabled={props.isLoading}
         >
@@ -57,7 +57,7 @@ export default function CreateCollectionForm(props: ICreateCollectionFormProps):
           name="collectionName"
           placeholder="Nom de la collection"
           type="text"
-          className="border-none focus:outline-none p-2 rounded-full text-center"
+          className="border-none focus:outline-none p-2 rounded-full text-center text-black"
           errorClassName="text-center"
         />
         <button className="rounded-full bg-primary hover:bg-red-700 p-2 text-white w-20" disabled={props.isLoading}>

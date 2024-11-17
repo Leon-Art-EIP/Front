@@ -69,7 +69,7 @@ export default function OrderList(props: OrderListProps): JSX.Element {
               <span
                 className={cn(
                   "inline-flex py-1 px-3 text-xs rounded-2xl ml-2",
-                  "bg-primary text-secondary",
+                  "bg-primary text-tertiary",
                   "transform translate-y-[-3px]"
                 )}
               >
@@ -89,7 +89,7 @@ export default function OrderList(props: OrderListProps): JSX.Element {
               <span
                 className={cn(
                   "inline-flex py-1 px-3 text-xs rounded-2xl ml-2",
-                  "bg-primary text-secondary",
+                  "bg-primary text-tertiary",
                   "transform translate-y-[-3px]"
                 )}
               >
