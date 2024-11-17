@@ -157,18 +157,18 @@ export default function Notifications() {
         )}
       </div>
       {isOpen && (
-        <div className="absolute justify-between right-0 mt-2 w-96 max-h-56 bg-white border border-b border-b-secondaryGrey shadow-lg rounded-lg p-4 z-50 cursor-default overflow-y-auto">
+        <div className="absolute justify-between right-0 mt-2 w-96 max-h-56 bg-background border border-b border-b-secondaryGrey shadow-lg rounded-lg p-4 z-50 cursor-default overflow-y-auto">
           {notifications.length > 0 ? (
             notifications.map((notification) => (
               <div
                 key={notification.id}
-                className="flex flex-row justify-stretch items-center gap-2 py-2 px-4 hover:bg-gray-100 rounded-md cursor-pointer"
+                className="flex flex-row justify-stretch items-center gap-2 py-2 px-4 hover:bg-background-hl rounded-md cursor-pointer"
                 onMouseEnter={() => onMarkAsRead(notification.id)}
                 onClick={() => onGoToNotificationContent(notification.type, notification.referenceId)}
               >
                 <div className="flex flex-row items-center gap-2">
                   <div className="place-self-start pt-1">{notificationIcon(notification.type)}</div>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col text-tertiary">
                     <span className="text-md">{notificationContent(notification.type, notification.content)}</span>
                     <span className="text-sm italic">
                       {formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true, locale: fr })}
