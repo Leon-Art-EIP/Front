@@ -190,7 +190,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                 value={replyMessage}
                 onChange={(e) => setReplyMessage(e.target.value)}
                 placeholder="Écrire une réponse..."
-                className="p-2 border-b border-black outline-none"
+                className={`p-2 border-b border-black outline-none ${replyMessage ? "text-black" : "text-black"}`}
                 autoFocus
               />
               <div className="flex gap-2">
@@ -198,9 +198,9 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                   onClick={handleReply}
                   disabled={replyMessage.trim() === ""}
                   className={cn(
-                    "text-tertiary font-semibold px-4 py-2 rounded",
+                    "text-white font-semibold px-4 py-2 rounded",
                     replyMessage.trim() === "" ? "bg-secondary cursor-not-allowed" : "bg-primary"
-                  )}  
+                  )}
                 >
                   Répondre
                 </button>
@@ -209,7 +209,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                     setIsReplyingTo(null);
                     setReplyMessage("");
                   }}
-                  className="text-gray-600 font-semibold"
+                  className="text-tertiary font-semibold"
                 >
                   Annuler
                 </button>
