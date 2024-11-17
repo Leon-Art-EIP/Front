@@ -174,7 +174,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
               <IconButton
                 icon={Delete}
                 backgroundColor="transparent"
-                iconColor="black"
+                iconColor="tertiary"
                 onClick={() => {
                   props.openDeleteModal(props.comment.id, props.parentCommentId ?? null);
                 }}
