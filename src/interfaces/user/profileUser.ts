@@ -17,7 +17,7 @@ export interface IProfileUser extends IUser {
   };
   location?: {
     type: "Point";
-    coordinates: [string, string];
+    coordinates?: [string, string];
   };
   emailNotificationEnabled: boolean;
 }

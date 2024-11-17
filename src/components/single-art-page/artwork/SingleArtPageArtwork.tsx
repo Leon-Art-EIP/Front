@@ -1,4 +1,4 @@
-import { BookmarkBorder, DeleteOutline, Favorite, FavoriteBorder, Map, Share, Report } from "@mui/icons-material";
+import { BookmarkBorder, DeleteOutline, Favorite, FavoriteBorder, Map, Share, Report, Bookmark } from "@mui/icons-material";
 import { ElementType, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
@@ -26,6 +26,7 @@ interface ISingleArtPageArtworkProps {
   heartOnClick(): void;
   deleteOnClick(): void;
   link: ElementType<{ children: JSX.Element; href: string }>;
+  isPartOfCollection: boolean;
 }
 
 const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -166,7 +167,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
             )}
             <IconButton
               id="bookmark-button"
-              icon={BookmarkBorder}
+              icon={props.isPartOfCollection ? Bookmark : BookmarkBorder}
               backgroundColor="bg-background-hl"
               onClick={props.bookmarkOnClick}
               iconColor="text-tertiary"

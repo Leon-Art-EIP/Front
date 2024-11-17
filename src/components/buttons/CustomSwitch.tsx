@@ -3,7 +3,7 @@
 import React from "react";
 import cn from "classnames";
 
-interface CustomSwitchProps {
+interface ICustomSwitchProps {
   labelOn: string;
   labelOff: string;
   checked: boolean;
@@ -11,7 +11,7 @@ interface CustomSwitchProps {
   tooltip?: string;
 }
 
-const CustomSwitch: React.FC<CustomSwitchProps> = ({ labelOn, labelOff, checked, onChange, tooltip }) => {
+export default function CustomSwitch({ labelOn, labelOff, checked, onChange, tooltip }: ICustomSwitchProps) {
   return (
     <div className="flex items-center cursor-pointer" onClick={onChange} title={tooltip}>
       <span
@@ -25,6 +25,4 @@ const CustomSwitch: React.FC<CustomSwitchProps> = ({ labelOn, labelOff, checked,
       </span>
     </div>
   );
-};
-
-export default CustomSwitch;
+}
