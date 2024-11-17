@@ -10,6 +10,7 @@ import { myFetch } from "../../tools/myFetch";
 import { IProfileUser } from "../../interfaces/user/profileUser";
 import { ILocatedMapUser, IMapUser } from "../../interfaces/map";
 import { positionToCoords } from "../../tools/positions";
+import SwitchLocalisation from "../../components/localisation/SwitchLocalisation";
 
 export interface ICoords {
   latitude: string;
@@ -41,7 +42,12 @@ async function fetchLocatedMapUsers(
       if (response.ok) {
         const profileUser: IProfileUser = response.json as IProfileUser;
 
-        if (profileUser.location && profileUser.location.coordinates.length === 2) {
+        if (
+          profileUser.location &&
+          "coordinates" in profileUser.location &&
+          profileUser.location.coordinates &&
+          profileUser.location.coordinates.length === 2
+        ) {
           const lat: number = Number(profileUser.location.coordinates[1]);
           const lng: number = Number(profileUser.location.coordinates[0]);
 
@@ -76,7 +82,12 @@ async function fetchMapUser(user: IUser, setMapUser: Dispatch<SetStateAction<ILo
   if (response.ok) {
     const user = response.json as IProfileUser;
 
-    if (user.location && user.location.coordinates.length == 2) {
+    if (
+      user.location &&
+      "coordinates" in user.location &&
+      user.location.coordinates &&
+      user.location.coordinates.length == 2
+    ) {
       setMapUser({
         position: {
           lat: Number(user.location.coordinates[1]),
@@ -133,6 +144,8 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
   useEffect(() => {
     if (locatedMapUser) {
       fetchLocatedMapUsers(positionToCoords(locatedMapUser.position), setLocatedMapUsers);
+    } else {
+      setLocatedMapUsers([]);
     }
   }, [locatedMapUser]);
 
@@ -162,13 +175,13 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
         <Map mapCenter={mapCenter} locatedMapUsers={locatedMapUsers} mapZoom={mapCenter ? 12 : undefined} />
       </MapProvider>
       {locatedMapUser ? (
-        <ShareLocalisation color="primary" className="self-center" refresh onRefreshCoords={onRefreshCoords} />
+        <SwitchLocalisation color="primary" className="self-center" positionShared onRefreshCoords={onRefreshCoords} />
       ) : (
         <div className="flex flex-col gap-2 items-center">
           {!mapCenter && (
             <p className="text-sm">Si vous souhaitez voir les artistes autour de vous, partagez votre localisation</p>
           )}
-          <ShareLocalisation color="primary" className="self-center" onRefreshCoords={onRefreshCoords} />
+          <SwitchLocalisation color="primary" className="self-center" onRefreshCoords={onRefreshCoords} />
         </div>
       )}
     </div>
