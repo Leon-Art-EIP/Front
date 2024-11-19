@@ -166,7 +166,7 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         method: "POST",
       });
       if (res.ok) {
-        router.push("/order");
+        window.location.reload();
       }
     }
   }

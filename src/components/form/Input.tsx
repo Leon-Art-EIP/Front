@@ -35,7 +35,7 @@ export default function Input(props: IInputProps): JSX.Element {
           name={props.name}
           id={props.name}
           className={cn(
-            "sm:min-w-min min-w-0 px-6 py-4 rounded placeholder:text-tertiary-hover pr-10",
+            "sm:min-w-min min-w-0 px-6 py-4 w-full rounded placeholder:text-tertiary-hover pr-10",
             props.className
           )}
           placeholder={props.placeholder}
