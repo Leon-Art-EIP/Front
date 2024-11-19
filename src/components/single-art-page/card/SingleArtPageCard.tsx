@@ -82,7 +82,7 @@ export default function SingleArtPageCard({ link: Link, ...props }: ISingleArtPa
                   )}
                   {notificationToast && props.paymentCanceled && (
                     <NotificationToast
-                      message="Une erreur est survenue lors de l'achat de l'oeuvre, veuillez réessayer plus tard"
+                      message="Vous venez d'annuler le paiement de cette oeuvre"
                       type="error"
                     />
                   )}

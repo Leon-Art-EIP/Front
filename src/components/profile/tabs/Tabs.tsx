@@ -13,7 +13,7 @@ export default function Tabs(props: ITabsProps): JSX.Element {
       <button
         className={cn(
           "absolute w-1/3 h-full z-20 grid grid-cols-1 items-center border-4 border-white rounded-full text-center truncate",
-          props.selectedTab === "publications" ? "bg-primary text-white" : "bg-[#ECECEC]"
+          props.selectedTab === "publications" ? "bg-primary text-white" : "bg-background-hl"
         )}
         onClick={props.publicationsTabOnClick}
       >
@@ -22,7 +22,7 @@ export default function Tabs(props: ITabsProps): JSX.Element {
       <button
         className={cn(
           "absolute w-2/3 h-full z-10 flex items-center border-4 border-white rounded-full",
-          props.selectedTab === "collections" ? "bg-primary text-white" : "bg-[#ECECEC]"
+          props.selectedTab === "collections" ? "bg-primary text-white" : "bg-background-hl"
         )}
         onClick={props.collectionsTabOnClick}
       >
@@ -32,7 +32,7 @@ export default function Tabs(props: ITabsProps): JSX.Element {
       <button
         className={cn(
           "absolute w-full h-full z-0 flex items-center border-4 border-white rounded-full",
-          props.selectedTab === "about" ? "bg-primary text-white" : "bg-[#ECECEC]"
+          props.selectedTab === "about" ? "bg-primary text-white" : "bg-background-hl"
         )}
         onClick={props.aboutTabOnClick}
       >

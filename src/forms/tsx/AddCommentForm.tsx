@@ -78,7 +78,7 @@ export default function AddCommentForm(props: IAddCommentFormProps): JSX.Element
               name="comment"
               placeholder="Ajouter un commentaire..."
               type="text"
-              className="border border-neutral-400 rounded-full px-4 py-2 outline-none flex items-center h-10"
+              className="border border-secondary rounded-full px-4 py-2 outline-none flex items-center h-10 w-full"
               hideError
             />
           </div>

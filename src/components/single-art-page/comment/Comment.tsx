@@ -174,7 +174,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
               <IconButton
                 icon={Delete}
                 backgroundColor="transparent"
-                iconColor="black"
+                iconColor="tertiary"
                 onClick={() => {
                   props.openDeleteModal(props.comment.id, props.parentCommentId ?? null);
                 }}
@@ -190,7 +190,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                 value={replyMessage}
                 onChange={(e) => setReplyMessage(e.target.value)}
                 placeholder="Écrire une réponse..."
-                className="p-2 border-b border-black outline-none"
+                className={`p-2 border-b border-black outline-none ${replyMessage ? "text-black" : "text-black"}`}
                 autoFocus
               />
               <div className="flex gap-2">
@@ -199,7 +199,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                   disabled={replyMessage.trim() === ""}
                   className={cn(
                     "text-white font-semibold px-4 py-2 rounded",
-                    replyMessage.trim() === "" ? "bg-gray-400 cursor-not-allowed" : "bg-primary"
+                    replyMessage.trim() === "" ? "bg-secondary cursor-not-allowed" : "bg-primary"
                   )}
                 >
                   Répondre
@@ -209,7 +209,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
                     setIsReplyingTo(null);
                     setReplyMessage("");
                   }}
-                  className="text-gray-600 font-semibold"
+                  className="text-tertiary font-semibold"
                 >
                   Annuler
                 </button>
@@ -220,7 +220,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
           <div className={cn("self-start flex gap-2", props.isChild ? "ml-24" : "ml-14")}>
             <IconButton
               icon={isCommentLiked ? ThumbUp : ThumbUpOutlined}
-              iconColor="black"
+              iconColor="tertiary"
               onClick={onLikeComment}
               text={props.comment.likes.length.toString()}
               className="flex gap-2 px-2 py-1 items-center"
@@ -229,7 +229,7 @@ export default function Comment(props: IChildCommentProps | IParentCommentProps)
             />
             <button
               onClick={() => setIsReplyingTo(props.comment.userId)}
-              className="text-black text-sm px-4 py-2 rounded-2xl hover:bg-background-inputfield"
+              className="text-tertiary text-sm px-4 py-2 rounded-2xl hover:bg-background-inputfield"
             >
               Répondre
             </button>

@@ -25,8 +25,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
       setSelectedTheme(savedTheme);
       document.documentElement.setAttribute("data-theme", savedTheme);
     } else {
-      const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const defaultTheme = prefersDarkScheme ? "dark" : "light";
+      const defaultTheme = "light";
       setSelectedTheme(defaultTheme);
       document.documentElement.setAttribute("data-theme", defaultTheme);
     }
