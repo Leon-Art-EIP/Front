@@ -58,25 +58,30 @@ export default function LoginForm(): JSX.Element {
       fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/user/profile/who-i-am`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.json();
+        })
         .then((whoAmI) => {
           console.log("whoAmI Response:", whoAmI);
 
           const userData: IConnectedUser = {
             token,
             user: {
-              id: whoAmI.id,
-              username: whoAmI.username,
-              email: whoAmI.email,
-              is_artist: whoAmI.is_artist,
-              availability: whoAmI.availability,
-              subscription: whoAmI.subscription,
-              collections: whoAmI.collections || [], // Ensure collections is not undefined
+              id: whoAmI.user.id,
+              username: whoAmI.user.username,
+              email: whoAmI.user.email,
+              is_artist: whoAmI.user.is_artist,
+              availability: whoAmI.user.availability,
+              subscription: whoAmI.user.subscription,
+              collections: whoAmI.user.collections || [],
             },
           };
 
-          console.log("whoAmI Response:", whoAmI);
-          console.log("User Data:", userData); // Check constructed user data
+          // console.log("whoAmI Response:", whoAmI);
+          // console.log("User Data:", userData);
 
           localStorage.setItem("user", JSON.stringify(userData));
           router.push("/");
