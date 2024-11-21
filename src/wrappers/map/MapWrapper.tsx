@@ -166,7 +166,7 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
     } else {
       setLocatedMapUsers([]);
     }
-  }, [locatedMapUser, nbPublications]);
+  }, [locatedMapUser]);
 
   useEffect(() => {
     if (mapCenter) {
