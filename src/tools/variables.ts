@@ -65,7 +65,8 @@ export type TErrorMessages =
   | "Please wait 1 more minute(s) before creating a new post."
   | "Comment not found"
   | "Incorrect current password"
-  | "New password is too weak";
+  | "New password is too weak"
+  | "This art has already been sold";
 
 export const errors: Record<TErrorMessages, string> = {
   "Incorrect password": "Mot de passe incorrect",
@@ -141,6 +142,7 @@ export const errors: Record<TErrorMessages, string> = {
   "Comment not found": "Commentaire introuvable.",
   "Incorrect current password": "Mot de passe actuel incorrect",
   "New password is too weak": "Le nouveau mot de passe est trop faible",
+  "This art has already been sold": "Cette oeuvre a déjà été vendue",
 };
 
 export const RADIUS_MAP = 100; // 100 km autour du user
