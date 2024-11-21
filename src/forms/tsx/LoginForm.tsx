@@ -2,7 +2,7 @@
 
 import { Google } from "@mui/icons-material";
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider } from "react-hook-form";
 import Fetcher from "../../components/fetch/Fetcher";
@@ -19,6 +19,7 @@ export default function LoginForm(): JSX.Element {
   const [nbFetchs, setNbFetchs] = useState(0);
   const methods = useLoginForm();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOk = async (json: any) => {
@@ -47,6 +48,49 @@ export default function LoginForm(): JSX.Element {
   const handleGoogle = async () => {
     window.location.href = `${NEXT_PUBLIC_BACKEND_URL}/api/auth/google`;
   };
+
+  useEffect(() => {
+    const token = searchParams.get("token");
+
+    if (token) {
+      console.log("Fetching profile data...");
+
+      fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/user/profile/who-i-am`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.json();
+        })
+        .then((whoAmI) => {
+          console.log("whoAmI Response:", whoAmI);
+
+          const userData: IConnectedUser = {
+            token,
+            user: {
+              id: whoAmI.user.id,
+              username: whoAmI.user.username,
+              email: whoAmI.user.email,
+              is_artist: whoAmI.user.is_artist,
+              availability: whoAmI.user.availability,
+              subscription: whoAmI.user.subscription,
+              collections: whoAmI.user.collections || [],
+            },
+          };
+
+          // console.log("whoAmI Response:", whoAmI);
+          // console.log("User Data:", userData);
+
+          localStorage.setItem("user", JSON.stringify(userData));
+          router.push("/");
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    }
+  }, [router, searchParams]);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (data) => {});
