@@ -11,6 +11,7 @@ import { IProfileUser } from "../../interfaces/user/profileUser";
 import { ILocatedMapUser, IMapUser } from "../../interfaces/map";
 import { positionToCoords } from "../../tools/positions";
 import SwitchLocalisation from "../../components/localisation/SwitchLocalisation";
+import { IArtPublication } from "../../interfaces/artPublication/artPublication";
 
 export interface ICoords {
   latitude: string;
@@ -73,13 +74,30 @@ async function fetchLocatedMapUsers(
   }
 }
 
-async function fetchMapUser(user: IUser, setMapUser: Dispatch<SetStateAction<ILocatedMapUser | null | undefined>>) {
-  const response = await myFetch({
-    method: "GET",
-    route: `/api/user/profile/${user.id}`,
-  });
+async function fetchMapUser(
+  user: IUser,
+  setMapUser: Dispatch<SetStateAction<ILocatedMapUser | null | undefined>>,
+  setNbPublications: Dispatch<SetStateAction<number>>
+) {
+  const [response, responsePublications] = await Promise.all([
+    myFetch({
+      method: "GET",
+      route: `/api/user/profile/${user.id}`,
+    }),
+    myFetch({ route: `/api/art-publication/user/${user.id}`, method: "GET" }),
+  ]);
 
-  if (response.ok) {
+  let nbPublications = 0;
+
+  if (responsePublications.ok) {
+    const arts = responsePublications.json as IArtPublication[];
+
+    nbPublications = arts.length;
+
+    setNbPublications(arts.length);
+  }
+
+  if (response.ok && nbPublications > 0) {
     const user = response.json as IProfileUser;
 
     if (
@@ -109,6 +127,7 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
   const [localUser, setLocalUser] = useState<IUser | null>(null);
   const [locatedMapUser, setLocatedMapUser] = useState<ILocatedMapUser | undefined | null>(undefined);
   const [locatedMapUsers, setLocatedMapUsers] = useState<ILocatedMapUser[]>([]);
+  const [nbPublications, setNbPublications] = useState<number>(0);
 
   const mapCenter = useMemo(() => {
     if (props.coords) {
@@ -134,7 +153,7 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
     if (local) {
       const localUser = JSON.parse(local) as IConnectedUser;
       setLocalUser(localUser.user);
-      fetchMapUser(localUser.user, setLocatedMapUser);
+      fetchMapUser(localUser.user, setLocatedMapUser, setNbPublications);
     } else {
       setLocatedMapUser(null);
     }
@@ -165,7 +184,7 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
 
   const onRefreshCoords = () => {
     if (localUser) {
-      fetchMapUser(localUser, setLocatedMapUser);
+      fetchMapUser(localUser, setLocatedMapUser, setNbPublications);
     }
   };
 
@@ -174,15 +193,30 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
       <MapProvider>
         <Map mapCenter={mapCenter} locatedMapUsers={locatedMapUsers} mapZoom={mapCenter ? 12 : undefined} />
       </MapProvider>
-      {locatedMapUser ? (
-        <SwitchLocalisation color="primary" className="self-center" positionShared onRefreshCoords={onRefreshCoords} />
-      ) : (
-        <div className="flex flex-col gap-2 items-center">
-          {!mapCenter && (
-            <p className="text-sm">Si vous souhaitez voir les artistes autour de vous, partagez votre localisation</p>
+      {nbPublications > 0 ? (
+        <>
+          {locatedMapUser ? (
+            <SwitchLocalisation
+              color="primary"
+              className="self-center"
+              positionShared
+              onRefreshCoords={onRefreshCoords}
+            />
+          ) : (
+            <div className="flex flex-col gap-2 items-center">
+              {!mapCenter && (
+                <p className="text-sm">
+                  Si vous souhaitez voir les artistes autour de vous, partagez votre localisation
+                </p>
+              )}
+              <SwitchLocalisation color="primary" className="self-center" onRefreshCoords={onRefreshCoords} />
+            </div>
           )}
-          <SwitchLocalisation color="primary" className="self-center" onRefreshCoords={onRefreshCoords} />
-        </div>
+        </>
+      ) : (
+        <p className="text-center">
+          Créez au moins une publication si vous souhaitez voir les utilisateurs sur la carte
+        </p>
       )}
     </div>
   );
