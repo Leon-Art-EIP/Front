@@ -142,7 +142,7 @@ export const errors: Record<TErrorMessages, string> = {
   "Comment not found": "Commentaire introuvable.",
   "Incorrect current password": "Mot de passe actuel incorrect",
   "New password is too weak": "Le nouveau mot de passe est trop faible",
-  "This art has already been sold": "Cet oeuvre a déjà été vendue",
+  "This art has already been sold": "Cette oeuvre a déjà été vendue",
 };
 
 export const RADIUS_MAP = 100; // 100 km autour du user
