@@ -152,11 +152,24 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
       }
 
       async function fetchAverageRating(userId: string): Promise<number> {
-        const response = await myFetch({ route: `/api/order/user/${userId}/average-rating`, method: "GET" });
-        if (response.ok) {
-          return response.json.averageRating;
+        try {
+          const response = await myFetch({ route: `/api/order/user/${userId}/average-rating`, method: "GET" });
+          if (response.ok) {
+            const json = response.json;
+            if (json && typeof json.averageRating === "number") {
+              return json.averageRating;
+            } else {
+              console.warn("Average rating field is missing or not a number:", json);
+              return -1; // Default value for missing or invalid data
+            }
+          } else {
+            console.error("Failed to fetch average rating:", response.message);
+            return -1; // Default value for failed requests
+          }
+        } catch (error) {
+          console.error("Error fetching average rating:", error);
+          return -1; // Default value for exceptions
         }
-        return -1;
       }
 
       async function fetchFollowed(): Promise<IUser[]> {
