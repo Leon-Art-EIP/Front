@@ -1,0 +1,97 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`VerticalNavbar snapshot with closed menu 1`] = `
+<div
+  className="flex flex-col w-full h-full"
+>
+  <div
+    className="flex justify-start items-center h-24 bg-white w-full border-b border-b-secondaryGrey"
+  >
+    <button
+      className="rounded-full white flex gap-4 px-6 py-2.5"
+      onClick={[Function]}
+    >
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="MenuIcon"
+        focusable="false"
+        style={
+          {
+            "color": "black",
+          }
+        }
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`VerticalNavbar snapshot with no tabs 1`] = `
+<div
+  className="flex flex-col w-full h-full"
+>
+  <div
+    className="flex justify-start items-center h-24 bg-white w-full border-b border-b-secondaryGrey"
+  >
+    <button
+      className="rounded-full white flex gap-4 px-6 py-2.5"
+      onClick={[Function]}
+    >
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="MenuIcon"
+        focusable="false"
+        style={
+          {
+            "color": "black",
+          }
+        }
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`VerticalNavbar snapshot with open menu 1`] = `
+<div
+  className="flex flex-col w-full h-full"
+>
+  <div
+    className="flex justify-start items-center h-24 bg-white w-full border-b border-b-secondaryGrey"
+  >
+    <button
+      className="rounded-full white flex gap-4 px-6 py-2.5"
+      onClick={[Function]}
+    >
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="MenuIcon"
+        focusable="false"
+        style={
+          {
+            "color": "black",
+          }
+        }
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+`;

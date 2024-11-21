@@ -1,5 +1,4 @@
 "use client";
-/* c8 ignore start */
 
 import { useRouter } from "next/navigation";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
@@ -217,4 +216,3 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     </OrderContext.Provider>
   );
 };
-/* c8 ignore stop */

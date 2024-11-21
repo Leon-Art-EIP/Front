@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IPassingArt } from "../../../interfaces/home/passingArt";
 import PassingArt from "./PassingArt";
@@ -10,7 +9,6 @@ export interface IPassingArtsProps {
 }
 
 export default function PassingArts(props: IPassingArtsProps): JSX.Element {
-  const router = useRouter();
   const [position, setPosition] = useState(1);
 
   if (props.passingArts.length === 0) {

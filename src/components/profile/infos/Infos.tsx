@@ -32,8 +32,6 @@ export interface IInfosProps {
   };
 }
 
-/* c8 ignore start */
-
 export default function Infos(props: IInfosProps): JSX.Element {
   const [tabIndex, setTabIndex] = useState(0);
   const [following, setFollowing] = useState<boolean>(props.following);
@@ -185,5 +183,3 @@ export default function Infos(props: IInfosProps): JSX.Element {
     </div>
   );
 }
-
-/* c8 ignore stop */

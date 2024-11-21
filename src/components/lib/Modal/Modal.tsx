@@ -6,8 +6,6 @@ export interface ModalProps {
   children: React.ReactNode;
 }
 
-/* c8 ignore start */
-
 const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, children }) => {
   useEffect(() => {
     if (isOpen) {
@@ -39,7 +37,5 @@ const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, children }) => {
     </div>
   );
 };
-
-/* c8 ignore start */
 
 export default Modal;

@@ -1,0 +1,82 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Switch snapshot - Checked 1`] = `
+<div
+  className="flex flex-col gap-1 items-center justify-center custom-class"
+>
+  <span
+    className="text-sm"
+  >
+    Switch activé
+  </span>
+  <button
+    className="relative inline-flex items-center h-6 w-12 rounded-full transition-all bg-primary hover:bg-primary-hover"
+    onClick={[Function]}
+  >
+    <span
+      className="absolute left-1 top-1 h-4 w-4 rounded-full transition-transform transform bg-white translate-x-6"
+    />
+  </button>
+</div>
+`;
+
+exports[`Switch snapshot - Disabled 1`] = `
+<div
+  className="flex flex-col gap-1 items-center justify-center"
+>
+  <span
+    className="text-sm"
+  >
+    Switch désactivé
+  </span>
+  <button
+    className="relative inline-flex items-center h-6 w-12 rounded-full transition-all bg-primary-disabled cursor-not-allowed"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <span
+      className="absolute left-1 top-1 h-4 w-4 rounded-full transition-transform transform bg-white translate-x-6"
+    />
+  </button>
+</div>
+`;
+
+exports[`Switch snapshot - Loading 1`] = `
+<div
+  className="flex flex-col gap-1 items-center justify-center"
+>
+  <span
+    className="text-sm"
+  >
+    Switch en chargement
+  </span>
+  <button
+    className="relative inline-flex items-center h-6 w-12 rounded-full transition-all bg-gray-300 animate-pulse"
+    onClick={[Function]}
+  >
+    <span
+      className="absolute left-1 top-1 h-4 w-4 rounded-full transition-transform transform bg-white translate-x-0"
+    />
+  </button>
+</div>
+`;
+
+exports[`Switch snapshot - Unchecked 1`] = `
+<div
+  className="flex flex-col gap-1 items-center justify-center"
+>
+  <span
+    className="text-sm"
+  >
+    Switch désactivé
+  </span>
+  <button
+    className="relative inline-flex items-center h-6 w-12 rounded-full transition-all bg-gray-300"
+    onClick={[Function]}
+  >
+    <span
+      className="absolute left-1 top-1 h-4 w-4 rounded-full transition-transform transform bg-white translate-x-0"
+    />
+  </button>
+</div>
+`;

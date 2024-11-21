@@ -9,8 +9,6 @@ interface ICollectionProps {
   selected: boolean;
 }
 
-/* c8 ignore start */
-
 export default function Collection(props: ICollectionProps): JSX.Element {
   const artSources = props.collection.artPublications.map((art) => art.image);
   const firstPair: string[] = [];
@@ -57,5 +55,3 @@ export default function Collection(props: ICollectionProps): JSX.Element {
     </button>
   );
 }
-
-/* c8 ignore stop */

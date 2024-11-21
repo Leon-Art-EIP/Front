@@ -5,8 +5,6 @@ export interface BadgeProps {
   color?: "danger" | "success" | "info";
 }
 
-/* c8 ignore start */
-
 const Badge: React.FC<BadgeProps> = ({ text, color }) => {
   let badgeColor: string = "bg-secondary text-primary";
 
@@ -16,7 +14,5 @@ const Badge: React.FC<BadgeProps> = ({ text, color }) => {
 
   return <span className={`inline-block py-3 px-5 rounded-full text-sm font-semibold ${badgeColor}`}>{text}</span>;
 };
-
-/* c8 ignore stop */
 
 export default Badge;

@@ -9,9 +9,6 @@ export interface ChatUserBannerProps {
 }
 
 export function ChatUserBanner(props: ChatUserBannerProps): JSX.Element {
-  {
-    /* c8 ignore start */
-  }
   const router = useRouter(); // Initialize useRouter
 
   const isUserOne = props.currentChat.UserOneId !== props.currentUser?.user.id;
@@ -39,7 +36,4 @@ export function ChatUserBanner(props: ChatUserBannerProps): JSX.Element {
       </button>
     </div>
   );
-  {
-    /* c8 ignore stop */
-  }
 }

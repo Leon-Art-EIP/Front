@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`QuizzNavigation snapshot 1`] = `
+<div
+  className="flex items-baseline justify-center p-6 md:p-2 gap-8 md:gap-14 xl:gap-24 select-none"
+>
+  <button
+    className="py-3 px-16 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 hover:bg-[#c51708] disabled:bg-gray-300"
+    name="previous"
+    onClick={[Function]}
+  >
+    <span
+      className="cursor-pointer"
+    >
+      Précédente
+    </span>
+  </button>
+  <span
+    className="cursor-default text-2xl"
+  >
+    2
+    /
+    3
+  </span>
+  <button
+    className="py-3 px-16 rounded-[30px] shadow-lg bg-[#E11C0A] text-white mt-10 hover:bg-[#c51708] disabled:bg-gray-300"
+    name="next"
+    onClick={[Function]}
+  >
+    <span
+      className="cursor-auto"
+    >
+      Suivante
+    </span>
+  </button>
+</div>
+`;

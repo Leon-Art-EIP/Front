@@ -19,8 +19,6 @@ interface ISaveGalleryProps {
   setNewCollectionFetchs: Dispatch<SetStateAction<number>>;
 }
 
-/* c8 ignore start */
-
 export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
   const [selectedCollections, setSelectedCollections] = useState<string[]>(props.selectedCollections);
   const [nameNewCollection, setNameNewCollection] = useState<string | undefined>();
@@ -145,5 +143,3 @@ export default function SaveGallery(props: ISaveGalleryProps): JSX.Element {
     </div>
   );
 }
-
-/* c8 ignore stop */

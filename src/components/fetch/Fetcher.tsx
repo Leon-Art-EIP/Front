@@ -7,8 +7,6 @@ import { IMyFetchResponse, myFetch } from "../../tools/myFetch";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 
-/* c8 ignore start */
-
 export interface IFetcherProps {
   nbFetchs: number;
   handleOk?: (json?: any) => void;
@@ -93,5 +91,3 @@ export default function Fetcher(props: IFetcherProps): JSX.Element | null {
     </div>
   ) : null;
 }
-
-/* c8 ignore stop */

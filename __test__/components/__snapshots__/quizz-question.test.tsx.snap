@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`QuizzQuestion snapshot 1`] = `
+<div
+  className="flex flex-col mt-5 gap-20"
+>
+  <span
+    className="text-3xl font-semibold px-14 lg:px-32"
+  >
+    question
+  </span>
+  <div
+    className="flex flex-col items-center gap-10 select-none"
+  >
+    <div
+      className="flex flex-wrap flex-col lg:flex-row items-center justify-center w-1/2 gap-x-10 gap-y-5"
+    >
+      <span
+        className="text-center px-6 py-4 rounded-[60px] cursor-pointer hover:bg-[#fca199] hover:text-white bg-[#F4F4F4] text-black"
+        id="name-0"
+        onClick={[Function]}
+      >
+        <span
+          className="text-lg"
+        >
+          answer
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;

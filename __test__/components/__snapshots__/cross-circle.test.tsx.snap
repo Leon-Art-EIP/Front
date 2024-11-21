@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CrossCircle snapshot 1`] = `
+<svg
+  className="cancel-icon"
+  viewBox="0 0 52 52"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle
+    className="cancel-circle"
+    cx="26"
+    cy="26"
+    fill="none"
+    r="25"
+  />
+  <path
+    className="cancel-cross"
+    d="M16 16, 36 36, M36 16, 16 36"
+    fill="none"
+  />
+</svg>
+`;

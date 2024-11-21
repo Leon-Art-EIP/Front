@@ -1,4 +1,4 @@
-import GoBackButton from "../../../components/buttons/GoBackButtons";
+import GoBackButton from "../../../components/buttons/GoBackButton";
 import TermsWrapper from "../../../wrappers/terms/TermsWrapper";
 
 export default async function Page(): Promise<JSX.Element> {

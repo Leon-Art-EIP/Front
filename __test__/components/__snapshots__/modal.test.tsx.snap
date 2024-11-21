@@ -1,0 +1,77 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Modal snapshot - Closed state 1`] = `null`;
+
+exports[`Modal snapshot - Custom child content 1`] = `
+<div
+  aria-labelledby="modal-title"
+  aria-modal="true"
+  className="fixed z-40 inset-0 overflow-y-auto"
+  role="dialog"
+>
+  <div
+    className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+  >
+    <div
+      aria-hidden="true"
+      className="fixed inset-0 bg-white bg-opacity-80 transition-opacity"
+      onClick={[Function]}
+    />
+    <span
+      aria-hidden="true"
+      className="hidden sm:inline-block sm:align-middle sm:h-screen"
+    >
+      ​
+    </span>
+    <div
+      className="inline-block align-bottom bg-background-hl text-tertiary rounded-lg text-left overflow-hidden shadow-xl transform transition-all max-w-[95%] sm:my-8 sm:align-middle"
+    >
+      <div
+        className="bg-background text-tertiary px-4 pt-5 pb-4 sm:p-6 sm:pb-4"
+      >
+        <div
+          className="p-4 bg-gray-200 rounded-lg"
+        >
+          Custom child content
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Modal snapshot - Open state with content 1`] = `
+<div
+  aria-labelledby="modal-title"
+  aria-modal="true"
+  className="fixed z-40 inset-0 overflow-y-auto"
+  role="dialog"
+>
+  <div
+    className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+  >
+    <div
+      aria-hidden="true"
+      className="fixed inset-0 bg-white bg-opacity-80 transition-opacity"
+      onClick={[Function]}
+    />
+    <span
+      aria-hidden="true"
+      className="hidden sm:inline-block sm:align-middle sm:h-screen"
+    >
+      ​
+    </span>
+    <div
+      className="inline-block align-bottom bg-background-hl text-tertiary rounded-lg text-left overflow-hidden shadow-xl transform transition-all max-w-[95%] sm:my-8 sm:align-middle"
+    >
+      <div
+        className="bg-background text-tertiary px-4 pt-5 pb-4 sm:p-6 sm:pb-4"
+      >
+        <div>
+          Modal content
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -10,7 +10,6 @@ interface IChatListProps {
 }
 
 export default function ChatList(props: IChatListProps): JSX.Element {
-  /* c8 ignore start */
   const router = useRouter();
   const { chats, currentUser, currentChat, setCurrentChat, refreshChats } = useChat() || {};
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,4 +71,3 @@ export default function ChatList(props: IChatListProps): JSX.Element {
     </div>
   );
 }
-/* c8 ignore stop */

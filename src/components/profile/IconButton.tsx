@@ -10,8 +10,6 @@ interface IIconButtonProps {
   disabled?: boolean;
 }
 
-/* c8 ignore start */
-
 export default function IconButton({ icon: Icon, ...props }: IIconButtonProps): JSX.Element {
   return (
     <button
@@ -28,5 +26,3 @@ export default function IconButton({ icon: Icon, ...props }: IIconButtonProps): 
     </button>
   );
 }
-
-/* c8 ignore stop */

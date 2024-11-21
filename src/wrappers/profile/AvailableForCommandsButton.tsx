@@ -11,8 +11,6 @@ interface IAvailableForCommandsButtonProps {
   disabled: boolean;
 }
 
-/* c8 ignore start */
-
 export default function AvailableForCommandsButton(props: IAvailableForCommandsButtonProps): JSX.Element {
   const [isAvailable, setIsAvailable] = useState<boolean>(props.isAvailable);
   const [nbFetchs, setNbFetchs] = useState(0);
@@ -47,5 +45,3 @@ export default function AvailableForCommandsButton(props: IAvailableForCommandsB
     </>
   );
 }
-
-/* c8 ignore stop */

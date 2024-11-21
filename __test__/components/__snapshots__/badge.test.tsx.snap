@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Badge snapshot 1`] = `
+<span
+  className="inline-block py-3 px-5 rounded-full text-sm font-semibold bg-secondary text-primary"
+>
+  test
+</span>
+`;

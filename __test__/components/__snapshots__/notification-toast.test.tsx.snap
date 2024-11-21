@@ -1,0 +1,85 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NotificationToast snapshot - Error message 1`] = `
+<div
+  className="fixed top-0 left-0 flex justify-center w-screen h-screen items-center transition-opacity duration-500 z-50 opacity-100"
+>
+  <div
+    className="m-6 p-4 w-1/3 rounded-md text-white flex flex-col gap-4 bg-secondary border border-secondary shadow-lg"
+  >
+    <svg
+      className="cancel-icon"
+      viewBox="0 0 52 52"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        className="cancel-circle"
+        cx="26"
+        cy="26"
+        fill="none"
+        r="25"
+      />
+      <path
+        className="cancel-cross"
+        d="M16 16, 36 36, M36 16, 16 36"
+        fill="none"
+      />
+    </svg>
+    <p
+      className="text-xl text-center text-black font-bold"
+    >
+      An error occurred while processing your request.
+    </p>
+    <button
+      className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center text-white bg-primary hover:bg-primary-hover disabled:bg-primary-disabled self-end"
+      id="close-toast"
+      onClick={[Function]}
+      type="button"
+    >
+      Ok
+    </button>
+  </div>
+</div>
+`;
+
+exports[`NotificationToast snapshot - Success message 1`] = `
+<div
+  className="fixed top-0 left-0 flex justify-center w-screen h-screen items-center transition-opacity duration-500 z-50 opacity-100"
+>
+  <div
+    className="m-6 p-4 w-1/3 rounded-md text-white flex flex-col gap-4 bg-secondary border border-secondary shadow-lg"
+  >
+    <svg
+      className="checkmark"
+      viewBox="0 0 52 52"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        className="checkmark__circle"
+        cx="26"
+        cy="26"
+        fill="none"
+        r="25"
+      />
+      <path
+        className="checkmark__check"
+        d="M14.1 27.2l7.1 7.2 16.7-16.8"
+        fill="none"
+      />
+    </svg>
+    <p
+      className="text-xl text-center text-black font-bold"
+    >
+      Operation completed successfully.
+    </p>
+    <button
+      className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center text-white bg-primary hover:bg-primary-hover disabled:bg-primary-disabled self-end"
+      id="close-toast"
+      onClick={[Function]}
+      type="button"
+    >
+      Ok
+    </button>
+  </div>
+</div>
+`;

@@ -16,8 +16,6 @@ export interface ChatUserCardProps {
 }
 
 export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
-  /* c8 ignore start */
-
   const [isMuted, setIsMuted] = useState<boolean>(() => {
     const mutedChats = JSON.parse(localStorage.getItem("mutedChats") || "{}");
     return mutedChats[props.chat._id] || false;
@@ -120,4 +118,3 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
     </div>
   );
 }
-/* c8 ignore stop */

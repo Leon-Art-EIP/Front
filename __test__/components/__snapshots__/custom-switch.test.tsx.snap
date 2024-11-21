@@ -1,0 +1,55 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CrossCircle checked snapshot 1`] = `
+<div
+  className="flex items-center cursor-pointer"
+  onClick={[Function]}
+>
+  <span
+    className="inline-flex py-1 px-3 text-s rounded-2xl ml-2 bg-primary text-secondary transform translate-y-[-3px]"
+  >
+    On
+  </span>
+</div>
+`;
+
+exports[`CrossCircle checked tooltip snapshot 1`] = `
+<div
+  className="flex items-center cursor-pointer"
+  onClick={[Function]}
+  title="tooltip"
+>
+  <span
+    className="inline-flex py-1 px-3 text-s rounded-2xl ml-2 bg-primary text-secondary transform translate-y-[-3px]"
+  >
+    On
+  </span>
+</div>
+`;
+
+exports[`CrossCircle not checked snapshot 1`] = `
+<div
+  className="flex items-center cursor-pointer"
+  onClick={[Function]}
+>
+  <span
+    className="inline-flex py-1 px-3 text-s rounded-2xl ml-2 bg-secondary text-primary transform translate-y-[-3px]"
+  >
+    Off
+  </span>
+</div>
+`;
+
+exports[`CrossCircle not checked tooltip snapshot 1`] = `
+<div
+  className="flex items-center cursor-pointer"
+  onClick={[Function]}
+  title="tooltip"
+>
+  <span
+    className="inline-flex py-1 px-3 text-s rounded-2xl ml-2 bg-secondary text-primary transform translate-y-[-3px]"
+  >
+    Off
+  </span>
+</div>
+`;

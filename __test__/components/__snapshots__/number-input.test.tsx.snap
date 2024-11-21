@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NumberInput snapshot 1`] = `
+<div
+  className="flex flex-col gap-2 sm:min-w-min min-w-0"
+>
+  <input
+    className="sm:min-w-min min-w-0 bg-white"
+    id="number"
+    name="number"
+    onChange={[Function]}
+    type="number"
+  />
+</div>
+`;

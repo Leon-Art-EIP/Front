@@ -1,0 +1,87 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Card snapshot - Basic usage 1`] = `
+<div
+  className="max-w-md mx-auto bg-vackground rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+>
+  <div
+    className="md:flex"
+  >
+    <div
+      className="md:flex-shrink-0"
+    />
+    <div
+      className="p-8"
+    >
+      <div
+        className="uppercase tracking-wide text-sm text-indigo-500 font-semibold"
+      >
+        Test Card
+      </div>
+      <div
+        className="mt-2 text-secondary"
+      >
+        <p>
+          This is a test content inside the card.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Card snapshot - Empty children 1`] = `
+<div
+  className="max-w-md mx-auto bg-vackground rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+>
+  <div
+    className="md:flex"
+  >
+    <div
+      className="md:flex-shrink-0"
+    />
+    <div
+      className="p-8"
+    >
+      <div
+        className="uppercase tracking-wide text-sm text-indigo-500 font-semibold"
+      >
+        Empty Card
+      </div>
+      <div
+        className="mt-2 text-secondary"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Card snapshot - With long content 1`] = `
+<div
+  className="max-w-md mx-auto bg-vackground rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+>
+  <div
+    className="md:flex"
+  >
+    <div
+      className="md:flex-shrink-0"
+    />
+    <div
+      className="p-8"
+    >
+      <div
+        className="uppercase tracking-wide text-sm text-indigo-500 font-semibold"
+      >
+        Detailed Card
+      </div>
+      <div
+        className="mt-2 text-secondary"
+      >
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
