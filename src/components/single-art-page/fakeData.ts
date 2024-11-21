@@ -22,7 +22,7 @@ const data: Omit<ISingleArtPageProps, "link"> = {
   paymentSuccessful: false,
   paymentCanceled: false,
   connectedUserId: "1",
-  isForSale: true,
+  isForSale: "true",
   isSold: false,
   onAddNewCollection: () => {},
   artistCoords: {

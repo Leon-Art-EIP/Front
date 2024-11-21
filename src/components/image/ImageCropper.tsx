@@ -40,7 +40,7 @@ export default function ImageCropper(props: IImageCropperProps) {
         if (error) setError("");
         const { naturalWidth, naturalHeight } = e.currentTarget as HTMLImageElement;
         if (naturalWidth < MIN_DIMENSION || naturalHeight < MIN_DIMENSION) {
-          setError("Image must be at least 150 x 150 pixels.");
+          setError("L'image doit faire au moins 150px de large et de haut");
           return setImgSrc("");
         }
       });
@@ -74,11 +74,11 @@ export default function ImageCropper(props: IImageCropperProps) {
             const file = new File([blob], initialFile.name, { type: initialFile.type });
             resolve(file);
           } else {
-            reject(new Error("Canvas is empty"));
+            reject(new Error("La toile est vide"));
           }
         }, initialFile.type);
       } else {
-        reject(new Error("No file to convert"));
+        reject(new Error("Pas de fichier à convertir"));
       }
     });
   };

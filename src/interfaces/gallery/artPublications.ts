@@ -8,6 +8,6 @@ export interface IArtPublication {
   artType: string;
   image: string;
   price: number | null;
-  isForSale: boolean;
+  isForSale: "false" | "true";
   description: string;
 }

@@ -122,7 +122,13 @@ export default function Infos(props: IInfosProps): JSX.Element {
             >
               Nouvelle publication
             </LinkButton>
-            <ShareLocalisation color="secondary" />
+            {props.numberOfPosts > 0 ? (
+              <ShareLocalisation color="secondary" />
+            ) : (
+              <p className="text-center">
+                Créez au moins une publication si vous souhaitez partager votre localisation
+              </p>
+            )}
           </>
         )}
         {isFollowerModalOpen && (

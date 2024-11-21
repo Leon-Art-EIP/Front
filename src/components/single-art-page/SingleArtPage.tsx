@@ -32,7 +32,7 @@ export interface ISingleArtPageProps {
   paymentSuccessful: boolean;
   paymentCanceled: boolean;
   connectedUserId: string;
-  isForSale: boolean;
+  isForSale: "false" | "true";
   isSold: boolean;
   onAddNewCollection: (collection: INewCollection) => void;
   artistCoords: ICoords | undefined;
@@ -96,7 +96,7 @@ export default function SingleArtPage(props: ISingleArtPageProps): JSX.Element {
 
   function isArtPublicationBuyable() {
     var isBuyable = true;
-    if (props.price === 0 || !props.isForSale || currentUser?.user.id === props.artistId || props.isSold) {
+    if (props.price === 0 || props.isForSale === "false" || currentUser?.user.id === props.artistId || props.isSold) {
       isBuyable = false;
     }
     return isBuyable;

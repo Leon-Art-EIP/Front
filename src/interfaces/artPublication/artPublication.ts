@@ -5,7 +5,7 @@ export interface IArtPublication {
   artType: string;
   name: string;
   description: string;
-  isForSale: boolean;
+  isForSale: "false" | "true";
   isSold: boolean;
   price: number | null;
   location: string;

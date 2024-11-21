@@ -11,6 +11,7 @@ import { TNewPostData } from "../../zod";
 import Fetcher from "../../components/fetch/Fetcher";
 import Post from "../../components/posts/Post";
 import { IConnectedUser, IUser } from "../../interfaces/user/user";
+import { useRouter } from "next/navigation";
 
 type TFilter = "recent" | "popular" | "user";
 
@@ -21,13 +22,15 @@ export interface IPostsWrapperProps {
 async function fetchData(
   route: `/api/posts?filter=${TFilter}`,
   setPosts: Dispatch<SetStateAction<IPost[]>>,
-  setIsLoading: Dispatch<SetStateAction<boolean>>
+  setIsLoading: Dispatch<SetStateAction<boolean>>,
+  handleUnauthorized: () => void
 ) {
   setIsLoading(true);
 
   const response = await myFetch({
     route,
     method: "GET",
+    handleUnauthorized,
   });
 
   if (response.ok) {
@@ -77,6 +80,8 @@ export default function PostsWrapper(props: IPostsWrapperProps): JSX.Element {
   const [isDeletePostLoading, setIsDeletePostLoading] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState("");
 
+  const router = useRouter();
+
   const route: `/api/posts?filter=${TFilter}` = `/api/posts?filter=${props.filter}`;
 
   useEffect(() => {
@@ -87,8 +92,12 @@ export default function PostsWrapper(props: IPostsWrapperProps): JSX.Element {
       setUser(localUser.user);
     }
 
-    fetchData(route, setPosts, setArePostsLoading);
-  }, [route]);
+    const handleUnauthorized = () => {
+      router.push("/login");
+    };
+
+    fetchData(route, setPosts, setArePostsLoading, handleUnauthorized);
+  }, [route, router]);
 
   const onRefresh = async () => {
     setNbFetchsRefresh((prev) => prev + 1);
