@@ -28,7 +28,7 @@ async function fetchLocatedMapUsers(
 ) {
   const response = await myFetch({
     method: "GET",
-    route: `/api/map/nearby-art?latitude=${userPosition.latitude}&longitude=${userPosition.longitude}&radius=100`,
+    route: `/api/map/nearby-art?latitude=${userPosition.latitude}&longitude=${userPosition.longitude}&radius=10000`,
   });
 
   if (response.ok) {
