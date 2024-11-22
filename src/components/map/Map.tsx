@@ -3,18 +3,13 @@ import { GoogleMap, InfoWindowF, MarkerClustererF, MarkerF } from "@react-google
 import Link from "next/link";
 import { ILocatedMapUser } from "../../interfaces/map";
 import { imageApi } from "../../tools/variables";
+import { defaultMapCenter } from "../../wrappers/map/MapWrapper";
 
 // Map's styling
 const defaultMapContainerStyle = {
   width: "100%",
   height: "80vh",
   borderRadius: "0px 0px 0px 0px",
-};
-
-const defaultMapCenter = {
-  // milieu France
-  lat: 47.81,
-  lng: 2.308,
 };
 
 const defaultMapZoom = 6;

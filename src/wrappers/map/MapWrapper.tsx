@@ -13,6 +13,12 @@ import { positionToCoords } from "../../tools/positions";
 import SwitchLocalisation from "../../components/localisation/SwitchLocalisation";
 import { IArtPublication } from "../../interfaces/artPublication/artPublication";
 
+export const defaultMapCenter = {
+  // milieu France
+  lat: 47.81,
+  lng: 2.308,
+};
+
 export interface ICoords {
   latitude: string;
   longitude: string;
@@ -163,14 +169,14 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
   useEffect(() => {
     if (locatedMapUser) {
       fetchLocatedMapUsers(positionToCoords(locatedMapUser.position), setLocatedMapUsers);
-    } else {
-      setLocatedMapUsers([]);
     }
   }, [locatedMapUser]);
 
   useEffect(() => {
     if (mapCenter) {
       fetchLocatedMapUsers(positionToCoords(mapCenter), setLocatedMapUsers);
+    } else {
+      fetchLocatedMapUsers(positionToCoords(defaultMapCenter), setLocatedMapUsers);
     }
   }, [mapCenter]);
 
@@ -191,8 +197,9 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
   return (
     <div className="flex flex-col gap-4">
       <MapProvider>
-        <Map mapCenter={mapCenter} locatedMapUsers={locatedMapUsers} mapZoom={mapCenter ? 12 : undefined} />
+        <Map mapCenter={mapCenter} locatedMapUsers={locatedMapUsers} mapZoom={mapCenter ? 14 : undefined} />
       </MapProvider>
+
       {nbPublications > 0 ? (
         <>
           {locatedMapUser ? (
@@ -203,20 +210,11 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
               onRefreshCoords={onRefreshCoords}
             />
           ) : (
-            <div className="flex flex-col gap-2 items-center">
-              {!mapCenter && (
-                <p className="text-sm">
-                  Si vous souhaitez voir les artistes autour de vous, partagez votre localisation
-                </p>
-              )}
-              <SwitchLocalisation color="primary" className="self-center" onRefreshCoords={onRefreshCoords} />
-            </div>
+            <SwitchLocalisation color="primary" className="self-center" onRefreshCoords={onRefreshCoords} />
           )}
         </>
       ) : (
-        <p className="text-center">
-          Créez au moins une publication si vous souhaitez voir les utilisateurs sur la carte
-        </p>
+        <p className="text-center">Créez au moins une publication si vous souhaitez partager votre localisation</p>
       )}
     </div>
   );
