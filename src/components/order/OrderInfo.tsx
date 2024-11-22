@@ -15,7 +15,6 @@ export interface OrderInfoProps {
 const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function OrderInfo(props: OrderInfoProps): JSX.Element {
-  /* c8 ignore start */
   const {
     selectedOrderId,
     selectedOrder,
@@ -255,5 +254,4 @@ export default function OrderInfo(props: OrderInfoProps): JSX.Element {
       )}
     </>
   );
-  /* c8 ignore stop */
 }

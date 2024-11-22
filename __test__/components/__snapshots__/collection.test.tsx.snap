@@ -1,0 +1,57 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Collection selected snapshot 1`] = `
+<button
+  className="flex flex-col items-center p-2 rounded-xl hover:cursor-pointer gap-2 border-4 border-blue-300 bg-gray-300"
+  onClick={[Function]}
+>
+  <div
+    className="flex flex-col rounded-xl overflow-hidden w-48 h-48 bg-gray-300"
+  >
+    <div
+      className="flex flex-wrap overflow-hidden flex-1"
+    >
+      <img
+        alt="collection-picture-0-0"
+        className="overflow-hidden flex-1"
+        height={192}
+        src="undefined/api/image"
+        width={192}
+      />
+    </div>
+  </div>
+  <div
+    className="text-2xl font-semibold"
+  >
+    Collection name
+  </div>
+</button>
+`;
+
+exports[`Collection snapshot 1`] = `
+<button
+  className="flex flex-col items-center p-2 rounded-xl hover:cursor-pointer gap-2 border-4 hover:bg-secondaryGrey border-white"
+  onClick={[Function]}
+>
+  <div
+    className="flex flex-col rounded-xl overflow-hidden w-48 h-48 bg-gray-300"
+  >
+    <div
+      className="flex flex-wrap overflow-hidden flex-1"
+    >
+      <img
+        alt="collection-picture-0-0"
+        className="overflow-hidden flex-1"
+        height={192}
+        src="undefined/api/image"
+        width={192}
+      />
+    </div>
+  </div>
+  <div
+    className="text-2xl font-semibold"
+  >
+    Collection name
+  </div>
+</button>
+`;

@@ -17,8 +17,6 @@ interface IModifiableImageProps {
   style?: React.CSSProperties;
 }
 
-/* c8 ignore start */
-
 export default function ModifiableImage(props: IModifiableImageProps): JSX.Element {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -47,5 +45,3 @@ export default function ModifiableImage(props: IModifiableImageProps): JSX.Eleme
     </div>
   );
 }
-
-/* c8 ignore stop */

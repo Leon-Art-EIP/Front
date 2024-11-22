@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Pictures empty snapshot 1`] = `
+<div
+  className="bg-background grid grid-cols-4 gap-8 place-items-center justify-center py-4 px-4"
+/>
+`;
+
+exports[`Pictures snapshot 1`] = `
+<div
+  className="bg-background grid grid-cols-4 gap-8 place-items-center justify-center py-4 px-4"
+>
+  <div
+    className="w-full aspect-square rounded-xl overflow-hidden"
+  >
+    <img
+      alt="art"
+      className="w-full h-full object-cover"
+      src="test1"
+    />
+  </div>
+  <div
+    className="w-full aspect-square rounded-xl overflow-hidden"
+  >
+    <img
+      alt="art"
+      className="w-full h-full object-cover"
+      src="test2"
+    />
+  </div>
+  <div
+    className="w-full aspect-square rounded-xl overflow-hidden"
+  >
+    <img
+      alt="art"
+      className="w-full h-full object-cover"
+      src="test3"
+    />
+  </div>
+</div>
+`;

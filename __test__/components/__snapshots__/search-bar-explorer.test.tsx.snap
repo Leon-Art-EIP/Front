@@ -1,0 +1,31 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Search bar explorer snapshot 1`] = `
+<form
+  className="relative w-full"
+  onSubmit={[Function]}
+>
+  <input
+    className="w-full h-14 bg-secondary rounded-3xl pl-16 focus:shadow-md focus:outline-none focus:ring-1 focus:ring-tertiary transition duration-300 ease-in-out text-tertiary"
+    onChange={[Function]}
+    placeholder="Rechercher une oeuvre ou un utilisateur..."
+    value=""
+  />
+  <button
+    className="p-2 absolute top-2 left-4 hover:opacity-75 rounded-xl transition hover:bg-secondary hover:shadow-lg duration-300 ease-in-out"
+    type="submit"
+  >
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium text-tertiary css-i4bv87-MuiSvgIcon-root"
+      data-testid="SearchIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+      />
+    </svg>
+  </button>
+</form>
+`;

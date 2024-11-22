@@ -1,0 +1,82 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LinkButton danger snapshot 1`] = `
+<a
+  className="mock-link"
+  href="/danger"
+>
+  <button
+    className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled w-auto"
+    type="reset"
+  >
+    Danger Button
+  </button>
+</a>
+`;
+
+exports[`LinkButton primary snapshot 1`] = `
+<a
+  className="mock-link"
+  href="/test"
+>
+  <button
+    className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center text-white bg-primary hover:bg-primary-hover disabled:bg-primary-disabled w-full"
+    type="button"
+  >
+    Primary Button
+  </button>
+</a>
+`;
+
+exports[`LinkButton secondary snapshot 1`] = `
+<a
+  className="mock-link"
+  href="/test"
+>
+  <button
+    className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center text-tertiary bg-secondary hover:bg-secondary-hover disabled:bg-secondary-disabled disabled: text-secondary w-auto"
+    type="button"
+  >
+    Secondary Button
+  </button>
+</a>
+`;
+
+exports[`LinkButton with loading state snapshot 1`] = `
+<a
+  className="mock-link"
+  href="/loading"
+>
+  <button
+    className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center bg-purple-800 text-white hover:bg-purple-900 disabled:bg-purple-400 w-auto"
+    disabled={true}
+    type="submit"
+  >
+    <span
+      className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary bg-purple-800 text-white hover:bg-purple-900 disabled:bg-purple-400 css-18lrjg1-MuiCircularProgress-root"
+      role="progressbar"
+      style={
+        {
+          "height": 20,
+          "width": 20,
+        }
+      }
+    >
+      <svg
+        className="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+        viewBox="22 22 44 44"
+      >
+        <circle
+          className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+          cx={44}
+          cy={44}
+          fill="none"
+          r={20}
+          strokeWidth={4}
+          style={{}}
+        />
+      </svg>
+    </span>
+  </button>
+</a>
+`;

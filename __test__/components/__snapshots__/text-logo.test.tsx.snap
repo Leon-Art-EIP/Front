@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TextLogo snapshot 1`] = `
+[
+  <span
+    className="text-primary"
+  >
+    Leon
+  </span>,
+  <span
+    className="text-tertiary"
+  >
+    'Art
+  </span>,
+]
+`;

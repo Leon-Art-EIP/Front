@@ -9,8 +9,6 @@ export interface NotificationToastProps {
   closeNotification?: () => void;
 }
 
-/* c8 ignore start */
-
 export default function NotificationToast(props: NotificationToastProps): JSX.Element | null {
   const [visible, setVisible] = useState(true);
   const [display, setDisplay] = useState(true);
@@ -21,7 +19,6 @@ export default function NotificationToast(props: NotificationToastProps): JSX.El
     }, 5000);
 
     return () => {
-      /* c8 ignore next 3 */
       clearTimeout(timer);
     };
   }, []);
@@ -58,5 +55,3 @@ export default function NotificationToast(props: NotificationToastProps): JSX.El
     </div>
   ) : null;
 }
-
-/* c8 ignore stop */

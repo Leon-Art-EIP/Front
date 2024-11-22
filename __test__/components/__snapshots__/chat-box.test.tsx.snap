@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ChatBox snapshot 1`] = `
+<div
+  className="flex flex-col h-full w-full overflow-y-auto gap-4"
+  dir="btt"
+/>
+`;

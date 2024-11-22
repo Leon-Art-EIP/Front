@@ -13,7 +13,6 @@ export interface OrderListProps {
 const NEXT_PUBLIC_BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function OrderList(props: OrderListProps): JSX.Element {
-  /* c8 ignore start */
   const { buyOrders, sellOrders, selectedOrderId, handleSelectOrder } = useOrder();
 
   const [pendingOrdersCollapsed, setPendingOrdersCollapsed] = useState<boolean>(true);
@@ -178,5 +177,4 @@ export default function OrderList(props: OrderListProps): JSX.Element {
       </div>
     </div>
   );
-  /* c8 ignore stop */
 }

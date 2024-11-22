@@ -137,6 +137,14 @@ const tabs: ITab[] = [
     verticalNavbar: true,
     header: true,
   },
+  {
+   name: 'Mobile',
+   href: '/mobile',
+   loggedIn: false,
+   navbar: false,
+   verticalNavbar: false,
+   header: false,
+  }
 ];
 
 export default tabs;

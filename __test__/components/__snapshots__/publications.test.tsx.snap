@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Publications snapshot 1`] = `
+<div
+  className="w-full flex flex-col bg-background-hl p-4 rounded gap-4"
+>
+  <div
+    className="flex flex-wrap gap-4"
+  >
+    <a
+      className="2xl:w-64 2xl:h-64 xl:w-56 xl:h-56 md:w-44 md:h-44 w-36 h-36 rounded-xl overflow-hidden hover:scale-[1.03] hover:opacity-75 duration-300 hover:shadow-2xl transition ease-in-out cursor-pointer"
+      href="/single/1"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+    >
+      <img
+        alt="art"
+        className="w-full h-full object-cover object-center"
+        src="/public/leonart_logo.png"
+      />
+    </a>
+  </div>
+</div>
+`;

@@ -23,7 +23,6 @@ export default function ShareModal(props: IShareModalProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = (data: TShareArtData) => {
-    console.log("data", data);
     setBody(
       JSON.stringify({
         text: data.message,
@@ -50,7 +49,8 @@ export default function ShareModal(props: IShareModalProps): JSX.Element {
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-4">
               <h3 className="text-sm text-orange-500 flex gap-1 items-center">
-                <Warning className="text-sm text-orange-500" /> Vous ne pouvez créer qu&apos;un post toutes les 10 minutes
+                <Warning className="text-sm text-orange-500" /> Vous ne pouvez créer qu&apos;un post toutes les 10
+                minutes
               </h3>
               <TextArea
                 name="message"

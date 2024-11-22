@@ -1,8 +1,5 @@
 import { z } from "zod";
-import zxcvbn from "zxcvbn";
 import { getValueOrUndefined } from "./utils";
-
-/* c8 ignore start */
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -76,8 +73,6 @@ export const shareArtSchema = z.object({
 export const newPostSchema = z.object({
   text: nonEmptyString,
 });
-
-/* c8 ignore stop */
 
 export type TLoginData = z.infer<typeof loginSchema>;
 export type TRegisterData = z.infer<typeof registerSchema>;

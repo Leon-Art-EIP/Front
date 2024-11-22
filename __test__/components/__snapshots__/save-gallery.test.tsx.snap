@@ -1,0 +1,39 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SaveGallery Empty snapshot 1`] = `
+<div
+  className="flex flex-col gap-7 px-2 pb-2"
+>
+  <div
+    className="text-2xl font-semibold text-center text-gray-400 p-8"
+  >
+    Vous n'avez pas encore de collection
+  </div>
+  <button
+    className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled self-center"
+    onClick={[Function]}
+    type="button"
+  >
+    Créer une nouvelle collection
+  </button>
+</div>
+`;
+
+exports[`SaveGallery snapshot 1`] = `
+<div
+  className="flex flex-col gap-7 px-2 pb-2"
+>
+  <div
+    className="text-2xl font-semibold text-center text-gray-400 p-8"
+  >
+    Vous n'avez pas encore de collection
+  </div>
+  <button
+    className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled self-center"
+    onClick={[Function]}
+    type="button"
+  >
+    Créer une nouvelle collection
+  </button>
+</div>
+`;

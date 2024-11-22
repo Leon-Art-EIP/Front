@@ -3,8 +3,6 @@
 import React from "react";
 import Button from "../Button";
 
-/* c8 ignore start */
-
 export type TCategory =
   | "Huile"
   | "Aquarelle"
@@ -61,5 +59,3 @@ export default function Category(props: ICategoryProps): JSX.Element {
     />
   );
 }
-
-/* c8 ignore stop */

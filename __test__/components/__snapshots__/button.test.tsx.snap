@@ -1,0 +1,46 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Button danger snapshot 1`] = `
+<button
+  className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled undefined"
+  type="button"
+>
+  test
+</button>
+`;
+
+exports[`Button info snapshot 1`] = `
+<button
+  className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center bg-purple-800 text-white hover:bg-purple-900 disabled:bg-purple-400 undefined"
+  type="button"
+>
+  test
+</button>
+`;
+
+exports[`Button primary snapshot 1`] = `
+<button
+  className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center text-white bg-primary hover:bg-primary-hover disabled:bg-primary-disabled undefined"
+  type="button"
+>
+  test
+</button>
+`;
+
+exports[`Button secondary snapshot 1`] = `
+<button
+  className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center text-tertiary bg-secondary hover:bg-secondary-hover disabled:bg-secondary-disabled disabled: text-secondary undefined"
+  type="button"
+>
+  test
+</button>
+`;
+
+exports[`Button success snapshot 1`] = `
+<button
+  className="rounded-3xl px-16 py-3 font-semibold text-base transition duration-200 flex items-center justify-center bg-tertiary text-white hover:bg-tertiary-hover disabled:bg-tertiary-disabled undefined"
+  type="button"
+>
+  test
+</button>
+`;

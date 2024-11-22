@@ -8,8 +8,6 @@ interface IButtonProps {
   id?: string;
 }
 
-/* c8 ignore start */
-
 export default function Button(props: IButtonProps): JSX.Element {
   return (
     <button
@@ -23,5 +21,3 @@ export default function Button(props: IButtonProps): JSX.Element {
     </button>
   );
 }
-
-/* c8 ignore stop */

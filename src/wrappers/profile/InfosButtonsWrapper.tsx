@@ -13,8 +13,6 @@ interface IInfosButtonsWrapperProps {
   setFollowing: Dispatch<SetStateAction<boolean>>;
 }
 
-/* c8 ignore start */
-
 export default function InfosButtonsWrapper({ link: Link, ...props }: IInfosButtonsWrapperProps): JSX.Element {
   const router = useRouter();
   const [nbFetchsFollow, setNbFetchsFollow] = useState(0);
@@ -64,5 +62,3 @@ export default function InfosButtonsWrapper({ link: Link, ...props }: IInfosButt
     </>
   );
 }
-
-/* c8 ignore stop */

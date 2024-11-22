@@ -2,7 +2,6 @@ import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import { useState } from "react";
 
-/* c8 ignore start */
 export interface OrderRatingProps {
   rating: number;
   setRating: (rating: number) => void;
@@ -49,4 +48,3 @@ export function OrderRating(props: OrderRatingProps): JSX.Element {
     </div>
   );
 }
-/* c8 ignore stop */

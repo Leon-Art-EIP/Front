@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FileInput snapshot 1`] = `
+<div
+  className="flex flex-col gap-2"
+>
+  <button
+    className="hover:cursor-pointer bg-secondary rounded flex justify-center items-center text-tertiary h-full"
+    onClick={[Function]}
+    onDragLeave={[Function]}
+    onDragOver={[Function]}
+    onDrop={[Function]}
+    title="Importer"
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="AddSharpIcon"
+      focusable="false"
+      style={
+        {
+          "fontSize": 50,
+        }
+      }
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+      />
+    </svg>
+  </button>
+  <input
+    accept="image/*"
+    className="hidden"
+    id="file"
+    multiple={false}
+    name="file"
+    onChange={[Function]}
+    type="file"
+  />
+</div>
+`;

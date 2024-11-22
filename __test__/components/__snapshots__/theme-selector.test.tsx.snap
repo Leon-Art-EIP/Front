@@ -1,0 +1,74 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ThemeSelector snapshot 1`] = `
+<div
+  className="flex"
+>
+  <button
+    className="rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none border-gray-400 border-2"
+    onClick={[Function]}
+    style={
+      {
+        "backgroundColor": "#ffffff",
+      }
+    }
+  >
+    <div
+      className="w-4 h-4 rounded-full bg-primary"
+      style={
+        {
+          "marginRight": "4px",
+        }
+      }
+    />
+    <div
+      className="w-8 h-8 rounded-full bg-tertiary absolute"
+    />
+  </button>
+  <button
+    className="rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none border-gray-400 "
+    onClick={[Function]}
+    style={
+      {
+        "backgroundColor": "#333333",
+      }
+    }
+  />
+  <button
+    className="rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none border-gray-400 "
+    onClick={[Function]}
+    style={
+      {
+        "backgroundColor": "#9c27b0",
+      }
+    }
+  />
+  <button
+    className="rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none border-gray-400 "
+    onClick={[Function]}
+    style={
+      {
+        "backgroundColor": "#002b36",
+      }
+    }
+  />
+  <button
+    className="rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none border-gray-400 "
+    onClick={[Function]}
+    style={
+      {
+        "backgroundColor": "#000000",
+      }
+    }
+  />
+  <button
+    className="rounded-full h-8 w-8 flex items-center justify-center mx-1 focus:outline-none border-gray-400 "
+    onClick={[Function]}
+    style={
+      {
+        "backgroundColor": "#f7e1e3",
+      }
+    }
+  />
+</div>
+`;

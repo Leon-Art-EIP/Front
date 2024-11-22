@@ -20,8 +20,6 @@ export interface IMyFetchResponse {
   json: any;
 }
 
-/* c8 ignore start */
-
 export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
   let json;
   let response;
@@ -97,5 +95,3 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
     };
   }
 }
-
-/* c8 ignore stop */
