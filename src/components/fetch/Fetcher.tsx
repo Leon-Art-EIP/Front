@@ -82,7 +82,7 @@ export default function Fetcher(props: IFetcherProps): JSX.Element | null {
 
   return showNotification && response?.message ? (
     <div
-      className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 w-96 max-w-full px-4 py-3 rounded-md shadow-lg text-white flex items-center gap-3 transition-all duration-500 ${
+      className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 w-96 max-w-full px-4 py-3 rounded-md shadow-lg text-white flex items-center gap-3 transition-all duration-500 z-50 ${
         animate ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
       } ${getSnackbarStyles()}`}
     >
