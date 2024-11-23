@@ -10,8 +10,8 @@ import CustomSwitch from "../../components/buttons/CustomSwitch";
 import React, { useState, useEffect } from "react";
 import { myFetch } from "../../tools/myFetch";
 import { IProfileUser } from "../../interfaces/user/profileUser";
-import { cp } from "fs";
 import { IConnectedUser } from "../../interfaces/user/user";
+import { useRouter } from "next/navigation";
 
 interface ISettingTab {
   icon: any;
@@ -21,6 +21,8 @@ interface ISettingTab {
 }
 
 export default function Page(): JSX.Element {
+  const router = useRouter();
+
   const [switchState, setSwitchState] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
   const [fetchProfileAfterChange, setFetchProfileAfterChange] = useState<boolean>(false);
@@ -61,11 +63,15 @@ export default function Page(): JSX.Element {
   ];
 
   useEffect(() => {
+    const handleUnauthorized = () => {
+      router.push("/login");
+    };
+
     setFetchProfileAfterChange(false);
     const fetchUserProfile = async () => {
       const user: IConnectedUser = JSON.parse(localStorage.getItem("user") || "{}");
       const userId = user.user.id;
-      const response = await myFetch({ route: `/api/user/profile/${userId}`, method: "GET" });
+      const response = await myFetch({ route: `/api/user/profile/${userId}`, method: "GET", handleUnauthorized });
       if (response.ok) {
         const profileData: IProfileUser = response.json;
         if (profileData.emailNotificationEnabled !== undefined) {
@@ -80,7 +86,7 @@ export default function Page(): JSX.Element {
     };
 
     fetchUserProfile();
-  }, [fetchProfileAfterChange]);
+  }, [fetchProfileAfterChange, router]);
 
   const handleSwitchChange = async () => {
     const newSwitchState = !switchState;
