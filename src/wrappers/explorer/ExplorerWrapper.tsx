@@ -10,8 +10,11 @@ import { IFilters } from "../../interfaces/explorer/filters";
 import { IUsers } from "../../interfaces/explorer/users";
 import { IArtPublications } from "../../interfaces/gallery/artPublications";
 import { myFetch } from "../../tools/myFetch";
+import { useRouter } from "next/navigation";
 
 export default function ExplorerWrapper(): JSX.Element {
+  const router = useRouter();
+
   const [artPubs, setArtPubs] = useState<IArtPublications>({ artPublications: [] });
   const [filteredArtPubs, setFilteredArtPubs] = useState<IArtPublications>({ artPublications: [] });
 
@@ -52,9 +55,13 @@ export default function ExplorerWrapper(): JSX.Element {
   }
 
   useEffect(() => {
+    function handleUnauthorized() {
+      router.push("/login");
+    }
+
     async function fetchArtPub() {
       const queryString = createQueryStringForFetch(filters);
-      const res = await myFetch({ route: `/api/explorer/search${queryString}`, method: "GET" });
+      const res = await myFetch({ route: `/api/explorer/search${queryString}`, method: "GET", handleUnauthorized });
       if (res.ok) {
         const data = res.json;
         setArtPubs(data);
