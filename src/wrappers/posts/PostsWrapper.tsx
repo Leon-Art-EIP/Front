@@ -149,6 +149,9 @@ export default function PostsWrapper(props: IPostsWrapperProps): JSX.Element {
   };
 
   const handleRefreshOk = (newPosts: IPost[]) => {
+    if (route === "/api/posts?filter=popular") {
+      newPosts.sort((a, b) => b.likes.length - a.likes.length);
+    }
     setPosts(newPosts);
   };
 
