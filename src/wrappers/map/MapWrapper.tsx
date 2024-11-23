@@ -12,6 +12,7 @@ import { ILocatedMapUser, IMapUser } from "../../interfaces/map";
 import { positionToCoords } from "../../tools/positions";
 import SwitchLocalisation from "../../components/localisation/SwitchLocalisation";
 import { IArtPublication } from "../../interfaces/artPublication/artPublication";
+import { useRouter } from "next/navigation";
 
 export const defaultMapCenter = {
   // milieu France
@@ -30,11 +31,13 @@ interface IMapWrapperProps {
 
 async function fetchLocatedMapUsers(
   userPosition: ICoords,
-  setLocatedMapUsers: Dispatch<SetStateAction<ILocatedMapUser[]>>
+  setLocatedMapUsers: Dispatch<SetStateAction<ILocatedMapUser[]>>,
+  handleUnauthorized?: () => void
 ) {
   const response = await myFetch({
     method: "GET",
     route: `/api/map/nearby-art?latitude=${userPosition.latitude}&longitude=${userPosition.longitude}&radius=10000`,
+    handleUnauthorized,
   });
 
   if (response.ok) {
@@ -130,6 +133,8 @@ async function fetchMapUser(
 }
 
 export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
+  const router = useRouter();
+
   const [localUser, setLocalUser] = useState<IUser | null>(null);
   const [locatedMapUser, setLocatedMapUser] = useState<ILocatedMapUser | undefined | null>(undefined);
   const [locatedMapUsers, setLocatedMapUsers] = useState<ILocatedMapUser[]>([]);
@@ -173,12 +178,16 @@ export default function MapWrapper(props: IMapWrapperProps): JSX.Element {
   }, [locatedMapUser]);
 
   useEffect(() => {
+    const handleUnauthorized = () => {
+      router.push("/login");
+    };
+
     if (mapCenter) {
-      fetchLocatedMapUsers(positionToCoords(mapCenter), setLocatedMapUsers);
+      fetchLocatedMapUsers(positionToCoords(mapCenter), setLocatedMapUsers, handleUnauthorized);
     } else {
-      fetchLocatedMapUsers(positionToCoords(defaultMapCenter), setLocatedMapUsers);
+      fetchLocatedMapUsers(positionToCoords(defaultMapCenter), setLocatedMapUsers, handleUnauthorized);
     }
-  }, [mapCenter]);
+  }, [mapCenter, router]);
 
   if (locatedMapUser === undefined) {
     return (
