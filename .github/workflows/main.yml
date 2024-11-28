@@ -24,7 +24,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo dnf install openssl1.1 -y
           npm install -g yarn
           yarn install --network-timeout 100000
 
