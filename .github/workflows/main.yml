@@ -26,6 +26,7 @@ jobs:
         run: |
           npm install -g yarn
           yarn install --network-timeout 100000
+          yarn install vitest
 
   test:
     runs-on: ubuntu-latest
