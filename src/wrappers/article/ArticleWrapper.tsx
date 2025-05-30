@@ -30,8 +30,7 @@ export default function ArticleWrapper(props: IArticleWrapperProps): JSX.Element
         <img
           className="w-full h-full object-cover object-center"
           alt="articleBanner"
-          // src={article?.mainImage}
-          src={`${imageApi}/${article?.mainImage}`}
+          src={article?.mainImage}
           // sizes={props.sizes}
           // style={props.style}
         />

@@ -70,11 +70,11 @@ export function ChatUserCard(props: ChatUserCardProps): JSX.Element {
           /* TODO: use <Image> next component */
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
-            src={`${NEXT_PUBLIC_BACKEND_URL}/api/${
+            src={
               props.chat.UserOneId !== props.currentUser?.user.id
                 ? props.chat.UserOnePicture
                 : props.chat.UserTwoPicture
-            }`}
+            }
             alt="profilePicture"
             className="w-16 h-16 rounded-full bg-secondary flex-shrink-0"
           />

@@ -52,7 +52,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
           const arts = response.json as IArtPublication[];
           const pictures: IProfileArt[] = arts.map((art) => ({
             id: art._id,
-            src: `${imageApi}/${art.image}`,
+            src: art.image,
           }));
 
           return {
@@ -99,7 +99,7 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
 
           const publications = arts.map((art) => ({
             id: art._id,
-            src: `${imageApi}/${art.image}`,
+            src: art.image,
           }));
           return publications;
         }
@@ -225,8 +225,8 @@ export default function ProfileWrapper(props: IProfileWrapperProps): JSX.Element
   return (
     <div className="flex flex-col h-full">
       <ProfileComponent
-        profilePicture={`${imageApi}/${artist.profilePicture}`}
-        banner={artist.bannerPicture.includes("default") ? banner : `${imageApi}/${artist.bannerPicture}`}
+        profilePicture={artist.profilePicture}
+        banner={artist.bannerPicture.includes("default") ? banner : artist.bannerPicture}
       />
       <div className="flex lg:flex-row flex-col-reverse bg-background h-full">
         <div className="flex-1 flex flex-col gap-2 p-4 h-full">

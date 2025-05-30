@@ -44,6 +44,8 @@ export async function myFetch(props: IFetchData): Promise<IMyFetchResponse> {
     }
   };
 
+  console.log("NEXT_PUBLIC_BACKEND_URL (incode) : ", NEXT_PUBLIC_BACKEND_URL);
+
   try {
     response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}${props.route}`, {
       method: props.method,

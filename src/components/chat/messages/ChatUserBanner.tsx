@@ -13,8 +13,8 @@ export function ChatUserBanner(props: ChatUserBannerProps): JSX.Element {
 
   const isUserOne = props.currentChat.UserOneId !== props.currentUser?.user.id;
   const profileUrl = isUserOne
-    ? `${NEXT_PUBLIC_BACKEND_URL}/api/${props.currentChat.UserOnePicture}`
-    : `${NEXT_PUBLIC_BACKEND_URL}/api/${props.currentChat.UserTwoPicture}`;
+    ? props.currentChat.UserOnePicture
+    : props.currentChat.UserTwoPicture;
   const profileName = isUserOne ? props.currentChat.UserOneName : props.currentChat.UserTwoName;
   const profileId = isUserOne ? props.currentChat.UserOneId : props.currentChat.UserTwoId;
 

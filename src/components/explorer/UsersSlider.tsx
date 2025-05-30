@@ -24,7 +24,7 @@ export default function UsersSlider(props: UsersSliderProps): JSX.Element {
         >
           <div className="w-32 h-32 rounded-full overflow-hidden bg-slate-300">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`${NEXT_PUBLIC_BACKEND_URL}/api/${user.profilePicture}`} alt="art" className="object-cover" />
+            <img src={user.profilePicture} alt="art" className="object-cover" />
           </div>
           <span className="text-xl font-semibold text-center group-hover:opacity-100 text-tertiary">
             {user.username}

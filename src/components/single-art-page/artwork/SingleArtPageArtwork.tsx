@@ -4,7 +4,6 @@ import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
-import { imageApi } from "../../../tools/variables";
 import { Button, Modal } from "../../lib";
 import IconButton from "./IconButton";
 import ShareModal from "./ShareModal";
@@ -98,7 +97,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
       />
       <div className="flex flex-col gap-5 w-full">
         <img
-          src={`${imageApi}/${props.art}`}
+          src={props.art}
           alt={props.title}
           className="w-full cursor-zoom-in rounded-2xl max-h-[80vh] object-cover"
           onClick={onOpenLightbox}
@@ -112,7 +111,7 @@ export default function SingleArtPageArtwork({ link: Link, ...props }: ISingleAr
           }}
           slides={[
             {
-              src: `${NEXT_PUBLIC_BACKEND_URL}/api/${props.art}`,
+              src: props.art,
               alt: `${props.title}`,
             },
           ]}

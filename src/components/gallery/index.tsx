@@ -24,7 +24,7 @@ function Gallery(props: IGalleryProps | { title?: boolean }) {
 
       if (response.ok) {
         const images = await response.json;
-        return images.map((img: string) => `${NEXT_PUBLIC_BACKEND_URL}/api/${img}`);
+        return images;
       } else {
         console.error("Erreur lors de la récupération des images du backend");
         return [];

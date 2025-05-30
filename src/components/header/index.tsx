@@ -49,7 +49,7 @@ export default function Header(props: IHeaderProps): JSX.Element {
       selectedTabHref={props.pathname}
       link={Link}
       userId={props.userId}
-      image={`${imageApi}/${profilePicture}`}
+      image={profilePicture}
     />
   );
 }

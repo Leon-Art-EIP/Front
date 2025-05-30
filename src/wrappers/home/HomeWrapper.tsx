@@ -22,7 +22,7 @@ export default function HomeWrapper(): JSX.Element {
     const passingArts: IPassingArt[] = data.map((article, index) => ({
       ...article,
       author: { username: article.author.username },
-      mainImage: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${article.mainImage}`,
+      mainImage: article.mainImage,
       position: index,
       numbered: true,
     }));

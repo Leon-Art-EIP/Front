@@ -29,7 +29,7 @@ async function getChildExtendedComments(comment: IComment): Promise<TChildExtend
 
         return {
           ...nestedComment,
-          profilePicture: `${imageApi}/${commentAuthor.profilePicture}`,
+          profilePicture: commentAuthor.profilePicture,
           username: commentAuthor.username,
           replyingToUsername: replyingToUsername ?? null,
         };
@@ -54,7 +54,7 @@ export async function getExtendedComments(artPublicationComments: IComment[]): P
 
         return {
           ...comment,
-          profilePicture: `${imageApi}/${commentAuthor.profilePicture}`,
+          profilePicture: commentAuthor.profilePicture,
           username: commentAuthor.username,
           nestedComments,
           replyingToUsername: null,

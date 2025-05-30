@@ -14,6 +14,8 @@ const nextConfig = {
       "back-dev.leonart-dev.ovh",
       "back-dev.leonart-dev",
       "back-dev",
+      "leonart-backend.fly.dev",
+      "storage.googleapis.com",
     ],
   },
   output: "standalone",

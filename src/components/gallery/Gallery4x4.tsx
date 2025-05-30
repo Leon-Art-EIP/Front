@@ -23,7 +23,7 @@ export default function Gallery4x4(props: Gallery4x4Props): JSX.Element {
           onClick={() => handleClickOnArtPublication(index)}
         >
           <img
-            src={`${NEXT_PUBLIC_BACKEND_URL}/api/${artPublication.image}`}
+            src={artPublication.image}
             alt="art"
             className="w-full h-full object-cover"
           />

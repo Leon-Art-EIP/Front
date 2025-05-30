@@ -59,10 +59,10 @@ export default function ProfileHeadingForm(props: IHeadingProps): JSX.Element {
     if (response.ok) {
       const data = response.json as IProfileUser;
       if (isProfilePictureModalOpen) {
-        setCurrentProfilePicture(`${imageApi}/${data.profilePicture}`);
+        setCurrentProfilePicture(data.profilePicture);
         window.location.reload();
       } else {
-        setCurrentBannerPicture(`${imageApi}/${data.bannerPicture}`);
+        setCurrentBannerPicture(data.bannerPicture);
       }
     } else {
       notifToast = "error";
